@@ -96,7 +96,11 @@ function Misc:TradeTabs_Reskin()
 	if not C.db["Skins"]["BlizzardSkins"] then return end
 
 	for _, tab in pairs(tabList) do
-		B.ReskinSideTab(tab)
+		if tab and not tab.styled then
+			B.ReskinSideTab(tab)
+
+			tab.styled = true
+		end
 	end
 end
 
@@ -177,7 +181,6 @@ end
 function Misc:TradeTabs_OnLoad()
 	Misc:UpdateProfessions()
 
-	Misc:TradeTabs_Reskin()
 	Misc:TradeTabs_Update()
 	B:RegisterEvent("TRADE_SKILL_SHOW", Misc.TradeTabs_Update)
 	B:RegisterEvent("TRADE_SKILL_CLOSE", Misc.TradeTabs_Update)
@@ -185,6 +188,8 @@ function Misc:TradeTabs_OnLoad()
 
 	Misc:TradeTabs_FilterIcons()
 	Misc:TradeTabs_QuickEnchanting()
+
+	Misc:TradeTabs_Reskin()
 end
 
 function Misc.TradeTabs_OnEvent(event, addon)

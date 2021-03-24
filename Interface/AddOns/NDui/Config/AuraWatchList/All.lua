@@ -97,6 +97,7 @@ local list = {
 		{AuraID = 344314, UnitID = "player"},	-- 心华之速药水
 		-- 9.0饰品
 		{AuraID = 311444, UnitID = "player", Value = true},			-- 暗月套牌：不屈
+		{AuraID = 311491, UnitID = "player"},	-- 暗月套牌：贪婪
 		{AuraID = 329831, UnitID = "player"},	-- 压制能量水晶
 		{AuraID = 329840, UnitID = "player", Value = true},			-- 溅血之鳞
 		{AuraID = 330366, UnitID = "player", Text = L["Crit"]},		-- 不可思议的量子装置，暴击
@@ -104,7 +105,6 @@ local list = {
 		{AuraID = 330368, UnitID = "player", Text = L["Haste"]},	-- 不可思议的量子装置，急速
 		{AuraID = 330380, UnitID = "player", Text = L["Mastery"]},	-- 不可思议的量子装置，精通
 		{AuraID = 330733, UnitID = "player"},	-- 无羁拟态者
-		{AuraID = 331624, UnitID = "player"},	-- 暗月套牌：贪婪
 		{AuraID = 330132, UnitID = "player", Text = L["Versa"]},	-- 唤雾者的陶笛，全能
 		{AuraID = 332077, UnitID = "player", Text = L["Crit"]},		-- 唤雾者的陶笛，暴击
 		{AuraID = 332078, UnitID = "player", Text = L["Haste"]},	-- 唤雾者的陶笛，急速
@@ -116,15 +116,17 @@ local list = {
 		{AuraID = 342432, UnitID = "player", Value = true},			-- 残留的太阳之尘
 		{AuraID = 343385, UnitID = "player"},	-- 充盈的心能牢狱
 		{AuraID = 343399, UnitID = "player"},	-- 跳动的石心
-		{AuraID = 344221, UnitID = "player"},	-- 噬灭灌注
+		{AuraID = 344227, UnitID = "player"},	-- 噬灭灌注
 		{AuraID = 344231, UnitID = "player", Value = true},			-- 赤红陈酿
 		{AuraID = 344243, UnitID = "player"},	-- 法缚威镜
 		{AuraID = 344384, UnitID = "player"},	-- 巴加斯特的狗绳
 		{AuraID = 344662, UnitID = "player"},	-- 昔日罪孽之忆
-		{AuraID = 344806, UnitID = "player"},	-- 秘法师的赞美诗
+		{AuraID = 344803, UnitID = "player"},	-- 秘法师的赞美诗
 		{AuraID = 345019, UnitID = "player"},	-- 隐匿者之翼
 		{AuraID = 345211, UnitID = "player"},	-- 燃魂者
-		{AuraID = 345231, UnitID = "player"},	-- 角斗士的纹章
+		{AuraID = 345228, UnitID = "player"},	-- 角斗士徽章
+		{AuraID = 345230, UnitID = "player"},	-- 角斗士徽记
+		{AuraID = 345231, UnitID = "player"},	-- 角斗士纹章
 		{AuraID = 345319, UnitID = "player"},	-- 同化雕文
 		{AuraID = 345432, UnitID = "player"},	-- 断魂乐谱
 		{AuraID = 345474, UnitID = "player"},	-- 执政官的恩赐

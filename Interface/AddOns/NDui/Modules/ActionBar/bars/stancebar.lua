@@ -33,7 +33,7 @@ function Bar:CreateStancebar()
 
 	local frame = CreateFrame("Frame", "NDui_ActionBarStance", UIParent, "SecureHandlerStateTemplate")
 	local anchor = C.db["ActionBar"]["BarStyle"] == 4 and _G.NDui_ActionBar3 or _G.NDui_ActionBar2
-	frame.Pos = {"BOTTOMLEFT", anchor, "TOPLEFT", 0, margin}
+	frame.Pos = {"BOTTOMLEFT", anchor, "TOPLEFT", 0, -margin}
 
 	-- StanceBar
 	if C.db["ActionBar"]["StanceBar"] then

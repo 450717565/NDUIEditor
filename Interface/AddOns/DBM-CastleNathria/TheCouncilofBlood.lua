@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2426, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210314154043")
+mod:SetRevision("20210323164456")
 mod:SetCreatureID(166971, 166969, 166970)--Castellan Niklaus, Baroness Frieda, Lord Stavros
 mod:SetEncounterID(2412)
 mod:SetBossHPInfoToHighest()
@@ -585,7 +585,7 @@ function mod:SPELL_CAST_START(args)
 		self.vb.volleyCast = self.vb.volleyCast + 1
 		local count = self.vb.volleyCast
 		if self.Options.SpecWarn337110interruptcount then
-			specWarnDreadboltVolley:Show(count)
+			specWarnDreadboltVolley:Show(args.sourceName, count)
 			if count == 1 then
 				specWarnDreadboltVolley:Play("kick1r")
 			elseif count == 2 then

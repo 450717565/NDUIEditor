@@ -32,7 +32,7 @@ function Bar:CreatePetbar()
 
 	local frame = CreateFrame("Frame", "NDui_ActionBarPet", UIParent, "SecureHandlerStateTemplate")
 	local anchor = C.db["ActionBar"]["BarStyle"] == 4 and _G.NDui_ActionBar3 or _G.NDui_ActionBar2
-	frame.Pos = {"BOTTOMRIGHT", anchor, "TOPRIGHT", 0, margin}
+	frame.Pos = {"BOTTOMRIGHT", anchor, "TOPRIGHT", 0, -margin}
 
 	PetActionBarFrame:SetParent(frame)
 	PetActionBarFrame:EnableMouse(false)

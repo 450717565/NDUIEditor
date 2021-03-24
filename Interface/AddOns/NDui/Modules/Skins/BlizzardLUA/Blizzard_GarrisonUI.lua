@@ -208,20 +208,19 @@ local function Reskin_MissionList(self)
 	local buttons = self.listScroll.buttons
 	for i = 1, #buttons do
 		local button = buttons[i]
-		if not button.styled then
+		if not button.bubg then
 			B.StripTextures(button)
 
-			local bubg = B.CreateBDFrame(button, 0, 2)
-			B.ReskinHighlight(button.Highlight, bubg, true)
+			button.bubg = B.CreateBDFrame(button, 0, 2)
 
 			local LocBG = button.LocBG
-			LocBG:ClearAllPoints()
-			LocBG:SetPoint("TOPLEFT", bubg, 1, 0)
-			LocBG:SetPoint("BOTTOMRIGHT", bubg, -1, -2)
-
 			local RareOverlay = button.RareOverlay
 			local Overlay = button.Overlay.Overlay
-			if RareOverlay and Overlay then
+			if LocBG and RareOverlay and Overlay then
+				LocBG:ClearAllPoints()
+				LocBG:SetPoint("TOPLEFT", button.bubg, 1, 0)
+				LocBG:SetPoint("BOTTOMRIGHT", button.bubg, -1, -2)
+
 				for _, overlay in pairs({RareOverlay, Overlay}) do
 					overlay:SetDrawLayer("BACKGROUND")
 					overlay:SetTexture(DB.bdTex)
@@ -229,8 +228,13 @@ local function Reskin_MissionList(self)
 					overlay:SetPoint("TOPLEFT", LocBG, 0, -1)
 					overlay:SetPoint("BOTTOMRIGHT", LocBG, 0, 3)
 				end
+
 				RareOverlay:SetVertexColor(.1, .5, .9, .25)
 				Overlay:SetVertexColor(.1, .1, .1, .25)
+			end
+
+			if button.ButtonBG then
+				button.ButtonBG:Hide()
 			end
 
 			if button.CompleteCheck then
@@ -257,9 +261,9 @@ local function Reskin_MissionList(self)
 				itemText:ClearAllPoints()
 				itemText:SetPoint("LEFT", button.Summary, "RIGHT", 8, 0)
 			end
-
-			button.styled = true
 		end
+
+		B.ReskinHighlight(button.Highlight, button.bubg, true)
 	end
 end
 

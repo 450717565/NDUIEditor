@@ -238,7 +238,7 @@ function TT:OnTooltipSetUnit()
 		if not isPlayer then
 			local tiptextFaction, factionName, factionString = TT.GetFactionLine(self)
 			if tiptextFaction then
-				tiptextFaction:SetFormattedText("%s %s%s", factionName, hexColor, factionString)
+				tiptextFaction:SetFormattedText("%s %s", factionName, factionString)
 			end
 		end
 

@@ -57,14 +57,10 @@ local function isAzeriteArmor(item)
 	return C_AzeriteEmpoweredItem_IsAzeriteEmpoweredItemByID(item.link)
 end
 
-function Bags:IsArtifactRelic(item)
-	return item.classID == LE_ITEM_CLASS_GEM and item.subClassID == LE_ITEM_GEM_ARTIFACTRELIC
-end
-
 local function isItemEquipment(item)
 	if not C.db["Bags"]["ItemFilter"] then return end
 	if not C.db["Bags"]["FilterEquipment"] then return end
-	return item.level and item.rarity > LE_ITEM_QUALITY_COMMON and (Bags:IsArtifactRelic(item) or item.classID == LE_ITEM_CLASS_WEAPON or item.classID == LE_ITEM_CLASS_ARMOR)
+	return item.level and item.rarity > LE_ITEM_QUALITY_COMMON and (IsArtifactRelicItem(item.id) or item.classID == LE_ITEM_CLASS_WEAPON or item.classID == LE_ITEM_CLASS_ARMOR)
 end
 
 local function isItemConsumable(item)

@@ -191,7 +191,7 @@ function UF:CreateHealthText(self)
 			name:SetPoint("LEFT", 3, -1)
 		elseif C.db["UFs"]["SimpleMode"] and not self.isPartyFrame then
 			name:SetPoint("LEFT", 4, 0)
-		elseif C.db["UFs"]["RaidBuffIndicator"] then
+		elseif C.db["UFs"]["RaidBuffIndicator"] or C.db["UFs"]["RaidAurasMode"] then
 			name:SetJustifyH("CENTER")
 			if C.db["UFs"]["RaidHPMode"] ~= 1 then
 				name:SetPoint("TOP", 0, -3)
@@ -199,6 +199,7 @@ function UF:CreateHealthText(self)
 				name:SetPoint("CENTER")
 			end
 		else
+			name:SetJustifyH("LEFT")
 			name:SetPoint("TOPLEFT", 2, -2)
 		end
 		name:SetScale(C.db["UFs"]["RaidTextScale"])
@@ -229,20 +230,22 @@ function UF:CreateHealthText(self)
 	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 13, 13, C.db["Nameplate"]["HealthTextSize"]), "", false, "RIGHT", -3, 0)
 	if mystyle == "raid" then
 		self:Tag(hpval, "[raidhp]")
+		hpval:ClearAllPoints()
 		if self.isPartyPet then
 			hpval:SetPoint("RIGHT", -3, -1)
 			self:Tag(hpval, "[health]")
 		elseif C.db["UFs"]["SimpleMode"] and not self.isPartyFrame then
 			hpval:SetPoint("RIGHT", -4, 0)
-		elseif C.db["UFs"]["RaidBuffIndicator"] then
-			hpval:ClearAllPoints()
-			hpval:SetPoint("BOTTOM", 0, 1)
+		elseif C.db["UFs"]["RaidBuffIndicator"] or C.db["UFs"]["RaidAurasMode"] then
 			hpval:SetJustifyH("CENTER")
+			hpval:SetPoint("TOP", self, "CENTER", 0, -1)
 		else
-			hpval:SetPoint("RIGHT", -3, -7)
+			hpval:SetJustifyH("RIGHT")
+			hpval:SetPoint("BOTTOMRIGHT", -2, 2)
 		end
 		hpval:SetScale(C.db["UFs"]["RaidTextScale"])
 	elseif mystyle == "nameplate" then
+		hpval:ClearAllPoints()
 		hpval:SetPoint("RIGHT", self, "TOPRIGHT", 0, 0)
 		self:Tag(hpval, "[nphp]")
 	else
@@ -260,7 +263,7 @@ function UF:UpdateRaidNameText()
 			name:ClearAllPoints()
 			if C.db["UFs"]["SimpleMode"] and not frame.isPartyFrame then
 				name:SetPoint("LEFT", 4, 0)
-			elseif C.db["UFs"]["RaidBuffIndicator"] then
+			elseif C.db["UFs"]["RaidBuffIndicator"] or C.db["UFs"]["RaidAurasMode"] then
 				name:SetJustifyH("CENTER")
 				if C.db["UFs"]["RaidHPMode"] ~= 1 then
 					name:SetPoint("TOP", 0, -3)
@@ -664,7 +667,7 @@ function UF.PostCreateIcon(element, button)
 	local fontSize = B.Round(fontsize)
 
 	local textFrame = B.CreateParentFrame(button)
-	button.count = B.CreateFS(textFrame, fontSize, "", false, "BOTTOMRIGHT", 5, -4)
+	button.count = B.CreateFS(textFrame, fontSize, "", false, "BOTTOMRIGHT", 4, -4)
 	button.count:SetJustifyH("RIGHT")
 
 	button.glowFrame = B.CreateGlowFrame(button, element.size)
@@ -711,7 +714,7 @@ function UF.PostUpdateIcon(element, _, button, _, _, duration, expiration, debuf
 		button.icon:SetDesaturated(false)
 	end
 
-	if style == "raid" then
+	if style == "raid" and not button.isDebuff then
 		button.icbg:SetBackdropBorderColor(0, 1, 0)
 	elseif button.isDebuff and element.showDebuffType then
 		local color = oUF.colors.debuff[debuffType] or oUF.colors.debuff.none
@@ -763,8 +766,9 @@ function UF.PostUpdateGapIcon(_, _, icon)
 	end
 end
 
-function UF.CustomFilter(element, unit, button, name, _, _, _, _, _, caster, isStealable, _, spellID, _, _, _, nameplateShowAll)
+function UF.CustomFilter(element, unit, button, name, _, _, _, duration, _, caster, isStealable, _, spellID, _, _, _, nameplateShowAll)
 	local style = element.__owner.mystyle
+	local isPlayerCast = (caster == "player" or caster == "pet" or caster == "vehicle")
 	if name and spellID == 209859 then
 		element.bolster = element.bolster + 1
 		if not element.bolsterIndex then
@@ -772,10 +776,12 @@ function UF.CustomFilter(element, unit, button, name, _, _, _, _, _, caster, isS
 			return true
 		end
 	elseif style == "raid" then
-		if C.db["UFs"]["RaidBuffIndicator"] then
-			return C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID]
+		if C.db["UFs"]["RaidAurasMode"] then
+			return button.isDebuff or (isPlayerCast or C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID]) and duration > 0
+		elseif C.db["UFs"]["RaidBuffIndicator"] then
+			return C.RaidBuffs["WARNING"][spellID] or C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID]
 		else
-			return (button.isPlayer or caster == "pet") and UF.CornerSpells[spellID] or C.RaidBuffs["ALL"][spellID] or C.RaidBuffs["WARNING"][spellID]
+			return button.isDebuff or isPlayerCast and duration > 0
 		end
 	elseif style == "nameplate" or style == "boss" or style == "arena" or style == "focus" then
 		if element.__owner.isNameOnly then
@@ -788,7 +794,7 @@ function UF.CustomFilter(element, unit, button, name, _, _, _, _, _, caster, isS
 			return true
 		else
 			local auraFilter = C.db["Nameplate"]["AuraFilter"]
-			return (auraFilter == 3 and nameplateShowAll) or (auraFilter ~= 1 and (caster == "player" or caster == "pet" or caster == "vehicle"))
+			return (auraFilter == 3 and nameplateShowAll) or (auraFilter ~= 1 and isPlayerCast)
 		end
 	elseif (element.onlyShowPlayer and button.isPlayer) or (not element.onlyShowPlayer and name) then
 		return true
@@ -821,15 +827,15 @@ function UF:UpdateTargetAuras()
 end
 
 function UF:CreateAuras(self)
-	local mystyle = self.mystyle
 	local bu = CreateFrame("Frame", nil, self)
-	bu.spacing = C.margin
 	bu.gap = false
+	bu.spacing = C.margin
+	bu.tooltipAnchor = "ANCHOR_BOTTOMLEFT"
 	bu.initialAnchor = "BOTTOMLEFT"
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "DOWN"
-	bu.tooltipAnchor = "ANCHOR_BOTTOMLEFT"
 
+	local mystyle = self.mystyle
 	if mystyle == "target" then
 		bu.initialAnchor = "TOPLEFT"
 		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -6)
@@ -881,19 +887,24 @@ function UF:CreateBuffs(self)
 	bu.spacing = C.margin
 	bu.num = 6
 	bu.iconsPerRow = 6
+	bu.initialAnchor = "BOTTOMLEFT"
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
 	bu.onlyShowPlayer = false
-	bu:SetPoint("BOTTOMLEFT", self.AlternativePower, "TOPLEFT", 0, C.margin)
-	bu.initialAnchor = "BOTTOMLEFT"
 
-	if self.mystyle == "arena" then
+	local mystyle = self.mystyle
+	if mystyle == "arena" then
 		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.margin)
-		bu.CustomFilter = UF.CustomFilter
+	elseif mystyle == "raid" then
+		bu.initialAnchor = "TOPLEFT"
+		bu:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
+	else
+		bu:SetPoint("BOTTOMLEFT", self.AlternativePower, "TOPLEFT", 0, C.margin)
 	end
 
 	B.AuraSetSize(self, bu)
 	bu.showStealableBuffs = true
+	bu.CustomFilter = UF.CustomFilter
 	bu.PostCreateIcon = UF.PostCreateIcon
 	bu.PostUpdateIcon = UF.PostUpdateIcon
 
@@ -903,6 +914,7 @@ end
 function UF:CreateDebuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
 	bu.spacing = C.margin
+	bu.tooltipAnchor = "ANCHOR_BOTTOMLEFT"
 	bu.initialAnchor = "TOPRIGHT"
 	bu["growth-x"] = "LEFT"
 	bu["growth-y"] = "DOWN"
@@ -923,11 +935,18 @@ function UF:CreateDebuffs(self)
 		bu.num = 10
 		bu.iconsPerRow = 5
 	elseif mystyle == "focus" then
-		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
+		bu.initialAnchor = "TOPLEFT"
 		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -6)
 		bu.num = 14
 		bu.iconsPerRow = 7
+		bu.CustomFilter = UF.CustomFilter
+	elseif mystyle == "raid" then
+		bu["growth-x"] = "RIGHT"
+		bu.initialAnchor = "BOTTOMLEFT"
+		bu:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
+		bu.num = 6
+		bu.iconsPerRow = 6
 		bu.CustomFilter = UF.CustomFilter
 	end
 
@@ -1107,8 +1126,8 @@ function UF:CreateAltPower(self)
 	bar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, C.margin)
 	bar:SetHeight(barHeight)
 
-	B.SmoothBar(bar)
 	B.CreateSB(bar)
+	B.SmoothBar(bar)
 
 	local text = B.CreateFS(bar, 14)
 	text:SetJustifyH("CENTER")

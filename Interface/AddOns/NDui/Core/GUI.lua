@@ -99,7 +99,7 @@ GUI.DefaultSettings = {
 		SwingTimer = false,
 		RaidFrame = true,
 		AutoRes = true,
-		NumGroups = 6,
+		NumGroups = 8,
 		SimpleMode = false,
 		SMUnitsPerColumn = 20,
 		SMGroupByIndex = 1,
@@ -141,6 +141,8 @@ GUI.DefaultSettings = {
 		FrequentHealth = false,
 		HealthFrequency = .2,
 		TargetAurasPerRow = 9,
+
+		RaidAurasMode = true,
 
 		PlayerWidth = 250,
 		PlayerHeight = 34,
@@ -898,6 +900,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "RaidClickSets", DB.MyColor..L["Enable ClickSets"], nil, setupClickCast},
 		{1, "UFs", "AutoRes", L["UFs AutoRes"], true},
 		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], nil, setupBuffIndicator, nil, L["RaidBuffIndicatorTip"]},
+		{1, "UFs", "RaidAurasMode", L["RaidAurasMode"], true, nil, nil, L["RaidAurasModeTip"]},
 		{4, "UFs", "BuffIndicatorType", L["BuffIndicatorType"].."*", nil, {L["BI_Blocks"], L["BI_Icons"], L["BI_Numbers"]}, refreshRaidFrameIcons},
 		{3, "UFs", "BuffIndicatorScale", L["BuffIndicatorScale"].."*", true, {.5, 2, .01}, refreshRaidFrameIcons},
 		{1, "UFs", "InstanceAuras", DB.MyColor..L["Instance Auras"], nil, setupRaidDebuffs, nil, L["InstanceAurasTip"]},
@@ -910,7 +913,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "FrequentHealth", DB.MyColor..L["FrequentHealth"].."*", true, nil, updateRaidHealthMethod, L["FrequentHealthTip"]},
 		{1, "UFs", "HorizonRaid", L["Horizon RaidFrame"]},
 		{1, "UFs", "ReverseRaid", L["Reverse RaidFrame"]},
-		{3, "UFs", "HealthFrequency", L["HealthFrequency"].."*", true, {.05, .2, .01}, updateRaidHealthMethod, L["HealthFrequencyTip"]},
+		{3, "UFs", "HealthFrequency", L["HealthFrequency"].."*", true, {.05, .25, .01}, updateRaidHealthMethod, L["HealthFrequencyTip"]},
 		{3, "UFs", "NumGroups", L["Num Groups"], nil, {4, 8, 1}},
 		{3, "UFs", "RaidTextScale", L["UFTextScale"].."*", true, {.5, 1.5, .01}, updateRaidTextScale},
 		{4, "UFs", "RaidHealthColor", L["HealthColor"].."*", nil, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}, updateRaidTextScale},
@@ -1176,7 +1179,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Extras", "Progression", DB.MyColor..L["Progression"].."*", nil, nil, nil, L["ProgressionTip"]},
 		{1, "Extras", "ProgRaids", RAIDS},
 		{1, "Extras", "ProgDungeons", MYTHIC_DUNGEONS, true},
-		{1, "Extras", "ProgAchievement", L["Keystone Master Achievement"]},
+		{1, "Extras", "ProgAchievement", L["Special Achievement"]},
 		{},--blank
 		{1, "Extras", "LootMonitor", DB.MyColor..L["LootMonitor Title"]},
 		{1, "Extras", "LootMonitorInGroup", L["LootMonitor InGroup"]},

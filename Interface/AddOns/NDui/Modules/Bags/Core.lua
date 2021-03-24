@@ -683,7 +683,7 @@ function Bags:OnLogin()
 		self.Count:SetFont(unpack(DB.Font))
 
 		self.Quest = B.CreateFS(self, 30, "!", "system", "LEFT", 3, 0)
-		self.iLvl = B.CreateFS(self, 12, "", false, "BOTTOMRIGHT", 0, 1)
+		self.iLvl = B.CreateFS(self, 12, "", false, "BOTTOMRIGHT", 1, 1)
 		self.Slot = B.CreateFS(self, 12, "", false, "TOPLEFT", 1, -2)
 
 		if showNewItem then
@@ -797,10 +797,10 @@ function Bags:OnLogin()
 
 			if level < C.db["Bags"]["iLvlToShow"] then level = "" end
 
-			if (item.subType and item.subType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC) or (item.equipLoc and item.equipLoc ~= "") then
+			if (item.equipLoc and item.equipLoc ~= "") or IsArtifactRelicItem(item.link) then
 				if showItemLevel then self.iLvl:SetText(level) end
 				if showItemSlot then self.Slot:SetText(slot) end
-			elseif (item.classID and item.classID == LE_ITEM_CLASS_MISCELLANEOUS) and (item.subClassID and (item.subClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET or item.subClassID == LE_ITEM_MISCELLANEOUS_MOUNT)) then
+			elseif (item.classID and item.classID == LE_ITEM_CLASS_MISCELLANEOUS) or C_ToyBox.GetToyInfo(item.id) then
 				if showItemSlot then self.Slot:SetText(slot) end
 			end
 		end

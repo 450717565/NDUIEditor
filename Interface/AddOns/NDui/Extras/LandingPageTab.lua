@@ -5,10 +5,10 @@ if IsAddOnLoaded("MissionReports") then return end
 
 local tabs = {}
 local datas = {
-	{Enum.GarrisonType.Type_9_0, GARRISON_TYPE_9_0_LANDING_PAGE_TITLE, [[Interface\Icons\Inv_torghast]]},
-	{Enum.GarrisonType.Type_8_0, GARRISON_TYPE_8_0_LANDING_PAGE_TITLE, [[Interface\Icons\Achievement_nzothraid_nzoth]]},
-	{Enum.GarrisonType.Type_7_0, ORDER_HALL_LANDING_PAGE_TITLE, [[Interface\Icons\Achievement_boss_argus_worldsoul]]},
-	{Enum.GarrisonType.Type_6_0, GARRISON_LANDING_PAGE_TITLE, [[Interface\Icons\Achievement_boss_hellfire_archimonde]]},
+	{Enum.GarrisonType.Type_9_0, GARRISON_TYPE_9_0_LANDING_PAGE_TITLE, [[Interface\Icons\INV_Torghast]]},
+	{Enum.GarrisonType.Type_8_0, GARRISON_TYPE_8_0_LANDING_PAGE_TITLE, [[Interface\Icons\Achievement_NzothRaid_Nzoth]]},
+	{Enum.GarrisonType.Type_7_0, ORDER_HALL_LANDING_PAGE_TITLE, [[Interface\Icons\Achievement_Boss_Argus_WorldSoul]]},
+	{Enum.GarrisonType.Type_6_0, GARRISON_LANDING_PAGE_TITLE, [[Interface\Icons\Achievement_Boss_HellFire_Archimonde]]},
 }
 
 local function Select_LandingPage(self)

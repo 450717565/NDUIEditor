@@ -1,10 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-local strmatch, strformat, strsplit = string.match, string.format, string.split
-local tbwipe, tbinsert, tbremove = table.wipe, table.insert, table.remove
-local mmax, mfloor = math.max, math.floor
-
 local Button_Height = 16
 local LMFrame_Width = 200
 
@@ -36,7 +32,7 @@ local function UnitClassColor(unit)
 end
 
 local function LMFrame_Close()
-	tbwipe(LMFrame_Report)
+	table.wipe(LMFrame_Report)
 	for index = 1, LMFrame_CFG["nums"] do
 		LMFrame[index]:Hide()
 	end
@@ -46,7 +42,7 @@ end
 
 local function ButtonOnClick(self, button)
 	if button == "RightButton" then
-		SendChatMessage(strformat(LM_Message_Info[random(4)], LMFrame_Report[self.index]["link"]), "WHISPER", nil, LMFrame_Report[self.index]["list"])
+		SendChatMessage(string.format(LM_Message_Info[random(4)], LMFrame_Report[self.index]["link"]), "WHISPER", nil, LMFrame_Report[self.index]["list"])
 	else
 		local editBox = ChatEdit_ChooseBoxForSend()
 		ChatEdit_ActivateChat(editBox)
@@ -117,9 +113,8 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		LMFrame:UnregisterEvent(event)
 	elseif event == "CHAT_MSG_LOOT" then
 		local lootStr, playerStr = ...
-		local rollInfo = strmatch(lootStr, BONUS_REWARDS)
-		local itemLink = strmatch(lootStr, "|%x+|Hitem:.-|h.-|h|r")
-		local playerInfo = strsplit("-", playerStr)
+		local rollInfo = string.match(lootStr, BONUS_REWARDS)
+		local itemLink = string.match(lootStr, "|%x+|Hitem:.-|h.-|h|r")
 
 		if not itemLink then return end
 
@@ -127,6 +122,7 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local totalText = ""
 		local textWidth, maxWidth = 0, 0
 		local lootTime = DB.InfoColor..GameTime_GetGameTime(true).."|r"
+		local playerInfo = UnitClassColor(string.split("-", playerStr))
 		local filterBR = C.db["Extras"]["LootMonitorBonusRewards"] and rollInfo
 		local minQuality = C.db["Extras"]["LootMonitorQuality"]
 
@@ -134,13 +130,14 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local itemSolt = B.GetItemSlot(itemLink)
 		local isGems = B.GetItemGems(itemLink)
 		local itemGems = isGems or ""
-		local _, _, itemRarity, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
+		local _, _, itemQuality, _, _, _, _, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemLink)
+		local itemID = GetItemInfoInstant(itemLink)
 
 		if C.db["Extras"]["LootMonitorInGroup"] == true and not IsInGroup() then
 			Enabled = false
-		elseif LMFrame_CFG["other"] == true and itemClassID == 15 and (itemSubClassID == 2 or itemSubClassID == 5) then
+		elseif LMFrame_CFG["other"] == true and ((itemClassID == 15 and (itemSubClassID == 2 or itemSubClassID == 5)) or C_ToyBox.GetToyInfo(itemID)) then
 			Enabled = true
-		elseif LMFrame_CFG["equip"] == true and (((itemRarity >= minQuality and itemRarity < 7) and (itemSubType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC or itemEquipLoc ~= "")) or (itemRarity == 5 and itemClassID == 0)) and not filterBR then
+		elseif LMFrame_CFG["equip"] == true and (itemQuality >= minQuality and itemQuality < 7) and (itemEquipLoc ~= "" or IsArtifactRelicItem(itemID)) and not filterBR then
 			Enabled = true
 		end
 
@@ -157,16 +154,16 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		end
 
 		if playerInfo and Enabled then
-			if #LMFrame_Report >= LMFrame_CFG["nums"] then tbremove(LMFrame_Report, 1) end
+			if #LMFrame_Report >= LMFrame_CFG["nums"] then table.remove(LMFrame_Report, 1) end
 
-			tbinsert(LMFrame_Report, {timer = lootTime, player = playerInfo, link = itemLink, solt = totalText, list = playerStr})
+			table.insert(LMFrame_Report, {timer = lootTime, player = playerInfo, link = itemLink, solt = totalText, list = playerStr})
 
 			local numButtons = #LMFrame_Report
 			for index = 1, numButtons do
-				LMFrame[index].text:SetFormattedText("%s %s %s %s", LMFrame_Report[index]["timer"], UnitClassColor(LMFrame_Report[index]["player"]), LMFrame_Report[index]["link"], LMFrame_Report[index]["solt"])
+				LMFrame[index].text:SetFormattedText("%s %s %s %s", LMFrame_Report[index]["timer"], LMFrame_Report[index]["player"], LMFrame_Report[index]["link"], LMFrame_Report[index]["solt"])
 				LMFrame[index]:Show()
-				textWidth = mfloor(LMFrame[index].text:GetStringWidth() + 20.5)
-				maxWidth = mmax(textWidth, maxWidth)
+				textWidth = math.floor(LMFrame[index].text:GetStringWidth() + 20.5)
+				maxWidth = math.max(textWidth, maxWidth)
 			end
 
 			LMFrame:SetWidth(maxWidth)

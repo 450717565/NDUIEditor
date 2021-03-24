@@ -55,10 +55,7 @@ local function ShowBNetWoWAccountInfo(editBox, info)
 		editBox.nametip.name:SetText(info.name)
 		editBox.nametip.level:SetText(info.level)
 		editBox.nametip.name:SetTextColor(classInfo.r, classInfo.g, classInfo.b)
-		if not classInfo.class or classInfo.class == "" then
-			editBox.nametip.icon:SetTexture("Interface\\TargetingFrame\\UI-PVP-"..info.faction)
-			editBox.nametip.icon:SetTexCoord(0, 44/64, 0, 44/64)
-		elseif (editBox.nametip.faction == info.faction) then
+		if (editBox.nametip.faction == info.faction) then
 			editBox.nametip.icon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
 			editBox.nametip.icon:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classInfo.class]))
 		else

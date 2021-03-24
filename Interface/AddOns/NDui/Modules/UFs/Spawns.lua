@@ -164,8 +164,14 @@ local function CreateRaidStyle(self)
 	UF:CreateClickSets(self)
 	UF:CreateRaidDebuffs(self)
 	UF:CreateThreatBorder(self)
-	UF:CreateAuras(self)
-	UF:CreateBuffIndicator(self)
+
+	if C.db["UFs"]["RaidAurasMode"] then
+		UF:CreateBuffs(self)
+		UF:CreateDebuffs(self)
+	else
+		UF:CreateAuras(self)
+		UF:CreateBuffIndicator(self)
+	end
 end
 
 local function CreatePartyStyle(self)

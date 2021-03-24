@@ -107,7 +107,7 @@ DBT.DefaultOptions = {
 	FontSize = 10,
 	FlashBar = false,
 	Spark = true,
-	Sort = true,
+	Sort = true,--"None", "ShortestToAnchor", "LongestToAnchor"
 	ColorByType = true,
 	NoBarFade = false,
 	InlineIcons = true,
@@ -360,39 +360,50 @@ do
 		end
 	end
 
-	function DBT:CreateProfile(name)
-		if not name or name == "" or name:find(" ") then
+	function DBT:CreateProfile(id)
+		if not id or id == "" or id:find(" ") then
 			self:AddMsg(DBM_CORE_L.PROFILE_CREATE_ERROR)
 			return
 		end
 		local DBM_UsedProfile = DBM_UsedProfile
-		if DBT_AllPersistentOptions[DBM_UsedProfile][name] then
-			DBM:AddMsg(DBM_CORE_L.PROFILE_CREATE_ERROR_D:format(name))
-			return
+		if not DBT_AllPersistentOptions then
+			DBT_AllPersistentOptions = {}
 		end
 		if not DBT_AllPersistentOptions[DBM_UsedProfile] then
 			DBT_AllPersistentOptions[DBM_UsedProfile] = {}
 		end
-		DBT_AllPersistentOptions[DBM_UsedProfile][name] = DBT_AllPersistentOptions[DBM_UsedProfile][name] or {}
-		self:AddDefaultOptions(DBT_AllPersistentOptions[DBM_UsedProfile][name], self.DefaultOptions)
-		self.Options = DBT_AllPersistentOptions[DBM_UsedProfile][name]
-		self:Rearrange()
-		DBM:AddMsg(DBM_CORE_L.PROFILE_CREATED:format(name))
-	end
-
-	function DBT:ApplyProfile(name)
-		local DBM_UsedProfile = DBM_UsedProfile
-		if not name or not DBM_AllSavedOptions[DBM_UsedProfile][name] then
-			DBM:AddMsg(DBM_CORE_L.PROFILE_APPLY_ERROR:format(name or DBM_CORE_L.UNKNOWN))
+		if DBT_AllPersistentOptions[DBM_UsedProfile][id] then
+			DBM:AddMsg(DBM_CORE_L.PROFILE_CREATE_ERROR_D:format(id))
 			return
 		end
-		self:AddDefaultOptions(DBT_AllPersistentOptions[DBM_UsedProfile][name], self.DefaultOptions)
-		self.Options = DBT_AllPersistentOptions[DBM_UsedProfile][name]
+		DBT_AllPersistentOptions[DBM_UsedProfile][id] = DBT_AllPersistentOptions[DBM_UsedProfile][id] or {}
+		self:AddDefaultOptions(DBT_AllPersistentOptions[DBM_UsedProfile][id], self.DefaultOptions)
+		self.Options = DBT_AllPersistentOptions[DBM_UsedProfile][id]
 		self:Rearrange()
-		DBM:AddMsg(DBM_CORE_L.PROFILE_APPLIED:format(name))
+		DBM:AddMsg(DBM_CORE_L.PROFILE_CREATED:format(id))
+	end
+
+	function DBT:ApplyProfile(id, hasPrinted)
+		if not DBT_AllPersistentOptions then
+			DBT_AllPersistentOptions = {}
+		end
+		local DBM_UsedProfile = DBM_UsedProfile
+		if not id or not DBM_AllSavedOptions[DBM_UsedProfile] or not DBM_AllSavedOptions[DBM_UsedProfile][id] then
+			DBM:AddMsg(DBM_CORE_L.PROFILE_APPLY_ERROR:format(id or DBM_CORE_L.UNKNOWN))
+			return
+		end
+		self:AddDefaultOptions(DBT_AllPersistentOptions[DBM_UsedProfile][id], self.DefaultOptions)
+		self.Options = DBT_AllPersistentOptions[DBM_UsedProfile][id]
+		self:Rearrange()
+		if not hasPrinted then
+			DBM:AddMsg(DBM_CORE_L.PROFILE_APPLIED:format(id))
+		end
 	end
 
 	function DBT:CopyProfile(name, id, hasPrinted)
+		if not DBT_AllPersistentOptions then
+			DBT_AllPersistentOptions = {}
+		end
 		local DBM_UsedProfile = DBM_UsedProfile
 		if not hasPrinted then
 			if not name or not DBM_AllSavedOptions[name] then
@@ -411,7 +422,7 @@ do
 		end
 		DBT_AllPersistentOptions[DBM_UsedProfile][id] = DBT_AllPersistentOptions[name][id] or {}
 		self:AddDefaultOptions(DBT_AllPersistentOptions[DBM_UsedProfile][id], self.DefaultOptions)
-		self.Options = DBT_AllPersistentOptions[_G["DBM_UsedProfile"]][id]
+		self.Options = DBT_AllPersistentOptions[DBM_UsedProfile][id]
 		self:Rearrange()
 		if not hasPrinted then
 			DBM:AddMsg(DBM_CORE_L.PROFILE_COPIED:format(name))
@@ -419,6 +430,9 @@ do
 	end
 
 	function DBT:DeleteProfile(name, id)
+		if not DBT_AllPersistentOptions then
+			DBT_AllPersistentOptions = {}
+		end
 		if name == "Default" or not DBT_AllPersistentOptions[name] then
 			return
 		end
@@ -493,7 +507,7 @@ do
 		elseif option == "ClickThrough" then
 			updateClickThrough(self, value)
 		end
-		self.Options[option] = value -- Uses DBT directly, as self reflects DBM.Bars
+		self.Options[option] = value
 		if not noUpdate then
 			self:UpdateBars(true)
 			self:ApplyStyle()
@@ -576,12 +590,11 @@ function DBT:UpdateBars(sortBars)
 	if sortBars and self.Options.Sort then
 		tsort(largeBars, function(x, y)
 			if self.Options.ExpandUpwardsLarge then
-				return x.timer > y.timer
+				return x.timer < y.timer
 			end
-			return x.timer < y.timer
+			return x.timer > y.timer
 		end)
 	end
-	-- TODO: Scaling is bugging offset
 	for i, bar in ipairs(largeBars) do
 		local offset = i * (self.Options.Height + self.Options.HugeBarYOffset)
 		bar.frame:ClearAllPoints()
@@ -594,9 +607,9 @@ function DBT:UpdateBars(sortBars)
 	if sortBars and self.Options.Sort then
 		tsort(smallBars, function(x, y)
 			if self.Options.ExpandUpwards then
-				return x.timer > y.timer
+				return x.timer < y.timer
 			end
-			return x.timer < y.timer
+			return x.timer > y.timer
 		end)
 	end
 	for i, bar in ipairs(smallBars) do
@@ -858,7 +871,7 @@ function barPrototype:Update(elapsed)
 			newY = self.moveOffsetY + (-barOptions[isEnlarged and "HugeBarYOffset" or "BarYOffset"] - self.moveOffsetY) * (melapsed / 0.5)
 		end
 		frame:ClearAllPoints()
-		frame:SetPoint(self.movePoint, self.moveAnchor, self.moveRelPoint, newX, newY)
+		frame:SetPoint(self.movePoint, self.moveAnchor, self.movePoint, newX, newY)
 	elseif isMoving == "move" then
 		barIsAnimating = false
 		self.moving = nil
@@ -1027,11 +1040,9 @@ function barPrototype:MoveToNextPosition()
 	self.frame:ClearAllPoints()
 	if ExpandUpwards then
 		self.movePoint = "BOTTOM"
-		self.moveRelPoint = "TOP"
 		self.frame:SetPoint("BOTTOM", newAnchor, "BOTTOM", DBT.Options[Enlarged and "HugeBarXOffset" or "BarXOffset"], DBT.Options[Enlarged and "HugeBarYOffset" or "BarYOffset"])
 	else
 		self.movePoint = "TOP"
-		self.moveRelPoint = "BOTTOM"
 		self.frame:SetPoint("TOP", newAnchor, "TOP", DBT.Options[Enlarged and "HugeBarXOffset" or "BarXOffset"], -DBT.Options[Enlarged and "HugeBarYOffset" or "BarYOffset"])
 	end
 	local newX = self.frame:GetRight() - self.frame:GetWidth()/2
@@ -1055,17 +1066,15 @@ function barPrototype:Enlarge()
 	self.frame:ClearAllPoints()
 	if ExpandUpwards then
 		self.movePoint = "BOTTOM"
-		self.moveRelPoint = "TOP"
-		self.frame:SetPoint("BOTTOM", smallBarsAnchor, "BOTTOM", DBT.Options[Enlarged and "HugeBarXOffset" or "BarXOffset"], DBT.Options[Enlarged and "HugeBarYOffset" or "BarYOffset"])
+		self.frame:SetPoint("BOTTOM", largeBarsAnchor, "BOTTOM", DBT.Options[Enlarged and "HugeBarXOffset" or "BarXOffset"], DBT.Options[Enlarged and "HugeBarYOffset" or "BarYOffset"])
 	else
 		self.movePoint = "TOP"
-		self.moveRelPoint = "BOTTOM"
-		self.frame:SetPoint("TOP", smallBarsAnchor, "TOP", DBT.Options[Enlarged and "HugeBarXOffset" or "BarXOffset"], -DBT.Options[Enlarged and "HugeBarYOffset" or "BarYOffset"])
+		self.frame:SetPoint("TOP", largeBarsAnchor, "TOP", DBT.Options[Enlarged and "HugeBarXOffset" or "BarXOffset"], -DBT.Options[Enlarged and "HugeBarYOffset" or "BarYOffset"])
 	end
 	local newX = self.frame:GetRight() - self.frame:GetWidth()/2
 	local newY = self.frame:GetTop()
 	self.frame:ClearAllPoints()
-	self.frame:SetPoint("TOP", smallBarsAnchor, "BOTTOM", -(newX - oldX), -(newY - oldY))
+	self.frame:SetPoint("TOP", largeBarsAnchor, "BOTTOM", -(newX - oldX), -(newY - oldY))
 	self.moving = DBT.Options.BarStyle == "NoAnim" and "nextEnlarge" or "enlarge"
 	self.moveAnchor = largeBarsAnchor
 	self.moveOffsetX = -(newX - oldX)
@@ -1076,13 +1085,13 @@ end
 function barPrototype:AnimateEnlarge(elapsed)
 	self.moveElapsed = self.moveElapsed + elapsed
 	local melapsed = self.moveElapsed
-	if DBM.Options.DebugMode and melapsed < 1 then
+	if melapsed < 1 then
 		local newX = self.moveOffsetX + (DBT.Options.HugeBarXOffset - self.moveOffsetX) * (melapsed / 1)
 		local newY = self.moveOffsetY + (DBT.Options.HugeBarYOffset - self.moveOffsetY) * (melapsed / 1)
 		local newWidth = DBT.Options.Width + (DBT.Options.HugeWidth - DBT.Options.Width) * (melapsed / 1)
 		local newScale = DBT.Options.Scale + (DBT.Options.HugeScale - DBT.Options.Scale) * (melapsed / 1)
 		self.frame:ClearAllPoints()
-		self.frame:SetPoint(self.movePoint, self.moveAnchor, self.moveRelPoint, newX, newY)
+		self.frame:SetPoint(self.movePoint, self.moveAnchor, self.movePoint, newX, newY)
 		self.frame:SetScale(newScale)
 		self.frame:SetWidth(newWidth)
 		_G[self.frame:GetName().."Bar"]:SetWidth(newWidth)
@@ -1103,7 +1112,10 @@ do
 
 	function DBT:RegisterSkin(id)
 		if id == "DefaultSkin" then
-			error("DBM-DefaultSkin no longer used, please remove", 2)
+			DBM:AddMsg("DBM-DefaultSkin no longer used, please remove")
+			DBM:AddMsg("DBM-DefaultSkin no longer used, please remove")
+			DBM:AddMsg("DBM-DefaultSkin no longer used, please remove")
+			return {}
 		end
 		if skins[id] then
 			error("Skin '" .. id .. "' is already registered.", 2)
@@ -1124,6 +1136,10 @@ do
 			error("Skin '" .. id .. "' doesn't exist", 2)
 		end
 		unusedBars = {}
+		if not DBM_AllSavedOptions[DBM_UsedProfile][id] then
+			DBT_AllPersistentOptions[DBM_UsedProfile][id] = DBT_AllPersistentOptions[DBM_UsedProfile]["DBM"]
+		end
+		self:ApplyProfile(id, true)
 		for option, value in pairs(skin.Options) do
 			self:SetOption(option, value, true)
 		end

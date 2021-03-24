@@ -316,7 +316,7 @@ end
 do
 	-- Item Slot
 	function B.GetItemSlot(item)
-		local _, _, _, _, _, _, itemSubType, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(item)
+		local _, _, _, _, _, _, _, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(item)
 		local itemSolt
 
 		if itemEquipLoc and itemEquipLoc ~= "" then
@@ -333,10 +333,6 @@ do
 			end
 		end
 
-		if itemSubType and itemSubType == EJ_LOOT_SLOT_FILTER_ARTIFACT_RELIC then
-			itemSolt = RELICSLOT
-		end
-
 		if itemClassID and itemClassID == LE_ITEM_CLASS_MISCELLANEOUS then
 			if itemSubClassID and itemSubClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET then
 				itemSolt = PETS
@@ -351,6 +347,13 @@ do
 			elseif bindType == 3 then
 				itemSolt = "BoU"
 			end
+		end
+
+		local itemID = GetItemInfoInstant(item)
+		if itemID and C_ToyBox.GetToyInfo(itemID) then
+			itemSolt = TOY
+		elseif itemID and IsArtifactRelicItem(itemID) then
+			itemSolt = RELICSLOT
 		end
 
 		return itemSolt
@@ -1420,10 +1423,11 @@ do
 	end
 
 	function B:ReskinSideTab()
-		if not (self or self:GetNormalTexture()) then return end
+		if not self or not self.GetNormalTexture then return end
 
 		self:SetSize(32, 32)
 		self:GetRegions():Hide()
+
 		local icbg = B.ReskinIcon(self:GetNormalTexture())
 		B.ReskinHighlight(self, icbg)
 		B.ReskinChecked(self, icbg)

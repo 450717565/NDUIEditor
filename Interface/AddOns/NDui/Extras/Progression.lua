@@ -20,11 +20,22 @@ local levels = {
 }
 
 local locales = {
+	-- 难度
 	["Raid Finder"] = PLAYER_DIFFICULTY3,
 	["Normal"] = PLAYER_DIFFICULTY1,
 	["Heroic"] = PLAYER_DIFFICULTY2,
 	["Mythic"] = PLAYER_DIFFICULTY6,
+
+	-- 特殊成就
+	["Special Achievement"] = L["Special Achievement"],
+	["KM: Season One"] = L["KM: Season One"],			-- 钥石大师：第一赛季
+	["AC: Sire Denathrius"] = L["AC: Sire Denathrius"],	-- 引领潮流：德纳修斯大帝
+	["CE: Sire Denathrius"] = L["CE: Sire Denathrius"],	-- 千钧一发：德纳修斯大帝
+
+	--团本
 	["Castle Nathria"] = L["Castle Nathria"],
+
+	-- 地下城
 	["The Necrotic Wake"] = L["The Necrotic Wake"],
 	["Plaguefall"] = L["Plaguefall"],
 	["Mists of Tirna Scithe"] = L["Mists of Tirna Scithe"],
@@ -33,7 +44,6 @@ local locales = {
 	["De Other Side"] = L["De Other Side"],
 	["Spires of Ascension"] = L["Spires of Ascension"],
 	["Sanguine Depths"] = L["Sanguine Depths"],
-	["Shadowlands Keystone Master: Season One"] = L["Shadowlands Keystone Master: Season One"],
 }
 
 local raidAchievements = {
@@ -48,7 +58,7 @@ local raidAchievements = {
 			14445,
 			14449,
 			14453,
-			14457
+			14457,
 		},
 		["Heroic"] = {
 			14420,
@@ -60,7 +70,7 @@ local raidAchievements = {
 			14444,
 			14448,
 			14452,
-			14456
+			14456,
 		},
 		["Normal"] = {
 			14419,
@@ -72,7 +82,7 @@ local raidAchievements = {
 			14443,
 			14447,
 			14451,
-			14455
+			14455,
 		},
 		["Raid Finder"] = {
 			14422,
@@ -84,7 +94,7 @@ local raidAchievements = {
 			14446,
 			14450,
 			14454,
-			14458
+			14458,
 		}
 	}
 }
@@ -97,11 +107,13 @@ local dungeonAchievements = {
 	["Theater of Pain"] = 14407,
 	["De Other Side"] = 14389,
 	["Spires of Ascension"] = 14401,
-	["Sanguine Depths"] = 14205
+	["Sanguine Depths"] = 14205,
 }
 
 local specialAchievements = {
-	["Shadowlands Keystone Master: Season One"] = 14532
+	["KM: Season One"] = 14532,
+	["CE: Sire Denathrius"] = 14461,
+	["AC: Sire Denathrius"] = 14460,
 }
 
 local function GetLevelColoredString(level)
@@ -133,15 +145,16 @@ local function GetAchievementInfoByID(guid, achievementID)
 	return completed, month, day, year
 end
 
-
 function Extras:UpdateProgression(guid, faction)
 	cache[guid] = cache[guid] or {}
 	cache[guid].info = cache[guid].info or {}
 	cache[guid].timer = GetTime()
 
 	if C.db["Extras"]["ProgAchievement"] then
+		cache[guid].info.special = {}
+
 		for name, achievementID in pairs(specialAchievements) do
-			local completed, month, day, year = GetAchievementInfoByID(guid, 14532)
+			local completed, month, day, year = GetAchievementInfoByID(guid, achievementID)
 			local completedString = "|cffFF0000" .. L["Not Completed"] .. "|r"
 			if completed then
 				completedString = gsub(L["%month%-%day%-%year%"], "%%month%%", month)
@@ -149,13 +162,14 @@ function Extras:UpdateProgression(guid, faction)
 				completedString = gsub(completedString, "%%year%%", 2000 + year)
 				completedString = "|cff00FF00" .. completedString .. "|r"
 			end
-			cache[guid].info.special = {}
+
 			cache[guid].info.special[name] = completedString
 		end
 	end
 
 	if C.db["Extras"]["ProgRaids"] then
 		cache[guid].info.raids = {}
+
 		for _, tier in ipairs(tiers) do
 			cache[guid].info.raids[tier] = {}
 			local bosses = raidAchievements[tier]
@@ -265,10 +279,12 @@ function Extras:SetProgressionInfo(guid)
 
 	if C.db["Extras"]["ProgAchievement"] then
 		GameTooltip:AddLine(" ")
+		GameTooltip:AddLine(L["Special Achievement"].."：")
+
 		for name, achievementID in pairs(specialAchievements) do
-			local left = format("%s：", locales[name])
+			local left = format("%s", locales[name])
 			local right = cache[guid].info.special[name]
-			GameTooltip:AddDoubleLine(left, right, nil,nil,nil, 1,1,1)
+			GameTooltip:AddDoubleLine(left, right, .6,.8,1, 1,1,1)
 		end
 	end
 
@@ -290,6 +306,7 @@ function Extras:SetProgressionInfo(guid)
 	if C.db["Extras"]["ProgDungeons"] and cache[guid].info.mythicDungeons then
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddDoubleLine(MYTHIC_DUNGEONS.."：", cache[guid].info.mythicDungeons.total, nil,nil,nil, 1,1,1)
+
 		for name, achievementID in pairs(dungeonAchievements) do
 			local left = format("%s", locales[name])
 			local right = cache[guid].info.mythicDungeons[name]
