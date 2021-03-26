@@ -777,11 +777,11 @@ function UF.CustomFilter(element, unit, button, name, _, _, _, duration, _, cast
 		end
 	elseif style == "raid" then
 		if C.db["UFs"]["RaidAurasMode"] then
-			return button.isDebuff or (isPlayerCast or C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID]) and duration > 0
+			return (button.isDebuff and duration > 0) or (isPlayerCast and (duration > 0 and duration <= 60)) or (C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID])
 		elseif C.db["UFs"]["RaidBuffIndicator"] then
 			return C.RaidBuffs["WARNING"][spellID] or C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID]
 		else
-			return button.isDebuff or isPlayerCast and duration > 0
+			return (button.isDebuff and duration > 0) or (isPlayerCast and (duration > 0 and duration <= 60))
 		end
 	elseif style == "nameplate" or style == "boss" or style == "arena" or style == "focus" then
 		if element.__owner.isNameOnly then

@@ -143,19 +143,19 @@ function Misc:RareAlert_Update(id)
 			local position = C_VignetteInfo_GetVignettePosition(info.vignetteGUID, mapID)
 			if position then
 				coordX, coordY = position:GetXY()
-			end
 
-			if C.db["Misc"]["RareAlertMode"] > 1 then
-				if C.db["Misc"]["RareAlertMode"] >= 2 and C_Map_CanSetUserWaypointOnMap(mapID) then
-					local mapPoint = UiMapPoint_CreateFromVector3D(mapID, position)
-					C_Map_ClearUserWaypoint()
-					C_Map_SetUserWaypoint(mapPoint)
+				if C.db["Misc"]["RareAlertMode"] > 1 then
+					if C.db["Misc"]["RareAlertMode"] >= 2 and C_Map_CanSetUserWaypointOnMap(mapID) then
+						local mapPoint = UiMapPoint_CreateFromVector3D(mapID, position)
+						C_Map_ClearUserWaypoint()
+						C_Map_SetUserWaypoint(mapPoint)
 
-					if C.db["Misc"]["RareAlertMode"] == 3 then
-						C_SuperTrack_SetSuperTrackedUserWaypoint(true)
+						if C.db["Misc"]["RareAlertMode"] == 3 then
+							C_SuperTrack_SetSuperTrackedUserWaypoint(true)
+						end
+
+						mapLink = C_Map_GetUserWaypointHyperlink()
 					end
-
-					mapLink = C_Map_GetUserWaypointHyperlink()
 				end
 			end
 		end
