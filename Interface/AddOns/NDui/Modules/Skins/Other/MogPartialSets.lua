@@ -26,6 +26,7 @@ function Skins:MogPartialSets()
 		"IgnoreCloak",
 		"IgnoreHead",
 		"OnlyFavorite",
+		"Splash",
 		"Toggle",
 	}
 	for _, name in pairs(names) do
@@ -45,6 +46,7 @@ function Skins:MogPartialSets()
 	MogPartialSetsFilterIgnoreHeadText:SetText("头盔")
 	MogPartialSetsFilterMaxMissingPiecesText:SetText("部位缺失数量")
 	MogPartialSetsFilterOnlyFavoriteText:SetText("只显示偏好套装")
+	MogPartialSetsFilterSplashText:SetText("打印加载信息")
 	MogPartialSetsFilterToggleText:SetText("显示不完整套装")
 
 	MogPartialSetsFilterOkButton:SetText(OKAY)

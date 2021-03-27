@@ -555,7 +555,7 @@ function UF:CreateCastBar(self)
 	end
 
 	if mystyle == "player" then
-		local safe = cb:CreateTexture(nil,"OVERLAY")
+		local safe = cb:CreateTexture(nil, "OVERLAY")
 		safe:SetTexture(DB.normTex)
 		safe:SetVertexColor(1, 0, 0, .6)
 		safe:SetPoint("TOPRIGHT")
@@ -568,6 +568,7 @@ function UF:CreateCastBar(self)
 			lag:ClearAllPoints()
 			lag:SetPoint("BOTTOM", cb, "TOP", 0, 2)
 			cb.Lag = lag
+
 			self:RegisterEvent("GLOBAL_MOUSE_UP", B.OnCastSent, true) -- Fix quests with WorldFrame interaction
 			self:RegisterEvent("GLOBAL_MOUSE_DOWN", B.OnCastSent, true)
 			self:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", B.OnCastSent, true)
@@ -777,7 +778,7 @@ function UF.CustomFilter(element, unit, button, name, _, _, _, duration, _, cast
 		end
 	elseif style == "raid" then
 		if C.db["UFs"]["RaidAurasMode"] then
-			return (button.isDebuff and duration > 0) or (isPlayerCast and (duration > 0 and duration <= 60)) or (C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID])
+			return (button.isDebuff and duration > 0) or (isPlayerCast and (duration > 0 and duration <= 60)) or C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID]
 		elseif C.db["UFs"]["RaidBuffIndicator"] then
 			return C.RaidBuffs["WARNING"][spellID] or C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID]
 		else
