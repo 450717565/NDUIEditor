@@ -10,7 +10,7 @@ function Extras.KH_CheckLink(link)
 	end
 end
 
-function Extras.KH_CheckKeystone(link)
+function Extras.KH_GetMapLevel(link)
 	local mapLevel = 0
 
 	if Extras.KH_CheckLink(link) then
@@ -28,7 +28,7 @@ function Extras:KH_OnTooltipSetItem()
 	local _, link = self:GetItem()
 
 	if Extras.KH_CheckLink(link) then
-		local mapLevel = Extras.KH_CheckKeystone(link)
+		local mapLevel = Extras.KH_GetMapLevel(link)
 		local mlvl = DB.MythicLoot[mapLevel]
 		local wlvl = DB.WeeklyLoot[mapLevel]
 

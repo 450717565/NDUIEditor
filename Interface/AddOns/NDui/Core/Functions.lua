@@ -316,8 +316,11 @@ end
 do
 	-- Item Slot
 	function B.GetItemSlot(item)
-		local _, _, _, _, _, _, _, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(item)
+		local itemID = GetItemInfoInstant(item)
+		if not itemID then return end
+
 		local itemSolt
+		local _, _, _, _, _, _, _, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemID)
 
 		if itemEquipLoc and itemEquipLoc ~= "" then
 			itemSolt = _G[itemEquipLoc]
@@ -349,11 +352,21 @@ do
 			end
 		end
 
-		local itemID = GetItemInfoInstant(item)
-		if itemID and C_ToyBox.GetToyInfo(itemID) then
+		if C_ToyBox.GetToyInfo(itemID) then
 			itemSolt = TOY
-		elseif itemID and IsArtifactRelicItem(itemID) then
+		elseif IsArtifactRelicItem(itemID) then
 			itemSolt = RELICSLOT
+		end
+
+		B.ScanTip:SetOwner(UIParent, "ANCHOR_NONE")
+		B.ScanTip:SetItemByID(itemID)
+		for i = 2, B.ScanTip:NumLines() do
+			local text = _G["NDui_ScanTooltipTextLeft"..i]:GetText() or ""
+			if text == ITEM_BIND_TO_BNETACCOUNT then
+				itemSolt = "BoA"
+
+				break
+			end
 		end
 
 		return itemSolt

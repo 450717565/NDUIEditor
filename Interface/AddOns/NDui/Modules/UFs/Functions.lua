@@ -105,8 +105,8 @@ local function UpdateHealthColorByIndex(health, index)
 	end
 	health.colorSmooth = (index == 3)
 	if index == 1 then
-		health:SetStatusBarColor(.1, .1, .1)
-		health.bg:SetVertexColor(.6, .6, .6)
+		health:SetStatusBarColor(.1, .1, .1, 1)
+		health.bg:SetVertexColor(.6, .6, .6, 1)
 	end
 end
 
@@ -419,15 +419,11 @@ end
 function UF:CreatePortrait(self)
 	if not C.db["UFs"]["Portrait"] then return end
 
-	local portrait = CreateFrame("PlayerModel", nil, self.Health)
+	local portrait = CreateFrame("PlayerModel", nil, self)
+	portrait:SetFrameLevel(self:GetFrameLevel())
 	portrait:SetAllPoints()
-	portrait:SetAlpha(.2)
+	portrait:SetAlpha(.25)
 	self.Portrait = portrait
-
-	self.Health.bg:ClearAllPoints()
-	self.Health.bg:SetPoint("BOTTOMLEFT", self.Health:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
-	self.Health.bg:SetPoint("TOPRIGHT", self.Health)
-	self.Health.bg:SetParent(self)
 end
 
 function UF:CreateIcons(self)

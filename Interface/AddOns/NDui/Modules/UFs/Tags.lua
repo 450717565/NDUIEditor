@@ -22,13 +22,13 @@ end
 
 -- UFs Tags
 oUF.Tags.Methods["health"] = function(unit)
-	local cur = UnitHealth(unit)
+	local cur = oUF.Tags.Methods["curhp"](unit)
 	local per = oUF.Tags.Methods["perhp"](unit)
 
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
 		return oUF.Tags.Methods["state"](unit)
 	else
-		if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
+		if unit == "player" or unit == "target" or unit == "focus" then
 			return ValueAndPercent(cur, per)
 		else
 			return B.ColorText(per)
@@ -38,10 +38,10 @@ end
 oUF.Tags.Events["health"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_NAME_UPDATE PLAYER_FLAGS_CHANGED"
 
 oUF.Tags.Methods["power"] = function(unit)
-	local cur = UnitPower(unit)
+	local cur = oUF.Tags.Methods["curpp"](unit)
 	local per = oUF.Tags.Methods["perpp"](unit)
 
-	if (unit == "player" and not UnitHasVehicleUI(unit)) or unit == "target" or unit == "focus" then
+	if unit == "player" or unit == "target" or unit == "focus" then
 		return B.ColorText(per, B.FormatNumb(cur))
 	else
 		return B.ColorText(per)
@@ -123,7 +123,7 @@ oUF.Tags.Events["fulllevel"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_FACTION UNIT_CON
 
 -- RaidFrame Tags
 oUF.Tags.Methods["raidhp"] = function(unit)
-	local cur = UnitHealth(unit)
+	local cur = oUF.Tags.Methods["curhp"](unit)
 	local loss = oUF.Tags.Methods["missinghp"](unit)
 	local per = oUF.Tags.Methods["perhp"](unit)
 	local raidHPMode = C.db["UFs"]["RaidHPMode"]
@@ -144,7 +144,7 @@ oUF.Tags.Events["raidhp"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_NAM
 
 -- Nameplate Tags
 oUF.Tags.Methods["nphp"] = function(unit)
-	local cur = UnitHealth(unit)
+	local cur = oUF.Tags.Methods["curhp"](unit)
 	local per = oUF.Tags.Methods["perhp"](unit)
 
 	if per < 100 then

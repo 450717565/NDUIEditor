@@ -800,7 +800,7 @@ function Bags:OnLogin()
 			if (item.equipLoc and item.equipLoc ~= "") or IsArtifactRelicItem(item.link) then
 				if showItemLevel then self.iLvl:SetText(level) end
 				if showItemSlot then self.Slot:SetText(slot) end
-			elseif (item.classID and item.classID == LE_ITEM_CLASS_MISCELLANEOUS) or C_ToyBox.GetToyInfo(item.id) then
+			elseif (item.classID and (item.classID == LE_ITEM_CLASS_ARMOR or item.classID == LE_ITEM_CLASS_CONSUMABLE or item.classID == LE_ITEM_CLASS_MISCELLANEOUS)) or C_ToyBox.GetToyInfo(item.id) then
 				if showItemSlot then self.Slot:SetText(slot) end
 			end
 		end
