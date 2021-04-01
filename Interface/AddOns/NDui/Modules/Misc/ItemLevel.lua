@@ -291,21 +291,34 @@ function Misc.ItemLevel_ScrappingShow(event, addon)
 	end
 end
 
-function Misc:ItemLevel_UpdateMerchant(link)
-	if link then
-		if not self.iLvl then
-			self.iLvl = B.CreateFS(self.ItemButton, DB.Font[2]+1, "", false, "TOPLEFT", 1, -2)
-		end
-		if not self.slot then
-			self.slot = B.CreateFS(self.ItemButton, DB.Font[2]+1, "", false, "BOTTOMRIGHT", 1, 1)
-		end
+function Misc:ItemLevel_UpdateItemButton(link)
+	local ItemButton = _G[self:GetDebugName().."ItemButton"]
+	if not self.iLvl then
+		self.iLvl = B.CreateFS(ItemButton, DB.Font[2]+1, "", false, "TOPLEFT", 1, -2)
+	end
+	if not self.iSlot then
+		self.iSlot = B.CreateFS(ItemButton, DB.Font[2]+1, "", false, "BOTTOMRIGHT", 1, 1)
+	end
 
+	if link then
 		local level = B.GetItemLevel(link)
 		self.iLvl:SetText(level or "")
 
-		local info = B.GetItemSlot(link)
-		self.slot:SetText(info or "")
+		local slot = B.GetItemSlot(link)
+		self.iSlot:SetText(slot or "")
 	end
+end
+
+function Misc.ItemLevel_UpdateTradePlayer(index)
+	local button = _G["TradePlayerItem"..index]
+	local link = GetTradePlayerItemLink(index)
+	Misc.ItemLevel_UpdateItemButton(button, link)
+end
+
+function Misc.ItemLevel_UpdateTradeTarget(index)
+	local button = _G["TradeRecipientItem"..index]
+	local link = GetTradeTargetItemLink(index)
+	Misc.ItemLevel_UpdateItemButton(button, link)
 end
 
 function Misc:ShowItemLevel()
@@ -325,6 +338,10 @@ function Misc:ShowItemLevel()
 	B:RegisterEvent("ADDON_LOADED", Misc.ItemLevel_ScrappingShow)
 
 	-- iLvl on MerchantFrame
-	hooksecurefunc("MerchantFrameItem_UpdateQuality", Misc.ItemLevel_UpdateMerchant)
+	hooksecurefunc("MerchantFrameItem_UpdateQuality", Misc.ItemLevel_UpdateItemButton)
+
+	-- iLvl on TradeFrame
+	hooksecurefunc("TradeFrame_UpdatePlayerItem", Misc.ItemLevel_UpdateTradePlayer)
+	hooksecurefunc("TradeFrame_UpdateTargetItem", Misc.ItemLevel_UpdateTradeTarget)
 end
 Misc:RegisterMisc("GearInfo", Misc.ShowItemLevel)

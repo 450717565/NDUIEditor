@@ -293,7 +293,6 @@ local list = {
 		{AuraID = 319643, UnitID = "target", Value = true},	-- 虚空哀嚎，吸收盾
 		-- 大米
 		{AuraID = 226510, UnitID = "target"},	-- 血池回血
-		{AuraID = 343502, UnitID = "target"},	-- 鼓舞光环
 		-- 5人本
 		{AuraID = 321754, UnitID = "target", Value = true},	-- 通灵战潮，冰缚之盾
 		{AuraID = 343470, UnitID = "target", Value = true},	-- 通灵战潮，碎骨之盾
@@ -305,17 +304,12 @@ local list = {
 		{AuraID = 320132, UnitID = "target"},	-- 彼界，暗影之怒
 		{AuraID = 320293, UnitID = "target", Value = true},	-- 伤逝剧场，融入死亡
 		{AuraID = 331275, UnitID = "target", Flash = true},	-- 伤逝剧场，不灭护卫
-		{AuraID = 336449, UnitID = "target"},	-- 凋魂，玛卓克萨斯之墓
-		{AuraID = 336451, UnitID = "target"},	-- 凋魂，玛卓克萨斯之壁
-		{AuraID = 333737, UnitID = "target"},	-- 凋魂，凝结之疾
-		{AuraID = 328175, UnitID = "target"},	-- 凋魂，凝结之疾
 		{AuraID = 321368, UnitID = "target", Value = true},	-- 凋魂，冰缚之盾
 		{AuraID = 327416, UnitID = "target", Value = true},	-- 晋升，心能回灌
 		{AuraID = 345561, UnitID = "target", Value = true},	-- 晋升，生命连结
 		{AuraID = 339917, UnitID = "target", Value = true},	-- 晋升，命运之矛
 		{AuraID = 323878, UnitID = "target", Flash = true},	-- 晋升，枯竭
 		{AuraID = 317936, UnitID = "target"},	-- 晋升，弃誓信条
-		{AuraID = 327812, UnitID = "target"},	-- 晋升，振奋英气
 		{AuraID = 323149, UnitID = "target"},	-- 仙林，黑暗之拥
 		{AuraID = 340191, UnitID = "target", Value = true},	-- 仙林，再生辐光
 		{AuraID = 323059, UnitID = "target", Flash = true},	-- 仙林，宗主之怒

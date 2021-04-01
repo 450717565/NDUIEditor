@@ -219,14 +219,6 @@ hooksecurefunc("SetItemButtonQuality", function(self, quality, itemIDOrLink, sup
 	end
 end)
 
--- Trade
-hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
-	SetItemLevel(_G["TradePlayerItem"..id.."ItemButton"], GetTradePlayerItemLink(id), "Trade")
-end)
-hooksecurefunc("TradeFrame_UpdateTargetItem", function(id)
-	SetItemLevel(_G["TradeRecipientItem"..id.."ItemButton"], GetTradeTargetItemLink(id), "Trade")
-end)
-
 -- Loot
 hooksecurefunc("LootFrame_UpdateButton", function(index)
 	local button = _G["LootButton"..index]

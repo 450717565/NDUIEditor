@@ -25,7 +25,7 @@ function Skins:Ace3()
 		AceConfigDialogTooltip:HookScript("OnShow", TT.ReskinTooltip)
 	end
 
-	for _, n in next, EarlyAceWidgets do
+	for _, n in pairs(EarlyAceWidgets) do
 		if n.SetLayout then
 			Skins:Ace3_RegisterAsContainer(n)
 		else
@@ -269,7 +269,7 @@ function Skins:Ace3_RegisterAsWidget(widget)
 
 		widget.frame:HookScript("OnShow", function()
 			if widget.extraButtons then
-				for _, button in next, widget.extraButtons do
+				for _, button in pairs(widget.extraButtons) do
 					if button and not button.styled then
 						B.ReskinButton(button)
 
@@ -459,7 +459,7 @@ do -- Early Skin Loading
 		end
 	end
 
-	for n in next, LibStub.libs do
+	for n in pairs(LibStub.libs) do
 		if n == "AceGUI-3.0" then
 			for _, x in pairs({_G.UIParent:GetChildren()}) do
 				if x and x.obj then earlyWidget(x.obj) end

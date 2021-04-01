@@ -468,7 +468,7 @@ function Skins:Rematch()
 
 	-- RematchTeamTabs
 	hooksecurefunc(RematchTeamTabs, "Update", function(self)
-		for _, tab in next, self.Tabs do
+		for _, tab in pairs(self.Tabs) do
 			reskinButton(tab)
 			tab:SetSize(40, 40)
 			tab.Icon:SetPoint("CENTER")

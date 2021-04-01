@@ -447,7 +447,7 @@ function Misc:WorldQuestTool()
 	}
 
 	local function Update_ActionButtons(_, msg)
-		if not C_QuestLog_GetLogIndexForQuestID(59585) or not C_QuestLog_GetLogIndexForQuestID(61540) then
+		if not C_QuestLog_GetLogIndexForQuestID(59585) and not C_QuestLog_GetLogIndexForQuestID(61540) then
 			Reset_ActionButtons()
 			return
 		end

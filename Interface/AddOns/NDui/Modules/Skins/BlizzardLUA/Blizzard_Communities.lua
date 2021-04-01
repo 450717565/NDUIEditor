@@ -30,7 +30,7 @@ local function Reskin_GuildCards(self)
 end
 
 local function Reskin_CommunityCards(self)
-	for _, button in next, self.ListScrollFrame.buttons do
+	for _, button in pairs(self.ListScrollFrame.buttons) do
 		button.CircleMask:Hide()
 		button.LogoBorder:Hide()
 		button.Background:Hide()

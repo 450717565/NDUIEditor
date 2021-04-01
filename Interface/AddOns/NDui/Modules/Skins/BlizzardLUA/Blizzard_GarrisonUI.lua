@@ -1064,7 +1064,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 
 	local function Reskin_OnEvent(event, addon)
 		if addon == "GarrisonMissionManager" then
-			for _, frame in next, {GarrisonMissionFrame, OrderHallMissionFrame, BFAMissionFrame} do
+			for _, frame in pairs({GarrisonMissionFrame, OrderHallMissionFrame, BFAMissionFrame}) do
 				if frame then
 					hooksecurefunc(frame.MissionTab.MissionList, "Update", Reskin_OnUpdate)
 					frame.MissionTab.MissionPage:HookScript("OnShow", Reskin_OnShow)
@@ -1189,11 +1189,10 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 					B.StripTextures(widget)
 					B.CreateBDFrame(widget, 0, -C.mult)
 				elseif otype == "MissionToast" then
-					widget.Background:Hide()
 					widget.Icon:Show()
+					widget.Background:Hide()
 					widget.Outcome:SetFontObject("Game13Font")
 					widget.Detail:SetFontObject("Game13Font")
-					B.ReskinIcon(widget.Icon)
 					B.CreateBG(widget)
 				end
 			end

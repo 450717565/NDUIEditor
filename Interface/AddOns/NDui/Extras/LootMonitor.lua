@@ -115,9 +115,8 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local lootStr, playerStr = ...
 		local rollInfo = string.match(lootStr, BONUS_REWARDS)
 		local itemLink = string.match(lootStr, "|%x+|Hitem:.-|h.-|h|r")
-		local itemID = GetItemInfoInstant(itemLink)
 
-		if not itemLink or not itemID then return end
+		if not itemLink then return end
 
 		local Enabled = false
 		local totalText = ""
@@ -131,7 +130,8 @@ LMFrame:SetScript("OnEvent", function(self, event, ...)
 		local itemSolt = B.GetItemSlot(itemLink)
 		local isGems = B.GetItemGems(itemLink)
 		local itemGems = isGems or ""
-		local _, _, itemQuality, _, _, _, _, _, itemEquipLoc, _, _, itemClassID, itemSubClassID = GetItemInfo(itemID)
+		local itemID = GetItemInfoInstant(itemLink)
+		local _, _, itemQuality, _, _, _, _, _, itemEquipLoc, _, _, itemClassID, itemSubClassID = GetItemInfo(itemLink)
 
 		if C.db["Extras"]["LootMonitorInGroup"] == true and not IsInGroup() then
 			Enabled = false
