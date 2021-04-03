@@ -873,4 +873,4 @@ L["EnhanceDressupTip"] = "|n启用后，在试衣间添加一个快速卸下装�
 L["UseVellum"] = "右键附魔至羊皮纸"
 L["Switch Mode"] = "切换模式"
 L["DispellableOnly"] = "只显示可供驱散的负面效果"
-L["DispellableOnlyTip"] = "|n只显示你可以驱散的负面效果。|n如若关闭，负面效果边框将始终以类型染色。|n否则将只显示你可以驱散的负面效果的染色边框。"
+L["DispellableOnlyTip"] = "|n只显示你可以驱散的负面效果。|n|n如若关闭，负面效果边框将始终以类型染色。|n|n否则只会染色你可以驱散的负面效果的边框。"

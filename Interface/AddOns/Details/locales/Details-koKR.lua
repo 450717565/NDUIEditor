@@ -1483,8 +1483,7 @@ L["STRING_RIGHTCLICK_CLOSE_SHORT"] = "오른쪽 클릭으로 닫습니다."
 L["STRING_RIGHTCLICK_TYPEVALUE"] = "오른쪽 클릭으로 값 입력"
 L["STRING_SCORE_BEST"] = "|cFFFFFF00%s|r|1을;를; 기록했습니다, 이것은 최고 점수입니다, 축하합니다!"
 L["STRING_SCORE_NOTBEST"] = "|cFFFFFF00%1$s|r|1을;를; 기록했으며, 최고 점수는 %4$d 아이템 레벨로 %3$s에서 |cFFFFFF00%2$s|r입니다."
---[[Translation missing --]]
---[[ L["STRING_SCRIPTS_TITLE"] = ""--]] 
+L["STRING_SCRIPTS_TITLE"] = "스크립트"
 L["STRING_SEE_BELOW"] = "아래 참고"
 L["STRING_SEGMENT"] = "세분화"
 L["STRING_SEGMENT_EMPTY"] = "이 세분화는 비었습니다"

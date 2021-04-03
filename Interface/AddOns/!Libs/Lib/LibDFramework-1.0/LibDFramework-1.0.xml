@@ -1,4 +1,5 @@
 <Ui>
+	<Script file="DFPixelUtil.lua"/>
 	<Script file="fw.lua"/>
 	<Script file="addon.lua"/>
 	<Script file="colors.lua"/>
