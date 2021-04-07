@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Extras = B:RegisterModule("Extras")
+local EX = B:RegisterModule("Extras")
 
 -- 频道选择
 local function msgChannel()
@@ -13,7 +13,7 @@ local function msgChannel()
 	end
 end
 
-function Extras:OnLogin()
+function EX:OnLogin()
 	self:AutoCollapse()
 	self:FriendlyNameAutoSet()
 	self:GuildWelcome()
@@ -26,6 +26,7 @@ function Extras:OnLogin()
 	self:ChatRaidIndex()
 	self:GlobalFade()
 	self:KeystoneHelper()
+	self:LFGListEnhance()
 	self:MountSource()
 end
 
@@ -37,7 +38,7 @@ local GW_Message_Info = {
 	L["GW Message 4"],
 }
 
-function Extras.UpdateGuildWelcome(_, msg)
+function EX.UpdateGuildWelcome(_, msg)
 	local text = gsub(GUILDEVENT_TYPE_JOIN, "%%s", "")
 	if msg:find(text) then
 		local name = gsub(msg, text, "")
@@ -50,7 +51,7 @@ function Extras.UpdateGuildWelcome(_, msg)
 	end
 end
 
-function Extras:GuildWelcome()
+function EX:GuildWelcome()
 	if C.db["Extras"]["GuildWelcome"] then
 		B:RegisterEvent("CHAT_MSG_SYSTEM", self.UpdateGuildWelcome)
 	else
@@ -59,7 +60,7 @@ function Extras:GuildWelcome()
 end
 
 -- BOSS战斗自动收起任务追踪
-function Extras.UpdateAutoCollapse(event)
+function EX.UpdateAutoCollapse(event)
 	if event == "ENCOUNTER_START" then
 		ObjectiveTracker_Collapse()
 	elseif event == "ENCOUNTER_END" then
@@ -67,7 +68,7 @@ function Extras.UpdateAutoCollapse(event)
 	end
 end
 
-function Extras:AutoCollapse()
+function EX:AutoCollapse()
 	if C.db["Extras"]["AutoCollapse"] then
 		B:RegisterEvent("ENCOUNTER_START", self.UpdateAutoCollapse)
 		B:RegisterEvent("ENCOUNTER_END", self.UpdateAutoCollapse)
@@ -78,7 +79,7 @@ function Extras:AutoCollapse()
 end
 
 -- 副本重置自动喊话
-function Extras.UpdateInstanceReset(_, msg)
+function EX.UpdateInstanceReset(_, msg)
 	if strfind(msg, "重置") then
 		if not IsInGroup() then
 			UIErrorsFrame:AddMessage(DB.InfoColor..msg)
@@ -88,12 +89,12 @@ function Extras.UpdateInstanceReset(_, msg)
 	end
 end
 
-function Extras:InstanceReset()
+function EX:InstanceReset()
 	B:RegisterEvent("CHAT_MSG_SYSTEM", self.UpdateInstanceReset)
 end
 
 -- 副本难度自动喊话
-function Extras.UpdateInstanceDifficulty()
+function EX.UpdateInstanceDifficulty()
 	if IsInInstance() and (IsInGroup() and not IsInRaid()) then
 		C_Timer.After(.5, function()
 			local _, _, difficultyID, difficultyName = GetInstanceInfo()
@@ -108,12 +109,12 @@ function Extras.UpdateInstanceDifficulty()
 	end
 end
 
-function Extras:InstanceDifficulty()
+function EX:InstanceDifficulty()
 	B:RegisterEvent("PLAYER_ENTERING_WORLD", self.UpdateInstanceDifficulty)
 end
 
 -- 进本自动标记坦克和治疗
-function Extras.UpdateInstanceAutoMarke()
+function EX.UpdateInstanceAutoMarke()
 	if IsInInstance() and (IsInGroup() and not IsInRaid()) then
 		for i = 1, 5 do
 			local unit = i == 5 and "player" or ("party"..i)
@@ -127,12 +128,12 @@ function Extras.UpdateInstanceAutoMarke()
 	end
 end
 
-function Extras:InstanceAutoMarke()
+function EX:InstanceAutoMarke()
 	B:RegisterEvent("UPDATE_INSTANCE_INFO", self.UpdateInstanceAutoMarke)
 end
 
 -- 自动切换显示友方名字，防止卡屏
-function Extras.UpdateFriendlyNameAutoSet()
+function EX.UpdateFriendlyNameAutoSet()
 	if IsInInstance() then
 		SetCVar("UnitNameFriendlyPlayerName", 1)
 		SetCVar("UnitNameFriendlyMinionName", 1)
@@ -142,7 +143,7 @@ function Extras.UpdateFriendlyNameAutoSet()
 	end
 end
 
-function Extras:FriendlyNameAutoSet()
+function EX:FriendlyNameAutoSet()
 	B:RegisterEvent("PLAYER_ENTERING_WORLD", self.UpdateFriendlyNameAutoSet)
 	B:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND", self.UpdateFriendlyNameAutoSet)
 end

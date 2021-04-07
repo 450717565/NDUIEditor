@@ -32,6 +32,21 @@ tinsert(C.XMLThemes, function()
 	TradePlayerInputMoneyFrameCopper:ClearAllPoints()
 	TradePlayerInputMoneyFrameCopper:SetPoint("LEFT", TradePlayerInputMoneyFrameSilver, "RIGHT", 1, 0)
 
+	local texts = {
+		TradeFramePlayerNameText,
+		TradeFrameRecipientNameText,
+	}
+	for index, text in pairs(texts) do
+		text:SetWidth(150)
+		text:SetJustifyH("CENTER")
+		text:ClearAllPoints()
+		if index == 1 then
+			text:SetPoint("TOPRIGHT", TradeFrame, "TOP", -5, -10)
+		else
+			text:SetPoint("TOPLEFT", TradeFrame, "TOP", 5, -10)
+		end
+	end
+
 	local insets = {
 		TradePlayerEnchantInset,
 		TradePlayerInputMoneyInset,

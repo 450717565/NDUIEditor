@@ -1,12 +1,12 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Extras = B:GetModule("Extras")
+local EX = B:GetModule("Extras")
 
 local C_MountJournal_GetMountIDs = C_MountJournal.GetMountIDs
 local C_MountJournal_GetMountInfoByID = C_MountJournal.GetMountInfoByID
 local C_MountJournal_GetMountInfoExtraByID = C_MountJournal.GetMountInfoExtraByID
 
-function Extras:MS_MountInfo(unit, index, filter)
+function EX:MS_MountInfo(unit, index, filter)
 	if self:IsForbidden() then return end
 
 	local auraID = select(10, UnitAura(unit, index, filter))
@@ -41,6 +41,6 @@ function Extras:MS_MountInfo(unit, index, filter)
 	if showIt then self:Show() end
 end
 
-function Extras:MountSource()
+function EX:MountSource()
 	hooksecurefunc(GameTooltip, "SetUnitAura", self.MS_MountInfo)
 end

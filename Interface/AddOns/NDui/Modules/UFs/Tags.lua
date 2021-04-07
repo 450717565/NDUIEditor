@@ -217,7 +217,7 @@ oUF.Tags.Methods["altpower"] = function(unit)
 	local per = cur / max * 100
 
 	if cur > 0 then
-		return B.ColorText(per, cur)
+		return B.ColorText(per, cur, true)
 	end
 end
 oUF.Tags.Events["altpower"] = "UNIT_MAXPOWER UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT"
@@ -229,16 +229,7 @@ oUF.Tags.Methods["stagger"] = function(unit)
 	local cur = UnitStagger(unit) or 0
 	local max = UnitHealthMax(unit)
 	local per = cur / max * 100
-	local stagger = ""
 
-	if per < 50 then
-		stagger = format("|cff00FF00%s|r | |cff00FF00%.1f%%|r", B.FormatNumb(cur), per)
-	elseif per < 100 then
-		stagger = format("|cffFFFF00%s|r | |cffFFFF00%.1f%%|r", B.FormatNumb(cur), per)
-	else
-		stagger = format("|cffFF0000%s|r | |cffFF0000%.1f%%|r", B.FormatNumb(cur), per)
-	end
-
-	return stagger
+	return B.ColorText(per, B.FormatNumb(cur), true)..DB.Separator..B.ColorText(per, nil, true)
 end
 oUF.Tags.Events["stagger"] = "UNIT_MAXHEALTH UNIT_AURA"

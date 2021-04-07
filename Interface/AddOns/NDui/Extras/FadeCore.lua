@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Extras = B:GetModule("Extras")
+local EX = B:GetModule("Extras")
 -----------------
 -- Credit: ElvUI
 -- 修改：雨夜独行客
@@ -8,7 +8,7 @@ local Extras = B:GetModule("Extras")
 local FADEFRAMES, FADEMANAGER = {}, CreateFrame('FRAME')
 FADEMANAGER.delay = 0.025
 
-function Extras:UIFrameFade_OnUpdate(elapsed)
+function EX:UIFrameFade_OnUpdate(elapsed)
 	FADEMANAGER.timer = (FADEMANAGER.timer or 0) + elapsed
 
 	if FADEMANAGER.timer > FADEMANAGER.delay then
@@ -37,7 +37,7 @@ function Extras:UIFrameFade_OnUpdate(elapsed)
 					info.fadeHoldTime = info.fadeHoldTime - elapsed
 				else
 					-- Complete the fade and call the finished function if there is one
-					Extras:UIFrameFadeRemoveFrame(frame)
+					EX:UIFrameFadeRemoveFrame(frame)
 
 					if info.finishedFunc then
 						if info.finishedArgs then
@@ -61,7 +61,7 @@ function Extras:UIFrameFade_OnUpdate(elapsed)
 end
 
 -- Generic fade function
-function Extras:UIFrameFade(frame, info)
+function EX:UIFrameFade(frame, info)
 	if not frame or frame:IsForbidden() then return end
 
 	frame.fadeInfo = info
@@ -88,14 +88,14 @@ function Extras:UIFrameFade(frame, info)
 
 	if not FADEFRAMES[frame] then
 		FADEFRAMES[frame] = info -- read below comment
-		FADEMANAGER:SetScript('OnUpdate', Extras.UIFrameFade_OnUpdate)
+		FADEMANAGER:SetScript('OnUpdate', EX.UIFrameFade_OnUpdate)
 	else
 		FADEFRAMES[frame] = info -- keep these both, we need this updated in the event its changed to another ref from a plugin or sth, don't move it up!
 	end
 end
 
 -- Convenience function to do a simple fade in
-function Extras:UIFrameFadeIn(frame, timeToFade, startAlpha, endAlpha)
+function EX:UIFrameFadeIn(frame, timeToFade, startAlpha, endAlpha)
 	if not frame or frame:IsForbidden() then return end
 
 	if frame.FadeObject then
@@ -110,11 +110,11 @@ function Extras:UIFrameFadeIn(frame, timeToFade, startAlpha, endAlpha)
 	frame.FadeObject.endAlpha = endAlpha
 	frame.FadeObject.diffAlpha = endAlpha - startAlpha
 
-	Extras:UIFrameFade(frame, frame.FadeObject)
+	EX:UIFrameFade(frame, frame.FadeObject)
 end
 
 -- Convenience function to do a simple fade out
-function Extras:UIFrameFadeOut(frame, timeToFade, startAlpha, endAlpha)
+function EX:UIFrameFadeOut(frame, timeToFade, startAlpha, endAlpha)
 	if not frame or frame:IsForbidden() then return end
 
 	if frame.FadeObject then
@@ -129,10 +129,10 @@ function Extras:UIFrameFadeOut(frame, timeToFade, startAlpha, endAlpha)
 	frame.FadeObject.endAlpha = endAlpha
 	frame.FadeObject.diffAlpha = startAlpha - endAlpha
 
-	Extras:UIFrameFade(frame, frame.FadeObject)
+	EX:UIFrameFade(frame, frame.FadeObject)
 end
 
-function Extras:UIFrameFadeRemoveFrame(frame)
+function EX:UIFrameFadeRemoveFrame(frame)
 	if frame and FADEFRAMES[frame] then
 		if frame.FadeObject then
 			frame.FadeObject.fadeTimer = nil

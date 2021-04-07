@@ -99,7 +99,7 @@ local list = {
 		{AuraID = 311444, UnitID = "player", Value = true},			-- 暗月套牌：不屈
 		{AuraID = 311491, UnitID = "player"},	-- 暗月套牌：贪婪
 		{AuraID = 329831, UnitID = "player"},	-- 压制能量水晶
-		{AuraID = 329840, UnitID = "player", Value = true},			-- 溅血之鳞
+		{AuraID = 329849, UnitID = "player", Value = true},			-- 溅血之鳞
 		{AuraID = 330366, UnitID = "player", Text = L["Crit"]},		-- 不可思议的量子装置，暴击
 		{AuraID = 330367, UnitID = "player", Text = L["Versa"]},	-- 不可思议的量子装置，全能
 		{AuraID = 330368, UnitID = "player", Text = L["Haste"]},	-- 不可思议的量子装置，急速

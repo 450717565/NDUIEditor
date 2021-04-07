@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB, P = unpack(ns)
-local Extras = B:GetModule("Extras")
+local EX = B:GetModule("Extras")
 local TT = B:GetModule("Tooltip")
 ---------------------------------
 -- ElvUI_WindTools, by fang2hou
@@ -145,7 +145,7 @@ local function GetAchievementInfoByID(guid, achievementID)
 	return completed, month, day, year
 end
 
-function Extras:UpdateProgression(guid, faction)
+function EX:UpdateProgression(guid, faction)
 	cache[guid] = cache[guid] or {}
 	cache[guid].info = cache[guid].info or {}
 	cache[guid].timer = GetTime()
@@ -206,7 +206,7 @@ function Extras:UpdateProgression(guid, faction)
 	end
 end
 
-function Extras:SetProgressionInfo(guid)
+function EX:SetProgressionInfo(guid)
 	if not cache[guid] then return end
 
 	local updated = false
@@ -315,7 +315,7 @@ function Extras:SetProgressionInfo(guid)
 	end
 end
 
-function Extras:GetAchievementInfo(GUID)
+function EX:GetAchievementInfo(GUID)
 	if (compareGUID ~= GUID) then return end
 
 	local unit = "mouseover"
@@ -324,17 +324,17 @@ function Extras:GetAchievementInfo(GUID)
 		local race = select(3, UnitRace(unit))
 		local faction = race and C_CreatureInfo.GetFactionInfo(race).groupTag
 		if faction then
-			Extras:UpdateProgression(GUID, faction)
+			EX:UpdateProgression(GUID, faction)
 			_G.GameTooltip:SetUnit(unit)
 		end
 	end
 
 	ClearAchievementComparisonUnit()
 
-	B:UnregisterEvent(self, Extras.GetAchievementInfo)
+	B:UnregisterEvent(self, EX.GetAchievementInfo)
 end
 
-function Extras:AddProgression()
+function EX:AddProgression()
 	if not C.db["Extras"]["Progression"] then return end
 
 	if InCombatLockdown() then return end
@@ -356,7 +356,7 @@ function Extras:AddProgression()
 	local guid = UnitGUID(unit)
 	if not cache[guid] or (GetTime() - cache[guid].timer) > 600 then
 		if guid == UnitGUID("player") then
-			Extras:UpdateProgression(guid, UnitFactionGroup("player"))
+			EX:UpdateProgression(guid, UnitFactionGroup("player"))
 		else
 			ClearAchievementComparisonUnit()
 
@@ -370,19 +370,19 @@ function Extras:AddProgression()
 			compareGUID = guid
 
 			if SetAchievementComparisonUnit(unit) then
-				B:RegisterEvent("INSPECT_ACHIEVEMENT_READY", Extras.GetAchievementInfo)
+				B:RegisterEvent("INSPECT_ACHIEVEMENT_READY", EX.GetAchievementInfo)
 			end
 
 			return
 		end
 	end
 
-	Extras:SetProgressionInfo(guid)
+	EX:SetProgressionInfo(guid)
 end
 
 do
 	if TT.OnTooltipSetUnit then
-		hooksecurefunc(TT, "OnTooltipSetUnit", Extras.AddProgression)
+		hooksecurefunc(TT, "OnTooltipSetUnit", EX.AddProgression)
 	end
 end
 

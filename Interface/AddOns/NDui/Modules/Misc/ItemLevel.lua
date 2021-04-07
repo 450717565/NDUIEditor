@@ -300,6 +300,9 @@ function Misc:ItemLevel_UpdateItemButton(link)
 		self.iSlot = B.CreateFS(ItemButton, DB.Font[2]+1, "", false, "BOTTOMRIGHT", 1, 1)
 	end
 
+	self.iLvl:SetText("")
+	self.iSlot:SetText("")
+
 	if link then
 		local level = B.GetItemLevel(link)
 		self.iLvl:SetText(level or "")

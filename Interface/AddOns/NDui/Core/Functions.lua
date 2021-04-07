@@ -1638,7 +1638,7 @@ do
 		if anchor and x and y then
 			fs:SetPoint(anchor, x, y)
 		else
-			fs:SetPoint("CENTER", 1, -.5)
+			fs:SetPoint("CENTER", 1, 0)
 		end
 
 		return fs

@@ -1,13 +1,13 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Extras = B:GetModule("Extras")
+local EX = B:GetModule("Extras")
 ------------------------
 -- Credit: BasicChatMods
 -- 修改：雨夜独行客
 ------------------------
 local GroupNames = {}
 
-function Extras:UpdateGroupNames()
+function EX:UpdateGroupNames()
 	wipe(GroupNames)
 
 	if not IsInRaid() then return end
@@ -31,7 +31,7 @@ local function addRaidIndex(fullName, nameString, nameText)
 	return "|Hplayer:"..fullName..nameString.."["..nameText.."]|h"
 end
 
-function Extras:UpdateRaidIndex(text, ...)
+function EX:UpdateRaidIndex(text, ...)
 	if IsInRaid() then
 		text = text:gsub("|Hplayer:([^:|]+)([^%[]+)%[([^%]]+)%]|h", addRaidIndex)
 	end
@@ -39,21 +39,21 @@ function Extras:UpdateRaidIndex(text, ...)
 	return self.origAddMsg(self, text, ...)
 end
 
-function Extras:ChatRaidIndex()
+function EX:ChatRaidIndex()
 	local eventList = {
 		"GROUP_ROSTER_UPDATE",
 		"PLAYER_ENTERING_WORLD",
 	}
 
 	for _, event in next, eventList do
-		B:RegisterEvent(event, Extras.UpdateGroupNames)
+		B:RegisterEvent(event, EX.UpdateGroupNames)
 	end
 
 	for i = 1, NUM_CHAT_WINDOWS do
 		if i ~= 2 then
 			local chatFrame = _G["ChatFrame"..i]
 			chatFrame.origAddMsg = chatFrame.AddMessage
-			chatFrame.AddMessage = Extras.UpdateRaidIndex
+			chatFrame.AddMessage = EX.UpdateRaidIndex
 		end
 	end
 end

@@ -5,7 +5,7 @@
 
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Extras = B:GetModule("Extras")
+local EX = B:GetModule("Extras")
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 local locale = GetLocale()
@@ -170,7 +170,7 @@ local function FindChatBubble()
 			end
 
 			-- 名字染色
-			Extras:HookBubble(chatBubble, frame)
+			EX:HookBubble(chatBubble, frame)
 		end
 	end
 end
@@ -274,7 +274,7 @@ do
 		end
 	end)
 
-	function Extras:ChatEmote()
+	function EX:ChatEmote()
 		B.CreateBG(frame)
 		B.CreateMF(frame)
 

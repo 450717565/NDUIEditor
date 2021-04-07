@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Extras = B:GetModule("Extras")
+local EX = B:GetModule("Extras")
 
-function Extras.KH_CheckLink(link)
+function EX.KH_CheckLink(link)
 	if link and type(link) == "string" and string.match(link, "|Hkeystone:([0-9:]+)|h(%b[])|h") then
 		return true
 	else
@@ -10,10 +10,10 @@ function Extras.KH_CheckLink(link)
 	end
 end
 
-function Extras.KH_GetMapLevel(link)
+function EX.KH_GetMapLevel(link)
 	local mapLevel = 0
 
-	if Extras.KH_CheckLink(link) then
+	if EX.KH_CheckLink(link) then
 		local info = {string.split(":", link)}
 		mapLevel = tonumber(info[4])
 
@@ -23,12 +23,12 @@ function Extras.KH_GetMapLevel(link)
 	return mapLevel
 end
 
-function Extras:KH_OnTooltipSetItem()
+function EX:KH_OnTooltipSetItem()
 	local showIt = false
 	local _, link = self:GetItem()
 
-	if Extras.KH_CheckLink(link) then
-		local mapLevel = Extras.KH_GetMapLevel(link)
+	if EX.KH_CheckLink(link) then
+		local mapLevel = EX.KH_GetMapLevel(link)
 		local mlvl = DB.MythicLoot[mapLevel]
 		local wlvl = DB.WeeklyLoot[mapLevel]
 
@@ -43,7 +43,7 @@ function Extras:KH_OnTooltipSetItem()
 	if showIt then self:Show() end
 end
 
-function Extras:KeystoneHelper()
+function EX:KeystoneHelper()
 	GameTooltip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
 	ItemRefTooltip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
 	ShoppingTooltip1:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)

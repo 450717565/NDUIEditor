@@ -40,6 +40,7 @@ function TT:UpdateReputations()
 	end
 end
 B:RegisterEvent("PLAYER_LOGIN", TT.UpdateReputations)
+B:RegisterEvent("PLAYER_ENTERING_WORLD", TT.UpdateReputations)
 B:RegisterEvent("UPDATE_FACTION", TT.UpdateReputations)
 
 function TT:GetFactionLine()

@@ -232,7 +232,7 @@ GUI.DefaultSettings = {
 		CustomColor = {r=0, g=.8, b=.3},
 		UnitList = "",
 		ShowPowerList = "",
-		VerticalSpacing = .8,
+		VerticalSpacing = 1,
 		ShowPlayerPlate = false,
 		PPWidth = 175,
 		PPBarHeight = 5,
@@ -1081,9 +1081,9 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Skins", "SkinTexture", L["Skin Texture"]},
 		{3, "Skins", "FontScale", L["Font Scale"], true, {.5, 1.5, .01}},
 		{1, "Skins", "SkinShadow", L["Skin Shadow"]},
+		{5, "Skins", "SDColor", L["Shadow Color"], 1},
 		{1, "Skins", "CCShadow", L["ClassColor Shadow"]},
 		{3, "Skins", "SDAlpha", L["Shadow Alpha"], true, {0, 1, .01}},
-		{5, "Skins", "SDColor", L["Shadow Color"], 1},
 		{},--blank
 		{4, "Skins", "SkinStyle", L["Skin Style"], false, {L["Flat Style"], L["Gradient Style"]}},
 		{4, "Skins", "GSDirection", L["Gradient Direction"], true, {L["Horizontal"], L["Vertical"]}},
@@ -1104,7 +1104,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Skins", "Skada", L["Skada Skin"]},
 		{1, "Skins", "Details", L["Details Skin"], nil, resetDetails},
-		{4, "Skins", "ToggleDirection", L["ToggleDirection"].."*", true, {L["LEFT"], L["RIGHT"], L["TOP"], L["BOTTOM"]}, updateToggleDirection},
+		{4, "Skins", "ToggleDirection", L["ToggleDirection"].."*", true, {L["LEFT"], L["RIGHT"], L["TOP"], L["BOTTOM"], DISABLE}, updateToggleDirection},
 		{1, "Skins", "DeadlyBossMods", L["DeadlyBossMods Skin"]},
 		{1, "Skins", "Bigwigs", L["Bigwigs Skin"], true},
 		{1, "Skins", "TellMeWhen", L["TellMeWhen Skin"]},
@@ -1427,8 +1427,8 @@ local function CreateContactBox(parent, text, url, index)
 end
 
 local donationList = {
-	["afdian"] = "33578473, normanvon, y368413, EK, msylgj, 夜丨灬清寒, akakai, reisen410, 其实你很帥, 萨菲尔, Antares, RyanZ, fldqw, Mario, 时光旧予, 食铁骑兵, 爱蕾丝的基总, 施然, 命运镇魂曲, 不可语上, Leo, 忘川, 刘翰承, 悟空海外党, cncj, 暗月, 汪某人, 黑手, iraq120, 嗜血未冷, 我又不是妖怪，养乐多，无人知晓，秋末旷夜，以及部分未备注名字的用户。",
-	["Patreon"] = "Quentin, Julian Neigefind, silenkin, imba Villain, Zeyu Zhu.",
+	["afdian"] = "33578473, normanvon, y368413, EK, msylgj, 夜丨灬清寒, akakai, reisen410, 其实你很帥, 萨菲尔, Antares, RyanZ, fldqw, Mario, 时光旧予, 食铁骑兵, 爱蕾丝的基总, 施然, 命运镇魂曲, 不可语上, Leo, 忘川, 刘翰承, 悟空海外党, cncj, 暗月, 汪某人, 黑手, iraq120, 嗜血未冷, 我又不是妖怪，养乐多，无人知晓，秋末旷夜，Teo，莉拉斯塔萨，音尘绝，刺王杀驾以及部分未备注名字的用户。",
+	["Patreon"] = "Quentin, Julian Neigefind, silenkin, imba Villain, Zeyu Zhu, Kon Floros.",
 }
 local function CreateDonationIcon(parent, texture, name, xOffset)
 	local button = B.CreateButton(parent, 30, 30, true, texture)

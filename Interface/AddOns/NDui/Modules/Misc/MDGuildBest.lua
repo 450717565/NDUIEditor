@@ -29,6 +29,7 @@ function Misc:GuildBest_UpdateTooltip()
 	local mapName = C_ChallengeMode_GetMapUIInfo(leaderInfo.mapChallengeModeID)
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	GameTooltip:AddLine(format(mapString, mapName, leaderInfo.keystoneLevel))
+	GameTooltip:AddLine(" ")
 	for i = 1, #leaderInfo.members do
 		local classColorStr = DB.ClassColors[leaderInfo.members[i].classFileName].colorStr
 		GameTooltip:AddLine(format(nameString, classColorStr,leaderInfo.members[i].name));

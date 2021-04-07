@@ -4,6 +4,7 @@ local B, C, L, DB = unpack(ns)
 --[[
 	NDui DevTools:
 	/rl, reload ui
+	/fs, blizzard debug tools
 	/nt, get gametooltip names
 	/nf, get frame names
 	/ns, get spell name and description
@@ -31,6 +32,12 @@ DB.isDeveloper = isDeveloper()
 -- Commands
 SlashCmdList["RELOADUI"] = ReloadUI
 SLASH_RELOADUI1 = "/rl"
+
+SlashCmdList["NDUI_FRAMESTK"] = function()
+	LoadAddOn("Blizzard_DebugTools")
+	FrameStackTooltip_Toggle()
+end
+SLASH_NDUI_FRAMESTK1 = "/fs"
 
 SlashCmdList["NDUI_ENUMTIP"] = function()
 	local enumf = EnumerateFrames()

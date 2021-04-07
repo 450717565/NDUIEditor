@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Extras = B:GetModule("Extras")
+local EX = B:GetModule("Extras")
 -----------------
 -- Credit: ElvUI
 -- 修改：雨夜独行客
@@ -11,7 +11,7 @@ local ClassNames = {}
 local chatEvents = DB.ChatEvents
 
 local isCalling = false
-function Extras:GetPlayerInfoByGUID(guid)
+function EX:GetPlayerInfoByGUID(guid)
 	if isCalling then return end
 
 	local data = GuidCache[guid]
@@ -52,7 +52,7 @@ function Extras:GetPlayerInfoByGUID(guid)
 	return data
 end
 
-function Extras:ClassFilter(message)
+function EX:ClassFilter(message)
 	local isFirstWord, rebuiltString
 
 	for word in gmatch(message, '%s-%S+%s*') do
@@ -78,41 +78,41 @@ function Extras:ClassFilter(message)
 	return rebuiltString
 end
 
-function Extras:UpdateBubbleColor()
+function EX:UpdateBubbleColor()
 	local backdrop = self.backdrop
 	local str = backdrop and backdrop.String
 	local text = str and str:GetText()
-	local rebuiltString = text and Extras:ClassFilter(text)
+	local rebuiltString = text and EX:ClassFilter(text)
 
 	if rebuiltString then
 		str:SetText(RemoveExtraSpaces(rebuiltString))
 	end
 end
 
-function Extras:HookBubble(frame, backdrop)
+function EX:HookBubble(frame, backdrop)
 	if frame.isHooked then return end
 
 	if not frame.backdrop then
 		frame.backdrop = backdrop
-		frame:HookScript('OnShow', Extras.UpdateBubbleColor)
-		Extras.UpdateBubbleColor(frame)
+		frame:HookScript('OnShow', EX.UpdateBubbleColor)
+		EX.UpdateBubbleColor(frame)
 	end
 
 	frame.isHooked = true
 end
 
-function Extras:UpdateChatColor(event, msg, ...)
-	msg = Extras:ClassFilter(msg) or msg
+function EX:UpdateChatColor(event, msg, ...)
+	msg = EX:ClassFilter(msg) or msg
 	return false, msg, ...
 end
 
-function Extras:ChatClassColor()
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", Extras.UpdateChatColor)
+function EX:ChatClassColor()
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_LOOT", EX.UpdateChatColor)
 	for _, event in pairs(chatEvents) do
-		ChatFrame_AddMessageEventFilter(event, Extras.UpdateChatColor)
+		ChatFrame_AddMessageEventFilter(event, EX.UpdateChatColor)
 	end
 
 	hooksecurefunc("GetPlayerInfoByGUID",function(...)
-		Extras:GetPlayerInfoByGUID(...)
+		EX:GetPlayerInfoByGUID(...)
 	end)
 end

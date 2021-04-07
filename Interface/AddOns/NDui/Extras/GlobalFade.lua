@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Extras = B:GetModule("Extras")
+local EX = B:GetModule("Extras")
 local Bar = B:GetModule("ActionBar")
 -----------------
 -- Credit: ElvUI
@@ -24,51 +24,51 @@ local FadeFrames = {
 	},
 }
 
-function Extras:FadeBlingTexture(cooldown, alpha)
+function EX:FadeBlingTexture(cooldown, alpha)
 	if not cooldown then return end
 	cooldown:SetBlingTexture(alpha > 0.5 and DB.newItemFlash or DB.blankTex)
 end
 
-function Extras:FadeBlings(alpha)
+function EX:FadeBlings(alpha)
 	for _, button in pairs(Bar.buttons) do
-		Extras:FadeBlingTexture(button.cooldown, alpha)
+		EX:FadeBlingTexture(button.cooldown, alpha)
 	end
 end
 
-function Extras:Fade_OnEnter()
-	if not Extras.fadeParent.mouseLock then
-		Extras:UIFrameFadeIn(Extras.fadeParent, .2, Extras.fadeParent:GetAlpha(), 1)
-		Extras:FadeBlings(1)
+function EX:Fade_OnEnter()
+	if not EX.fadeParent.mouseLock then
+		EX:UIFrameFadeIn(EX.fadeParent, .2, EX.fadeParent:GetAlpha(), 1)
+		EX:FadeBlings(1)
 	end
 end
 
-function Extras:Fade_OnLeave()
-	if not Extras.fadeParent.mouseLock then
-		Extras:UIFrameFadeOut(Extras.fadeParent, Extras.fadeDuration, Extras.fadeParent:GetAlpha(), Extras.fadeAlpha)
-		Extras:FadeBlings(Extras.fadeAlpha)
+function EX:Fade_OnLeave()
+	if not EX.fadeParent.mouseLock then
+		EX:UIFrameFadeOut(EX.fadeParent, EX.fadeDuration, EX.fadeParent:GetAlpha(), EX.fadeAlpha)
+		EX:FadeBlings(EX.fadeAlpha)
 	end
 end
 
-function Extras:FadeParent_OnEvent(event)
+function EX:FadeParent_OnEvent(event)
 	if UnitCastingInfo("player") or UnitChannelInfo("player") or UnitExists("target")
 	or UnitAffectingCombat("player") or (UnitHealth("player") ~= UnitHealthMax("player"))
 	or event == "ACTIONBAR_SHOWGRID" then
 		self.mouseLock = true
-		Extras:UIFrameFadeIn(self, .2, self:GetAlpha(), 1)
-		Extras:FadeBlings(1)
+		EX:UIFrameFadeIn(self, .2, self:GetAlpha(), 1)
+		EX:FadeBlings(1)
 	else
 		self.mouseLock = false
-		Extras:UIFrameFadeOut(self, Extras.fadeDuration, self:GetAlpha(), Extras.fadeAlpha)
-		Extras:FadeBlings(Extras.fadeAlpha)
+		EX:UIFrameFadeOut(self, EX.fadeDuration, self:GetAlpha(), EX.fadeAlpha)
+		EX:FadeBlings(EX.fadeAlpha)
 	end
 end
 
 local function updateAfterCombat(event)
-	Extras:UpdateFadeFrame()
+	EX:UpdateFadeFrame()
 	B:UnregisterEvent(event, updateAfterCombat)
 end
 
-function Extras:UpdateFadeFrame()
+function EX:UpdateFadeFrame()
 	if InCombatLockdown() then
 		B:RegisterEvent("PLAYER_REGEN_ENABLED", updateAfterCombat)
 		return
@@ -79,10 +79,10 @@ function Extras:UpdateFadeFrame()
 			for _, v in pairs(frames) do
 				local f = _G[v]
 				if f then
-					f:SetParent(Extras.fadeParent)
+					f:SetParent(EX.fadeParent)
 					if key ~= "ActionBar" then
-						f:HookScript("OnEnter", Extras.Fade_OnEnter)
-						f:HookScript("OnLeave", Extras.Fade_OnLeave)
+						f:HookScript("OnEnter", EX.Fade_OnEnter)
+						f:HookScript("OnLeave", EX.Fade_OnLeave)
 					end
 				end
 			end
@@ -92,46 +92,46 @@ function Extras:UpdateFadeFrame()
 	if not C.db["Extras"]["GlobalFadeActionBar"] then return end
 
 	for _, button in ipairs(Bar.buttons) do
-		button:HookScript("OnEnter", Extras.Fade_OnEnter)
-		button:HookScript("OnLeave", Extras.Fade_OnLeave)
+		button:HookScript("OnEnter", EX.Fade_OnEnter)
+		button:HookScript("OnLeave", EX.Fade_OnLeave)
 	end
 end
 
-function Extras:GlobalFade()
+function EX:GlobalFade()
 	if not C.db["Extras"]["GlobalFade"] then return end
 
-	Extras.fadeAlpha = C.db["Extras"]["GlobalFadeAlpha"]
-	Extras.fadeDuration = C.db["Extras"]["GlobalFadeDuration"]
+	EX.fadeAlpha = C.db["Extras"]["GlobalFadeAlpha"]
+	EX.fadeDuration = C.db["Extras"]["GlobalFadeDuration"]
 
-	Extras.fadeParent = CreateFrame("Frame", "NDui_Plus_Fader", _G.UIParent, "SecureHandlerStateTemplate")
-	RegisterStateDriver(Extras.fadeParent, 'visibility', '[petbattle] hide; show')
-	Extras.fadeParent:SetAlpha(Extras.fadeAlpha)
-	Extras.fadeParent:SetScript("OnEvent", Extras.FadeParent_OnEvent)
+	EX.fadeParent = CreateFrame("Frame", "NDui_Plus_Fader", _G.UIParent, "SecureHandlerStateTemplate")
+	RegisterStateDriver(EX.fadeParent, 'visibility', '[petbattle] hide; show')
+	EX.fadeParent:SetAlpha(EX.fadeAlpha)
+	EX.fadeParent:SetScript("OnEvent", EX.FadeParent_OnEvent)
 
 	if C.db["Extras"]["GlobalFadeCombat"] then
-		Extras.fadeParent:RegisterEvent("PLAYER_REGEN_DISABLED")
-		Extras.fadeParent:RegisterEvent("PLAYER_REGEN_ENABLED")
+		EX.fadeParent:RegisterEvent("PLAYER_REGEN_DISABLED")
+		EX.fadeParent:RegisterEvent("PLAYER_REGEN_ENABLED")
 	end
 
 	if C.db["Extras"]["GlobalFadeTarget"] then
-		Extras.fadeParent:RegisterEvent("PLAYER_TARGET_CHANGED")
+		EX.fadeParent:RegisterEvent("PLAYER_TARGET_CHANGED")
 	end
 
 	if C.db["Extras"]["GlobalFadeCast"] then
-		Extras.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_START", "player")
-		Extras.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_STOP", "player")
-		Extras.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_START", "player")
-		Extras.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_STOP", "player")
+		EX.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_START", "player")
+		EX.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_STOP", "player")
+		EX.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_START", "player")
+		EX.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_STOP", "player")
 	end
 
 	if C.db["Extras"]["GlobalFadeHealth"] then
-		Extras.fadeParent:RegisterUnitEvent("UNIT_HEALTH", "player")
+		EX.fadeParent:RegisterUnitEvent("UNIT_HEALTH", "player")
 	end
 
 	if C.db["Extras"]["GlobalFadeActionBar"] then
-		Extras.fadeParent:RegisterEvent("ACTIONBAR_SHOWGRID")
-		Extras.fadeParent:RegisterEvent("ACTIONBAR_HIDEGRID")
+		EX.fadeParent:RegisterEvent("ACTIONBAR_SHOWGRID")
+		EX.fadeParent:RegisterEvent("ACTIONBAR_HIDEGRID")
 	end
 
-	C_Timer.After(.5, Extras.UpdateFadeFrame)
+	C_Timer.After(.5, EX.UpdateFadeFrame)
 end

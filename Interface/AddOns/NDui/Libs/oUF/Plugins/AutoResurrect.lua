@@ -80,7 +80,7 @@ local function setupAttribute(self)
 	end
 end
 
-local Enable = function(self)
+local function Enable(self)
 	if not C.db["UFs"]["AutoRes"] then return end
 
 	if InCombatLockdown() then
@@ -90,7 +90,7 @@ local Enable = function(self)
 	end
 end
 
-local Disable = function(self)
+local function Disable(self)
 	if C.db["UFs"]["AutoRes"] then return end
 
 	self:SetAttribute("*type3", nil)

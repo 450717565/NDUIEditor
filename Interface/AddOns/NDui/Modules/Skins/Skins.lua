@@ -136,6 +136,18 @@ function Skins:SetToggleDirection()
 	open:SetPoint(rel1, parent, rel1, -x, -y)
 	open:SetSize(width, height)
 	open.text:SetText(str2)
+
+	if C.db["Skins"]["ToggleDirection"] == 5 then
+		close:SetAlpha(0)
+		close:EnableMouse(false)
+		open:SetAlpha(0)
+		open:EnableMouse(false)
+	else
+		close:SetAlpha(1)
+		close:EnableMouse(true)
+		open:SetAlpha(1)
+		open:EnableMouse(true)
+	end
 end
 
 function Skins.RefreshToggleDirection()

@@ -23,9 +23,9 @@ function B.SmoothColor(cur, max, fullRed)
 end
 
 -- Color Text
-function B.ColorText(per, val)
+function B.ColorText(per, val, fullRed)
 	local p = format("%.1f%%", per)
-	local r, g, b = B.SmoothColor(per, 100)
+	local r, g, b = B.SmoothColor(per, 100, fullRed)
 	if val then
 		return B.HexRGB(r, g, b, val)
 	else
@@ -1084,6 +1084,18 @@ function UF:CreateClassPower(self)
 	end
 end
 
+function UF.PostUpdateStaggerBarColor(element)
+	local cur = element.cur or 0
+	local max = element.max or 1
+	local mult = element.bg.multiplier or 1
+
+	if cur and max then
+		local r, g, b = B.SmoothColor(cur, max, true)
+		element:SetStatusBarColor(r, g, b)
+		element.bg:SetVertexColor(r*mult, g*mult, b*mult)
+	end
+end
+
 function UF:StaggerBar(self)
 	if DB.MyClass ~= "MONK" then return end
 
@@ -1094,7 +1106,7 @@ function UF:StaggerBar(self)
 	B.CreateSB(stagger)
 	B.SmoothBar(stagger)
 
-	local text = B.CreateFS(stagger, 13)
+	local text = B.CreateFS(stagger, 14)
 	text:SetJustifyH("CENTER")
 	self:Tag(text, "[stagger]")
 
@@ -1102,18 +1114,53 @@ function UF:StaggerBar(self)
 	stagger.bg.multiplier = .25
 
 	self.Stagger = stagger
+	self.Stagger.PostUpdateColor = UF.PostUpdateStaggerBarColor
+end
+
+function UF.PostUpdateAddPower(element, cur, max)
+	if element.Text and max > 0 then
+		local per = B.ColorText(cur/max * 100)
+		element.Text:SetText(per)
+	end
+end
+
+function UF:CreateAddPower(self)
+	local bar = CreateFrame("StatusBar", nil, self)
+	bar:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -C.margin)
+	bar:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -C.margin)
+	bar:SetHeight(barHeight)
+
+	B.CreateSB(bar)
+	B.SmoothBar(bar)
+
+	bar.bg:SetAlpha(1)
+	bar.bg.multiplier = .25
+	bar.colorPower = true
+
+	local text = B.CreateFS(bar, 12)
+
+	self.AdditionalPower = bar
+	self.AdditionalPower.Text = text
+	self.AdditionalPower.PostUpdate = UF.PostUpdateAddPower
+	self.AdditionalPower.displayPairs = {
+		["DRUID"] = {
+			[1] = true,
+			[3] = true,
+			[8] = true,
+		},
+		["SHAMAN"] = {
+			[11] = true,
+		},
+		["PRIEST"] = {
+			[13] = true,
+		}
+	}
 end
 
 function UF.PostUpdateAltPower(element, _, cur, _, max)
 	if cur and max then
-		local perc = floor((cur/max)*100)
-		if perc < 35 then
-			element:SetStatusBarColor(0, 1, 0)
-		elseif perc < 70 then
-			element:SetStatusBarColor(1, 1, 0)
-		else
-			element:SetStatusBarColor(1, 0, 0)
-		end
+		local r, g, b = B.SmoothColor(cur, max, true)
+		element:SetStatusBarColor(r, g, b)
 	end
 end
 
@@ -1211,54 +1258,6 @@ function UF:CreatePrediction(self)
 	}
 
 	self.predicFrame = frame
-end
-
-function UF.PostUpdateAddPower(element, cur, max)
-	if element.Text and max > 0 then
-		local perc = cur/max * 100
-		if perc == 100 then
-			perc = ""
-			element:SetAlpha(0)
-		else
-			perc = format("%d%%", perc)
-			element:SetAlpha(1)
-		end
-		element.Text:SetText(perc)
-	end
-end
-
-function UF:CreateAddPower(self)
-	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -C.margin)
-	bar:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -C.margin)
-	bar:SetHeight(barHeight)
-
-	B.CreateSB(bar)
-	B.SmoothBar(bar)
-
-	bar.bg:SetAlpha(1)
-	bar.bg.multiplier = .25
-	bar.colorPower = true
-
-	local text = B.CreateFS(bar, 12, "", false, "CENTER", 1, -3)
-
-	self.AdditionalPower = bar
-	self.AdditionalPower.bg = bg
-	self.AdditionalPower.Text = text
-	self.AdditionalPower.PostUpdate = UF.PostUpdateAddPower
-	self.AdditionalPower.displayPairs = {
-		["DRUID"] = {
-			[1] = true,
-			[3] = true,
-			[8] = true,
-		},
-		["SHAMAN"] = {
-			[11] = true,
-		},
-		["PRIEST"] = {
-			[13] = true,
-		}
-	}
 end
 
 function UF:CreateSwing(self)
