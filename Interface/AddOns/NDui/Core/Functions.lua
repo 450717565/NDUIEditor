@@ -1284,6 +1284,16 @@ do
 	end
 
 	-- Handle Role Icon
+	function B:GetClassTexCoord()
+		local tcoords = CLASS_ICON_TCOORDS[self]
+		local c1 = tcoords[1] + .022
+		local c2 = tcoords[2] - .025
+		local c3 = tcoords[3] + .022
+		local c4 = tcoords[4] - .025
+
+		return c1, c2, c3, c4
+	end
+
 	function B:GetRoleTexCoord()
 		if self == "TANK" then
 			return 0.33/9.03, 2.84/9.03, 3.16/9.03, 5.67/9.03

@@ -62,10 +62,7 @@ local function Reskin_GuildRosterContainer()
 		index = offset + i
 		local name, _, _, _, _, _, _, _, _, _, classFileName = GetGuildRosterInfo(index)
 		if name and index <= visibleMembers and button.icon:IsShown() then
-			local tcoords = CLASS_ICON_TCOORDS[classFileName]
-			local c1, c2, c3, c4 = tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025
-
-			button.icon:SetTexCoord(c1, c2, c3, c4)
+			button.icon:SetTexCoord(B.GetClassTexCoord(classFileName))
 			button.icbg:Show()
 		else
 			button.icbg:Hide()

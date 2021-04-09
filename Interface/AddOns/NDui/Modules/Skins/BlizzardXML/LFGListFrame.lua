@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
-local function Reskin_AddButton(self, btnIndex)
+local function Reskin_CategorySelection(self, btnIndex)
 	local button = self.CategoryButtons[btnIndex]
 	if not button then return end
 
@@ -16,7 +16,7 @@ local function Reskin_AddButton(self, btnIndex)
 	end
 end
 
-local function Reskin_UpdateApplicant(button)
+local function Reskin_ApplicationViewer(button)
 	if not button.styled then
 		B.ReskinDecline(button.DeclineButton)
 		B.ReskinButton(button.InviteButton)
@@ -25,7 +25,7 @@ local function Reskin_UpdateApplicant(button)
 	end
 end
 
-local function Reskin_UpdateAutoComplete(self)
+local function Reskin_SearchPanel(self)
 	local AutoCompleteFrame = self.AutoCompleteFrame
 
 	for i = 1, #AutoCompleteFrame.Results do
@@ -41,13 +41,12 @@ local function Reskin_UpdateAutoComplete(self)
 	end
 end
 
-local function Reskin_LFGListSearchEntry(self)
-	local CancelButton = self.CancelButton
+local function Reskin_SearchEntry(self)
+	if not self.styled then
+		self.ExpirationTime:SetWidth(40)
+		B.ReskinDecline(self.CancelButton)
 
-	if not CancelButton.styled then
-		B.ReskinDecline(CancelButton)
-
-		CancelButton.styled = true
+		self.styled = true
 	end
 end
 
@@ -65,7 +64,7 @@ tinsert(C.XMLThemes, function()
 	local CategorySelection = LFGListFrame.CategorySelection
 	B.StripTextures(CategorySelection)
 
-	hooksecurefunc("LFGListCategorySelection_AddButton", Reskin_AddButton)
+	hooksecurefunc("LFGListCategorySelection_AddButton", Reskin_CategorySelection)
 
 	--EntryCreation
 	local EntryCreation = LFGListFrame.EntryCreation
@@ -95,7 +94,7 @@ tinsert(C.XMLThemes, function()
 		B.CreateBGFrame(header, 3, -1, 1, 1)
 	end
 
-	hooksecurefunc("LFGListApplicationViewer_UpdateApplicant", Reskin_UpdateApplicant)
+	hooksecurefunc("LFGListApplicationViewer_UpdateApplicant", Reskin_ApplicationViewer)
 
 	-- SearchPanel
 	local SearchPanel = LFGListFrame.SearchPanel
@@ -105,8 +104,8 @@ tinsert(C.XMLThemes, function()
 	SearchPanel.RefreshButton:SetSize(24, 24)
 	SearchPanel.RefreshButton.Icon:SetPoint("CENTER")
 
-	hooksecurefunc("LFGListSearchPanel_UpdateAutoComplete", Reskin_UpdateAutoComplete)
-	hooksecurefunc("LFGListSearchEntry_Update", Reskin_LFGListSearchEntry)
+	hooksecurefunc("LFGListSearchPanel_UpdateAutoComplete", Reskin_SearchPanel)
+	hooksecurefunc("LFGListSearchEntry_Update", Reskin_SearchEntry)
 
 	--LFGListApplicationDialog
 	B.ReskinFrame(LFGListApplicationDialog)

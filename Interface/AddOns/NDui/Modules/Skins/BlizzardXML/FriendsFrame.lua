@@ -2,7 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 -- 好友
-local icPatch = "Interface\\FriendsFrame\\"
+local icPatch = "Interface\\Addons\\NDui\\Media\\Other\\"
 
 local function Update_UpdateFriends()
 	for i = 1, FRIENDS_TO_DISPLAY do

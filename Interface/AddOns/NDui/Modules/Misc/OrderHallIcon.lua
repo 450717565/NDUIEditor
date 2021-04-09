@@ -28,13 +28,10 @@ function Misc:OrderHall_CreateIcon()
 	hall.Category = {}
 	Misc.OrderHallIcon = hall
 
-	local tcoords = CLASS_ICON_TCOORDS[DB.MyClass]
-	local c1, c2, c3, c4 = tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025
-
 	local Icon = hall:CreateTexture(nil, "ARTWORK")
 	Icon:SetInside()
-	Icon:SetTexture("Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES")
-	Icon:SetTexCoord(c1, c2, c3, c4)
+	Icon:SetTexture(DB.classTex)
+	Icon:SetTexCoord(B.GetClassTexCoord(DB.MyClass))
 	hall.Icon = Icon
 
 	hall:SetScript("OnEnter", Misc.OrderHall_OnEnter)

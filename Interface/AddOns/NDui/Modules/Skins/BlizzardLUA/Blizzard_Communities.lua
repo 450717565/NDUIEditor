@@ -95,10 +95,7 @@ local function Reskin_RefreshExpandedColumns(self)
 	if memberInfo and memberInfo.classID then
 		local classInfo = C_CreatureInfo.GetClassInfo(memberInfo.classID)
 		if classInfo then
-			local tcoords = CLASS_ICON_TCOORDS[classInfo.classFile]
-			local c1, c2, c3, c4 = tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025
-
-			self.Class:SetTexCoord(c1, c2, c3, c4)
+			self.Class:SetTexCoord(B.GetClassTexCoord(classInfo.classFile))
 		end
 	end
 end
@@ -192,10 +189,7 @@ local function Reskin_UpdateMemberInfo(self, info)
 
 	local classTag = select(2, GetClassInfo(info.classID))
 	if classTag then
-		local tcoords = CLASS_ICON_TCOORDS[classTag]
-		local c1, c2, c3, c4 = tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025
-
-		self.Class:SetTexCoord(c1, c2, c3, c4)
+		self.Class:SetTexCoord(B.GetClassTexCoord(classTag))
 	end
 end
 

@@ -6,7 +6,6 @@ local Infobar = B:GetModule("Infobar")
 local info = Infobar:RegisterInfobar("Gold", C.Infobar.GoldPos)
 
 local format, pairs, wipe, unpack = string.format, pairs, table.wipe, unpack
-local CLASS_ICON_TCOORDS = CLASS_ICON_TCOORDS
 local GetMoney, GetNumWatchedTokens, Ambiguate = GetMoney, GetNumWatchedTokens, Ambiguate
 local GetContainerNumSlots, GetContainerItemLink, GetItemInfo, GetContainerItemInfo, UseContainerItem = GetContainerNumSlots, GetContainerItemLink, GetItemInfo, GetContainerItemInfo, UseContainerItem
 local C_Timer_After, IsControlKeyDown, IsShiftKeyDown = C_Timer.After, IsControlKeyDown, IsShiftKeyDown
@@ -23,9 +22,9 @@ if not crossRealms or #crossRealms == 0 then
 end
 
 local function getClassIcon(class)
-	local tcoords = CLASS_ICON_TCOORDS[class]
-	local c1, c2, c3, c4 = (tcoords[1]+.03)*50, (tcoords[2]-.03)*50, (tcoords[3]+.03)*50, (tcoords[4]-.03)*50
-	local classStr = "|TInterface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes:13:15:0:0:50:50:"..c1..":"..c2..":"..c3..":"..c4.."|t "
+	local c1, c2, c3, c4 = B.GetClassTexCoord(class)
+
+	local classStr = "|TInterface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes:14:18:0:1:50:50:"..(c1*50)..":"..(c2*50)..":"..(c3*50)..":"..(c4*50).."|t "
 	return classStr or ""
 end
 

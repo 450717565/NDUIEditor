@@ -10,7 +10,7 @@ local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local infoFrame, gName, gOnline, gApps, gRank, prevTime
 
 local wipe, sort, format, select = table.wipe, table.sort, format, select
-local CLASS_ICON_TCOORDS, SELECTED_DOCK_FRAME = CLASS_ICON_TCOORDS, SELECTED_DOCK_FRAME
+local SELECTED_DOCK_FRAME = SELECTED_DOCK_FRAME
 local LEVEL_ABBR, CLASS_ABBR, NAME, ZONE, RANK, GUILDINFOTAB_APPLICANTS, REMOTE_CHAT = LEVEL_ABBR, CLASS_ABBR, NAME, ZONE, RANK, GUILDINFOTAB_APPLICANTS, REMOTE_CHAT
 local IsAltKeyDown, IsShiftKeyDown, C_Timer_After, GetTime, Ambiguate, MouseIsOver = IsAltKeyDown, IsShiftKeyDown, C_Timer.After, GetTime, Ambiguate, MouseIsOver
 local MailFrame, MailFrameTab_OnClick, SendMailNameEditBox = MailFrame, MailFrameTab_OnClick, SendMailNameEditBox
@@ -60,7 +60,7 @@ function info:GuildPanel_CreateButton(parent, index)
 	button.class = button:CreateTexture(nil, "ARTWORK")
 	button.class:SetPoint("LEFT", button, 39, 0)
 	button.class:SetSize(16, 16)
-	button.class:SetTexture("Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES")
+	button.class:SetTexture(DB.classTex)
 	B.CreateBDFrame(button.class, 0, -C.mult)
 
 	button.name = B.CreateFS(button, 13, "Name")
@@ -88,8 +88,7 @@ function info:GuildPanel_UpdateButton(button)
 	local levelcolor = B.HexRGB(GetQuestDifficultyColor(level))
 	button.level:SetText(levelcolor..level)
 
-	local tcoords = CLASS_ICON_TCOORDS[class]
-	local c1, c2, c3, c4 = tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025
+	local c1, c2, c3, c4 = B.GetClassTexCoord(class)
 	button.class:SetTexCoord(c1, c2, c3, c4)
 
 	local namecolor = B.HexRGB(B.ClassColor(class))

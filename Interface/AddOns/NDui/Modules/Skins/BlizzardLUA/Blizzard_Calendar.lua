@@ -189,11 +189,8 @@ C.LUAThemes["Blizzard_Calendar"] = function()
 		local bu = _G["CalendarClassButton"..i]
 		bu:GetRegions():Hide()
 
-		local tcoords = CLASS_ICON_TCOORDS[class]
-		local c1, c2, c3, c4 = tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025
-
 		local ic = bu:GetNormalTexture()
-		ic:SetTexCoord(c1, c2, c3, c4)
+		ic:SetTexCoord(B.GetClassTexCoord(class))
 		B.CreateBDFrame(ic, 0, -C.mult)
 	end
 

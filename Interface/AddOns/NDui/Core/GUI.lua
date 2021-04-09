@@ -361,7 +361,7 @@ GUI.DefaultSettings = {
 		ShowMarkerBar = 4,
 		BlockInvite = false,
 		NzothVision = true,
-		SendActionCD = false,
+		SendActionCD = true,
 		MawThreatBar = true,
 		MDGuildBest = true,
 		FasterSkip = false,
@@ -796,13 +796,13 @@ local function AddTextureToOption(parent, index)
 end
 
 -- Config
-local NewFeatureTag = "|TInterface\\OptionsFrame\\UI-OptionsFrame-NewFeatureIcon:0|t"
+local NewTag = "|TInterface\\OptionsFrame\\UI-OptionsFrame-NewFeatureIcon:0|t"
 
 GUI.TabList = {
 	L["ActionBar"],
 	L["Bags"],
 	L["Unitframes"],
-	NewFeatureTag..L["RaidFrame"],
+	NewTag..L["RaidFrame"],
 	L["Nameplate"],
 	L["PlayerPlate"],
 	L["Auras"],

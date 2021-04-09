@@ -192,28 +192,6 @@ do
 	hooksecurefunc("MoneyFrame_Update", resizeMoneyText)
 end
 
--- 修复预创建队伍人数和时间显示问题
-do
-	local function resizeTextWidth(self)
-		if not self.modified then
-			if self.Count then self.Count:SetWidth(25) end
-			if self.DamagerCount then self.DamagerCount:SetWidth(25) end
-			if self.ExpirationTime then self.ExpirationTime:SetWidth(40) end
-
-			self.modified = true
-		end
-	end
-
-	-- [[ Player Count ]]
-	hooksecurefunc("LFGListGroupDataDisplayPlayerCount_Update", resizeTextWidth)
-
-	-- [[ Role Count ]]
-	hooksecurefunc("LFGListGroupDataDisplayRoleCount_Update", resizeTextWidth)
-
-	-- [[ Expiration Time ]]
-	hooksecurefunc("LFGListSearchEntry_Update", resizeTextWidth)
-end
-
 -- 格式化死亡摘要
 do
 	local function formatDeathRecap(_, addon)
