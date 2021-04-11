@@ -236,11 +236,9 @@ L["Cast Success"] = "Incantation réussie"
 L["Cast Type"] = "Type d'incantation"
 L["Caster"] = "Lanceur de sort"
 L["Caster Name"] = "Nom du Lanceur de sort "
---[[Translation missing --]]
-L["Caster Realm"] = "Caster Realm"
+L["Caster Realm"] = "Royaume du Lanceur de sort"
 L["Caster Unit"] = "Unité lanceur de sort"
---[[Translation missing --]]
-L["Caster's Target"] = "Caster's Target"
+L["Caster's Target"] = "Cible du Lanceur de sort"
 L["Ceil"] = "Cellule"
 L["Center"] = "Centre"
 L["Centered Horizontal"] = "Centré horizontalement"
@@ -251,8 +249,7 @@ L["Channel (Spell)"] = "Canalisation"
 L["Character Stats"] = "Stats Personnage"
 L["Character Type"] = "Type de Personnage"
 L["Charge gained/lost"] = "Charge gagné/perdu"
---[[Translation missing --]]
-L["Charged Combo Point"] = "Charged Combo Point"
+L["Charged Combo Point"] = "Points de combo chargés"
 L["Charges"] = "Charges"
 --[[Translation missing --]]
 L["Charges Changed Event"] = "Charges Changed Event"
@@ -385,8 +382,7 @@ L["Ease In"] = "Ease In"
 L["Ease In and Out"] = "Ease In and Out"
 --[[Translation missing --]]
 L["Ease Out"] = "Ease Out"
---[[Translation missing --]]
-L["Ebonroc"] = "Ebonroc"
+L["Ebonroc"] = "Rochébène"
 L["Edge"] = "Marge"
 --[[Translation missing --]]
 L["Edge of Madness"] = "Edge of Madness"
@@ -395,18 +391,12 @@ L["Elide"] = "Elider"
 L["Elite"] = "Elite"
 L["Emote"] = "Emote"
 L["Empty"] = "Vide"
---[[Translation missing --]]
-L["Enchant Applied"] = "Enchant Applied"
---[[Translation missing --]]
-L["Enchant Found"] = "Enchant Found"
---[[Translation missing --]]
-L["Enchant Missing"] = "Enchant Missing"
---[[Translation missing --]]
-L["Enchant Name or ID"] = "Enchant Name or ID"
---[[Translation missing --]]
-L["Enchant Removed"] = "Enchant Removed"
---[[Translation missing --]]
-L["Enchanted"] = "Enchanted"
+L["Enchant Applied"] = "Enchantement appliqué"
+L["Enchant Found"] = "Enchantement présent"
+L["Enchant Missing"] = "Enchantement manquant"
+L["Enchant Name or ID"] = "Nom ou ID de l'Enchantement"
+L["Enchant Removed"] = "Enchantement retiré"
+L["Enchanted"] = "Enchanté"
 L["Encounter ID(s)"] = "ID de la Rencontre"
 L["Energize"] = "Gain d'énergie"
 L["Enrage"] = "Enrager"
@@ -423,8 +413,7 @@ L["Equipment Set Equipped"] = "Ensemble d'Equipement Équipé"
 L["Equipment Slot"] = "Emplacement d'équipement"
 L["Equipped"] = "Équipé "
 L["Error"] = "Erreur"
---[[Translation missing --]]
-L["Error Frame"] = "Error Frame"
+L["Error Frame"] = "Fenêtre d'erreur"
 L["Error not receiving display information from %s"] = "Erreur de non-réception d'informations d'affichage de %s"
 --[[Translation missing --]]
 L[ [=['ERROR: Anchoring %s': 
@@ -434,19 +423,15 @@ L["Evade"] = "Evite"
 L["Event"] = "Evènement"
 L["Event(s)"] = "Evènement(s)"
 L["Every Frame"] = "Chaque image"
---[[Translation missing --]]
-L["Every Frame (High CPU usage)"] = "Every Frame (High CPU usage)"
+L["Every Frame (High CPU usage)"] = "Chaque image (utilisation importante du CPU)"
 L["Experience (%)"] = "Expérience (%)"
 L["Extend Outside"] = "Étendre à l'extérieur"
 L["Extra Amount"] = "Quantité extra"
 L["Extra Attacks"] = "Attaque extra"
 L["Extra Spell Name"] = "Nom de Sort supplémentaire"
---[[Translation missing --]]
 L["Faction"] = "Faction"
---[[Translation missing --]]
-L["Faction Name"] = "Faction Name"
---[[Translation missing --]]
-L["Faction Reputation"] = "Faction Reputation"
+L["Faction Name"] = "Nom de la Faction"
+L["Faction Reputation"] = "Réputation envers la Faction"
 L["Fade In"] = "Fondu entrant"
 L["Fade Out"] = "Fondu sortant"
 L["Fail Alert"] = "Alerte d'échec"
@@ -464,8 +449,7 @@ L["Fetches the name and icon of the Legendary Power that matches this bonus id."
 --[[Translation missing --]]
 L["Filter messages with format <message>"] = "Filter messages with format <message>"
 L["Fire Resistance"] = "Résistance au feu"
---[[Translation missing --]]
-L["Firemaw"] = "Firemaw"
+L["Firemaw"] = "Gueule-de-feu"
 L["First"] = "Premier"
 L["First Value of Tooltip Text"] = "Première Valeur du Texte de l'Info-bulle"
 L["Fixed"] = "Fixé"
@@ -579,12 +563,10 @@ L["Icon"] = "Icône"
 L["If you require additional assistance, please open a ticket on GitHub or visit our Discord at https://discord.gg/weakauras!"] = "If you require additional assistance, please open a ticket on GitHub or visit our Discord at https://discord.gg/weakauras!"
 --[[Translation missing --]]
 L["Ignore Dead"] = "Ignore Dead"
---[[Translation missing --]]
-L["Ignore Disconnected"] = "Ignore Disconnected"
+L["Ignore Disconnected"] = "Ignorer les déconnectés"
 L["Ignore Rune CD"] = "Ignorer le CoolDown des runes"
 L["Ignore Rune CDs"] = "Ignorer les CoolDowns des runes"
---[[Translation missing --]]
-L["Ignore Self"] = "Ignore Self"
+L["Ignore Self"] = "Ignorer soi-même"
 L["Immune"] = "Insensible"
 L["Import"] = "Importer"
 L["Import as Copy"] = "Importer en tant que Copie"
@@ -776,8 +758,7 @@ L["Mythic Keystone"] = "Mythic Keystone"
 L["Mythic+ Affix"] = "Affixe de Mythique +"
 L["Name"] = "Nom"
 L["Name of Caster's Target"] = "Nom de la cible du lanceur"
---[[Translation missing --]]
-L["Name/Realm of Caster's Target"] = "Name/Realm of Caster's Target"
+L["Name/Realm of Caster's Target"] = "Nom/Royaume de la Cible du Lanceur de sort"
 L["Nameplate"] = "Barre de vie"
 --[[Translation missing --]]
 L["Nameplate Type"] = "Nameplate Type"
@@ -844,30 +825,24 @@ L["Onyxia"] = "Onyxia"
 --[[Translation missing --]]
 L["Onyxia's Lair"] = "Onyxia's Lair"
 L["Opaque"] = "Opaque"
---[[Translation missing --]]
-L["Option Group"] = "Option Group"
+L["Option Group"] = "Groupe d'options"
 L["Options will finish loading after combat ends."] = "Les options finiront de se charger après la fin du combat."
---[[Translation missing --]]
-L["Options will open after the login process has completed."] = "Options will open after the login process has completed."
+L["Options will open after the login process has completed."] = "Les options s'ouvriront après la fin du chargement."
 L["Orbit"] = "Orbite"
 L["Orientation"] = "Orientation"
 --[[Translation missing --]]
 L["Ossirian the Unscarred"] = "Ossirian the Unscarred"
---[[Translation missing --]]
-L["Other Addons"] = "Other Addons"
---[[Translation missing --]]
-L["Other Events"] = "Other Events"
+L["Other Addons"] = "Autre Addons"
+L["Other Events"] = "Autre Événements"
 --[[Translation missing --]]
 L["Ouro"] = "Ouro"
 L["Outline"] = "Contour"
 L["Overhealing"] = "Soin en excès"
 L["Overkill"] = "Dégâts en excès"
-L["Overlay %s"] = "Superposition %s"
---[[Translation missing --]]
-L["Overlay Charged Combo Points"] = "Overlay Charged Combo Points"
-L["Overlay Cost of Casts"] = "Intégrer le coût des incantations"
---[[Translation missing --]]
-L["Overlay Latency"] = "Overlay Latency"
+L["Overlay %s"] = "Superposer %s"
+L["Overlay Charged Combo Points"] = "Superposer les Points de combo chargés"
+L["Overlay Cost of Casts"] = "Superposer le coût des incantations"
+L["Overlay Latency"] = "Superposer la Latence"
 L["Parry"] = "Parade"
 L["Parry (%)"] = "Parade (%)"
 L["Parry Rating"] = "Score de parade"
@@ -965,16 +940,16 @@ L["Range Check"] = "Vérification de la portée"
 L["Rare"] = "Rare"
 --[[Translation missing --]]
 L["Rare Elite"] = "Rare Elite"
+L["Rated Arena"] = "Arène Coté"
+L["Rated Battleground"] = "Champ de bataille Coté"
 --[[Translation missing --]]
 L["Raw Threat Percent"] = "Raw Threat Percent"
 --[[Translation missing --]]
 L["Razorgore the Untamed"] = "Razorgore the Untamed"
 L["Ready Check"] = "Appel de Raid"
 L["Realm"] = "Royaume"
---[[Translation missing --]]
-L["Realm Name"] = "Realm Name"
---[[Translation missing --]]
-L["Realm of Caster's Target"] = "Realm of Caster's Target"
+L["Realm Name"] = "Nom du Royaume"
+L["Realm of Caster's Target"] = "Royaume de la Cible du Lanceur de sort"
 L["Receiving display information"] = "Réception d'information de graphique de %s..."
 L["Reflect"] = "Renvoi"
 L["Region type %s not supported"] = "Région de type %s non supporté"
@@ -1081,8 +1056,7 @@ L["Show GCD"] = "Afficher GCD"
 L["Show Global Cooldown"] = "Afficher le Temps de Recharge Global"
 L["Show Incoming Heal"] = "Afficher les Soins en Cours"
 L["Show On"] = "Afficher Sur"
---[[Translation missing --]]
-L["Show Rested Overlay"] = "Show Rested Overlay"
+L["Show Rested Overlay"] = "Superposer l'XP en reposé"
 L["Shrink"] = "Rétrécir"
 --[[Translation missing --]]
 L["Silithid Royalty"] = "Silithid Royalty"
@@ -1144,7 +1118,7 @@ L["Specific Type"] = "Specific Type"
 L["Specific Unit"] = "Unité spécifique"
 L["Spell"] = "Sort"
 L["Spell (Building)"] = "Sort (croissant)"
-L["Spell Activation Overlay Glow"] = "Superposition de la surbrillance d'activation des sorts"
+L["Spell Activation Overlay Glow"] = "Surbrillance pendant que le sort est actif"
 L["Spell Cost"] = "Coût des sorts"
 --[[Translation missing --]]
 L["Spell Count"] = "Spell Count"

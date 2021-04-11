@@ -9,6 +9,9 @@ local Misc = B:GetModule("Misc")
 	3.自动隐藏部分窗口
 ]]
 
+local wipe, sort = wipe, sort
+local C_Timer_After = C_Timer.After
+
 function Misc:HookApplicationClick()
 	if LFGListFrame.SearchPanel.SignUpButton:IsEnabled() then
 		LFGListFrame.SearchPanel.SignUpButton:Click()
@@ -32,7 +35,7 @@ end
 
 function Misc:HookDialogOnShow()
 	pendingFrame = self
-	C_Timer.After(1, Misc.DialogHideInSecond)
+	C_Timer_After(1, Misc.DialogHideInSecond)
 end
 
 function Misc:QuickJoin()
@@ -44,7 +47,7 @@ function Misc:QuickJoin()
 	end
 
 	hooksecurefunc("LFGListInviteDialog_Accept", function()
-		if PVEFrame:IsShown() then HideUIPanel(PVEFrame) end
+		if PVEFrame:IsShown() then PVEFrame:Hide() end
 	end)
 
 	hooksecurefunc("StaticPopup_Show", Misc.HookDialogOnShow)

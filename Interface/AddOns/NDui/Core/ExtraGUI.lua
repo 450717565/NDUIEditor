@@ -926,9 +926,9 @@ function GUI:SetupRaidFrame(parent)
 				if C.db["UFs"]["SimpleMode"] then
 					local scale = C.db["UFs"]["SimpleRaidScale"]/10
 					local frameWidth = 100*scale
-					local frameHeight = 20*scale
+					local healthHeight = 20*scale
 					local powerHeight = 2*scale
-					local healthHeight = frameHeight - powerHeight
+					local frameHeight = healthHeight + powerHeight + C.mult
 					frame:SetSize(frameWidth, frameHeight)
 					frame.Health:SetHeight(healthHeight)
 					frame.Power:SetHeight(powerHeight)
@@ -939,7 +939,7 @@ function GUI:SetupRaidFrame(parent)
 		end
 	end
 	createOptionGroup(scroll.child, L["RaidFrame"], -10, "Raid", resizeRaidFrame)
-	createOptionSlider(scroll.child, DB.MyColor..L["SimpleMode Scale"], 8, 15, 10, 30, -280, "SimpleRaidScale", resizeRaidFrame)
+	createOptionSlider(scroll.child, DB.MyColor..L["SimpleMode Scale"], 5, 15, 10, 30, -280, "SimpleRaidScale", resizeRaidFrame)
 
 	local function resizePartyFrame()
 		for _, frame in pairs(ns.oUF.objects) do

@@ -145,8 +145,7 @@ function UF:CreateHealthBar(self)
 		elseif self.isPartyPet then
 			healthHeight = C.db["UFs"]["PartyPetHeight"]
 		elseif C.db["UFs"]["SimpleMode"] then
-			local scale = C.db["UFs"]["SimpleRaidScale"]/10
-			healthHeight = 20*scale - 2*scale - C.mult
+			healthHeight = 20*C.db["UFs"]["SimpleRaidScale"]/10
 		else
 			healthHeight = C.db["UFs"]["RaidHeight"]
 		end

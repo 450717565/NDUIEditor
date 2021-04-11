@@ -137,7 +137,7 @@ function Misc:KeystoneInfo_WeeklyRuns()
 	local numRuns = runHistory and #runHistory
 	if numRuns > 0 then
 		GameTooltip:AddLine(" ")
-		GameTooltip:AddDoubleLine(format(WEEKLY_REWARDS_MYTHIC_TOP_RUNS, WeeklyRunsThreshold), numRuns, nil,nil,nil, 1,1,1)
+		GameTooltip:AddDoubleLine(format(WEEKLY_REWARDS_MYTHIC_TOP_RUNS, WeeklyRunsThreshold), numRuns, 1,1,1, .6,.8,1)
 		sort(runHistory, sortHistory)
 
 		for i = 1, WeeklyRunsThreshold do
@@ -147,7 +147,7 @@ function Misc:KeystoneInfo_WeeklyRuns()
 			local name = C_ChallengeMode_GetMapUIInfo(runInfo.mapChallengeModeID)
 			local r,g,b = 0,1,0
 			if not runInfo.completed then r,g,b = 1,0,0 end
-			GameTooltip:AddDoubleLine(name, "Lv."..runInfo.level, .6,.8,1, r,g,b)
+			GameTooltip:AddDoubleLine(name, "Lv."..runInfo.level, nil,nil,nil, r,g,b)
 		end
 		GameTooltip:Show()
 	end

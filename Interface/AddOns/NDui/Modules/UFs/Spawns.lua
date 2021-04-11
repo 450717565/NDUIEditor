@@ -202,18 +202,23 @@ end
 
 -- Spawns
 function UF:OnLogin()
-	local horizonRaid = C.db["UFs"]["HorizonRaid"]
-	local horizonParty = C.db["UFs"]["HorizonParty"]
+	local showTeamIndex = C.db["UFs"]["ShowTeamIndex"]
 	local numGroups = C.db["UFs"]["NumGroups"]
-	local scale = C.db["UFs"]["SimpleRaidScale"]/10
+	local reverseRaid = C.db["UFs"]["ReverseRaid"]
+	local horizonRaid = C.db["UFs"]["HorizonRaid"]
+	local raidScale = C.db["UFs"]["SimpleRaidScale"]/10
 	local raidWidth, raidHeight = C.db["UFs"]["RaidWidth"], C.db["UFs"]["RaidHeight"]
-	local reverse = C.db["UFs"]["ReverseRaid"]
+
+	local showSolo = C.db["UFs"]["ShowSolo"]
+	local horizonParty = C.db["UFs"]["HorizonParty"]
 	local showPartyFrame = C.db["UFs"]["PartyFrame"]
 	local partyWidth, partyHeight = C.db["UFs"]["PartyWidth"], C.db["UFs"]["PartyHeight"]
 	local showPartyPetFrame = C.db["UFs"]["PartyPetFrame"]
 	local petWidth, petHeight = C.db["UFs"]["PartyPetWidth"], C.db["UFs"]["PartyPetHeight"]
-	local showTeamIndex = C.db["UFs"]["ShowTeamIndex"]
-	local showSolo = C.db["UFs"]["ShowSolo"]
+
+	local offset = C.margin
+	local xOffset = showTeamIndex and 30 or 20
+	local yOffset = showTeamIndex and -50 or -40
 
 	if C.db["Nameplate"]["Enable"] then
 		UF:SetupCVars()
@@ -323,10 +328,9 @@ function UF:OnLogin()
 			oUF:RegisterStyle("Party", CreatePartyStyle)
 			oUF:SetActiveStyle("Party")
 
-			local xOffset, yOffset = 5, 5
-			local partyFrameHeight = partyHeight + C.db["UFs"]["PartyPowerHeight"]
-			local moverWidth = horizonParty and (partyWidth*5+xOffset*4) or partyWidth
-			local moverHeight = horizonParty and partyFrameHeight or (partyFrameHeight*5+yOffset*4)
+			local partyFrameHeight = partyHeight + C.db["UFs"]["PartyPowerHeight"] + C.mult
+			local moverWidth = horizonParty and (partyWidth*5+offset*4) or partyWidth
+			local moverHeight = horizonParty and partyFrameHeight or (partyFrameHeight*5+offset*4)
 			local groupingOrder = horizonParty and "TANK,HEALER,DAMAGER,NONE" or "NONE,DAMAGER,HEALER,TANK"
 
 			local party = oUF:SpawnHeader("oUF_Party", nil, "solo,party",
@@ -334,16 +338,16 @@ function UF:OnLogin()
 			"showSolo", showSolo,
 			"showParty", true,
 			"showRaid", false,
-			"xoffset", xOffset,
-			"yOffset", yOffset,
+			"xOffset", offset,
+			"yOffset", offset,
 			"groupingOrder", groupingOrder,
 			"groupBy", "ASSIGNEDROLE",
 			"sortMethod", "NAME",
 			"point", horizonParty and "LEFT" or "BOTTOM",
 			"columnAnchorPoint", "LEFT",
 			"oUF-initialConfigFunction", ([[
-			self:SetWidth(%d)
-			self:SetHeight(%d)
+			self:SetWidth(%s)
+			self:SetHeight(%s)
 			]]):format(partyWidth, partyFrameHeight))
 
 			partyMover = B.Mover(party, L["PartyFrame"], "PartyFrame", {"LEFT", UIParent, 350, 70}, moverWidth, moverHeight)
@@ -354,22 +358,22 @@ function UF:OnLogin()
 				oUF:RegisterStyle("PartyPet", CreatePartyPetStyle)
 				oUF:SetActiveStyle("PartyPet")
 
-				local petFrameHeight = petHeight + C.db["UFs"]["PartyPetPowerHeight"]
-				local petMoverWidth = horizonParty and (petWidth*5+xOffset*4) or petWidth
-				local petMoverHeight = horizonParty and petFrameHeight or (petFrameHeight*5+yOffset*4)
+				local petFrameHeight = petHeight + C.db["UFs"]["PartyPetPowerHeight"] + C.mult
+				local petMoverWidth = horizonParty and (petWidth*5+offset*4) or petWidth
+				local petMoverHeight = horizonParty and petFrameHeight or (petFrameHeight*5+offset*4)
 
 				local partyPet = oUF:SpawnHeader("oUF_PartyPet", nil, "solo,party",
 				"showPlayer", true,
 				"showSolo", showSolo,
 				"showParty", true,
 				"showRaid", false,
-				"xoffset", xOffset,
-				"yOffset", yOffset,
+				"xOffset", offset,
+				"yOffset", offset,
 				"point", horizonParty and "LEFT" or "BOTTOM",
 				"columnAnchorPoint", "LEFT",
 				"oUF-initialConfigFunction", ([[
-				self:SetWidth(%d)
-				self:SetHeight(%d)
+				self:SetWidth(%s)
+				self:SetHeight(%s)
 				self:SetAttribute("unitsuffix", "pet")
 				]]):format(petWidth, petFrameHeight))
 
@@ -387,6 +391,7 @@ function UF:OnLogin()
 		if C.db["UFs"]["SimpleMode"] then
 			local unitsPerColumn = C.db["UFs"]["SMUnitsPerColumn"]
 			local maxColumns = B.Round(numGroups*5 / unitsPerColumn)
+			local width, height = 100*raidScale, 20*raidScale + 2*raidScale + C.mult
 
 			local function CreateGroup(name, i)
 				local group = oUF:SpawnHeader(name, nil, "solo,party,raid",
@@ -394,8 +399,8 @@ function UF:OnLogin()
 				"showSolo", showSolo and not showPartyFrame,
 				"showParty", not showPartyFrame,
 				"showRaid", true,
-				"xoffset", 5,
-				"yOffset", -5,
+				"xOffset", offset,
+				"yOffset", -offset,
 				"groupFilter", tostring(i),
 				"maxColumns", maxColumns,
 				"unitsPerColumn", unitsPerColumn,
@@ -403,9 +408,10 @@ function UF:OnLogin()
 				"point", "TOP",
 				"columnAnchorPoint", "LEFT",
 				"oUF-initialConfigFunction", ([[
-				self:SetWidth(%d)
-				self:SetHeight(%d)
-				]]):format(100*scale, 20*scale))
+				self:SetWidth(%s)
+				self:SetHeight(%s)
+				]]):format(width, height))
+
 				return group
 			end
 
@@ -423,8 +429,8 @@ function UF:OnLogin()
 			end
 
 			local group = CreateGroup("oUF_Raid", groupFilter)
-			local moverWidth = (100*scale*maxColumns + 5*(maxColumns-1))
-			local moverHeight = 20*scale*unitsPerColumn + 5*(unitsPerColumn-1)
+			local moverWidth = 100*raidScale*maxColumns + offset*(maxColumns-1)
+			local moverHeight = 20*raidScale*unitsPerColumn + offset*(unitsPerColumn-1)
 			raidMover = B.Mover(group, L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 20, -40}, moverWidth, moverHeight)
 
 			local groupByTypes = {
@@ -440,7 +446,7 @@ function UF:OnLogin()
 			end
 			UF:UpdateSimpleModeHeader()
 		else
-			local raidFrameHeight = raidHeight + C.db["UFs"]["RaidPowerHeight"]
+			local raidFrameHeight = raidHeight + C.db["UFs"]["RaidPowerHeight"] + C.mult
 
 			local function CreateGroup(name, i)
 				local group = oUF:SpawnHeader(name, nil, "solo,party,raid",
@@ -448,8 +454,8 @@ function UF:OnLogin()
 				"showSolo", showSolo and not showPartyFrame,
 				"showParty", not showPartyFrame,
 				"showRaid", true,
-				"xoffset", 5,
-				"yOffset", -5,
+				"xOffset", offset,
+				"yOffset", -offset,
 				"groupFilter", tostring(i),
 				"groupingOrder", "1,2,3,4,5,6,7,8",
 				"groupBy", "GROUP",
@@ -460,9 +466,10 @@ function UF:OnLogin()
 				"point", horizonRaid and "LEFT" or "TOP",
 				"columnAnchorPoint", "LEFT",
 				"oUF-initialConfigFunction", ([[
-				self:SetWidth(%d)
-				self:SetHeight(%d)
+				self:SetWidth(%s)
+				self:SetHeight(%s)
 				]]):format(raidWidth, raidFrameHeight))
+
 				return group
 			end
 
@@ -471,30 +478,30 @@ function UF:OnLogin()
 				groups[i] = CreateGroup("oUF_Raid"..i, i)
 				if i == 1 then
 					if horizonRaid then
-						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 20, -40}, (raidWidth+5)*5-5, (raidFrameHeight+(showTeamIndex and 20 or 5))*numGroups - (showTeamIndex and 20 or 5))
-						if reverse then
+						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, xOffset, yOffset}, (raidWidth+offset)*5-offset, (raidFrameHeight+offset)*numGroups - offset)
+						if reverseRaid then
 							groups[i]:ClearAllPoints()
 							groups[i]:SetPoint("BOTTOMLEFT", raidMover)
 						end
 					else
-						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, 20, -40}, (raidWidth+5)*numGroups-5, (raidFrameHeight+5)*5-5)
-						if reverse then
+						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, xOffset, yOffset}, (raidWidth+offset)*numGroups-offset, (raidFrameHeight+offset)*5-offset)
+						if reverseRaid then
 							groups[i]:ClearAllPoints()
 							groups[i]:SetPoint("TOPRIGHT", raidMover)
 						end
 					end
 				else
 					if horizonRaid then
-						if reverse then
-							groups[i]:SetPoint("BOTTOMLEFT", groups[i-1], "TOPLEFT", 0, showTeamIndex and 20 or 5)
+						if reverseRaid then
+							groups[i]:SetPoint("BOTTOMLEFT", groups[i-1], "TOPLEFT", 0, offset)
 						else
-							groups[i]:SetPoint("TOPLEFT", groups[i-1], "BOTTOMLEFT", 0, showTeamIndex and -20 or -5)
+							groups[i]:SetPoint("TOPLEFT", groups[i-1], "BOTTOMLEFT", 0, -offset)
 						end
 					else
-						if reverse then
-							groups[i]:SetPoint("TOPRIGHT", groups[i-1], "TOPLEFT", -5, 0)
+						if reverseRaid then
+							groups[i]:SetPoint("TOPRIGHT", groups[i-1], "TOPLEFT", -offset, 0)
 						else
-							groups[i]:SetPoint("TOPLEFT", groups[i-1], "TOPRIGHT", 5, 0)
+							groups[i]:SetPoint("TOPLEFT", groups[i-1], "TOPRIGHT", offset, 0)
 						end
 					end
 				end
@@ -502,9 +509,12 @@ function UF:OnLogin()
 				if showTeamIndex then
 					local parent = _G["oUF_Raid"..i.."UnitButton1"]
 					if parent then
-						local teamIndex = B.CreateFS(parent, 12, format(GROUP_NUMBER, i))
+						local point = {"BOTTOM", parent, "TOP", 0, offset}
+						if horizonRaid then point = {"RIGHT", parent, "LEFT", -offset, 0} end
+
+						local teamIndex = B.CreateFS(parent, 12, "T."..i)
 						teamIndex:ClearAllPoints()
-						teamIndex:SetPoint("BOTTOMLEFT", parent, "TOPLEFT", 0, 5)
+						teamIndex:SetPoint(unpack(point))
 						teamIndex:SetTextColor(.6, .8, 1)
 					end
 				end

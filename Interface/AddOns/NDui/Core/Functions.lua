@@ -773,6 +773,7 @@ do
 	function B:CreateBGFrame(x, y, x2, y2, frame)
 		local bg = B.CreateBDFrame(self)
 		bg:ClearAllPoints()
+
 		if frame then
 			bg:Point("TOPLEFT", frame, "TOPRIGHT", x, y)
 			bg:Point("BOTTOM", frame, "BOTTOM", 0, y2)

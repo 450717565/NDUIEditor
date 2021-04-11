@@ -758,6 +758,10 @@ L["Range"] = "Дальний бой"
 L["Range Check"] = "Проверка дистанции"
 L["Rare"] = "Редкий"
 L["Rare Elite"] = "Редкий элитный"
+--[[Translation missing --]]
+L["Rated Arena"] = "Rated Arena"
+--[[Translation missing --]]
+L["Rated Battleground"] = "Rated Battleground"
 L["Raw Threat Percent"] = "Исходный процент угрозы"
 L["Razorgore the Untamed"] = "Бритвосмерт Неукротимый"
 L["Ready Check"] = "Проверка готовности"
