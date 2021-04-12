@@ -26,7 +26,6 @@ function EX:OnLogin()
 	self:ChatRaidIndex()
 	self:GlobalFade()
 	self:KeystoneHelper()
-	self:LFGListEnhance()
 	self:MountSource()
 end
 

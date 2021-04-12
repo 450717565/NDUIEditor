@@ -29,8 +29,8 @@ C.LUAThemes["Blizzard_GMChatUI"] = function()
 
 	local lang = GMChatFrameEditBoxLanguage
 	lang:GetRegions():SetAlpha(0)
-	lang:SetPoint("TOPLEFT", edit, "TOPRIGHT", C.margin, 0)
-	lang:SetPoint("BOTTOMRIGHT", edit, "BOTTOMRIGHT", edit:GetHeight()+C.margin, 0)
+	lang:SetPoint("TOPLEFT", edit, "TOPRIGHT", C.offset, 0)
+	lang:SetPoint("BOTTOMRIGHT", edit, "BOTTOMRIGHT", edit:GetHeight()+C.offset, 0)
 	B.CreateBG(lang)
 
 	local tab = GMChatTab

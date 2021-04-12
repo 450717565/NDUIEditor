@@ -20,7 +20,7 @@ function Auras:PostCreateLumos(self)
 
 	local iconSize = (self:GetWidth() - 10 + 2*C.mult)/6
 	local buttons = {}
-	local offset = C.db["Nameplate"]["NameplateClassPower"] and C.margin or (C.margin*2 + C.db["Nameplate"]["PPBarHeight"])
+	local offset = C.db["Nameplate"]["NameplateClassPower"] and C.offset or (C.offset*2 + C.db["Nameplate"]["PPBarHeight"])
 	for i = 1, 6 do
 		local bu = CreateFrame("Frame", nil, self.Health)
 		bu:SetSize(iconSize, iconSize/2)

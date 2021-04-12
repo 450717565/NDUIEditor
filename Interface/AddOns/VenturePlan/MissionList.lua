@@ -154,20 +154,20 @@ local function ConfigureMission(me, mi, isAvailable, haveSpareCompanions, availA
 	me:Show()
 end
 local function cmpMissionInfo(a,b)
-	local ac, bc = a.timeLeftSeconds, b.timeLeftSeconds
+	local ac, bc = a.completed or a.timeLeftSeconds == 0, b.completed or b.timeLeftSeconds == 0
+	if ac ~= bc then
+		return ac
+	end
+	ac, bc = a.timeLeftSeconds, b.timeLeftSeconds
 	if (not ac) ~= (not bc) then
 		return not ac
 	end
 	if ac ~= bc then
 		return ac < bc
 	end
-	ac, bc = a.hasPendingStart, b.hasPendingStart
-	if ac ~= bc then
-		return bc
-	end
 	ac, bc = a.hasTentativeGroup, b.hasTentativeGroup
 	if ac ~= bc then
-		return bc
+		return ac
 	end
 	ac, bc = a.sortGroup, b.sortGroup
 	if ac ~= bc then

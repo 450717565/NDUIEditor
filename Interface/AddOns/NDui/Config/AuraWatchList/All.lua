@@ -230,6 +230,7 @@ local list = {
 		-- 5人本
 		{AuraID = 324092, UnitID = "player", Flash = true},	-- 赤红，闪耀光辉
 		{AuraID = 328737, UnitID = "player", Flash = true},	-- 赤红，光辉残片
+		{AuraID = 335161, UnitID = "player"},	-- 通灵战潮，残存心能
 	},
 	["Raid Debuff"] = {		-- 团队减益组
 		-- 大幻象
@@ -259,7 +260,6 @@ local list = {
 		{AuraID = 328181, UnitID = "player"},	-- 通灵战潮，凌冽之寒
 		{AuraID = 327397, UnitID = "player"},	-- 通灵战潮，严酷命运
 		{AuraID = 322681, UnitID = "player"},	-- 通灵战潮，肉钩
-		{AuraID = 335161, UnitID = "player"},	-- 通灵战潮，残存心能
 		{AuraID = 345323, UnitID = "player", Flash = true},	-- 通灵战潮，勇士之赐
 		{AuraID = 322746, UnitID = "player"},	-- 彼界，堕落之血
 		{AuraID = 323692, UnitID = "player"},	-- 彼界，奥术易伤

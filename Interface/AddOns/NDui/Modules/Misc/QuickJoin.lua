@@ -11,6 +11,8 @@ local Misc = B:GetModule("Misc")
 
 local wipe, sort = wipe, sort
 local C_Timer_After = C_Timer.After
+local C_LFGList_GetSearchResultMemberInfo = C_LFGList.GetSearchResultMemberInfo
+local LFG_LIST_GROUP_DATA_ATLASES = LFG_LIST_GROUP_DATA_ATLASES
 
 function Misc:HookApplicationClick()
 	if LFGListFrame.SearchPanel.SignUpButton:IsEnabled() then
@@ -38,19 +40,138 @@ function Misc:HookDialogOnShow()
 	C_Timer_After(1, Misc.DialogHideInSecond)
 end
 
-function Misc:QuickJoin()
-	for i = 1, 10 do
-		local bu = _G["LFGListSearchPanelScrollFrameButton"..i]
-		if bu then
-			bu:HookScript("OnDoubleClick", Misc.HookApplicationClick)
+function Misc:HookInviteDialog()
+	if PVEFrame:IsShown() then HideUIPanel(PVEFrame) end
+end
+
+-- 搜索列表显示职业和职责图标
+
+local roleCache = {}
+local roleOrder = {
+	["TANK"] = 1,
+	["HEALER"] = 2,
+	["DAMAGER"] = 3,
+	["NONE"] = 3,
+}
+local roleAtlas = {
+	[1] = "Soulbinds_Tree_Conduit_Icon_Protect",
+	[2] = "ui_adv_health",
+	[3] = "ui_adv_atk",
+}
+
+local function SortRoleOrder(a, b)
+	if a and b then
+		return a[1] < b[1]
+	end
+end
+
+local function UpdateGroupRoles(self)
+	wipe(roleCache)
+
+	if self.resultID then
+		for i = 1, 5 do
+			local role, class = C_LFGList_GetSearchResultMemberInfo(self.resultID, i)
+			local roleIndex = role and roleOrder[role]
+			if class and roleIndex then
+				tinsert(roleCache, {roleIndex, class})
+			end
+		end
+	elseif self == LFGListFrame.ApplicationViewer then
+		for i = 1, 5 do
+			local class, _, _, _, _, _, role = select(6, GetRaidRosterInfo(i))
+			local roleIndex = role and roleOrder[role]
+			if class and roleIndex then
+				tinsert(roleCache, {roleIndex, class})
+			end
 		end
 	end
 
-	hooksecurefunc("LFGListInviteDialog_Accept", function()
-		if PVEFrame:IsShown() then PVEFrame:Hide() end
-	end)
+	sort(roleCache, SortRoleOrder)
+end
+
+function Misc:ReplaceGroupRoles(numPlayers, _, disabled)
+	local button = self:GetParent():GetParent()
+	if not button then return end
+
+	UpdateGroupRoles(button)
+
+	for i = 1, 5 do
+		local icon = self.Icons[i]
+		if not icon.icbg then
+			icon.icbg = B.CreateBDFrame(icon, 0, -C.mult)
+
+			icon:SetSize(18, 18)
+			icon:ClearAllPoints()
+			if i == 1 then
+				icon:SetPoint("RIGHT", self, "RIGHT", -10, 0)
+			else
+				icon:SetPoint("RIGHT", self.Icons[i-1], "LEFT", -4, 0)
+			end
+		end
+
+		if not icon.role then
+			icon.role = self:CreateTexture(nil, "OVERLAY")
+			icon.role:SetSize(18, 18)
+			icon.role:SetPoint("CENTER", icon, "TOP")
+		end
+
+		icon.icbg:SetAlpha(1)
+		icon.role:SetDesaturated(disabled)
+	end
+
+	local iconIndex = numPlayers
+	for i = 1, #roleCache do
+		local roleInfo = roleCache[i]
+		if roleInfo then
+			local icon = self.Icons[iconIndex]
+			local role, class = roleInfo[1], roleInfo[2]
+			icon:SetTexture(DB.classTex)
+			icon:SetTexCoord(B.GetClassTexCoord(class))
+			icon.role:SetAtlas(roleAtlas[role])
+
+			iconIndex = iconIndex - 1
+		end
+	end
+
+	for i = 1, iconIndex do
+		self.Icons[i]:SetTexture(nil)
+		self.Icons[i].icbg:SetAlpha(0)
+		self.Icons[i].role:SetAtlas(nil)
+	end
+end
+
+local function HandleMeetingStone()
+	if IsAddOnLoaded("MeetingStone") or IsAddOnLoaded("MeetingStonePlus") then
+		local NetEaseEnv = LibStub("NetEaseEnv-1.0")
+
+		for k in pairs(NetEaseEnv._NSInclude) do
+			if type(k) == "table" then
+				local module = k.Addon and k.Addon.GetClass and k.Addon:GetClass("MemberDisplay")
+				if module and module.SetActivity then
+					local original = module.SetActivity
+					module.SetActivity = function(self, activity)
+						self.resultID = activity and activity.GetID and activity:GetID() or nil
+						original(self, activity)
+					end
+				end
+			end
+		end
+	end
+end
+
+function Misc:QuickJoin()
+	for i = 1, 10 do
+		local button = _G["LFGListSearchPanelScrollFrameButton"..i]
+		if button then
+			button:HookScript("OnDoubleClick", Misc.HookApplicationClick)
+		end
+	end
 
 	hooksecurefunc("StaticPopup_Show", Misc.HookDialogOnShow)
 	hooksecurefunc("LFGListInviteDialog_Show", Misc.HookDialogOnShow)
+	hooksecurefunc("LFGListInviteDialog_Accept", Misc.HookInviteDialog)
+
+	HandleMeetingStone()
+	hooksecurefunc("LFGListGroupDataDisplayEnumerate_Update", Misc.ReplaceGroupRoles)
 end
 Misc:RegisterMisc("QuickJoin", Misc.QuickJoin)

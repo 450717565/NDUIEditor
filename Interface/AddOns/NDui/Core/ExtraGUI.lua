@@ -924,10 +924,10 @@ function GUI:SetupRaidFrame(parent)
 		for _, frame in pairs(ns.oUF.objects) do
 			if frame.mystyle == "raid" and not frame.isPartyFrame and not frame.isPartyPet then
 				if C.db["UFs"]["SimpleMode"] then
-					local scale = C.db["UFs"]["SimpleRaidScale"]/10
-					local frameWidth = 100*scale
-					local healthHeight = 20*scale
-					local powerHeight = 2*scale
+					local raidScale = C.db["UFs"]["SimpleRaidScale"]/10
+					local frameWidth = 100*raidScale
+					local healthHeight = 20*raidScale
+					local powerHeight = 2*raidScale
 					local frameHeight = healthHeight + powerHeight + C.mult
 					frame:SetSize(frameWidth, frameHeight)
 					frame.Health:SetHeight(healthHeight)

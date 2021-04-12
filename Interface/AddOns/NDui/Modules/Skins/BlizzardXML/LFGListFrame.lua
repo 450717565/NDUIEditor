@@ -3,6 +3,37 @@ local B, C, L, DB = unpack(ns)
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
+local function Update_RoleAnchor(self, role)
+	local Count = self[role.."Count"]
+	Count:SetWidth(24)
+	Count:SetJustifyH("CENTER")
+	Count:SetFontObject(Game13Font)
+	Count:SetPoint("RIGHT", self[role.."Icon"], "LEFT", 1, 0)
+end
+
+local function Reskin_GroupDataDisplay(self)
+	if not self.styled then
+		B.ReskinRole(self.TankIcon, "TANK")
+		B.ReskinRole(self.HealerIcon, "HEALER")
+		B.ReskinRole(self.DamagerIcon, "DPS")
+
+		self.DamagerIcon:ClearAllPoints()
+		self.DamagerIcon:SetPoint("RIGHT", self, "RIGHT", -10, 0)
+		self.HealerIcon:ClearAllPoints()
+		self.HealerIcon:SetPoint("RIGHT", self.DamagerIcon, "LEFT", -24, 0)
+		self.TankIcon:ClearAllPoints()
+		self.TankIcon:SetPoint("RIGHT", self.HealerIcon, "LEFT", -24, 0)
+
+		Update_RoleAnchor(self, "Tank")
+		Update_RoleAnchor(self, "Healer")
+		Update_RoleAnchor(self, "Damager")
+
+		if self.Count then self.Count:SetWidth(25) end
+
+		self.styled = true
+	end
+end
+
 local function Reskin_CategorySelection(self, btnIndex)
 	local button = self.CategoryButtons[btnIndex]
 	if not button then return end
@@ -104,6 +135,7 @@ tinsert(C.XMLThemes, function()
 	SearchPanel.RefreshButton:SetSize(24, 24)
 	SearchPanel.RefreshButton.Icon:SetPoint("CENTER")
 
+	hooksecurefunc("LFGListGroupDataDisplayRoleCount_Update", Reskin_GroupDataDisplay)
 	hooksecurefunc("LFGListSearchPanel_UpdateAutoComplete", Reskin_SearchPanel)
 	hooksecurefunc("LFGListSearchEntry_Update", Reskin_SearchEntry)
 

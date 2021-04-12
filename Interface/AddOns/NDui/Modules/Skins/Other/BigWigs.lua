@@ -75,9 +75,9 @@ local function Reskin_Style(self)
 
 		icon:ClearAllPoints()
 		if self.iconPosition == "RIGHT" then
-			icon:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", C.margin, 0)
+			icon:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", C.offset, 0)
 		else
-			icon:SetPoint("BOTTOMRIGHT", self, "BOTTOMLEFT", -C.margin, 0)
+			icon:SetPoint("BOTTOMRIGHT", self, "BOTTOMLEFT", -C.offset, 0)
 		end
 
 		if not icon.styled then
