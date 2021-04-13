@@ -98,6 +98,7 @@ C.LUAThemes["Blizzard_PVPUI"] = function()
 	local season = PVPQueueFrame.NewSeasonPopup
 	B.ReskinButton(season.Leave)
 	B.ReskinText(season.NewSeason, 1, .8, 0)
+	B.ReskinText(season.SeasonRewardText, 1, .8, 0)
 	B.ReskinText(season.SeasonDescription, 1, 1, 1)
 	B.ReskinText(season.SeasonDescription2, 1, 1, 1)
 

@@ -68,9 +68,16 @@ end
 local function UpdateGroupRoles(self)
 	wipe(roleCache)
 
-	if self.resultID then
+	if not self.__owner then
+		self.__owner = self:GetParent():GetParent()
+	end
+
+	local resultID = self.__owner.resultID
+	if not resultID then return end
+
+	if resultID then
 		for i = 1, 5 do
-			local role, class = C_LFGList_GetSearchResultMemberInfo(self.resultID, i)
+			local role, class = C_LFGList_GetSearchResultMemberInfo(resultID, i)
 			local roleIndex = role and roleOrder[role]
 			if class and roleIndex then
 				tinsert(roleCache, {roleIndex, class})
@@ -90,10 +97,9 @@ local function UpdateGroupRoles(self)
 end
 
 function Misc:ReplaceGroupRoles(numPlayers, _, disabled)
-	local button = self:GetParent():GetParent()
-	if not button then return end
+	if not self then return end
 
-	UpdateGroupRoles(button)
+	UpdateGroupRoles(self)
 
 	for i = 1, 5 do
 		local icon = self.Icons[i]
@@ -115,7 +121,14 @@ function Misc:ReplaceGroupRoles(numPlayers, _, disabled)
 			icon.role:SetPoint("CENTER", icon, "TOP")
 		end
 
-		icon.icbg:SetAlpha(1)
+		if i > numPlayers then
+			icon.role:Hide()
+			icon.icbg:SetAlpha(0)
+		else
+			icon.role:Show()
+			icon.icbg:SetAlpha(1)
+		end
+
 		icon.role:SetDesaturated(disabled)
 	end
 
