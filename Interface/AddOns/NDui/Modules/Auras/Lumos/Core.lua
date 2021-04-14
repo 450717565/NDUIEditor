@@ -173,7 +173,7 @@ function Auras:CreateLumos(self)
 	self.lumos = {}
 	self.lumos.onFire = C.db["Nameplate"]["PPOnFire"]
 
-	local iconSize = (C.db["Nameplate"]["PPWidth"]+2*C.mult - C.offset*4)/5
+	local iconSize = (C.db["Nameplate"]["PPWidth"]+2*C.mult - C.margin*4)/5
 	for i = 1, 5 do
 		local bu = CreateFrame("Frame", nil, self.Health)
 		bu:SetSize(iconSize, iconSize)
@@ -183,9 +183,9 @@ function Auras:CreateLumos(self)
 		local fontParent = B.CreateParentFrame(bu, 6)
 		bu.Count = B.CreateFS(fontParent, 16, "", false, "BOTTOM", 0, -10)
 		if i == 1 then
-			bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", -C.mult, -C.offset)
+			bu:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", -C.mult, -C.margin)
 		else
-			bu:SetPoint("LEFT", self.lumos[i-1], "RIGHT", C.offset, 0)
+			bu:SetPoint("LEFT", self.lumos[i-1], "RIGHT", C.margin, 0)
 		end
 
 		self.lumos[i] = bu

@@ -9,7 +9,7 @@ local GetTotemInfo = GetTotemInfo
 local totems = {}
 
 function Auras:TotemBar_Init()
-	local margin = C.offset
+	local margin = C.margin
 	local vertical = C.db["Auras"]["VerticalTotems"]
 	local iconSize = C.db["Auras"]["TotemSize"]
 	local width = vertical and (iconSize + margin*2) or (iconSize*4 + margin*5)

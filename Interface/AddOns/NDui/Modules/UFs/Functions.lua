@@ -527,8 +527,8 @@ function UF:CreateCastBar(self)
 		createBarMover(cb, L["Focus Castbar"], "FocusCB", C.UFs.FocusCB)
 	elseif mystyle == "boss" or mystyle == "arena" then
 		cb:ClearAllPoints()
-		cb:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -C.offset)
-		cb:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -C.offset)
+		cb:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -C.margin)
+		cb:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -C.margin)
 		cb:SetHeight(10)
 	elseif mystyle == "nameplate" then
 		cb:ClearAllPoints()
@@ -545,7 +545,7 @@ function UF:CreateCastBar(self)
 	if mystyle ~= "boss" and mystyle ~= "arena" then
 		cb.Icon = cb:CreateTexture(nil, "ARTWORK")
 		cb.Icon:SetSize(cb:GetHeight(), cb:GetHeight())
-		cb.Icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -C.offset, 0)
+		cb.Icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -C.margin, 0)
 		B.ReskinIcon(cb.Icon)
 	end
 
@@ -825,7 +825,7 @@ end
 function UF:CreateAuras(self)
 	local bu = CreateFrame("Frame", nil, self)
 	bu.gap = false
-	bu.spacing = C.offset
+	bu.spacing = C.margin
 	bu.tooltipAnchor = "ANCHOR_BOTTOMLEFT"
 	bu.initialAnchor = "BOTTOMLEFT"
 	bu["growth-x"] = "RIGHT"
@@ -880,7 +880,7 @@ end
 
 function UF:CreateBuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
-	bu.spacing = C.offset
+	bu.spacing = C.margin
 	bu.num = 6
 	bu.iconsPerRow = 6
 	bu.initialAnchor = "BOTTOMLEFT"
@@ -890,12 +890,12 @@ function UF:CreateBuffs(self)
 
 	local mystyle = self.mystyle
 	if mystyle == "arena" then
-		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.offset)
+		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.margin)
 	elseif mystyle == "raid" then
 		bu.initialAnchor = "TOPLEFT"
 		bu:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
 	else
-		bu:SetPoint("BOTTOMLEFT", self.AlternativePower, "TOPLEFT", 0, C.offset)
+		bu:SetPoint("BOTTOMLEFT", self.AlternativePower, "TOPLEFT", 0, C.margin)
 	end
 
 	B.AuraSetSize(self, bu)
@@ -909,7 +909,7 @@ end
 
 function UF:CreateDebuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
-	bu.spacing = C.offset
+	bu.spacing = C.margin
 	bu.tooltipAnchor = "ANCHOR_BOTTOMLEFT"
 	bu.initialAnchor = "TOPRIGHT"
 	bu["growth-x"] = "LEFT"
@@ -962,33 +962,32 @@ function UF.PostUpdateClassPower(element, cur, max, diff, powerType, chargedInde
 		end
 
 		element.prevColor = nil
-		return
-	end
+	else
+		for i = 1, max do
+			element[i].bg:Show()
+		end
 
-	for i = 1, max do
-		element[i].bg:Show()
+		element.thisColor = cur == max and 1 or 2
+		if not element.prevColor or element.prevColor ~= element.thisColor then
+			local r, g, b = 1, 0, 0
+			if element.thisColor == 2 then
+				local color = element.__owner.colors.power[powerType]
+				r, g, b = color[1], color[2], color[3]
+			end
+			for i = 1, #element do
+				element[i]:SetStatusBarColor(r, g, b)
+			end
+			element.prevColor = element.thisColor
+		end
 	end
 
 	if diff then
 		for i = 1, max do
-			element[i]:SetWidth((barWidth - (max-1)*C.offset)/max)
+			element[i]:SetWidth((barWidth - (max-1)*C.margin)/max)
 		end
 		for i = max + 1, 6 do
 			element[i].bg:Hide()
 		end
-	end
-
-	element.thisColor = cur == max and 1 or 2
-	if not element.prevColor or element.prevColor ~= element.thisColor then
-		local r, g, b = 1, 0, 0
-		if element.thisColor == 2 then
-			local color = element.__owner.colors.power[powerType]
-			r, g, b = color[1], color[2], color[3]
-		end
-		for i = 1, #element do
-			element[i]:SetStatusBarColor(r, g, b)
-		end
-		element.prevColor = element.thisColor
 	end
 
 	if chargedIndex and chargedIndex ~= element.thisCharge then
@@ -1046,19 +1045,19 @@ function UF:CreateClassPower(self)
 
 	local bar = CreateFrame("Frame", "oUF_ClassPowerBar", self.Health)
 	bar:SetSize(barWidth, barHeight)
-	bar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.offset)
+	bar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.margin)
 
 	local bars = {}
 	for i = 1, 6 do
 		bars[i] = CreateFrame("StatusBar", nil, bar)
 		bars[i]:SetHeight(barHeight)
-		bars[i]:SetWidth((barWidth - 5*C.offset) / 6)
+		bars[i]:SetWidth((barWidth - 5*C.margin) / 6)
 		B.CreateSB(bars[i])
 
 		if i == 1 then
 			bars[i]:SetPoint("BOTTOMLEFT")
 		else
-			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", C.offset, 0)
+			bars[i]:SetPoint("LEFT", bars[i-1], "RIGHT", C.margin, 0)
 		end
 
 		if DB.MyClass == "DEATHKNIGHT" and C.db["UFs"]["RuneTimer"] then
@@ -1103,7 +1102,7 @@ function UF:StaggerBar(self)
 
 	local stagger = CreateFrame("StatusBar", nil, self.Health)
 	stagger:SetSize(barWidth, barHeight)
-	stagger:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.offset)
+	stagger:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.margin)
 
 	B.CreateSB(stagger)
 	B.SmoothBar(stagger)
@@ -1128,8 +1127,8 @@ end
 
 function UF:CreateAddPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -C.offset)
-	bar:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -C.offset)
+	bar:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -C.margin)
+	bar:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -C.margin)
 	bar:SetHeight(barHeight)
 
 	B.CreateSB(bar)
@@ -1168,8 +1167,8 @@ end
 
 function UF:CreateAltPower(self)
 	local bar = CreateFrame("StatusBar", nil, self)
-	bar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.offset)
-	bar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, C.offset)
+	bar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.margin)
+	bar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, C.margin)
 	bar:SetHeight(barHeight)
 
 	B.CreateSB(bar)
@@ -1313,7 +1312,7 @@ function UF:CreateQuakeTimer(self)
 
 	local icon = bar:CreateTexture(nil, "ARTWORK")
 	icon:SetSize(bar:GetHeight(), bar:GetHeight())
-	icon:SetPoint("RIGHT", bar, "LEFT", -C.offset, 0)
+	icon:SetPoint("RIGHT", bar, "LEFT", -C.margin, 0)
 	B.ReskinIcon(icon)
 	bar.Icon = icon
 

@@ -855,7 +855,7 @@ function Bags:OnLogin()
 
 		local columns = self.Settings.Columns
 		local offset = 38
-		local spacing = C.offset
+		local spacing = C.margin
 		local xOffset = 5
 		local yOffset = -offset + xOffset
 		local _, height = self:LayoutButtons("grid", columns, spacing, xOffset, yOffset)

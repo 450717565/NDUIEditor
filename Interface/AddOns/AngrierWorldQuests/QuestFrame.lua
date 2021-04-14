@@ -904,13 +904,14 @@ local function QuestFrame_Update()
 		end
 	end
 
-	for header in QuestScrollFrame.headerFramePool:EnumerateActive() do
-		if header.questLogIndex == 1 then
-			firstButton = header
-			if layoutIndex == 0 then
-				layoutIndex = firstButton.layoutIndex - 1 + 0.001
+	if Config.showAtTop then
+		for header in QuestScrollFrame.headerFramePool:EnumerateActive() do
+			if firstButton == nil or header.layoutIndex < firstButton.layoutIndex then
+				firstButton = header
 			end
 		end
+
+		layoutIndex = firstButton.layoutIndex - 1 + 0.001
 	end
 
 	if not headerButton then
@@ -1039,11 +1040,7 @@ local function WorldMap_WorldQuestDataProviderMixin_ShouldShowQuest(self, info)
 	end
 
 	if self.focusedQuestID then
-		return C_QuestLog.IsQuestCalling(self.focusedQuestID) and self:ShouldHighlightInfo(info.questId)
-	end
-
-	if not HaveQuestData(info.questId) or not QuestUtils_IsQuestWorldQuest(info.questId) then
-		return false
+		return C_QuestLog.IsQuestCalling(self.focusedQuestID) and self:ShouldHighlightInfo(info.questId);
 	end
 
 	local mapID = self:GetMap():GetMapID()

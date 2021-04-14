@@ -139,7 +139,7 @@ function TT:InsertRoleFrame(role)
 	if not self.role then
 		local role = self:CreateTexture(nil, "OVERLAY")
 		role:ClearAllPoints()
-		role:SetPoint("TOPRIGHT", self, "TOPLEFT", -C.offset, -1)
+		role:SetPoint("TOPRIGHT", self, "TOPLEFT", -C.margin, -1)
 		role:SetSize(25, 25)
 		role:SetTexture("Interface\\LFGFrame\\UI-LFG-ICONS-ROLEBACKGROUNDS")
 		self.role = role
@@ -408,8 +408,8 @@ function TT:ReskinStatusBar()
 	if not self.StatusBar then return end
 
 	self.StatusBar:ClearAllPoints()
-	self.StatusBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", C.mult, C.offset)
-	self.StatusBar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -C.mult, C.offset)
+	self.StatusBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", C.mult, C.margin)
+	self.StatusBar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -C.mult, C.margin)
 	self.StatusBar:SetHeight(6)
 
 	B.ReskinStatusBar(self.StatusBar, true)

@@ -960,20 +960,20 @@ function UF:ResizePlayerPlate()
 			local max = bars.__max
 			for i = 1, max do
 				bars[i]:SetHeight(barHeight)
-				bars[i]:SetWidth((classpowerWidth - (max-1)*C.offset) / max)
+				bars[i]:SetWidth((classpowerWidth - (max-1)*C.margin) / max)
 			end
 		end
 		if plate.Stagger then
 			plate.Stagger:SetHeight(barHeight)
 		end
 		if plate.lumos then
-			local iconSize = (barWidth+2*C.mult - C.offset*4)/5
+			local iconSize = (barWidth+2*C.mult - C.margin*4)/5
 			for i = 1, 5 do
 				plate.lumos[i]:SetSize(iconSize, iconSize)
 			end
 		end
 		if plate.dices then
-			local offset = C.db["Nameplate"]["NameplateClassPower"] and C.offset or (C.offset*2 + barHeight)
+			local offset = C.db["Nameplate"]["NameplateClassPower"] and C.margin or (C.margin*2 + barHeight)
 			local size = (barWidth - 10 + 2*C.mult)/6
 			for i = 1, 6 do
 				local dice = plate.dices[i]

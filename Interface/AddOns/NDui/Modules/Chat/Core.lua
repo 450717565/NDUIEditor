@@ -93,8 +93,8 @@ function Chat:SkinChat()
 
 	local lang = _G[name.."EditBoxLanguage"]
 	lang:GetRegions():SetAlpha(0)
-	lang:SetPoint("TOPLEFT", eb, "TOPRIGHT", C.offset, 0)
-	lang:SetPoint("BOTTOMRIGHT", eb, "BOTTOMRIGHT", 24+C.offset, 0)
+	lang:SetPoint("TOPLEFT", eb, "TOPRIGHT", C.margin, 0)
+	lang:SetPoint("BOTTOMRIGHT", eb, "BOTTOMRIGHT", 24+C.margin, 0)
 	B.CreateBG(lang)
 
 	local tab = _G[name.."Tab"]

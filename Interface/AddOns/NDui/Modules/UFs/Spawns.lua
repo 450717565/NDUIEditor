@@ -216,7 +216,7 @@ function UF:OnLogin()
 	local showPartyPetFrame = C.db["UFs"]["PartyPetFrame"]
 	local petWidth, petHeight = C.db["UFs"]["PartyPetWidth"], C.db["UFs"]["PartyPetHeight"]
 
-	local offset = C.offset
+	local offset = C.margin
 	local xOffset = showTeamIndex and 30 or 20
 	local yOffset = showTeamIndex and -50 or -40
 
@@ -284,7 +284,7 @@ function UF:OnLogin()
 		oUF:RegisterStyle("Boss", CreateBossStyle)
 		oUF:SetActiveStyle("Boss")
 		local boss = {}
-		local bossYOffset = C.db["UFs"]["BossHeight"] + C.db["UFs"]["BossPowerHeight"] + C.mult + C.offset*2 + 10
+		local bossYOffset = C.db["UFs"]["BossHeight"] + C.db["UFs"]["BossPowerHeight"] + C.mult + C.margin*2 + 10
 		for i = 1, MAX_BOSS_FRAMES do
 			boss[i] = oUF:Spawn("boss"..i, "oUF_Boss"..i)
 			if i == 1 then

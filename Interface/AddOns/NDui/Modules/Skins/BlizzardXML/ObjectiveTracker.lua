@@ -36,8 +36,8 @@ local function Reskin_Progressbar(_, _, line)
 		if icon then
 			icon:SetMask(nil)
 			icon:ClearAllPoints()
-			icon:SetPoint("TOPLEFT", bar, "TOPRIGHT", C.offset, 0)
-			icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+C.offset, 0)
+			icon:SetPoint("TOPLEFT", bar, "TOPRIGHT", C.margin, 0)
+			icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+C.margin, 0)
 
 			icon.icbg = B.ReskinIcon(icon)
 		end

@@ -650,13 +650,13 @@ function UF:InterruptIndicator(self)
 	local relT = "TOPLEFT"
 	local xOffset = horizon and -C.mult or -5
 	local yOffset = horizon and 5 or C.mult
-	local margin = horizon and C.offset or -C.offset
+	local margin = horizon and C.margin or -C.margin
 	if otherSide then
 		relF = "TOPLEFT"
 		relT = horizon and "BOTTOMLEFT" or "TOPRIGHT"
 		xOffset = horizon and -C.mult or 5
 		yOffset = horizon and -5 or C.mult
-		margin = C.offset
+		margin = C.margin
 	end
 	local rel1 = not horizon and not otherSide and "RIGHT" or "LEFT"
 	local rel2 = not horizon and not otherSide and "LEFT" or "RIGHT"

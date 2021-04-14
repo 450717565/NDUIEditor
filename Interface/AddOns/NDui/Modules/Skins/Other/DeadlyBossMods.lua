@@ -18,7 +18,7 @@ local function Reskin_Icon(icon, frame)
 	end
 
 	icon:ClearAllPoints()
-	icon:SetPoint("BOTTOMRIGHT", frame, "BOTTOMLEFT", -C.offset, 0)
+	icon:SetPoint("BOTTOMRIGHT", frame, "BOTTOMLEFT", -C.margin, 0)
 end
 
 local function Reskin_Bar(bar, frame)
