@@ -40,7 +40,7 @@ local function Reskin_LootFrame()
 end
 
 local function Hide_IconBG(self)
-	self.__owner.IconHitBox.icbg:SetAlpha(0)
+	self.IconHitBox.icbg:SetAlpha(0)
 end
 
 local function Show_IconBG(self)
@@ -100,7 +100,7 @@ tinsert(C.XMLThemes, function()
 			lootFrame.styled = true
 		end
 
-		lootFrame.Anim:HookScript("OnPlay", Hide_IconBG)
 		lootFrame.Anim:HookScript("OnFinished", Show_IconBG)
+		lootFrame:HookScript("OnHide", Hide_IconBG)
 	end)
 end)

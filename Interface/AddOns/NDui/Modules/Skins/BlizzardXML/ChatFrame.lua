@@ -219,3 +219,53 @@ tinsert(C.XMLThemes, function()
 	hooksecurefunc(ChannelFrame.ChannelList, "Update", Reskin_ChannelList)
 	hooksecurefunc(VoiceActivityManager, "LinkFrameNotificationAndGuid", Reskin_VoiceActivityManager)
 end)
+
+-- TextToSpeech
+local function Reskin_TextToSpeechFrame()
+	local checkBoxNameString = "TextToSpeechFramePanelContainerChatTypeContainerCheckBox"
+	local checkBoxName, checkBox
+	local checkBoxTable = TextToSpeechFramePanelContainerChatTypeContainer.checkBoxTable or {}
+	for index, value in ipairs(checkBoxTable) do
+		checkBoxName = checkBoxNameString..index
+		checkBox = _G[checkBoxName]
+		if checkBox and not checkBox.styled then
+			B.ReskinCheck(checkBox)
+
+			checkBox.styled = true
+		end
+	end
+end
+
+tinsert(C.XMLThemes, function()
+	if DB.isNewPatch then
+		B.ReskinFrame(TextToSpeechFrame)
+
+		TextToSpeechButton:DisableDrawLayer("BACKGROUND")
+
+		TextToSpeechFramePanelContainer:SetBackdrop(nil)
+		B.CreateBDFrame(TextToSpeechFramePanelContainer)
+		TextToSpeechFramePanelContainerChatTypeContainer:SetBackdrop(nil)
+		B.CreateBDFrame(TextToSpeechFramePanelContainerChatTypeContainer)
+
+		B.ReskinButton(TextToSpeechFramePlaySampleButton)
+		B.ReskinButton(TextToSpeechFrameDefaults)
+		B.ReskinButton(TextToSpeechFrameOkay)
+
+		B.ReskinDropDown(TextToSpeechFrameTtsVoiceDropdown)
+		B.ReskinSlider(TextToSpeechFrameAdjustRateSlider)
+		B.ReskinSlider(TextToSpeechFrameAdjustVolumeSlider)
+
+		local checkboxes = {
+			"PlaySoundWhenEnteringChatWindowCheckButton",
+			"PlayActivitySoundWhenNotFocusedCheckButton",
+			"PlaySoundSeparatingChatLinesCheckButton",
+			"AddCharacterNameToSpeechCheckButton",
+			"UseAlternateVoiceForSystemMessagesCheckButton",
+		}
+		for _, checkbox in pairs(checkboxes) do
+			B.ReskinCheck(TextToSpeechFramePanelContainer[checkbox])
+		end
+
+		hooksecurefunc("TextToSpeechFrame_Update", Reskin_TextToSpeechFrame)
+	end
+end)

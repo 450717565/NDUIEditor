@@ -383,7 +383,7 @@ end
 
 local bloodlustList = {}
 for _, spellID in pairs(C.bloodlustID) do
-	bloodlustList[spellID] = {"BOTTOMLEFT", {1, .8, 0}, true}
+	bloodlustList[spellID] = {"BOTTOM", {1, .8, 0}, true}
 end
 
 local found = {}
@@ -484,7 +484,7 @@ function UF:CreateBuffIndicator(self)
 		bu:SetPoint(anchor)
 		bu:Hide()
 
-		bu.bubg = B.CreateBDFrame(bu)
+		bu.bubg = B.CreateBDFrame(bu, 0, -C.mult)
 		bu.bubg:SetFrameLevel(bu:GetFrameLevel())
 
 		bu.timer = B.CreateFS(bu, fontSize, "", false, "CENTER", -counterOffsets[anchor][2][3], 0)
@@ -648,14 +648,14 @@ function UF:InterruptIndicator(self)
 	local otherSide = C.db["UFs"]["PWOtherSide"]
 	local relF = horizon and "BOTTOMLEFT" or "TOPRIGHT"
 	local relT = "TOPLEFT"
-	local xOffset = horizon and -C.mult or -5
-	local yOffset = horizon and 5 or C.mult
+	local xOffset = horizon and -C.mult or -C.margin
+	local yOffset = horizon and C.margin or C.mult
 	local margin = horizon and C.margin or -C.margin
 	if otherSide then
 		relF = "TOPLEFT"
 		relT = horizon and "BOTTOMLEFT" or "TOPRIGHT"
-		xOffset = horizon and -C.mult or 5
-		yOffset = horizon and -5 or C.mult
+		xOffset = horizon and -C.mult or C.margin
+		yOffset = horizon and -C.margin or C.mult
 		margin = C.margin
 	end
 	local rel1 = not horizon and not otherSide and "RIGHT" or "LEFT"

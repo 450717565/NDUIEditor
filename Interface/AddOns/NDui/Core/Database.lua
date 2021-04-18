@@ -9,7 +9,7 @@ DB.Version = GetAddOnMetadata("NDui", "Version")
 DB.Support = GetAddOnMetadata("NDui", "X-Support")
 DB.Client = GetLocale()
 DB.ScreenWidth, DB.ScreenHeight = GetPhysicalScreenSize()
-DB.isNewPatch = select(4, GetBuildInfo()) >= 90005 -- 9.0.5
+DB.isNewPatch = select(4, GetBuildInfo()) >= 90100 -- 9.1.0
 
 -- Deprecated
 LE_ITEM_QUALITY_POOR = Enum.ItemQuality.Poor
@@ -74,12 +74,9 @@ DB.blankTex = Media.."Reskin\\blankTex"
 
 DB.menuTex = Media.."Menu\\"
 DB.targetTex = Media.."Target\\targetTex_"
-DB.rotationRigh = Media.."Other\\RotationRigh_Big"
-
-DB.normTex = Media.."Texture\\normTex"
-DB.gradTex = Media.."Texture\\gradTex"
-DB.flatTex = Media.."Texture\\flatTex"
-DB.rhomTex = Media.."Texture\\rhomTex"
+DB.normTex = Media.."Texture\\normTex_"
+DB.restingTex = Media.."Other\\Resting"
+DB.rotationRigh = Media.."Other\\RotationRigh"
 
 DB.bgTex = "Interface\\ChatFrame\\ChatFrameBackground"
 DB.binTex = "Interface\\HelpFrame\\ReportLagIcon-Loot"

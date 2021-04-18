@@ -429,7 +429,7 @@ GUI.AccountSettings = {
 	BWRequest = false,
 	RaidAuraWatch = {},
 	RaidClickSets = {},
-	TexStyle = 4,
+	TexStyle = 1,
 	KeystoneInfo = {},
 	AutoBubbles = false,
 	DisableInfobars = false,
@@ -445,12 +445,10 @@ GUI.AccountSettings = {
 }
 
 -- Initial settings
-GUI.TextureList = {
-	[1] = {texture = DB.normTex, name = L["Highlight"]},
-	[2] = {texture = DB.gradTex, name = L["Gradient"]},
-	[3] = {texture = DB.flatTex, name = L["Flat"]},
-	[4] = {texture = DB.rhomTex, name = L["Rhomb"]},
-}
+GUI.TextureList = {}
+for i = 1, 4 do
+	tinsert(GUI.TextureList, {texture = DB.normTex..i, name = TEXTURES_SUBHEADER..i})
+end
 
 local function InitialSettings(source, target, fullClean)
 	for i, j in pairs(source) do
@@ -508,7 +506,7 @@ loader:SetScript("OnEvent", function(self, _, addon)
 		DB.normTex = "Interface\\"..NDuiADB["CustomTex"]
 	else
 		if not GUI.TextureList[NDuiADB["TexStyle"]] then
-			NDuiADB["TexStyle"] = 4 -- reset value if not exists
+			NDuiADB["TexStyle"] = 1 -- reset value if not exists
 		end
 		DB.normTex = GUI.TextureList[NDuiADB["TexStyle"]].texture
 	end

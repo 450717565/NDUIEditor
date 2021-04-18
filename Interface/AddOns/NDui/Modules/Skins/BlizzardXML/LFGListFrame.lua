@@ -3,6 +3,35 @@ local B, C, L, DB = unpack(ns)
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
+local atlasToRole = {
+	["groupfinder-icon-role-large-tank"] = "TANK",
+	["groupfinder-icon-role-large-heal"] = "HEALER",
+	["groupfinder-icon-role-large-dps"] = "DAMAGER",
+}
+
+local function Replace_ApplicantRoles(texture, atlas)
+	local role = atlasToRole[atlas]
+	if role then
+		texture:SetTexture(DB.rolesTex)
+		texture:SetTexCoord(B.GetRoleTexCoord(role))
+	end
+end
+
+local function Reskin_RoleIcons(member)
+	if not member.styled then
+		for i = 1, 3 do
+			local button = member["RoleIcon"..i]
+			local texture = button:GetNormalTexture()
+			Replace_ApplicantRoles(texture, LFG_LIST_GROUP_DATA_ATLASES[button.role])
+			hooksecurefunc(texture, "SetAtlas", Replace_ApplicantRoles)
+
+			B.CreateBDFrame(button, 0, -C.mult)
+		end
+
+		member.styled = true
+	end
+end
+
 local function Update_RoleAnchor(self, role)
 	local Count = self[role.."Count"]
 	Count:SetWidth(24)
@@ -34,6 +63,15 @@ local function Reskin_GroupDataDisplay(self)
 	end
 end
 
+local function Reskin_Applicant(button)
+	if not button.styled then
+		B.ReskinDecline(button.DeclineButton)
+		B.ReskinButton(button.InviteButton)
+
+		button.styled = true
+	end
+end
+
 local function Reskin_CategorySelection(self, btnIndex)
 	local button = self.CategoryButtons[btnIndex]
 	if not button then return end
@@ -42,15 +80,6 @@ local function Reskin_CategorySelection(self, btnIndex)
 		button.Cover:Hide()
 		button.Icon:SetTexCoord(.01, .99, .01, .99)
 		B.CreateBDFrame(button.Icon, 0, -C.mult)
-
-		button.styled = true
-	end
-end
-
-local function Reskin_ApplicationViewer(button)
-	if not button.styled then
-		B.ReskinDecline(button.DeclineButton)
-		B.ReskinButton(button.InviteButton)
 
 		button.styled = true
 	end
@@ -125,7 +154,8 @@ tinsert(C.XMLThemes, function()
 		B.CreateBGFrame(header, 3, -1, 1, 1)
 	end
 
-	hooksecurefunc("LFGListApplicationViewer_UpdateApplicant", Reskin_ApplicationViewer)
+	hooksecurefunc("LFGListApplicationViewer_UpdateApplicant", Reskin_Applicant)
+	hooksecurefunc("LFGListApplicationViewer_UpdateRoleIcons", Reskin_RoleIcons)
 
 	-- SearchPanel
 	local SearchPanel = LFGListFrame.SearchPanel

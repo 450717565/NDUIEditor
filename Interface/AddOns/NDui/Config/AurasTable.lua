@@ -191,13 +191,4 @@ function AT:OnLogin()
 	AT:CheckPartySpells()
 	AT:CheckCornerSpells()
 	AT:CheckMajorSpells()
-
-	-- Filter bloodlust for healers
-	local function filterBloodlust()
-		for _, spellID in pairs(C.bloodlustID) do
-			C.RaidBuffs["WARNING"][spellID] = (DB.Role ~= "Healer")
-		end
-	end
-	filterBloodlust()
-	B:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", filterBloodlust)
 end

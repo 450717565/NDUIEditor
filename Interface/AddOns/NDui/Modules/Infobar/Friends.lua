@@ -32,6 +32,7 @@ local noteString = "|T"..DB.copyTex..":12|t %s"
 local broadcastString = "|TInterface\\FriendsFrame\\BroadcastIcon:12|t %s (%s)"
 local onlineString = gsub(ERR_FRIEND_ONLINE_SS, ".+h", "")
 local offlineString = gsub(ERR_FRIEND_OFFLINE_S, "%%s", "")
+local classicWoW = "Interface\\Addons\\NDui\\Media\\Other\\ClassicWoW"
 
 local menuList = {
 	[1] = {text = L["Join or Invite"], isTitle = true, notCheckable = true}
@@ -412,11 +413,9 @@ function info:FriendsPanel_UpdateButton(button)
 		button.name:SetText(format("%s%s|r (%s|r)", DB.InfoColor, accountName, name))
 		button.zone:SetText(format("%s%s", zoneColor, infoText))
 		if client == CLIENT_WOW_CLASSIC then
-			button.gameIcon:SetTexture(BNet_GetClientTexture(BNET_CLIENT_WOW))
-			button.gameIcon:SetAlpha(.5)
+			button.gameIcon:SetTexture(classicWoW)
 		else
 			button.gameIcon:SetTexture(BNet_GetClientTexture(client))
-			button.gameIcon:SetAlpha(1)
 		end
 
 		button.isBNet = true

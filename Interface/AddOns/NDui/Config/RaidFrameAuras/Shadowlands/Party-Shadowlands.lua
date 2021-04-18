@@ -5,6 +5,11 @@ local AT = B:GetModule("AurasTable")
 local TIER = 9
 local INSTANCE -- 5人本
 
+if DB.isNewPatch then
+	INSTANCE = 1194 -- 塔扎维什，帷纱集市
+	AT:RegisterSeasonSpells(TIER, INSTANCE)
+end
+
 INSTANCE = 1187 -- 伤逝剧场
 AT:RegisterSeasonSpells(TIER, INSTANCE)
 AT:RegisterDebuff(TIER, INSTANCE, 0, 333299) -- 荒芜诅咒

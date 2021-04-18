@@ -118,6 +118,11 @@ local function Reskin_InterfaceOptionsFrame(self)
 		InterfaceOptionsSocialPanelShowToastWindow,
 		InterfaceOptionsSocialPanelSpamFilter,
 	}
+	if DB.isNewPatch then
+		tinsert(checkboxes, InterfaceOptionsAccessibilityPanelSpeechToText)
+		tinsert(checkboxes, InterfaceOptionsAccessibilityPanelTextToSpeech)
+		tinsert(checkboxes, InterfaceOptionsAccessibilityPanelRemoteTextToSpeech)
+	end
 	for _, checkbox in pairs(checkboxes) do
 		B.ReskinCheck(checkbox)
 	end

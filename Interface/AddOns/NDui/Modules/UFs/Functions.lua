@@ -438,14 +438,12 @@ function UF:CreateIcons(self)
 		local resting = self:CreateTexture(nil, "OVERLAY")
 		resting:SetPoint("CENTER", self, "TOPLEFT")
 		resting:SetSize(18, 18)
-		resting:SetTexture("Interface\\PLAYERFRAME\\DruidEclipse")
-		resting:SetTexCoord(.445, .55, .648, .905)
-		resting:SetVertexColor(.6, .8, 1)
+		resting:SetTexture(DB.restingTex)
 		self.RestingIndicator = resting
 	elseif mystyle == "target" then
 		local quest = self:CreateTexture(nil, "OVERLAY")
 		quest:SetPoint("LEFT", self, "TOPLEFT", 2, 0)
-		quest:SetSize(16, 16)
+		quest:SetSize(18, 18)
 		self.QuestIndicator = quest
 	end
 
@@ -526,9 +524,10 @@ function UF:CreateCastBar(self)
 		cb:SetSize(C.db["UFs"]["FocusCBWidth"], C.db["UFs"]["FocusCBHeight"])
 		createBarMover(cb, L["Focus Castbar"], "FocusCB", C.UFs.FocusCB)
 	elseif mystyle == "boss" or mystyle == "arena" then
+		cb:SetFrameLevel(10)
 		cb:ClearAllPoints()
-		cb:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -C.margin)
-		cb:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -C.margin)
+		cb:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -C.margin)
+		cb:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, -C.margin)
 		cb:SetHeight(10)
 	elseif mystyle == "nameplate" then
 		cb:ClearAllPoints()
@@ -555,7 +554,6 @@ function UF:CreateCastBar(self)
 		safe:SetVertexColor(1, 0, 0, .6)
 		safe:SetPoint("TOPRIGHT")
 		safe:SetPoint("BOTTOMRIGHT")
-		cb:SetFrameLevel(10)
 		cb.SafeZone = safe
 
 		if C.db["UFs"]["LagString"] then
@@ -1205,19 +1203,19 @@ function UF:CreatePrediction(self)
 	local frame = B.CreateParentFrame(self, 0)
 
 	local mhpb = frame:CreateTexture(nil, "BORDER", nil, 5)
-	mhpb:SetWidth(1)
+	mhpb:SetWidth(C.mult)
 	mhpb:SetTexture(DB.normTex)
 	mhpb:SetVertexColor(0, 1, .5, .5)
 
 	local ohpb = frame:CreateTexture(nil, "BORDER", nil, 5)
-	ohpb:SetWidth(1)
+	ohpb:SetWidth(C.mult)
 	ohpb:SetTexture(DB.normTex)
 	ohpb:SetVertexColor(0, 1, 0, .5)
 
 	local abb = frame:CreateTexture(nil, "BORDER", nil, 5)
-	abb:SetWidth(1)
+	abb:SetWidth(C.mult)
 	abb:SetTexture(DB.normTex)
-	abb:SetVertexColor(.66, 1, 1, .7)
+	abb:SetVertexColor(.5, 1, 1, .5)
 
 	local abbo = frame:CreateTexture(nil, "ARTWORK", nil, 1)
 	abbo:SetAllPoints(abb)
@@ -1228,7 +1226,7 @@ function UF:CreatePrediction(self)
 	oag:SetWidth(15)
 	oag:SetTexture("Interface\\RaidFrame\\Shield-Overshield")
 	oag:SetBlendMode("ADD")
-	oag:SetAlpha(.7)
+	oag:SetAlpha(.5)
 	oag:SetPoint("TOPLEFT", self.Health, "TOPRIGHT", -5, 2)
 	oag:SetPoint("BOTTOMLEFT", self.Health, "BOTTOMRIGHT", -5, -2)
 

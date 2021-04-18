@@ -18,4 +18,5 @@
 
 	<Script file="Shadowlands\Party-Shadowlands.lua"/>
 	<Script file="Shadowlands\CastleNathria.lua"/>
+	<Script file="Shadowlands\SanctumofDonimation.lua"/>
 </Ui>

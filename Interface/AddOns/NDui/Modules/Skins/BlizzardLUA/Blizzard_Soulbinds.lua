@@ -33,10 +33,12 @@ C.LUAThemes["Blizzard_Soulbinds"] = function()
 	B.ReskinFrame(SoulbindViewer)
 	B.ReskinButton(SoulbindViewer.CommitConduitsButton)
 	B.ReskinButton(SoulbindViewer.ActivateSoulbindButton)
-	B.StripTextures(SoulbindViewer.ConduitList.BottomShadowContainer)
 
-	local ScrollBox = SoulbindViewer.ConduitList.ScrollBox
-	for i = 1, 3 do
-		hooksecurefunc(ScrollBox.ScrollTarget.Lists[i], "UpdateLayout", Reskin_ConduitList)
+	if not DB.isNewPatch then
+		B.StripTextures(SoulbindViewer.ConduitList.BottomShadowContainer)
+		local ScrollBox = SoulbindViewer.ConduitList.ScrollBox
+		for i = 1, 3 do
+			hooksecurefunc(ScrollBox.ScrollTarget.Lists[i], "UpdateLayout", Reskin_ConduitList)
+		end
 	end
 end

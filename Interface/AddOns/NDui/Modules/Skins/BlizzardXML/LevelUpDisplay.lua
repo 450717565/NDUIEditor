@@ -14,5 +14,7 @@ local function Reskin_LevelUpDisplaySide(self)
 end
 
 tinsert(C.XMLThemes, function()
+	if DB.isNewPatch then return end
+
 	LevelUpDisplaySide:HookScript("OnShow", Reskin_LevelUpDisplaySide)
 end)

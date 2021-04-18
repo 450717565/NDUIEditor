@@ -35,6 +35,7 @@ C.LUAThemes["Blizzard_DebugTools"] = function()
 	Reskin_TableAttribute(TableAttributeDisplay)
 	hooksecurefunc(TableInspectorMixin, "InspectTable", Reskin_TableAttribute)
 
+	if DB.isNewPatch then return end
 	-- EventTraceFrame
 	B.ReskinFrame(EventTraceFrame)
 

@@ -31,12 +31,6 @@ local function Reskin_Reward(self)
 
 		self.styled = true
 	end
-
-	if shortageBorder and shortageBorder:IsShown() then
-		self.bubg:SetBackdropColor(cr, cg, cb, .5)
-	else
-		self.bubg:SetBackdropColor(0, 0, 0, 0)
-	end
 end
 
 local function Reskin_DialogReward(self)

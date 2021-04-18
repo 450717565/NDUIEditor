@@ -162,6 +162,7 @@ local list = {
 		{AuraID = 328622, UnitID = "player"},	-- 暮秋祝福
 		{AuraID = 328908, UnitID = "player"},	-- 战斗冥想
 		{AuraID = 328933, UnitID = "player"},	-- 法夜输灵
+		{AuraID = 333089, UnitID = "player", Combat = true},	-- 坚守阵地
 		{AuraID = 331937, UnitID = "player", Flash = true},		-- 沉醉
 		{AuraID = 338142, UnitID = "player"},	-- 自审强化
 		{AuraID = 339461, UnitID = "player"},	-- 猎手坚韧
@@ -231,6 +232,7 @@ local list = {
 		{AuraID = 324092, UnitID = "player", Flash = true},	-- 赤红，闪耀光辉
 		{AuraID = 328737, UnitID = "player", Flash = true},	-- 赤红，光辉残片
 		{AuraID = 335161, UnitID = "player"},	-- 通灵战潮，残存心能
+		{AuraID = 340433, UnitID = "player"},	-- 赤红，堕罪之赐
 	},
 	["Raid Debuff"] = {		-- 团队减益组
 		-- 大幻象
@@ -247,7 +249,6 @@ local list = {
 		{AuraID = 240443, UnitID = "player", Flash = true},	-- 爆裂
 		-- 5人本
 		{AuraID = 327107, UnitID = "player"},	-- 赤红，闪耀光辉
-		{AuraID = 340433, UnitID = "player"},	-- 赤红，堕罪之赐
 		{AuraID = 326891, UnitID = "player", Flash = true},	-- 赎罪大厅，痛楚
 		{AuraID = 319603, UnitID = "player", Flash = true},	-- 赎罪大厅，羁石诅咒
 		{AuraID = 333299, UnitID = "player"},	-- 伤逝剧场，荒芜诅咒

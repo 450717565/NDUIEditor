@@ -44,7 +44,10 @@ C.LUAThemes["Blizzard_RuneforgeUI"] = function()
 
 	local createFrame = frame.CreateFrame
 	B.ReskinButton(createFrame.CraftItemButton)
-	S.ReplaceIconString(createFrame.Cost.Text)
+
+	if createFrame.Cost.Text then -- isNewPatch
+		S.ReplaceIconString(createFrame.Cost.Text)
+	end
 
 	local powerFrame = frame.CraftingFrame.PowerFrame
 	B.ReskinFrame(powerFrame)
