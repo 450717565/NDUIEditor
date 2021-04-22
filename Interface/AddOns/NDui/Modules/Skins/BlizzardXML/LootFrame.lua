@@ -2,6 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
+local tL, tR, tT, tB = unpack(DB.TexCoord)
 
 local function Reskin_LootFrame()
 	for index = 1, LOOTFRAME_NUMBUTTONS do
@@ -39,12 +40,16 @@ local function Reskin_LootFrame()
 	end
 end
 
-local function Hide_IconBG(self)
-	self.IconHitBox.icbg:SetAlpha(0)
-end
+local function Reskin_BossBanner(lootFrame)
+	local IconHitBox = lootFrame.IconHitBox
+	if not IconHitBox.icbg then
+		IconHitBox.icbg = B.CreateBDFrame(IconHitBox)
+		IconHitBox.icbg:SetOutside(lootFrame.Icon)
+		lootFrame.Icon:SetTexCoord(tL, tR, tT, tB)
+		B.ReskinIconBorder(IconHitBox.IconBorder, IconHitBox.icbg, nil, true)
+	end
 
-local function Show_IconBG(self)
-	self.__owner.IconHitBox.icbg:SetAlpha(1)
+	IconHitBox.IconBorder:SetTexture(nil)
 end
 
 tinsert(C.XMLThemes, function()
@@ -88,19 +93,5 @@ tinsert(C.XMLThemes, function()
 	BONUS_ROLL_CURRENT_COUNT = gsub(BONUS_ROLL_CURRENT_COUNT, from, to)
 
 	-- Bossbanner
-	hooksecurefunc("BossBanner_ConfigureLootFrame", function(lootFrame)
-		if not lootFrame.styled then
-			local IconHitBox = lootFrame.IconHitBox
-			IconHitBox.icbg = B.ReskinIcon(lootFrame.Icon)
-			IconHitBox.icbg:SetAlpha(0)
-			IconHitBox.IconBorder:SetTexture("")
-			lootFrame.Anim.__owner = lootFrame
-			B.ReskinBorder(IconHitBox.IconBorder, IconHitBox.icbg, nil, true)
-
-			lootFrame.styled = true
-		end
-
-		lootFrame.Anim:HookScript("OnFinished", Show_IconBG)
-		lootFrame:HookScript("OnHide", Hide_IconBG)
-	end)
+	hooksecurefunc("BossBanner_ConfigureLootFrame", Reskin_BossBanner)
 end)

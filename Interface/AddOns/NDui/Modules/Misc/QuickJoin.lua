@@ -153,25 +153,6 @@ function Misc:ReplaceGroupRoles(numPlayers, _, disabled)
 	end
 end
 
-local function HandleMeetingStone()
-	if IsAddOnLoaded("MeetingStone") or IsAddOnLoaded("MeetingStonePlus") then
-		local NetEaseEnv = LibStub("NetEaseEnv-1.0")
-
-		for k in pairs(NetEaseEnv._NSInclude) do
-			if type(k) == "table" then
-				local module = k.Addon and k.Addon.GetClass and k.Addon:GetClass("MemberDisplay")
-				if module and module.SetActivity then
-					local original = module.SetActivity
-					module.SetActivity = function(self, activity)
-						self.resultID = activity and activity.GetID and activity:GetID() or nil
-						original(self, activity)
-					end
-				end
-			end
-		end
-	end
-end
-
 function Misc:QuickJoin()
 	for i = 1, 10 do
 		local button = _G["LFGListSearchPanelScrollFrameButton"..i]
@@ -183,8 +164,6 @@ function Misc:QuickJoin()
 	hooksecurefunc("StaticPopup_Show", Misc.HookDialogOnShow)
 	hooksecurefunc("LFGListInviteDialog_Show", Misc.HookDialogOnShow)
 	hooksecurefunc("LFGListInviteDialog_Accept", Misc.HookInviteDialog)
-
-	HandleMeetingStone()
 	hooksecurefunc("LFGListGroupDataDisplayEnumerate_Update", Misc.ReplaceGroupRoles)
 end
 Misc:RegisterMisc("QuickJoin", Misc.QuickJoin)

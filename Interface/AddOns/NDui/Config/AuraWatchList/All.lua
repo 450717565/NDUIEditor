@@ -228,11 +228,11 @@ local list = {
 		{AuraID = 209426, UnitID = "player"},	-- 幻影打击
 		{AuraID = 114018, UnitID = "player", Flash = true},	-- 帷幕
 		{AuraID = 115834, UnitID = "player", Flash = true},
-		-- 5人本
-		{AuraID = 324092, UnitID = "player", Flash = true},	-- 赤红，闪耀光辉
-		{AuraID = 328737, UnitID = "player", Flash = true},	-- 赤红，光辉残片
+		-- 地下城增益
+		{AuraID = 324092, UnitID = "player"},	-- 赤红深渊，闪耀光辉
+		{AuraID = 328737, UnitID = "player"},	-- 赤红深渊，光辉残片
+		{AuraID = 340433, UnitID = "player"},	-- 赤红深渊，堕罪之赐
 		{AuraID = 335161, UnitID = "player"},	-- 通灵战潮，残存心能
-		{AuraID = 340433, UnitID = "player"},	-- 赤红，堕罪之赐
 	},
 	["Raid Debuff"] = {		-- 团队减益组
 		-- 大幻象

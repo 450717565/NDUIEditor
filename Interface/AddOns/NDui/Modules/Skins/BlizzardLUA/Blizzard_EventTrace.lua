@@ -7,14 +7,44 @@ local function Reskin_EventTraceButton(self)
 	self.MouseoverOverlay:SetAlpha(0)
 end
 
-local function Reskin_EventTraceScroll(self)
+local function Reskin_EventTraceScrollBar(self)
 	B.StripTextures(self)
 	B.ReskinArrow(self.Back, "up")
 	B.ReskinArrow(self.Forward, "down")
 
-	local Thumb = self.Track.Thumb
+	local Thumb = self:GetThumb()
 	B.StripTextures(Thumb, 0)
 	B.CreateBDFrame(Thumb)
+end
+
+local function Reskin_ScrollChild(self)
+	for _, child in pairs {self.ScrollTarget:GetChildren()} do
+		local HideButton = child and child.HideButton
+		if HideButton and not HideButton.styled then
+			B.ReskinClose(HideButton)
+			HideButton:ClearAllPoints()
+			HideButton:SetPoint("LEFT", 3, 0)
+
+			local CheckButton = child.CheckButton
+			if CheckButton then
+				B.ReskinCheck(CheckButton)
+				CheckButton:SetSize(22, 22)
+			end
+
+			HideButton.styled = true
+		end
+	end
+end
+
+local function Reskin_EventTraceScrollBox(self)
+	self:DisableDrawLayer("BACKGROUND")
+	B.CreateBDFrame(self)
+	hooksecurefunc(self, "Update", Reskin_ScrollChild)
+end
+
+local function Reskin_EventTraceFrame(self)
+	Reskin_EventTraceScrollBox(self.ScrollBox)
+	Reskin_EventTraceScrollBar(self.ScrollBar)
 end
 
 C.LUAThemes["Blizzard_EventTrace"] = function()
@@ -27,8 +57,9 @@ C.LUAThemes["Blizzard_EventTrace"] = function()
 	B.ReskinEditBox(logBar.SearchBox)
 	B.ReskinFilter(subtitleBar.OptionsDropDown)
 
-	Reskin_EventTraceScroll(EventTrace.Log.Events.ScrollBar)
-	Reskin_EventTraceScroll(EventTrace.Filter.ScrollBar)
+	Reskin_EventTraceFrame(EventTrace.Log.Events)
+	Reskin_EventTraceFrame(EventTrace.Log.Search)
+	Reskin_EventTraceFrame(EventTrace.Filter)
 
 	local buttons = {
 		subtitleBar.ViewLog,

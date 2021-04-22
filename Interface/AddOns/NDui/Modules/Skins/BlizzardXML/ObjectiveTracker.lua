@@ -102,6 +102,18 @@ local function Reskin_ContentTracker()
 				end
 			end
 		end
+
+		if widgetFrame.TimerBar then
+			local bar = widgetFrame.TimerBar
+			if not bar.styled then
+				bar:SetSize(220, 10)
+
+				B.ReskinStatusBar(bar, true)
+				B.SmoothBar(bar)
+
+				bar.styled = true
+			end
+		end
 	end
 end
 

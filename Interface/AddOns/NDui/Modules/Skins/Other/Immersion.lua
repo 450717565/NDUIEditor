@@ -125,6 +125,28 @@ local function Reskin_QuestProgres(self)
 	end
 end
 
+local function Reskin_ShowItems(self)
+	for tooltip in self.Inspector.tooltipFramePool:EnumerateActive() do
+		if tooltip and not tooltip.styled then
+			B.StripTextures(tooltip)
+			B.StripTextures(tooltip.Hilite)
+
+			local button = tooltip.Button
+			B.StripTextures(button)
+			B.ReskinButton(button, true)
+			button.bgTex:SetFrameLevel(button:GetFrameLevel()-1)
+
+			local icon = tooltip.Icon
+			B.StripTextures(icon, 1)
+			B.ReskinIcon(icon.Texture)
+			icon.Texture:ClearAllPoints()
+			icon.Texture:SetPoint("TOPLEFT", button.bgTex, "TOPRIGHT", 3, -C.mult)
+
+			tooltip.styled = true
+		end
+	end
+end
+
 function Skins:Immersion()
 	if not IsAddOnLoaded("Immersion") then return end
 
@@ -165,6 +187,7 @@ function Skins:Immersion()
 	Indicator:ClearAllPoints()
 	Indicator:SetPoint("RIGHT", MainFrame.CloseButton, "LEFT", -3, 0)
 
+	hooksecurefunc(ImmersionFrame, "ShowItems", Reskin_ShowItems)
 	hooksecurefunc(ImmersionFrame, "AddQuestInfo", Reskin_AddQuestInfo)
 	hooksecurefunc(ImmersionFrame, "QUEST_PROGRESS", Reskin_QuestProgres)
 	hooksecurefunc(ImmersionFrame.TitleButtons, "GetButton", Reskin_TitleButton)

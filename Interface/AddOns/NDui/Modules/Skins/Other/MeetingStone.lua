@@ -356,31 +356,40 @@ function Skins:MeetingStone()
 	ReskinMS_PageButton(MSEnv.AppFollowQueryPanel.QueryList.ScrollBar)
 	ReskinMS_PageButton(MSEnv.AppFollowPanel.FollowList.ScrollBar)
 
-	if not MeetingStone_QuickJoin then return end  -- version check
+	-- MeetingStonePlus
+	if MeetingStone_QuickJoin then
+		B.ReskinCheck(MeetingStone_QuickJoin)
 
-	B.ReskinCheck(MeetingStone_QuickJoin)
+		for _, child in pairs {AdvFilterPanel.Inset:GetChildren()} do
+			if child.Check and not child.styled then
+				B.ReskinCheck(child.Check)
 
-	for _, child in pairs {AdvFilterPanel.Inset:GetChildren()} do
-		if child.Check and not child.styled then
-			B.ReskinCheck(child.Check)
-
-			child.styled = true
+				child.styled = true
+			end
 		end
+
+		local ManagerPanel = MSEnv.ManagerPanel
+		for _, child in pairs {ManagerPanel:GetChildren()} do
+			if child:IsObjectType("Button") and child.Icon and child.Text and not child.styled then
+				B.ReskinButton(child)
+
+				child:SetHeight(26)
+				child:HookScript("PostClick", ReskinMS_ALFrame)
+
+				child.styled = true
+			end
+		end
+
+		local ApplicantListBlocker = ManagerPanel.ApplicantListBlocker
+		B.StripTextures(ApplicantListBlocker)
+		B.CreateBDFrame(ApplicantListBlocker, 0, 2)
 	end
 
-	local ManagerPanel = MSEnv.ManagerPanel
-	for _, child in pairs {ManagerPanel:GetChildren()} do
-		if child:IsObjectType("Button") and child.Icon and child.Text and not child.styled then
-			B.ReskinButton(child)
-
-			child:SetHeight(26)
-			child:HookScript("PostClick", ReskinMS_ALFrame)
-
-			child.styled = true
-		end
+	-- Handle group roles
+	local MemberDisplay = MSEnv.MemberDisplay
+	local origSetActivity = MemberDisplay.SetActivity
+	MemberDisplay.SetActivity = function(self, activity)
+		self.resultID = activity and activity.GetID and activity:GetID()
+		origSetActivity(self, activity)
 	end
-
-	local ApplicantListBlocker = ManagerPanel.ApplicantListBlocker
-	B.StripTextures(ApplicantListBlocker)
-	B.CreateBDFrame(ApplicantListBlocker, 0, 2)
 end
