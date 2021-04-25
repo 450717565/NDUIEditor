@@ -21,21 +21,35 @@ local C_PetBattles_GetNumAuras, C_PetBattles_GetAuraInfo = C_PetBattles.GetNumAu
 local fontOutline
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local reputationsList = {}
+local reputationsColor = {}
 
 function TT:UpdateReputations()
 	for i = 1, GetNumFactions() do
 		local name, _, standingID, barMin, barMax, barValue, _, _, isHeader, _, _, _, _, factionID = GetFactionInfo(i)
-		local friendID = GetFriendshipReputation(factionID)
 		local curValue, maxValue = barValue - barMin, barMax - barMin
-		if name and factionID and not isHeader and not friendID then
+		local label = _G["FACTION_STANDING_LABEL"..standingID]
+
+		if name and factionID then
+			local friendID, _, _, _, _, _, friendTextLevel = GetFriendshipReputation(factionID)
 			local currentValue, threshold = C_Reputation.GetFactionParagonInfo(factionID)
+			local isParagon = C_Reputation.IsFactionParagon(factionID)
+
 			if currentValue then
 				reputationsList[name] = format("%s %d / %d", L["Paragon"]..floor(currentValue/threshold), mod(currentValue, threshold), threshold)
 			elseif maxValue > 0 then
-				reputationsList[name] = format("%s %d / %d", _G["FACTION_STANDING_LABEL"..standingID], curValue, maxValue)
+				reputationsList[name] = format("%s %d / %d", friendTextLevel or label, curValue, maxValue)
 			else
-				reputationsList[name] = format("%s", _G["FACTION_STANDING_LABEL"..standingID])
+				reputationsList[name] = format("%s", friendTextLevel or label)
 			end
+
+			local r, g, b = B.SmoothColor(standingID, MAX_REPUTATION_REACTION)
+			if isParagon then
+				r, g, b = 0, .6, 1
+			elseif friendID then
+				r, g, b = 0, 1, 1
+			end
+
+			reputationsColor[name] = {fr = r, fg = g, fb = b}
 		end
 	end
 end
@@ -48,8 +62,9 @@ function TT:GetFactionLine()
 		local tiptext = _G["GameTooltipTextLeft"..i]
 		local linetext = tiptext:GetText()
 		local factionString = linetext and reputationsList[linetext]
+		local factionColors = linetext and reputationsColor[linetext]
 		if factionString then
-			return tiptext, linetext, factionString
+			return tiptext, linetext, factionString, factionColors
 		end
 	end
 end
@@ -237,9 +252,10 @@ function TT:OnTooltipSetUnit()
 		end
 
 		if not isPlayer then
-			local tiptextFaction, factionName, factionString = TT.GetFactionLine(self)
+			local tiptextFaction, factionName, factionString, factionColors = TT.GetFactionLine(self)
 			if tiptextFaction then
 				tiptextFaction:SetFormattedText("%s %s", factionName, factionString)
+				tiptextFaction:SetTextColor(factionColors.fr, factionColors.fg, factionColors.fb)
 			end
 		end
 

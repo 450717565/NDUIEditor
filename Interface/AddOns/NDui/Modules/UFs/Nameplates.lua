@@ -20,8 +20,8 @@ local INTERRUPTED = INTERRUPTED
 -- Init
 function UF:PlateInsideView()
 	if C.db["Nameplate"]["InsideView"] then
-		SetCVar("nameplateOtherTopInset", .08)
-		SetCVar("nameplateOtherBottomInset", .08)
+		SetCVar("nameplateOtherTopInset", .1)
+		SetCVar("nameplateOtherBottomInset", .1)
 	else
 		SetCVar("nameplateOtherTopInset", -1)
 		SetCVar("nameplateOtherBottomInset", -1)
@@ -53,7 +53,9 @@ end
 
 function UF:SetupCVars()
 	UF:PlateInsideView()
-	SetCVar("nameplateOverlapH", .8)
+	SetCVar("nameplateOverlapH", .5)
+	SetCVar("nameplateOverlapV", 1)
+
 	UF:UpdatePlateSpacing()
 	UF:UpdatePlateAlpha()
 	SetCVar("nameplateSelectedAlpha", 1)
@@ -752,8 +754,8 @@ function UF:UpdateNameplateAuras()
 		element:SetPoint("BOTTOMLEFT", self.nameText, "TOPLEFT", 0, 5)
 	end
 
-	element.iconsPerRow = C.db["Nameplate"]["AuraPerRow"]
-	element.numTotal = C.db["Nameplate"]["maxAuras"]
+	element.iconsPerRow = 6
+	element.numTotal = 18
 
 	B.AuraSetSize(self, element)
 	element:ForceUpdate()
@@ -767,16 +769,17 @@ function UF:RefreshNameplats()
 	for nameplate in pairs(platesList) do
 		nameplate:SetSize(C.db["Nameplate"]["PlateWidth"], plateHeight)
 		nameplate.nameText:SetFont(DB.Font[1], nameTextSize, DB.Font[3])
-		nameplate.npcTitle:SetFont(DB.Font[1], nameTextSize-1, DB.Font[3])
 		nameplate.tarName:SetFont(DB.Font[1], nameTextSize+4, DB.Font[3])
+		nameplate.npcTitle:SetFont(DB.Font[1], nameTextSize-1, DB.Font[3])
+		nameplate.Castbar:SetHeight(plateHeight)
 		nameplate.Castbar.Icon:SetSize(iconSize, iconSize)
 		nameplate.Castbar.glowFrame:SetSize(iconSize+8, iconSize+8)
-		nameplate.Castbar:SetHeight(plateHeight)
-		nameplate.Castbar.Time:SetFont(DB.Font[1], nameTextSize, DB.Font[3])
 		nameplate.Castbar.Text:SetFont(DB.Font[1], nameTextSize, DB.Font[3])
+		nameplate.Castbar.Time:SetFont(DB.Font[1], nameTextSize, DB.Font[3])
 		nameplate.Castbar.spellTarget:SetFont(DB.Font[1], nameTextSize+3, DB.Font[3])
 		nameplate.healthValue:SetFont(DB.Font[1], C.db["Nameplate"]["HealthTextSize"], DB.Font[3])
 		nameplate.healthValue:UpdateTag()
+
 		UF.UpdateNameplateAuras(nameplate)
 		UF.UpdateTargetIndicator(nameplate)
 		UF.UpdateTargetChange(nameplate)
@@ -987,7 +990,7 @@ function UF:ResizePlayerPlate()
 end
 
 function UF:CreatePlayerPlate()
-	self.mystyle = "PlayerPlate"
+	self.mystyle = "playerplate"
 	self:EnableMouse(false)
 	local healthHeight, powerHeight = C.db["Nameplate"]["PPHealthHeight"], C.db["Nameplate"]["PPPowerHeight"]
 	self:SetSize(C.db["Nameplate"]["PPWidth"], healthHeight + powerHeight + C.mult)

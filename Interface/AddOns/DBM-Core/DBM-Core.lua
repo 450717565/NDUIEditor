@@ -70,9 +70,9 @@ local function showRealDate(curseDate)
 end
 
 DBM = {
-	Revision = parseCurseDate("20210330155402"),
-	DisplayVersion = "9.0.25", -- the string that is shown as version
-	ReleaseRevision = releaseDate(2021, 3, 30) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
+	Revision = parseCurseDate("20210422012805"),
+	DisplayVersion = "9.0.26", -- the string that is shown as version
+	ReleaseRevision = releaseDate(2021, 4, 21) -- the date of the latest stable version that is available, optionally pass hours, minutes, and seconds for multiple releases in one day
 }
 DBM.HighestRelease = DBM.ReleaseRevision --Updated if newer version is detected, used by update nags to reflect critical fixes user is missing on boss pulls
 
@@ -520,7 +520,7 @@ local instanceDifficultyBylevel = {
 	[1205]={40, 3},[1448]={40, 3},[1228]={40, 3},--WoD Raids (yes, only 3 kekw)
 	[1712]={50, 3},[1520]={50, 3},[1530]={50, 3},[1676]={50, 3},[1648]={50, 3},--Legion Raids (Set to 50 because 45 tuning makes them difficult even at 50)
 	[1861]={50, 3},[2070]={50, 3},[2096]={50, 3},[2164]={50, 3},[2217]={50, 3},--BfA Raids
-	[2296]={60, 3},--Shadowlands Raids
+	[2296]={60, 3},[2450]={60, 3},--Shadowlands Raids
 	--Dungeons
 	[48]={30, 2},[230]={30, 2},[429]={30, 2},[389]={30, 2},[34]={30, 2},--Classic Dungeons
 	[540]={30, 2},[558]={30, 2},[556]={30, 2},[555]={30, 2},[542]={30, 2},[546]={30, 2},[545]={30, 2},[547]={30, 2},[553]={30, 2},[554]={30, 2},[552]={30, 2},[557]={30, 2},[269]={30, 2},[560]={30, 2},[543]={30, 2},[585]={30, 2},--BC Dungeons
@@ -530,7 +530,7 @@ local instanceDifficultyBylevel = {
 	[1182]={40, 2},[1175]={40, 2},[1208]={40, 2},[1195]={40, 2},[1279]={40, 2},[1176]={40, 2},[1209]={40, 2},[1358]={40, 2},--WoD Dungeons
 	[1501]={45, 2},[1466]={45, 2},[1456]={45, 2},[1477]={45, 2},[1458]={45, 2},[1516]={45, 2},[1571]={45, 2},[1492]={45, 2},[1544]={45, 2},[1493]={45, 2},[1651]={45, 2},[1677]={45, 2},[1753]={45, 2},--Legion Dungeons
 	[1763]={50, 2},[1754]={50, 2},[1762]={50, 2},[1864]={50, 2},[1822]={50, 2},[1877]={50, 2},[1594]={50, 2},[1841]={50, 2},[1771]={50, 2},[1862]={50, 2},[2097]={50, 2},--Bfa Dungeons
-	[2286]={60, 2},[2289]={60, 2},[2290]={60, 2},[2287]={60, 2},[2285]={60, 2},[2293]={60, 2},[2291]={60, 2},[2284]={60, 2}--Shadowlands Dungeons
+	[2286]={60, 2},[2289]={60, 2},[2290]={60, 2},[2287]={60, 2},[2285]={60, 2},[2293]={60, 2},[2291]={60, 2},[2284]={60, 2},[2441]={60, 2},--Shadowlands Dungeons
 }
 
 
@@ -831,9 +831,8 @@ do
 	local argsMT = {__index = {}}
 	local args = setmetatable({}, argsMT)
 
-	function argsMT.__index:IsSpellID(a1, a2, a3, a4, a5)
-		local v = self.spellId
-		return v == a1 or v == a2 or v == a3 or v == a4 or v == a5
+	function argsMT.__index:IsSpellID(...)
+		return tIndexOf({...}, self.spellId) ~= nil
 	end
 
 	function argsMT.__index:IsPlayer()
@@ -1380,7 +1379,7 @@ do
 			end
 			onLoadCallbacks = nil
 			loadOptions(self)
-			if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+			if WOW_PROJECT_ID ~= (WOW_PROJECT_MAINLINE or 1) then
 				self:Disable(true)
 				self:Schedule(15, infniteLoopNotice, self, L.RETAIL_ONLY)
 				return
@@ -3939,7 +3938,7 @@ do
 		if not self.Options.SpecialWarningFont or (self.Options.SpecialWarningFont == "Fonts\\2002.TTF" or self.Options.SpecialWarningFont == "Fonts\\ARKai_T.ttf" or self.Options.SpecialWarningFont == "Fonts\\blei00d.TTF" or self.Options.SpecialWarningFont == "Fonts\\FRIZQT___CYR.TTF" or self.Options.SpecialWarningFont == "Fonts\\FRIZQT__.TTF") then
 			self.Options.SpecialWarningFont = "standardFont"
 		end
-		if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then return end--Don't do sound migration in a situation user is loading wrong DBM version, to avoid sound path corruption
+		if WOW_PROJECT_ID ~= (WOW_PROJECT_MAINLINE or 1) then return end--Don't do sound migration in a situation user is loading wrong DBM version, to avoid sound path corruption
 		--Migrate user sound options to soundkit Ids if selected media doesn't exist in Interface\\AddOns
 		--This will in the short term, screw with people trying to use LibSharedMedia sound files on 8.1.5 until LSM has migrated as well.
 		local migrated = false
@@ -8655,6 +8654,7 @@ do
 			["RangedDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["MagicDispeller"] = true,
 			["RemoveEnrage"] = true,
 		},
 		[254] = {	--Markmanship Hunter Hunter
@@ -8663,6 +8663,7 @@ do
 			["RangedDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["MagicDispeller"] = true,
 			["RemoveEnrage"] = true,
 		},
 		[255] = {	--Survival Hunter (Legion+)
@@ -8671,6 +8672,7 @@ do
 			["MeleeDps"] = true,
 			["Physical"] = true,
 			["HasInterrupt"] = true,
+			["MagicDispeller"] = true,
 			["RemoveEnrage"] = true,
 		},
 		[1448] = {	--Initial Hunter (used in exiles reach tutorial mode). Treated as hybrid. Utility disabled because that'd require checking tutorial progress
@@ -12281,7 +12283,7 @@ end
 
 function bossModPrototype:SetRevision(revision)
 	revision = parseCurseDate(revision or "")
-	if not revision or revision == "20210330155402" then
+	if not revision or revision == "20210422012805" then
 		-- bad revision: either forgot the svn keyword or using github
 		revision = DBM.Revision
 	end

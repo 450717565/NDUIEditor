@@ -16,37 +16,6 @@ local function Update_BarTexture(self, atlas)
 	end
 end
 
-local Type_DoubleStatusBar = _G.Enum.UIWidgetVisualizationType.DoubleStatusBar
-local Type_SpellDisplay = _G.Enum.UIWidgetVisualizationType.SpellDisplay
-
-local function Reskin_WidgetFrames()
-	for _, widgetFrame in pairs(_G.UIWidgetTopCenterContainerFrame.widgetFrames) do
-		if widgetFrame.widgetType == Type_DoubleStatusBar then
-			if not widgetFrame.styled then
-				for _, bar in pairs({widgetFrame.LeftBar, widgetFrame.RightBar}) do
-					B.CleanTextures(bar)
-					B.CreateBDFrame(bar, 0, -C.mult)
-
-					hooksecurefunc(bar, "SetStatusBarAtlas", Update_BarTexture)
-				end
-
-				widgetFrame.styled = true
-			end
-		elseif widgetFrame.widgetType == Type_SpellDisplay then
-			if not widgetFrame.styled then
-				local widgetSpell = widgetFrame.Spell
-				widgetSpell.IconMask:Hide()
-				widgetSpell.Border:SetTexture("")
-
-				local icbg = B.ReskinIcon(widgetSpell.Icon)
-				B.ReskinSpecialBorder(widgetSpell.DebuffBorder, icbg)
-
-				widgetFrame.styled = true
-			end
-		end
-	end
-end
-
 local function Reskin_CaptureBar(self)
 	B.StripTextures(self, 0)
 	B.CleanTextures(self)
@@ -61,8 +30,7 @@ local function Reskin_CaptureBar(self)
 
 	if not self.styled then
 		local bg = B.CreateBDFrame(self)
-		bg:SetPoint("TOPLEFT", self.LeftBar, -2, 2)
-		bg:SetPoint("BOTTOMRIGHT", self.RightBar, 2, -2)
+		bg:SetOutside(self.LeftBar, 2, 2, self.RightBar)
 
 		self.styled = true
 	end
@@ -102,6 +70,41 @@ local function Reskin_BaseSpell(self)
 		B.ReskinIcon(self.Icon)
 
 		self.styled = true
+	end
+end
+
+local Type_StatusBar = _G.Enum.UIWidgetVisualizationType.StatusBar
+local Type_SpellDisplay = _G.Enum.UIWidgetVisualizationType.SpellDisplay
+local Type_DoubleStatusBar = _G.Enum.UIWidgetVisualizationType.DoubleStatusBar
+
+local function Reskin_WidgetFrames()
+	for _, widgetFrame in pairs(_G.UIWidgetTopCenterContainerFrame.widgetFrames) do
+		local widgetType = widgetFrame.widgetType
+		if widgetType == Type_DoubleStatusBar then
+			if not widgetFrame.styled then
+				for _, bar in pairs {widgetFrame.LeftBar, widgetFrame.RightBar} do
+					B.CleanTextures(bar)
+					B.CreateBDFrame(bar, 0, -C.mult)
+
+					hooksecurefunc(bar, "SetStatusBarAtlas", Update_BarTexture)
+				end
+
+				widgetFrame.styled = true
+			end
+		elseif widgetType == Type_SpellDisplay then
+			if not widgetFrame.styled then
+				local widgetSpell = widgetFrame.Spell
+				widgetSpell.IconMask:Hide()
+				widgetSpell.Border:SetTexture("")
+
+				local icbg = B.ReskinIcon(widgetSpell.Icon)
+				B.ReskinSpecialBorder(widgetSpell.DebuffBorder, icbg)
+
+				widgetFrame.styled = true
+			end
+		elseif widgetType == Type_StatusBar then
+			Reskin_StatusBar(widgetFrame)
+		end
 	end
 end
 

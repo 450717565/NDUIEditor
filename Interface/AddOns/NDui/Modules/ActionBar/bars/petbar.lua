@@ -26,7 +26,7 @@ local function SetFrameSize(frame, size, num)
 	end
 end
 
-function Bar:CreatePetbar()
+function Bar:CreatePetBar()
 	local num = NUM_PET_ACTION_SLOTS
 	local buttonList = {}
 

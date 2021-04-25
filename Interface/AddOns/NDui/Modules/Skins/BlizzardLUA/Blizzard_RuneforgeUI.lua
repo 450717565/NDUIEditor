@@ -37,6 +37,26 @@ local function Reskin_RefreshListDisplay(self)
 	end
 end
 
+local function replaceCurrencyDisplay(self)
+	if not self.currencyID then return end
+	local text = GetCurrencyString(self.currencyID, self.amount, self.colorCode, self.abbreviate)
+	local newText, count = gsub(text, "|T([^:]-):[%d+:]+|t", "|T%1:14:14:0:0:64:64:5:59:5:59|t")
+	if count > 0 then self:SetText(newText) end
+end
+
+local function Updat_SetCurrencies(self)
+	if self.currencyFramePool then
+		for frame in self.currencyFramePool:EnumerateActive() do
+			if not frame.hooked then
+				replaceCurrencyDisplay(frame)
+				hooksecurefunc(frame, "SetCurrencyFromID", replaceCurrencyDisplay)
+
+				frame.hooked = true
+			end
+		end
+	end
+end
+
 C.LUAThemes["Blizzard_RuneforgeUI"] = function()
 	local frame = RuneforgeFrame
 	B.ReskinClose(frame.CloseButton, frame, -70, -70)
@@ -45,8 +65,11 @@ C.LUAThemes["Blizzard_RuneforgeUI"] = function()
 	local createFrame = frame.CreateFrame
 	B.ReskinButton(createFrame.CraftItemButton)
 
-	if createFrame.Cost.Text then -- isNewPatch
+	if not DB.isNewPatch then
 		S.ReplaceIconString(createFrame.Cost.Text)
+	else
+		hooksecurefunc(frame.CurrencyDisplay, "SetCurrencies", Updat_SetCurrencies)
+		hooksecurefunc(createFrame.Cost.Currencies, "SetCurrencies", Updat_SetCurrencies)
 	end
 
 	local powerFrame = frame.CraftingFrame.PowerFrame

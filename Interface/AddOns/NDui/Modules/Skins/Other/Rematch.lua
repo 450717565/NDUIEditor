@@ -322,7 +322,7 @@ function Skins:Rematch()
 		B.StripTextures(Content)
 		B.CreateBDFrame(Content, 0, 2)
 
-		for _, result in pairs({"Wins", "Losses", "Draws"}) do
+		for _, result in pairs {"Wins", "Losses", "Draws"} do
 			reskinInput(Content[result].EditBox)
 			Content[result].Add.IconBorder:Hide()
 		end
@@ -396,7 +396,7 @@ function Skins:Rematch()
 		B.ReskinScroll(Content.ScrollFrame.ScrollBar)
 		B.CreateBGFrame(Content.ScrollFrame, 0, 5, 0, -2)
 
-		for _, icon in pairs({"Left", "Right"}) do
+		for _, icon in pairs {"Left", "Right"} do
 			local bu = Content[icon.."Icon"]
 			local mask = Content[icon.."CircleMask"]
 
@@ -474,7 +474,7 @@ function Skins:Rematch()
 			tab.Icon:SetPoint("CENTER")
 		end
 
-		for _, button in pairs({"UpButton", "DownButton"}) do
+		for _, button in pairs {"UpButton", "DownButton"} do
 			reskinButton(self[button])
 			self[button]:SetSize(40, 40)
 			self[button].Icon:SetPoint("CENTER")

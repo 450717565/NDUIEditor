@@ -110,7 +110,7 @@ function Skins:WorldQuestTab()
 
 	Reskin_Rewards(WQT_SettingsQuestListPreview.Preview)
 
-	for _, tab in pairs({WQT_TabNormal, WQT_TabWorld}) do
+	for _, tab in pairs {WQT_TabNormal, WQT_TabWorld} do
 		B.StripTextures(tab, 2)
 		B.ReskinButton(tab)
 

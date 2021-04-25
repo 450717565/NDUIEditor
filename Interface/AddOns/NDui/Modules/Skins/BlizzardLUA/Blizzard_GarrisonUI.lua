@@ -221,7 +221,7 @@ local function Reskin_MissionList(self)
 				LocBG:SetPoint("TOPLEFT", button.bubg, 1, 0)
 				LocBG:SetPoint("BOTTOMRIGHT", button.bubg, -1, -2)
 
-				for _, overlay in pairs({RareOverlay, Overlay}) do
+				for _, overlay in pairs {RareOverlay, Overlay} do
 					overlay:SetDrawLayer("BACKGROUND")
 					overlay:SetTexture(DB.bdTex)
 					overlay:ClearAllPoints()
@@ -418,7 +418,7 @@ local function Reskin_MissionFrame(self)
 	Reskin_FollowerTab(FollowerTab)
 	hooksecurefunc(self.FollowerTab, "UpdateCombatantStats", Reskin_CombatantStats)
 
-	for _, item in pairs({FollowerTab.ItemWeapon, FollowerTab.ItemArmor}) do
+	for _, item in pairs {FollowerTab.ItemWeapon, FollowerTab.ItemArmor} do
 		if item then
 			B.StripTextures(item)
 			B.ReskinIcon(item.Icon)
@@ -762,7 +762,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	B.StripTextures(Report, 0)
 	B.StripTextures(Report.List)
 
-	for _, tab in pairs({Report.InProgress, Report.Available}) do
+	for _, tab in pairs {Report.InProgress, Report.Available} do
 		B.CleanTextures(tab)
 		tab.Text:ClearAllPoints()
 		tab.Text:SetPoint("CENTER")
@@ -895,7 +895,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	hooksecurefunc(FollowerList, "ShowFollower", Reskin_ShowFollower)
 
 	-- InfoBox and TownHallBox
-	for _, boxs in pairs({"TownHallBox", "InfoBox"}) do
+	for _, boxs in pairs {"TownHallBox", "InfoBox"} do
 		local box = GarrisonBuildingFrame[boxs]
 		B.StripTextures(box)
 		B.CreateBDFrame(box)
@@ -924,7 +924,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	local Confirmation = GarrisonBuildingFrame.Confirmation
 	B.ReskinFrame(Confirmation)
 
-	for _, buttons in pairs({"CancelButton", "BuildButton", "UpgradeButton", "UpgradeGarrisonButton", "ReplaceButton", "SwitchButton"}) do
+	for _, buttons in pairs {"CancelButton", "BuildButton", "UpgradeButton", "UpgradeGarrisonButton", "ReplaceButton", "SwitchButton"} do
 		local button = Confirmation[buttons]
 		B.ReskinButton(button)
 	end
@@ -1064,7 +1064,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 
 	local function Reskin_OnEvent(event, addon)
 		if addon == "GarrisonMissionManager" then
-			for _, frame in pairs({GarrisonMissionFrame, OrderHallMissionFrame, BFAMissionFrame}) do
+			for _, frame in pairs {GarrisonMissionFrame, OrderHallMissionFrame, BFAMissionFrame} do
 				if frame then
 					hooksecurefunc(frame.MissionTab.MissionList, "Update", Reskin_OnUpdate)
 					frame.MissionTab.MissionPage:HookScript("OnShow", Reskin_OnShow)
@@ -1189,9 +1189,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 					B.StripTextures(widget)
 					B.CreateBDFrame(widget, 0, -C.mult)
 				elseif otype == "MissionToast" then
-					widget.Icon:Show()
 					widget.Background:Hide()
-					widget.Outcome:SetFontObject("Game13Font")
 					widget.Detail:SetFontObject("Game13Font")
 					B.CreateBG(widget)
 				end

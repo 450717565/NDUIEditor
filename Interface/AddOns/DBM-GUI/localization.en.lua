@@ -16,15 +16,6 @@ L.OTabPlugins	= "Core Plugins"
 L.OTabOptions	= GAMEOPTIONS_MENU
 L.OTabAbout		= "About"
 
-L.TabCategory_SHADOWLANDS	= EXPANSION_NAME8
-L.TabCategory_BFA	 		= EXPANSION_NAME7
-L.TabCategory_LEG	 		= EXPANSION_NAME6
-L.TabCategory_WOD	 		= EXPANSION_NAME5
-L.TabCategory_MOP	 		= EXPANSION_NAME4
-L.TabCategory_CATA	 		= EXPANSION_NAME3
-L.TabCategory_WOTLK 		= EXPANSION_NAME2
-L.TabCategory_BC 			= EXPANSION_NAME1
-L.TabCategory_CLASSIC		= EXPANSION_NAME0
 L.TabCategory_OTHER    		= "Other Mods"
 
 L.BossModLoaded 			= "%s statistics"
@@ -348,7 +339,7 @@ L.Area_BlizzFiltersSetup	= "Blizzard Filters guide"
 L.Panel_SpamFilter					= "DBM Features"
 L.Area_SpamFilter_Anounces			= "Announce Global Disable & Filter Options"
 L.SpamBlockNoShowAnnounce			= "Do not show text or play sound for ANY general announcements"
-L.SpamBlockNoShowTgtAnnounce		= "Do not show text or play sound for TARGET general announcements (above filter overrides this one)"
+L.SpamBlockNoShowTgtAnnounce		= "Do not show text or play sound for TARGET general announcements that do not affect other players (above filter overrides this one)"
 L.SpamBlockNoSpecWarnText			= "Do not show special announce text"
 L.SpamBlockNoSpecWarnFlash			= "Do not show special announce screen flash"
 L.SpamBlockNoSpecWarnSound			= "Do not play special announce sounds (still permits voice packs, if one is enabled in Spoken Alerts panel)"

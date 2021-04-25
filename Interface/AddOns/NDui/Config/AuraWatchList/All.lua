@@ -295,6 +295,7 @@ local list = {
 		-- 大米
 		{AuraID = 226510, UnitID = "target"},	-- 血池回血
 		-- 5人本
+		{AuraID = 319290, UnitID = "target", Value = true},	-- 通灵战潮，血肉之盾
 		{AuraID = 321754, UnitID = "target", Value = true},	-- 通灵战潮，冰缚之盾
 		{AuraID = 343470, UnitID = "target", Value = true},	-- 通灵战潮，碎骨之盾
 		{AuraID = 328351, UnitID = "target", Flash = true},	-- 通灵战潮，染血长枪

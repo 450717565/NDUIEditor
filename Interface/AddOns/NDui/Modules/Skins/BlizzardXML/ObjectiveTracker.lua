@@ -88,30 +88,42 @@ local function Reskin_ContentTracker()
 	local widgetContainer = ScenarioStageBlock.WidgetContainer
 	if not widgetContainer then return end
 
-	local widgetFrame = widgetContainer:GetChildren()
-	if widgetFrame and widgetFrame.Frame then
-		widgetFrame.Frame:SetAlpha(0)
+	for _, widgetFrame in pairs {widgetContainer:GetChildren()} do
+		if not widgetFrame then return end
 
-		if widgetFrame.CurrencyContainer then
-			local child = {widgetFrame.CurrencyContainer:GetChildren()}
-			for _, button in pairs(child) do
-				if button and not button.styled then
-					B.ReskinIcon(button.Icon)
+		if widgetFrame.Frame then
+			widgetFrame.Frame:SetAlpha(0)
+		end
 
-					button.styled = true
-				end
+		if widgetFrame.Foreground then
+			local Foreground = widgetFrame.Foreground
+			if not Foreground.styled then
+				Foreground:ClearAllPoints()
+				Foreground:SetPoint("TOPLEFT", widgetContainer, "TOPLEFT", 5, -4)
+
+				Foreground.styled = true
 			end
 		end
 
 		if widgetFrame.TimerBar then
-			local bar = widgetFrame.TimerBar
-			if not bar.styled then
-				bar:SetSize(220, 10)
+			local TimerBar = widgetFrame.TimerBar
+			if not TimerBar.styled then
+				TimerBar:SetSize(220, 10)
 
-				B.ReskinStatusBar(bar, true)
-				B.SmoothBar(bar)
+				B.ReskinStatusBar(TimerBar, true)
+				B.SmoothBar(TimerBar)
 
-				bar.styled = true
+				TimerBar.styled = true
+			end
+		end
+
+		if widgetFrame.CurrencyContainer then
+			for _, child in pairs {widgetFrame.CurrencyContainer:GetChildren()} do
+				if child and not child.styled then
+					B.ReskinIcon(child.Icon)
+
+					child.styled = true
+				end
 			end
 		end
 	end
@@ -145,6 +157,18 @@ local function Reskin_QuestIcons(_, block)
 	Reskin_QuestIcon(block.itemButton)
 	Reskin_QuestIcon(block.rightButton)
 	Reskin_QuestIcon(block.groupFinderButton)
+end
+
+local function Reskin_SpellButton(spellButton)
+	if not spellButton.styled then
+		B.CleanTextures(spellButton)
+
+		local icbg = B.ReskinIcon(spellButton.Icon)
+		B.ReskinHighlight(spellButton, icbg)
+		B.ReskinPushed(spellButton, icbg)
+
+		spellButton.styled = true
+	end
 end
 
 local function Get_MawBuffsAnchor(self)
@@ -243,6 +267,7 @@ tinsert(C.XMLThemes, function()
 	hooksecurefunc("Scenario_ChallengeMode_SetUpAffixes", B.ReskinAffixes)
 	hooksecurefunc("Scenario_ChallengeMode_ShowBlock", Reskin_ShowBlock)
 	hooksecurefunc("ScenarioStage_CustomizeBlock", Reskin_CustomizeBlock)
+	hooksecurefunc("ScenarioSpellButton_UpdateCooldown", Reskin_SpellButton)
 	hooksecurefunc(SCENARIO_CONTENT_TRACKER_MODULE, "Update", Reskin_ContentTracker)
 
 	-- MawBuffsBlock

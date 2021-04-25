@@ -98,7 +98,7 @@ tinsert(C.XMLThemes, function()
 	line:SetWidth(250)
 	line:SetPoint("BOTTOMRIGHT", OpenMailInvoiceAmountReceived, "TOPRIGHT", 7, 7)
 
-	for _, button in pairs({"OpenMailLetterButton", "OpenMailMoneyButton"}) do
+	for _, button in pairs {"OpenMailLetterButton", "OpenMailMoneyButton"} do
 		local bu = _G[button]
 		B.CleanTextures(bu)
 

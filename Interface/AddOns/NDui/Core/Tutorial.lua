@@ -58,6 +58,7 @@ local function ForceDefaultSettings()
 		SetCVar("nameplateShowAll", 1)
 		SetCVar("nameplateShowEnemies", 1)
 		SetCVar("nameplateShowEnemyMiniones", 1)
+		SetCVar("nameplateOccludedAlphaMult", 0.5)
 	end
 end
 

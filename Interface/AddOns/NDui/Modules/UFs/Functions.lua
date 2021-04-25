@@ -113,7 +113,7 @@ end
 function UF:UpdateHealthBarColor(self, force)
 	local health = self.Health
 	local mystyle = self.mystyle
-	if mystyle == "PlayerPlate" then
+	if mystyle == "playerplate" then
 		health.colorHealth = true
 	elseif mystyle == "raid" then
 		UpdateHealthColorByIndex(health, C.db["UFs"]["RaidHealthColor"])
@@ -137,7 +137,7 @@ function UF:CreateHealthBar(self)
 	B.SmoothBar(health)
 
 	local healthHeight
-	if mystyle == "PlayerPlate" then
+	if mystyle == "playerplate" then
 		healthHeight = C.db["Nameplate"]["PPHealthHeight"]
 	elseif mystyle == "raid" then
 		if self.isPartyFrame then
@@ -296,7 +296,7 @@ end
 function UF:UpdatePowerBarColor(self, force)
 	local power = self.Power
 	local mystyle = self.mystyle
-	if mystyle == "PlayerPlate" then
+	if mystyle == "playerplate" then
 		power.colorPower = true
 	elseif mystyle == "raid" then
 		UpdatePowerColorByIndex(power, C.db["UFs"]["RaidHealthColor"])
@@ -320,7 +320,7 @@ function UF:CreatePowerBar(self)
 	B.SmoothBar(power)
 
 	local powerHeight
-	if mystyle == "PlayerPlate" then
+	if mystyle == "playerplate" then
 		powerHeight = C.db["Nameplate"]["PPPowerHeight"]
 	elseif mystyle == "raid" then
 		if self.isPartyFrame then
@@ -853,8 +853,8 @@ function UF:CreateAuras(self)
 	elseif mystyle == "nameplate" then
 		bu.initialAnchor = "BOTTOMLEFT"
 		bu["growth-y"] = "UP"
-		bu.numTotal = C.db["Nameplate"]["MaxAuras"]
-		bu.iconsPerRow = C.db["Nameplate"]["AuraPerRow"]
+		bu.numTotal = 18
+		bu.iconsPerRow = 6
 		bu.disableMouse = true
 		if C.db["Nameplate"]["ShowPlayerPlate"] and C.db["Nameplate"]["NameplateClassPower"] then
 			bu:SetPoint("BOTTOMLEFT", self.nameText, "TOPLEFT", 0, 10 + _G.oUF_ClassPowerBar:GetHeight())
@@ -1036,7 +1036,7 @@ end
 function UF:CreateClassPower(self)
 	barWidth = self:GetWidth()*.6
 
-	if self.mystyle == "PlayerPlate" then
+	if self.mystyle == "playerplate" then
 		barWidth = C.db["Nameplate"]["NameplateClassPower"] and C.db["Nameplate"]["PlateWidth"] or C.db["Nameplate"]["PPWidth"]
 		barHeight = C.db["Nameplate"]["PPBarHeight"]
 	end

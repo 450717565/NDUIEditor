@@ -32,12 +32,17 @@ local function Reskin_ConduitList(frame)
 end
 
 local function Update_ConduitList(self)
-	for _, list in pairs {self.ScrollTarget:GetChildren()} do
-		if list and not list.hooked then
-			hooksecurefunc(list, "Layout", Reskin_ConduitList)
-
-			list.hooked = true
+	local numChildren = self.ScrollTarget:GetNumChildren()
+	if numChildren > numChildrenStyled then
+		for i = 1, numChildren do
+			local list = select(i, self.ScrollTarget:GetChildren())
+			if list and not list.hooked then
+				hooksecurefunc(list, "Layout", ReskinConduitList)
+				list.hooked = true
+			end
 		end
+
+		numChildrenStyled = numChildren
 	end
 end
 
@@ -53,7 +58,7 @@ C.LUAThemes["Blizzard_Soulbinds"] = function()
 			hooksecurefunc(ScrollBox.ScrollTarget.Lists[i], "UpdateLayout", Reskin_ConduitList)
 		end
 	else
-		-- blizzard recreate conduit list for each time you open the panel
+		local numChildrenStyled = 0
 		hooksecurefunc(SoulbindViewer.ConduitList.ScrollBox, "Update", Update_ConduitList)
 	end
 end

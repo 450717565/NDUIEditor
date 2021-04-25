@@ -1207,7 +1207,7 @@ do
 
 		local bg = B.CreateBG(self)
 		local frameName = self:GetDebugName()
-		for _, key in pairs({"Header", "header"}) do
+		for _, key in pairs {"Header", "header"} do
 			local frameHeader = self[key] or (frameName and _G[frameName..key])
 			if frameHeader then
 				B.StripTextures(frameHeader, 0)
@@ -1216,7 +1216,7 @@ do
 				frameHeader:SetPoint("TOP", bg, "TOP", 0, 5)
 			end
 		end
-		for _, key in pairs({"Portrait", "portrait"}) do
+		for _, key in pairs {"Portrait", "portrait"} do
 			local framePortrait = self[key] or (frameName and _G[frameName..key])
 			if framePortrait then framePortrait:SetAlpha(0) end
 		end
@@ -1315,7 +1315,7 @@ do
 
 	function B:ReskinRole(role)
 		local frameName = self:GetDebugName()
-		for _, key in pairs({"background", "Cover", "cover"}) do
+		for _, key in pairs {"background", "Cover", "cover"} do
 			local tex = self[key] or (frameName and _G[frameName..key])
 			if tex then tex:SetTexture("") end
 		end
@@ -1366,7 +1366,7 @@ do
 		if self.GetThumbTexture then
 			thumb = self:GetThumbTexture()
 		else
-			for _, key in pairs({"ThumbTexture", "thumbTexture"}) do
+			for _, key in pairs {"ThumbTexture", "thumbTexture"} do
 				thumb = self[key] or (frameName and _G[frameName..key])
 			end
 		end

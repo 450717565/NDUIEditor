@@ -85,6 +85,7 @@ DBT.DefaultOptions = {
 	ExpandUpwards = false,
 	FillUpBars = true,
 	TimerPoint = "TOPRIGHT",
+	Sort = "Sort",
 	-- Huge bar
 	EnlargeBarTime = 11,
 	HugeBarXOffset = 0,
@@ -98,6 +99,7 @@ DBT.DefaultOptions = {
 	FillUpLargeBars = true,
 	HugeBarsEnabled = true,
 	HugeTimerPoint = "CENTER",
+	HugeSort = "Sort",
 	-- Misc
 	Height = 20,
 	TextColorR = 1,
@@ -107,7 +109,6 @@ DBT.DefaultOptions = {
 	FontSize = 10,
 	FlashBar = false,
 	Spark = true,
-	Sort = "Sort",
 	ColorByType = true,
 	NoBarFade = false,
 	InlineIcons = true,
@@ -593,7 +594,7 @@ end
 function DBT:UpdateBars(sortBars)
 	if sortBars and self.Options.Sort ~= "None" then
 		tsort(largeBars, function(x, y)
-			if self.Options.Sort == "Invert" then
+			if self.Options.HugeSort == "Invert" then
 				return x.timer < y.timer
 			end
 			return x.timer > y.timer
@@ -887,12 +888,13 @@ function barPrototype:Update(elapsed)
 		isEnlarged = true
 		tinsert(largeBars, self)
 		self:ApplyStyle()
+		DBT:UpdateBars(true)
 	end
-	DBT:UpdateBars()
 	if not paused and (timerValue <= enlargeTime) and not self.small and not isEnlarged and isMoving ~= "enlarge" and DBT.Options.HugeBarsEnabled then
 		self:RemoveFromList()
 		self:Enlarge()
 	end
+	DBT:UpdateBars()
 end
 
 function barPrototype:RemoveFromList()
@@ -1091,7 +1093,7 @@ function barPrototype:AnimateEnlarge(elapsed)
 		self.moving = nil
 		self.enlarged = true
 		tinsert(largeBars, self)
-		DBT:UpdateBars()
+		DBT:UpdateBars(true)
 		self:ApplyStyle()
 	end
 end

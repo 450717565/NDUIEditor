@@ -39,4 +39,8 @@ C.LUAThemes["Blizzard_ItemUpgradeUI"] = function()
 	ItemButton.bubg = bubg
 
 	hooksecurefunc("ItemUpgradeFrame_Update", Reskin_ItemUpgradeFrame)
+
+	if DB.isNewPatch then
+		B.ReskinDropDown(ItemUpgradeFrame.UpgradeLevelDropDown.DropDownMenu)
+	end
 end

@@ -281,8 +281,15 @@ function Misc:HookParagonRep()
 		local factionStanding = _G["ReputationBar"..i.."ReputationBarFactionStanding"]
 
 		if factionIndex <= numFactions then
+			local standingID = select(3, GetFactionInfo(factionIndex))
 			local factionID = select(14, GetFactionInfo(factionIndex))
-			if factionID and C_Reputation_IsFactionParagon(factionID) then
+
+			if not factionID then return end
+
+			local isParagon = C_Reputation_IsFactionParagon(factionID)
+			local friendID = GetFriendshipReputation(factionID)
+
+			if isParagon then
 				local currentValue, threshold, _, hasRewardPending = C_Reputation_GetFactionParagonInfo(factionID)
 				if currentValue and threshold then
 					local barValue = mod(currentValue, threshold)
@@ -298,12 +305,14 @@ function Misc:HookParagonRep()
 					end
 
 					factionBar:SetMinMaxValues(0, threshold)
-					factionBar:SetStatusBarColor(0, .5, .9)
+					factionBar:SetStatusBarColor(0, .6, 1, C.alpha)
 					factionBar:SetValue(barValue)
 					factionRow.rolloverText = format(REPUTATION_PROGRESS_FORMAT, BreakUpLargeNumbers(barValue), BreakUpLargeNumbers(threshold))
 					factionRow.standingText = factionStandingtext
 					factionStanding:SetText(factionStandingtext)
 				end
+			elseif friendID then
+				factionBar:SetStatusBarColor(0, 1, 1, C.alpha)
 			end
 		end
 	end

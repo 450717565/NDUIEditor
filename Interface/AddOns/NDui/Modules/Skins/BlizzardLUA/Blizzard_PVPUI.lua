@@ -168,7 +168,7 @@ C.LUAThemes["Blizzard_PVPUI"] = function()
 	end
 
 	-- Reskin bar and role
-	for _, frame in pairs({HonorFrame, ConquestFrame}) do
+	for _, frame in pairs {HonorFrame, ConquestFrame} do
 		B.ReskinRole(frame.TankIcon, "TANK")
 		B.ReskinRole(frame.HealerIcon, "HEALER")
 		B.ReskinRole(frame.DPSIcon, "DPS")

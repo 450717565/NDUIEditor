@@ -7,6 +7,8 @@ local Bar = B:GetModule("ActionBar")
 local _G = getfenv(0)
 local pairs, gsub = pairs, string.gsub
 
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
+
 local function CallButtonFunctionByName(button, func, ...)
 	if button and func and button[func] then
 		button[func](button, ...)
@@ -166,6 +168,8 @@ function Bar:UpdateHotKey()
 	else
 		hotkey:SetText(text)
 	end
+
+	hotkey:SetTextColor(cr, cg, cb)
 end
 
 function Bar:HookHotKey(button)

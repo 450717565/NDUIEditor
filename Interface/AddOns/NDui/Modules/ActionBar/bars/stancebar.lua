@@ -26,7 +26,7 @@ local function SetFrameSize(frame, size, num)
 	end
 end
 
-function Bar:CreateStancebar()
+function Bar:CreateStanceBar()
 	local num = NUM_STANCE_SLOTS
 	local NUM_POSSESS_SLOTS = NUM_POSSESS_SLOTS
 	local buttonList = {}
