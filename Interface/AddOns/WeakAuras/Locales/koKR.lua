@@ -170,8 +170,7 @@ L["BigWigs Addon"] = "BigWigs 애드온"
 L["BigWigs Message"] = "BigWigs 메시지"
 L["BigWigs Timer"] = "BigWigs 타이머"
 L["Black Wing Lair"] = "검은날개 둥지"
---[[Translation missing --]]
-L["Blizzard (2h | 3m | 10s | 2.4)"] = "Blizzard (2h | 3m | 10s | 2.4)"
+L["Blizzard (2h | 3m | 10s | 2.4)"] = "블리자드 (2시간 / 3분 / 10초 / 2.4)"
 L["Blizzard Combat Text"] = "블리자드 전투 문자"
 L["Block"] = "방어함"
 L["Block (%)"] = "막음(%)"
@@ -468,6 +467,8 @@ L["HasPet"] = "소환수 있음 (생존)"
 L["Haste (%)"] = "가속 (%)"
 L["Haste Rating"] = "가속"
 L["Heal"] = "치유"
+--[[Translation missing --]]
+L["Heal Absorbed"] = "Heal Absorbed"
 L["Health"] = "생명력"
 L["Health (%)"] = "생명력 (%)"
 L["Heigan the Unclean"] = "부정의 헤이건"
@@ -723,6 +724,8 @@ L["Options will open after the login process has completed."] = "Options will op
 L["Orbit"] = "공전"
 L["Orientation"] = "방향"
 L["Ossirian the Unscarred"] = "무적의 오시리안"
+--[[Translation missing --]]
+L["Other"] = "Other"
 L["Other Addons"] = "다른 애드온"
 L["Other Events"] = "다른 이벤트"
 L["Ouro"] = "아우로"
@@ -907,6 +910,8 @@ L["Select Frame"] = "프레임 선택"
 L["Separator"] = "Separator"
 --[[Translation missing --]]
 L["Set IDs can be found on websites such as classic.wowhead.com/item-sets"] = "Set IDs can be found on websites such as classic.wowhead.com/item-sets"
+--[[Translation missing --]]
+L["Set IDs can be found on websites such as tbc.wowhead.com/item-sets"] = "Set IDs can be found on websites such as tbc.wowhead.com/item-sets"
 --[[Translation missing --]]
 L["Set IDs can be found on websites such as wowhead.com/item-sets"] = "Set IDs can be found on websites such as wowhead.com/item-sets"
 L["Set Maximum Progress"] = "최대 진행 값 설정"

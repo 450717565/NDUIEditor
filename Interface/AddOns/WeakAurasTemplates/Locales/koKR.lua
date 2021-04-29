@@ -36,8 +36,7 @@ local L = WeakAuras.L
 	L["Always shows the aura."] = "효과를 항상 표시합니다."
 	L["Back"] = "뒤로"
 	L["Basic Show On Cooldown"] = "재사용 대기 중 표시"
-	--[[Translation missing --]]
-	L["Basic Show On Ready"] = "Basic Show On Ready"
+	L["Basic Show On Ready"] = "준비완료 시 표시"
 	L["Bloodlust/Heroism"] = "피의 욕망/영웅심"
 	--[[Translation missing --]]
 	L["Bonded Buff"] = "Bonded Buff"

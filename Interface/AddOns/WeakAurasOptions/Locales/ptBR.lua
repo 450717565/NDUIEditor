@@ -199,6 +199,8 @@ Off Screen]=] ] = "Aura está fora da tela"
 	--[[Translation missing --]]
 	L["Collapse all non-loaded displays"] = "Collapse all non-loaded displays"
 	--[[Translation missing --]]
+	L["Collapse all Pending Import"] = "Collapse all Pending Import"
+	--[[Translation missing --]]
 	L["Collapsible Group"] = "Collapsible Group"
 	L["color"] = "cor"
 	L["Color"] = "Cor"
@@ -390,6 +392,8 @@ Off Screen]=] ] = "Aura está fora da tela"
 	L["Expand"] = "Expand"
 	L["Expand all loaded displays"] = "Expandir todos os mostruários carregados"
 	L["Expand all non-loaded displays"] = "Expandir todos os mostruários não carregados"
+	--[[Translation missing --]]
+	L["Expand all Pending Import"] = "Expand all Pending Import"
 	--[[Translation missing --]]
 	L["Expansion is disabled because this group has no children"] = "Expansion is disabled because this group has no children"
 	--[[Translation missing --]]
@@ -839,6 +843,8 @@ Supports multiple entries, separated by commas
 	L["Radius"] = "Radius"
 	--[[Translation missing --]]
 	L["Raid Role"] = "Raid Role"
+	--[[Translation missing --]]
+	L["Ready to Import"] = "Ready to Import"
 	L["Re-center X"] = "Recentralizar X"
 	L["Re-center Y"] = "Recentralizar Y"
 	--[[Translation missing --]]

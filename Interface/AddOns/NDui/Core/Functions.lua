@@ -1415,6 +1415,26 @@ do
 	end
 
 	-- Handle StatusBar
+	local atlasColors = {
+		["UI-Frame-Bar-Fill-Blue"] = {.2, .6, 1},
+		["UI-Frame-Bar-Fill-Red"] = {.9, .2, .2},
+		["UI-Frame-Bar-Fill-Yellow"] = {1, .6, 0},
+		["objectivewidget-bar-fill-left"] = {.2, .6, 1},
+		["objectivewidget-bar-fill-right"] = {.9, .2, .2},
+		["EmberCourtScenario-Tracker-barfill"] = {.9, .2, .2},
+	}
+
+	local function Update_BarTexture(self, atlas)
+		if atlasColors[atlas] then
+			self:SetStatusBarTexture(DB.normTex)
+			self:SetStatusBarColor(unpack(atlasColors[atlas]))
+		end
+	end
+
+	function B:ReplaceStatusBarAtlas()
+		hooksecurefunc(self, "SetStatusBarAtlas", Update_BarTexture)
+	end
+
 	function B:ReskinStatusBar(noClassColor)
 		B.StripTextures(self)
 		B.CleanTextures(self)

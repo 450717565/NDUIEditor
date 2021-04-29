@@ -237,6 +237,8 @@ Off Screen]=]
 	L["Collapse all loaded displays"] = "Plegar todas las auras"
 	L["Collapse all non-loaded displays"] = "Plegar todas las auras no cargadas"
 	--[[Translation missing --]]
+	L["Collapse all Pending Import"] = "Collapse all Pending Import"
+	--[[Translation missing --]]
 	L["Collapsible Group"] = "Collapsible Group"
 	--[[Translation missing --]]
 	L["color"] = "color"
@@ -447,6 +449,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED
 	L["Expand"] = "Expand"
 	L["Expand all loaded displays"] = "Desplegar todas las auras"
 	L["Expand all non-loaded displays"] = "Desplegar todas las auras no cargadas"
+	--[[Translation missing --]]
+	L["Expand all Pending Import"] = "Expand all Pending Import"
 	--[[Translation missing --]]
 	L["Expansion is disabled because this group has no children"] = "Expansion is disabled because this group has no children"
 	--[[Translation missing --]]
@@ -899,6 +903,8 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["Radius"] = "Radius"
 	--[[Translation missing --]]
 	L["Raid Role"] = "Raid Role"
+	--[[Translation missing --]]
+	L["Ready to Import"] = "Ready to Import"
 	L["Re-center X"] = "Re-centrar X"
 	L["Re-center Y"] = "Re-centrar Y"
 	--[[Translation missing --]]

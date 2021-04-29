@@ -231,6 +231,8 @@ Off Screen]=]
 	--[[Translation missing --]]
 	L["Collapse all non-loaded displays"] = "Collapse all non-loaded displays"
 	--[[Translation missing --]]
+	L["Collapse all Pending Import"] = "Collapse all Pending Import"
+	--[[Translation missing --]]
 	L["Collapsible Group"] = "Collapsible Group"
 	L["color"] = "Colore"
 	L["Color"] = "Colore"
@@ -449,6 +451,8 @@ Off Screen]=]
 	L["Expand all loaded displays"] = "Expand all loaded displays"
 	--[[Translation missing --]]
 	L["Expand all non-loaded displays"] = "Expand all non-loaded displays"
+	--[[Translation missing --]]
+	L["Expand all Pending Import"] = "Expand all Pending Import"
 	--[[Translation missing --]]
 	L["Expansion is disabled because this group has no children"] = "Expansion is disabled because this group has no children"
 	--[[Translation missing --]]
@@ -937,6 +941,8 @@ Supports multiple entries, separated by commas
 	L["Radius"] = "Radius"
 	--[[Translation missing --]]
 	L["Raid Role"] = "Raid Role"
+	--[[Translation missing --]]
+	L["Ready to Import"] = "Ready to Import"
 	--[[Translation missing --]]
 	L["Re-center X"] = "Re-center X"
 	--[[Translation missing --]]

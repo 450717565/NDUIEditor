@@ -9,10 +9,13 @@ local Misc = B:GetModule("Misc")
 	3.自动隐藏部分窗口
 ]]
 
-local wipe, sort = wipe, sort
+local select, wipe, sort = select, wipe, sort
+local UnitClass, UnitGroupRolesAssigned = UnitClass, UnitGroupRolesAssigned
+local StaticPopup_Hide, HideUIPanel = StaticPopup_Hide, HideUIPanel
 local C_Timer_After = C_Timer.After
 local C_LFGList_GetSearchResultMemberInfo = C_LFGList.GetSearchResultMemberInfo
-local LFG_LIST_GROUP_DATA_ATLASES = LFG_LIST_GROUP_DATA_ATLASES
+local ApplicationViewerFrame = _G.LFGListFrame.ApplicationViewer
+local LFG_LIST_GROUP_DATA_ATLASES = _G.LFG_LIST_GROUP_DATA_ATLASES
 
 function Misc:HookApplicationClick()
 	if LFGListFrame.SearchPanel.SignUpButton:IsEnabled() then
@@ -65,6 +68,19 @@ local function SortRoleOrder(a, b)
 	end
 end
 
+local function GetPartyMemberInfo(index)
+	local class, _, _, _, _, _, role = select(6, GetRaidRosterInfo(index))
+	return role, class
+end
+
+local function GetCorrectRoleInfo(self, index)
+	if self.resultID then
+		return C_LFGList_GetSearchResultMemberInfo(self.resultID, index)
+	elseif self == ApplicationViewerFrame then
+		return GetPartyMemberInfo(index)
+	end
+end
+
 local function UpdateGroupRoles(self)
 	wipe(roleCache)
 
@@ -72,24 +88,11 @@ local function UpdateGroupRoles(self)
 		self.__owner = self:GetParent():GetParent()
 	end
 
-	local resultID = self.__owner.resultID
-	if not resultID then return end
-
-	if resultID then
-		for i = 1, 5 do
-			local role, class = C_LFGList_GetSearchResultMemberInfo(resultID, i)
-			local roleIndex = role and roleOrder[role]
-			if class and roleIndex then
-				tinsert(roleCache, {roleIndex, class})
-			end
-		end
-	elseif self == LFGListFrame.ApplicationViewer then
-		for i = 1, 5 do
-			local class, _, _, _, _, _, role = select(6, GetRaidRosterInfo(i))
-			local roleIndex = role and roleOrder[role]
-			if class and roleIndex then
-				tinsert(roleCache, {roleIndex, class})
-			end
+	for i = 1, 5 do
+		local role, class = GetCorrectRoleInfo(self.__owner, i)
+		local roleIndex = role and roleOrder[role]
+		if class and roleIndex then
+			tinsert(roleCache, {roleIndex, class})
 		end
 	end
 

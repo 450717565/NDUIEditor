@@ -91,34 +91,31 @@ local function Reskin_ContentTracker()
 	for _, widgetFrame in pairs {widgetContainer:GetChildren()} do
 		if not widgetFrame then return end
 
-		if widgetFrame.Frame then
-			widgetFrame.Frame:SetAlpha(0)
+		local frame = widgetFrame.Frame
+		if frame then frame:SetAlpha(0) end
+
+		local foreGround = widgetFrame.Foreground
+		if foreGround and not foreGround.styled then
+			foreGround:ClearAllPoints()
+			foreGround:SetPoint("TOPLEFT", widgetContainer, "TOPLEFT", 5, -4)
+
+			foreGround.styled = true
 		end
 
-		if widgetFrame.Foreground then
-			local Foreground = widgetFrame.Foreground
-			if not Foreground.styled then
-				Foreground:ClearAllPoints()
-				Foreground:SetPoint("TOPLEFT", widgetContainer, "TOPLEFT", 5, -4)
+		local timerBar = widgetFrame.TimerBar
+		if timerBar and not timerBar.styled then
+			timerBar:SetSize(220, 10)
 
-				Foreground.styled = true
-			end
+			B.ReskinStatusBar(timerBar, true)
+			B.SmoothBar(timerBar)
+			B.ReplaceStatusBarAtlas(timerBar)
+
+			timerBar.styled = true
 		end
 
-		if widgetFrame.TimerBar then
-			local TimerBar = widgetFrame.TimerBar
-			if not TimerBar.styled then
-				TimerBar:SetSize(220, 10)
-
-				B.ReskinStatusBar(TimerBar, true)
-				B.SmoothBar(TimerBar)
-
-				TimerBar.styled = true
-			end
-		end
-
-		if widgetFrame.CurrencyContainer then
-			for _, child in pairs {widgetFrame.CurrencyContainer:GetChildren()} do
+		local currencyContainer = widgetFrame.CurrencyContainer
+		if currencyContainer then
+			for _, child in pairs {currencyContainer:GetChildren()} do
 				if child and not child.styled then
 					B.ReskinIcon(child.Icon)
 

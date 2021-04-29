@@ -165,7 +165,7 @@ local function pushMissionSet(ni, missions, skip, ...)
 	table.sort(missions, cmpMissionInfo)
 	for i=1, #missions do
 		local mid = missions[i].missionID
-		for j=0, skip and #skip or 0, -1 do
+		for j=skip and #skip or 0, 0, -1 do
 			if j == 0 then
 				ni = ni + 1, ConfigureMission(MissionList.Missions[ni], missions[i], ...)
 			elseif skip[j].missionID == mid then

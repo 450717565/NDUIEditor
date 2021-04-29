@@ -276,4 +276,22 @@ C.LUAThemes["Blizzard_AuctionHouseUI"] = function()
 	B.ReskinButton(AuctionHouseFrameAuctionsFrame.CancelAuctionButton)
 	B.ReskinButton(AuctionHouseFrameAuctionsFrame.BidFrame.BidButton)
 	B.ReskinButton(AuctionHouseFrameAuctionsFrame.BuyoutFrame.BuyoutButton)
+
+	-- 钓鱼价避开
+	local sellFrame = AuctionHouseFrame.CommoditiesSellFrame
+	hooksecurefunc(sellFrame, "UpdatePriceSelection", function(self)
+		local itemLocation = self:GetItem()
+		if itemLocation then
+			local sr_1 = C_AuctionHouse.GetCommoditySearchResultInfo(C_Item.GetItemID(itemLocation), 1)
+			if sr_1 and self:GetUnitPrice() == sr_1.unitPrice then
+				if sr_1.quantity <= 3 then
+					local sr_2 = C_AuctionHouse.GetCommoditySearchResultInfo(C_Item.GetItemID(itemLocation), 2)
+					if sr_2 and sr_2.unitPrice > sr_1.unitPrice * 1.1 then
+						self:GetCommoditiesSellList():SetSelectedEntry(sr_2)
+						print(format("%s %s (|cffff0000%s|r) 疑似钓鱼价，已为您避开。", C_Item.GetItemLink(itemLocation), GetMoneyString(sr_1.unitPrice), sr_1.owners[1]))
+					end
+				end
+			end
+		end
+	end)
 end
