@@ -213,7 +213,7 @@ function TT:OnTooltipSetUnit()
 
 			local status = (UnitIsAFK(unit) and AFK) or (UnitIsDND(unit) and DND) or (not UnitIsConnected(unit) and PLAYER_OFFLINE)
 			if status then
-				status = format(" |cffFFCC00[%s]|r", status)
+				status = format(" |cffFFCC00<%s>|r", status)
 			end
 			GameTooltipTextLeft1:SetFormattedText("%s", name..(status or ""))
 

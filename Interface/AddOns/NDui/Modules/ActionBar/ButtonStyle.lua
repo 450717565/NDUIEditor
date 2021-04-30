@@ -166,10 +166,8 @@ function Bar:UpdateHotKey()
 	if text == RANGE_INDICATOR then
 		hotkey:SetText("")
 	else
-		hotkey:SetText(text)
+		hotkey:SetText(DB.MyColor..text.."|r")
 	end
-
-	hotkey:SetTextColor(cr, cg, cb)
 end
 
 function Bar:HookHotKey(button)

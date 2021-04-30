@@ -48,6 +48,7 @@ function Skins:OnLogin()
 
 	if C.db["Skins"]["BlizzardSkins"] then
 		self:Ace3()
+		self:Auctionator()
 		self:BaudErrorFrame()
 		self:BuyEmAll()
 		self:ClassicQuestLog()

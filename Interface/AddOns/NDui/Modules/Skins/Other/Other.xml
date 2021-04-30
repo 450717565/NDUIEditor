@@ -1,5 +1,6 @@
 <Ui>
 	<Script file="Ace3.lua"/>
+	<Script file="Auctionator.lua"/>
 	<Script file="BaudErrorFrame.lua"/>
 	<Script file="BigWigs.lua"/>
 	<Script file="BuyEmAll.lua"/>

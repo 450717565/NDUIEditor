@@ -60,14 +60,13 @@ local function Reskin_ListIcon(self)
 				local cell = row.cells and row.cells[j]
 				if cell then
 					if cell.Icon then
-						if not cell.styled then
+						if not cell.icbg then
 							cell.icbg = B.ReskinIcon(cell.Icon)
+
 							if cell.IconBorder then
 								cell.IconBorder:SetAlpha(0)
 								cell.IconBorder:Hide()
 							end
-
-							cell.styled = true
 						end
 
 						cell.icbg:SetShown(cell.Icon:IsShown())
@@ -88,15 +87,14 @@ local function Reskin_SummaryIcon(self)
 	for i = 1, 23 do
 		local child = select(i, self.ScrollFrame.scrollChild:GetChildren())
 		if child and child.Icon then
-			if not child.styled then
+			if not child.icbg then
 				child.HighlightTexture:SetColorTexture(1, 1, 1, .25)
 				child.icbg = B.ReskinIcon(child.Icon)
+
 				if child.IconBorder then
 					child.IconBorder:SetAlpha(0)
 					child.IconBorder:Hide()
 				end
-
-				child.styled = true
 			end
 
 			child.icbg:SetShown(child.Icon:IsShown())
@@ -161,6 +159,22 @@ local function Reskin_FilterButton(button)
 	button.NormalTexture:SetAlpha(0)
 	button.HighlightTexture:SetColorTexture(1, 1, 1, .25)
 	button.SelectedTexture:SetColorTexture(cr, cg, cb, .25)
+end
+
+local function Update_PriceSelection(self)
+	local item = self:GetItem()
+	if item then
+		local sr_1 = C_AuctionHouse.GetCommoditySearchResultInfo(C_Item.GetItemID(item), 1)
+		if sr_1 and self:GetUnitPrice() == sr_1.unitPrice then
+			if sr_1.quantity <= 3 then
+				local sr_2 = C_AuctionHouse.GetCommoditySearchResultInfo(C_Item.GetItemID(item), 2)
+				if sr_2 and sr_2.unitPrice > sr_1.unitPrice * 1.1 then
+					self:GetCommoditiesSellList():SetSelectedEntry(sr_2)
+					print(format("%s %s (|cffff0000%s|r) 疑似钓鱼价，已为您避开。", C_Item.GetItemLink(item), GetMoneyString(sr_1.unitPrice), sr_1.owners[1]))
+				end
+			end
+		end
+	end
 end
 
 C.LUAThemes["Blizzard_AuctionHouseUI"] = function()
@@ -278,20 +292,5 @@ C.LUAThemes["Blizzard_AuctionHouseUI"] = function()
 	B.ReskinButton(AuctionHouseFrameAuctionsFrame.BuyoutFrame.BuyoutButton)
 
 	-- 钓鱼价避开
-	local sellFrame = AuctionHouseFrame.CommoditiesSellFrame
-	hooksecurefunc(sellFrame, "UpdatePriceSelection", function(self)
-		local itemLocation = self:GetItem()
-		if itemLocation then
-			local sr_1 = C_AuctionHouse.GetCommoditySearchResultInfo(C_Item.GetItemID(itemLocation), 1)
-			if sr_1 and self:GetUnitPrice() == sr_1.unitPrice then
-				if sr_1.quantity <= 3 then
-					local sr_2 = C_AuctionHouse.GetCommoditySearchResultInfo(C_Item.GetItemID(itemLocation), 2)
-					if sr_2 and sr_2.unitPrice > sr_1.unitPrice * 1.1 then
-						self:GetCommoditiesSellList():SetSelectedEntry(sr_2)
-						print(format("%s %s (|cffff0000%s|r) 疑似钓鱼价，已为您避开。", C_Item.GetItemLink(itemLocation), GetMoneyString(sr_1.unitPrice), sr_1.owners[1]))
-					end
-				end
-			end
-		end
-	end)
+	hooksecurefunc(AuctionHouseFrame.CommoditiesSellFrame, "UpdatePriceSelection", Update_PriceSelection)
 end

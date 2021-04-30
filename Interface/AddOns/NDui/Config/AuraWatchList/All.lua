@@ -110,6 +110,7 @@ local list = {
 		{AuraID = 332078, UnitID = "player", Text = L["Haste"]},	-- 唤雾者的陶笛，急速
 		{AuraID = 332079, UnitID = "player", Text = L["Mastery"]},	-- 唤雾者的陶笛，精通
 		{AuraID = 334058, UnitID = "player"},	-- 暗月套牌：腐化
+		{AuraID = 334511, UnitID = "player", Combat = true},			-- 粘滑的痨病器官
 		{AuraID = 336465, UnitID = "player", Value = true},			-- 满溢灰烬之镜
 		{AuraID = 336588, UnitID = "player"},	-- 唤醒者的复叶
 		{AuraID = 336841, UnitID = "player"},	-- 战斗烈焰

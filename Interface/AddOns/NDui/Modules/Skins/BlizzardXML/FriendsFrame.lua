@@ -344,6 +344,31 @@ C.LUAThemes["Blizzard_RaidUI"] = function()
 end
 
 -- 快速加入
+local roleAtlas = {
+	["tank"] = "Soulbinds_Tree_Conduit_Icon_Protect",
+	["heal"] = "ui_adv_health",
+	["dps"] = "ui_adv_atk",
+}
+local function Reskin_SocialQueueUtilTooltip(tooltip)
+	for i = 2, tooltip:NumLines() do
+		local line = _G[tooltip:GetName().."TextLeft"..i]
+		if not line then return end
+
+		local text = line:GetText()
+		if text and text ~= "" and strfind(text, QUICK_JOIN_TOOLTIP_AVAILABLE_ROLES) then
+			local roleIcons = ""
+			for role in gmatch(text, "|A:[%a%-]-(%a+):[%d+:]+|a") do
+				roleIcons = roleIcons..CreateAtlasMarkup(roleAtlas[role], 20, 20)
+			end
+			if roleIcons ~= "" then
+				line:SetText(format(QUICK_JOIN_TOOLTIP_AVAILABLE_ROLES.."%s", roleIcons))
+			end
+
+			return
+		end
+	end
+end
+
 tinsert(C.XMLThemes, function()
 	B.ReskinScroll(QuickJoinScrollFrame.scrollBar)
 
@@ -360,4 +385,6 @@ tinsert(C.XMLThemes, function()
 	B.ReskinRole(frame.RoleButtonTank, "TANK")
 	B.ReskinRole(frame.RoleButtonHealer, "HEALER")
 	B.ReskinRole(frame.RoleButtonDPS, "DPS")
+
+	hooksecurefunc("SocialQueueUtil_SetTooltip", Reskin_SocialQueueUtilTooltip)
 end)

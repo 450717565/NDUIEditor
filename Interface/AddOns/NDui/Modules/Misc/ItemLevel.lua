@@ -237,6 +237,8 @@ function Misc:ItemLevel_FlyoutUpdate(bag, slot, quality)
 		self.iLvl = B.CreateFS(self, DB.Font[2]+1)
 	end
 
+	self.iLvl:SetText("")
+
 	local link, level
 	if bag then
 		link = GetContainerItemLink(bag, slot)
@@ -250,8 +252,6 @@ function Misc:ItemLevel_FlyoutUpdate(bag, slot, quality)
 end
 
 function Misc:ItemLevel_FlyoutSetup()
-	if self.iLvl then self.iLvl:SetText("") end
-
 	local location = self.location
 	if not location or location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION then
 		return
@@ -271,23 +271,22 @@ function Misc:ItemLevel_ScrappingUpdate()
 	if not self.iLvl then
 		self.iLvl = B.CreateFS(self, DB.Font[2]+3)
 	end
-	if not self.itemLink then self.iLvl:SetText("") return end
 
-	local quality = 1
-	if self.itemLocation and not self.item:IsItemEmpty() and self.item:GetItemName() then
-		quality = self.item:GetItemQuality()
-	end
+	self.iLvl:SetText("")
+
+	if not self.itemLink then return end
+
 	local level = B.GetItemLevel(self.itemLink)
 	self.iLvl:SetText(level)
 end
 
-function Misc.ItemLevel_ScrappingShow(event, addon)
+function Misc.ItemLevel_ScrappingSetup(event, addon)
 	if addon == "Blizzard_ScrappingMachineUI" then
 		for button in pairs(ScrappingMachineFrame.ItemSlots.scrapButtons.activeObjects) do
 			hooksecurefunc(button, "RefreshIcon", Misc.ItemLevel_ScrappingUpdate)
 		end
 
-		B:UnregisterEvent(event, Misc.ItemLevel_ScrappingShow)
+		B:UnregisterEvent(event, Misc.ItemLevel_ScrappingSetup)
 	end
 end
 
@@ -338,7 +337,7 @@ function Misc:ShowItemLevel()
 	hooksecurefunc("EquipmentFlyout_DisplayButton", Misc.ItemLevel_FlyoutSetup)
 
 	-- iLvl on ScrappingMachineFrame
-	B:RegisterEvent("ADDON_LOADED", Misc.ItemLevel_ScrappingShow)
+	B:RegisterEvent("ADDON_LOADED", Misc.ItemLevel_ScrappingSetup)
 
 	-- iLvl on MerchantFrame
 	hooksecurefunc("MerchantFrameItem_UpdateQuality", Misc.ItemLevel_UpdateItemButton)
