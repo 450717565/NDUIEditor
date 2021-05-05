@@ -70,7 +70,7 @@ local function Reskin_TitleButton(self, index)
 
 	if index > 1 then
 		button:ClearAllPoints()
-		button:SetPoint("TOP", self.Buttons[index-1], "BOTTOM", 0, -3)
+		button:SetPoint("TOP", self.Buttons[index-1], "BOTTOM", 0, -C.margin)
 	end
 end
 

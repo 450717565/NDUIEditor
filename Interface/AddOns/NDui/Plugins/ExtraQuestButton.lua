@@ -111,6 +111,7 @@ local questItems = {
 }
 
 local ExtraQuestButton = CreateFrame("Button", "ExtraQuestButton", UIParent, "SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate")
+ExtraQuestButton:Hide()
 ExtraQuestButton:SetMovable(true)
 ExtraQuestButton:RegisterEvent("PLAYER_LOGIN")
 ExtraQuestButton:SetScript("OnEvent", function(self, event, ...)
@@ -227,7 +228,6 @@ function ExtraQuestButton:PLAYER_LOGIN()
 
 	self.updateTimer = 0
 	self.rangeTimer = 0
-	self:Hide()
 
 	local bubg = B.CreateBDFrame(self)
 

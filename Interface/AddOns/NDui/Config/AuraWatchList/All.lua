@@ -170,6 +170,8 @@ local list = {
 		{AuraID = 342774, UnitID = "player"},	-- 繁华原野
 		{AuraID = 343672, UnitID = "player"},	-- 征服者之狂
 		{AuraID = 345499, UnitID = "player"},	-- 执政官的祝福
+		{AuraID = 333218, UnitID = "player"},	-- 废土礼节
+		{AuraID = 336885, UnitID = "player"},	-- 抚慰阴影
 		-- 炼金石
 		{AuraID = 60233, UnitID = "player"},	-- 敏捷
 		{AuraID = 60229, UnitID = "player"},	-- 力量
@@ -386,6 +388,7 @@ local list = {
 	["InternalCD"] = { -- 自定义内置冷却组
 		{IntID = 240447, Duration = 20},	-- 大米，践踏
 		{IntID = 114018, Duration = 15, OnSuccess = true, UnitID = "all"},	-- 帷幕
+		{IntID = 316958, Duration = 30, OnSuccess = true, UnitID = "all"},	-- 红土
 	},
 }
 

@@ -185,7 +185,7 @@ function TT:OnTooltipSetUnit()
 		local guid = UnitGUID(unit)
 		local npcID = B.GetNPCID(guid)
 		local name, realm = UnitName(unit)
-		local hexColor = B.HexRGB(B.UnitColor(unit))
+		local dead = UnitIsDeadOrGhost(unit)
 
 		local ricon = GetRaidTargetIndex(unit)
 		local text = GameTooltipTextLeft1:GetText()
@@ -263,15 +263,10 @@ function TT:OnTooltipSetUnit()
 			end
 		end
 
-		local line1 = GameTooltipTextLeft1:GetText()
-		GameTooltipTextLeft1:SetFormattedText("%s", hexColor..line1)
-
-		local dead = UnitIsDeadOrGhost(unit)
-		if dead then
-			self.StatusBar:Hide()
-		else
-			self.StatusBar:SetStatusBarColor(B.UnitColor(unit))
-		end
+		local r, g, b = B.UnitColor(unit)
+		local hexColor = B.HexRGB(r, g, b)
+		local line = GameTooltipTextLeft1:GetText()
+		GameTooltipTextLeft1:SetFormattedText("%s", hexColor..line)
 
 		local level
 		if UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit) then
@@ -301,6 +296,8 @@ function TT:OnTooltipSetUnit()
 			local tar = format("%s%s", (tarRicon and ICON_LIST[tarRicon].."10|t") or "", TT:GetTarget(unit.."target"))
 			self:AddLine(TARGET.."："..tar)
 		end
+
+		self.StatusBar:SetStatusBarColor(r, g, b)
 	else
 		self.StatusBar:SetStatusBarColor(0, .9, 0)
 	end

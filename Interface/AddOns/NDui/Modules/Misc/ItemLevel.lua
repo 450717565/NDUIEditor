@@ -252,6 +252,8 @@ function Misc:ItemLevel_FlyoutUpdate(bag, slot, quality)
 end
 
 function Misc:ItemLevel_FlyoutSetup()
+	if self.iLvl then self.iLvl:SetText("") end
+
 	local location = self.location
 	if not location or location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION then
 		return

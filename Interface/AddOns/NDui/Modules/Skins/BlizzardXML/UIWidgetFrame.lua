@@ -12,25 +12,18 @@ local function Reskin_StatusBar(self)
 
 		self.styled = true
 	end
-
-	B.ReplaceStatusBarAtlas(self)
 end
 
 local function Reskin_DoubleStatusBar(self)
-	if not self.styled then
-		Reskin_StatusBar(self.LeftBar)
-		Reskin_StatusBar(self.RightBar)
-
-		self.styled = true
-	end
-
 	local LeftBar = self.LeftBar
+	Reskin_StatusBar(LeftBar)
 	LeftBar.Icon:ClearAllPoints()
 	LeftBar.Icon:SetPoint("RIGHT", LeftBar, "LEFT", 0, 0)
 	LeftBar.IconGlow:ClearAllPoints()
 	LeftBar.IconGlow:SetPoint("RIGHT", LeftBar, "LEFT", 0, 0)
 
 	local RightBar = self.RightBar
+	Reskin_StatusBar(RightBar)
 	RightBar.Icon:ClearAllPoints()
 	RightBar.Icon:SetPoint("LEFT", RightBar, "RIGHT", 0, 0)
 	RightBar.IconGlow:ClearAllPoints()
@@ -69,34 +62,33 @@ local function Reskin_SpellDisplay(self)
 	end
 end
 
-local function Reskin_WidgetFrames()
-	for _, widgetFrame in pairs(_G.UIWidgetTopCenterContainerFrame.widgetFrames) do
+local function Reskin_UIWidgetLayout(self)
+	for _, widgetFrame in pairs(self.widgetFrames) do
 		local widgetType = widgetFrame.widgetType
 		if widgetType == Type_DoubleStatusBar then
 			Reskin_DoubleStatusBar(widgetFrame)
 		elseif widgetType == Type_SpellDisplay then
 			Reskin_SpellDisplay(widgetFrame)
+		elseif widgetType == Type_CaptureBar then
+			Reskin_CaptureBar(widgetFrame)
 		elseif widgetType == Type_StatusBar then
 			Reskin_StatusBar(widgetFrame.Bar)
 		end
 	end
+end
 
-	for _, widgetFrame in pairs(_G.UIWidgetBelowMinimapContainerFrame.widgetFrames) do
-		if widgetFrame.widgetType == Type_CaptureBar then
-			Reskin_CaptureBar(widgetFrame)
-		end
-	end
+local ignoredWidgetIDs = {
+	[3273] = true, -- Torghast progressbar
+}
+local function Reskin_UIWidgetStatusBar(self)
+	if ignoredWidgetIDs[self.widgetID] then return end
+	Reskin_StatusBar(self.Bar)
 end
 
 tinsert(C.XMLThemes, function()
-	B:RegisterEvent("PLAYER_ENTERING_WORLD", Reskin_WidgetFrames)
-	B:RegisterEvent("UPDATE_ALL_UI_WIDGETS", Reskin_WidgetFrames)
-
-	hooksecurefunc(_G.UIWidgetTemplateStatusBarMixin, "Setup", function(self)
-		Reskin_StatusBar(self.Bar)
-	end)
-
-	hooksecurefunc(_G.UIWidgetTemplateCaptureBarMixin, "Setup", Reskin_CaptureBar)
 	hooksecurefunc(_G.UIWidgetTemplateSpellDisplayMixin, "Setup", Reskin_SpellDisplay)
-	hooksecurefunc(_G.UIWidgetTemplateDoubleStatusBarMixin, "Setup", Reskin_DoubleStatusBar)
+	hooksecurefunc(_G.UIWidgetTemplateStatusBarMixin, "Setup", Reskin_UIWidgetStatusBar)
+	hooksecurefunc(_G.UIWidgetPowerBarContainerFrame, "UpdateWidgetLayout", Reskin_UIWidgetLayout)
+	hooksecurefunc(_G.UIWidgetTopCenterContainerFrame, "UpdateWidgetLayout", Reskin_UIWidgetLayout)
+	hooksecurefunc(_G.UIWidgetBelowMinimapContainerFrame, "UpdateWidgetLayout", Reskin_UIWidgetLayout)
 end)

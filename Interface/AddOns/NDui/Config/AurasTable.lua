@@ -130,7 +130,6 @@ function AT:CheckPartySpells()
 	end
 end
 
-C.bloodlustID = {57723, 57724, 80354, 264689}
 function AT:CheckCornerSpells()
 	if not NDuiADB["CornerSpells"][DB.MyClass] then NDuiADB["CornerSpells"][DB.MyClass] = {} end
 	local data = C.CornerBuffs[DB.MyClass]
@@ -144,7 +143,7 @@ function AT:CheckCornerSpells()
 	end
 
 	for spellID, value in pairs(NDuiADB["CornerSpells"][DB.MyClass]) do
-		if not next(value) and C.CornerBuffs[DB.MyClass][spellID] == nil or C.bloodlustID[spellID] then
+		if not next(value) and C.CornerBuffs[DB.MyClass][spellID] == nil then
 			NDuiADB["CornerSpells"][DB.MyClass][spellID] = nil
 		end
 	end

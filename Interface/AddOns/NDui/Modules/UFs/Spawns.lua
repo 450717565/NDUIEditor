@@ -165,16 +165,29 @@ local function CreateRaidStyle(self)
 	UF:CreateRaidIcons(self)
 	UF:CreatePrediction(self)
 	UF:CreateClickSets(self)
-	UF:CreateRaidDebuffs(self)
 	UF:CreateThreatBorder(self)
+	UF:CreateAuraIndicator(self)
 
-	if C.db["UFs"]["RaidAurasMode"] then
-		UF:CreateBuffs(self)
-		UF:CreateDebuffs(self)
+	if C.db["UFs"]["RaidAuraIndicator"] then
+		if C.db["UFs"]["RaidAurasType"] == 2 then
+			UF:CreateAuras(self)
+			UF:CreateRaidDebuffs(self)
+		end
 	else
-		UF:CreateAuras(self)
-		UF:CreateBuffIndicator(self)
+		if C.db["UFs"]["RaidAurasType"] == 2 then
+			UF:CreateAuras(self)
+			UF:CreateRaidDebuffs(self)
+		elseif C.db["UFs"]["RaidAurasType"] == 3 then
+			UF:CreateBuffs(self)
+		elseif C.db["UFs"]["RaidAurasType"] == 4 then
+			UF:CreateDebuffs(self)
+		elseif C.db["UFs"]["RaidAurasType"] == 5 then
+			UF:CreateBuffs(self)
+			UF:CreateDebuffs(self)
+		end
 	end
+
+	UF:RefreshAurasByCombat(self)
 end
 
 local function CreatePartyStyle(self)

@@ -1424,15 +1424,11 @@ do
 		["EmberCourtScenario-Tracker-barfill"] = {.9, .2, .2},
 	}
 
-	local function Update_BarTexture(self, atlas)
+	local function Update_BarAtlas(self, atlas)
 		if atlasColors[atlas] then
 			self:SetStatusBarTexture(DB.normTex)
 			self:SetStatusBarColor(unpack(atlasColors[atlas]))
 		end
-	end
-
-	function B:ReplaceStatusBarAtlas()
-		hooksecurefunc(self, "SetStatusBarAtlas", Update_BarTexture)
 	end
 
 	function B:ReskinStatusBar(noClassColor)
@@ -1444,6 +1440,11 @@ do
 		self:SetStatusBarTexture(DB.normTex)
 		if not noClassColor then
 			self:SetStatusBarColor(cr, cg, cb, C.alpha)
+		end
+
+		if self.SetStatusBarAtlas then
+			Update_BarAtlas(self, self:GetStatusBarAtlas())
+			hooksecurefunc(self, "SetStatusBarAtlas", Update_BarAtlas)
 		end
 
 		local frameName = self:GetDebugName()

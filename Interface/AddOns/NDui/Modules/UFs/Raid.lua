@@ -119,7 +119,7 @@ local function buttonOnEnter(self)
 end
 
 function UF:CreateRaidDebuffs(self)
-	local scale = C.db["UFs"]["RaidIconScale"]
+	local scale = C.db["UFs"]["RaidAuraScale"]
 	local iconSize = B.Round(self:GetHeight()*.6)
 	local fontSize = B.Round(iconSize*.6)
 
@@ -139,7 +139,7 @@ function UF:CreateRaidDebuffs(self)
 	icon:SetTexCoord(tL, tR, tT, tB)
 	bu.icon = icon
 
-	bu.timer = B.CreateFS(bu, fontSize, "", false, "CENTER", 1, 0)
+	bu.timer = B.CreateFS(bu, fontSize)
 	bu.count = B.CreateFS(bu, fontSize, "", false, "BOTTOMRIGHT", 4, -4)
 	bu.count:SetJustifyH("RIGHT")
 
@@ -357,7 +357,7 @@ local counterOffsets = {
 	["BOTTOM"] = {{0, 0}, {"RIGHT", "LEFT", 2, 0}},
 }
 
-function UF:BuffIndicatorOnUpdate(elapsed)
+function UF:AuraIndicatorOnUpdate(elapsed)
 	B.CooldownOnUpdate(self, elapsed)
 end
 
@@ -381,19 +381,14 @@ function UF:UpdateCornerSpells()
 	end
 end
 
-local bloodlustList = {}
-for _, spellID in pairs(C.bloodlustID) do
-	bloodlustList[spellID] = {"BOTTOM", {1, .8, 0}, true}
-end
-
 local found = {}
 local auraFilter = {"HELPFUL", "HARMFUL"}
 
-function UF:UpdateBuffIndicator(event, unit)
+function UF:UpdateAuraIndicator(event, unit)
 	if event == "UNIT_AURA" and self.unit ~= unit then return end
 
 	local spellList = UF.CornerSpells
-	local buttons = self.BuffIndicator
+	local buttons = self.AuraIndicator
 	unit = self.unit
 
 	wipe(found)
@@ -401,14 +396,14 @@ function UF:UpdateBuffIndicator(event, unit)
 		for i = 1, 32 do
 			local name, texture, count, _, duration, expiration, caster, _, _, spellID = UnitAura(unit, i, filter)
 			if not name then break end
-			local value = spellList[spellID] or (DB.Role ~= "Healer" and bloodlustList[spellID])
+			local value = spellList[spellID]
 			if value and (value[3] or caster == "player" or caster == "pet") then
 				local bu = buttons[value[1]]
 				if bu then
-					if C.db["UFs"]["BuffIndicatorType"] == 3 then
+					if C.db["UFs"]["AuraIndicatorType"] == 3 then
 						if duration and duration > 0 then
 							bu.expiration = expiration
-							bu:SetScript("OnUpdate", UF.BuffIndicatorOnUpdate)
+							bu:SetScript("OnUpdate", UF.AuraIndicatorOnUpdate)
 						else
 							bu:SetScript("OnUpdate", nil)
 						end
@@ -420,7 +415,7 @@ function UF:UpdateBuffIndicator(event, unit)
 						else
 							bu.cd:Hide()
 						end
-						if C.db["UFs"]["BuffIndicatorType"] == 1 then
+						if C.db["UFs"]["AuraIndicatorType"] == 1 then
 							bu.icon:SetVertexColor(unpack(value[2]))
 						else
 							bu.icon:SetTexture(texture)
@@ -442,8 +437,8 @@ function UF:UpdateBuffIndicator(event, unit)
 	end
 end
 
-function UF:RefreshBuffIndicator(bu)
-	if C.db["UFs"]["BuffIndicatorType"] == 3 then
+function UF:RefreshAuraIndicator(bu)
+	if C.db["UFs"]["AuraIndicatorType"] == 3 then
 		local point, anchorPoint, x, y = unpack(counterOffsets[bu.anchor][2])
 		bu.timer:Show()
 		bu.count:ClearAllPoints()
@@ -456,7 +451,7 @@ function UF:RefreshBuffIndicator(bu)
 		bu.timer:Hide()
 		bu.count:ClearAllPoints()
 		bu.count:SetPoint("CENTER", unpack(counterOffsets[bu.anchor][1]))
-		if C.db["UFs"]["BuffIndicatorType"] == 1 then
+		if C.db["UFs"]["AuraIndicatorType"] == 1 then
 			bu.icon:SetTexture(DB.bgTex)
 		else
 			bu.icon:SetVertexColor(1, 1, 1)
@@ -467,11 +462,11 @@ function UF:RefreshBuffIndicator(bu)
 	end
 end
 
-function UF:CreateBuffIndicator(self)
-	if not C.db["UFs"]["RaidBuffIndicator"] then return end
+function UF:CreateAuraIndicator(self)
+	if not C.db["UFs"]["RaidAuraIndicator"] then return end
 	if C.db["UFs"]["SimpleMode"] and not self.isPartyFrame then return end
 
-	local scale = C.db["UFs"]["BuffIndicatorScale"]
+	local scale = C.db["UFs"]["AuraIndicatorScale"]
 	local iconSize = B.Round(self:GetHeight()*.4)
 	local fontSize = B.Round(iconSize*.6)
 	local anchors = {"TOPLEFT", "TOP", "TOPRIGHT", "LEFT", "RIGHT", "BOTTOMLEFT", "BOTTOM", "BOTTOMRIGHT"}
@@ -504,27 +499,27 @@ function UF:CreateBuffIndicator(self)
 		bu.anchor = anchor
 		buttons[anchor] = bu
 
-		UF:RefreshBuffIndicator(bu)
+		UF:RefreshAuraIndicator(bu)
 	end
 
-	self.BuffIndicator = buttons
-	self:RegisterEvent("UNIT_AURA", UF.UpdateBuffIndicator)
-	self:RegisterEvent("GROUP_ROSTER_UPDATE", UF.UpdateBuffIndicator, true)
+	self.AuraIndicator = buttons
+	self:RegisterEvent("UNIT_AURA", UF.UpdateAuraIndicator)
+	self:RegisterEvent("GROUP_ROSTER_UPDATE", UF.UpdateAuraIndicator, true)
 end
 
 function UF:RefreshRaidFrameIcons()
 	for _, frame in pairs(oUF.objects) do
 		if frame.mystyle == "raid" then
-			if frame.Auras and C.db["UFs"]["RaidBuffIndicator"] then
-				frame.Auras:SetScale(C.db["UFs"]["RaidIconScale"])
+			if frame.Auras then
+				frame.Auras:SetScale(C.db["UFs"]["RaidAuraScale"])
 			end
 			if frame.RaidDebuffs then
-				frame.RaidDebuffs:SetScale(C.db["UFs"]["RaidIconScale"])
+				frame.RaidDebuffs:SetScale(C.db["UFs"]["RaidAuraScale"])
 			end
-			if frame.BuffIndicator then
-				for _, bu in pairs(frame.BuffIndicator) do
-					bu:SetScale(C.db["UFs"]["BuffIndicatorScale"])
-					UF:RefreshBuffIndicator(bu)
+			if frame.AuraIndicator then
+				for _, bu in pairs(frame.AuraIndicator) do
+					bu:SetScale(C.db["UFs"]["AuraIndicatorScale"])
+					UF:RefreshAuraIndicator(bu)
 				end
 			end
 		end

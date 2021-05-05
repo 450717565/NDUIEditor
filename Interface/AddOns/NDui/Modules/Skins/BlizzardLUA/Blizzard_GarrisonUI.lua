@@ -176,6 +176,10 @@ local function Reskin_MissionPage(self, isShop)
 		B.ReskinIcon(self.CostFrame.CostIcon)
 	end
 
+	if self.Stage.EnvironmentEffectFrame then
+		B.ReskinIcon(self.Stage.EnvironmentEffectFrame.Icon)
+	end
+
 	if self.RewardsFrame then
 		B.StripTextures(self.RewardsFrame, 11)
 

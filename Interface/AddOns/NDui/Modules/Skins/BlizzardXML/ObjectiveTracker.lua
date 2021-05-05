@@ -56,7 +56,6 @@ local function Reskin_TimerBar(_, _, line)
 
 	if not bar.styled then
 		B.ReskinStatusBar(bar)
-		B.SmoothBar(bar)
 
 		bar.styled = true
 	end
@@ -107,8 +106,6 @@ local function Reskin_ContentTracker()
 			timerBar:SetSize(220, 10)
 
 			B.ReskinStatusBar(timerBar, true)
-			B.SmoothBar(timerBar)
-			B.ReplaceStatusBarAtlas(timerBar)
 
 			timerBar.styled = true
 		end

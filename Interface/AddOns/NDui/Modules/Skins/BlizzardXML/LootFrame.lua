@@ -46,7 +46,7 @@ local function Reskin_BossBanner(lootFrame)
 		IconHitBox.icbg = B.CreateBDFrame(IconHitBox)
 		IconHitBox.icbg:SetOutside(lootFrame.Icon)
 		lootFrame.Icon:SetTexCoord(tL, tR, tT, tB)
-		B.ReskinIconBorder(IconHitBox.IconBorder, IconHitBox.icbg, nil, true)
+		B.ReskinBorder(IconHitBox.IconBorder, IconHitBox.icbg, nil, true)
 	end
 
 	IconHitBox.IconBorder:SetTexture(nil)

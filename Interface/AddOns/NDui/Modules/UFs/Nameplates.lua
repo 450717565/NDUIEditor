@@ -229,7 +229,7 @@ function UF:UpdateColor(_, unit)
 		end
 	end
 
-	if r or g or b then
+	if r and g and b then
 		element:SetStatusBarColor(r, g, b)
 	end
 

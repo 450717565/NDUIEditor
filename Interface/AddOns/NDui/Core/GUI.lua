@@ -98,14 +98,14 @@ GUI.DefaultSettings = {
 		SwingBar = false,
 		SwingTimer = false,
 		RaidFrame = true,
-		AutoRes = true,
+		AutoResurrect = true,
 		NumGroups = 8,
 		SimpleMode = false,
 		SMUnitsPerColumn = 20,
 		SMGroupByIndex = 1,
 		InstanceAuras = true,
 		DispellOnly = false,
-		RaidIconScale = 1,
+		RaidAuraScale = 1,
 		SpecRaidPos = false,
 		RaidHealthColor = 1,
 		HorizonRaid = true,
@@ -126,14 +126,14 @@ GUI.DefaultSettings = {
 		QuakeTimer = true,
 		LagString = false,
 		RuneTimer = true,
-		RaidBuffIndicator = true,
+		RaidAuraIndicator = false,
 		PartyFrame = true,
 		PartyWatcher = true,
 		PWOtherSide = false,
 		PartyPetFrame = false,
 		HealthColor = 1,
-		BuffIndicatorType = 2,
-		BuffIndicatorScale = 1,
+		AuraIndicatorType = 2,
+		AuraIndicatorScale = 1,
 		UFTextScale = 1,
 		PartyAltPower = true,
 		PartyWatcherSync = true,
@@ -142,8 +142,7 @@ GUI.DefaultSettings = {
 		FrequentHealth = false,
 		HealthFrequency = .2,
 		TargetAurasPerRow = 9,
-
-		RaidAurasMode = true,
+		RaidAurasType = 5,
 
 		PlayerWidth = 250,
 		PlayerHeight = 34,
@@ -537,8 +536,8 @@ local function setupClickCast()
 	GUI:SetupClickCast(guiPage[4])
 end
 
-local function setupBuffIndicator()
-	GUI:SetupBuffIndicator(guiPage[4])
+local function setupAuraIndicator()
+	GUI:SetupAuraIndicator(guiPage[4])
 end
 
 local function setupPartyWatcher()
@@ -674,8 +673,8 @@ local function updatePlateAlpha()
 	B:GetModule("UnitFrames"):UpdatePlateAlpha()
 end
 
-local function updateRaidNameText()
-	B:GetModule("UnitFrames"):UpdateRaidNameText()
+local function updateRaidHPMode()
+	B:GetModule("UnitFrames"):UpdateRaidHPMode()
 end
 
 local function updateUFTextScale()
@@ -684,10 +683,6 @@ end
 
 local function updateRaidTextScale()
 	B:GetModule("UnitFrames"):UpdateRaidTextScale()
-end
-
-local function refreshRaidFrameIcons()
-	B:GetModule("UnitFrames"):RefreshRaidFrameIcons()
 end
 
 local function updateTargetFrameAuras()
@@ -699,6 +694,11 @@ local function updateSimpleModeGroupBy()
 	if UF.UpdateSimpleModeHeader then
 		UF:UpdateSimpleModeHeader()
 	end
+end
+
+local function updateRaidAuras()
+	B:GetModule("UnitFrames"):UpdateRaidAuras()
+	B:GetModule("UnitFrames"):RefreshRaidFrameIcons()
 end
 
 local function updateRaidHealthMethod()
@@ -894,16 +894,17 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "PWOtherSide", L["PartyWatcherOnRight"], true},
 		{1, "UFs", "PartyWatcherSync", L["PartyWatcherSync"], nil, nil, nil, L["PartyWatcherSyncTip"]},
 		{},--blank
-		{1, "UFs", "RaidClickSets", DB.MyColor..L["Enable ClickSets"], nil, setupClickCast},
-		{1, "UFs", "AutoRes", L["UFs AutoRes"], true},
-		{1, "UFs", "RaidBuffIndicator", DB.MyColor..L["RaidBuffIndicator"], nil, setupBuffIndicator, nil, L["RaidBuffIndicatorTip"]},
-		{1, "UFs", "RaidAurasMode", L["RaidAurasMode"], true, nil, nil, L["RaidAurasModeTip"]},
-		{4, "UFs", "BuffIndicatorType", L["BuffIndicatorType"].."*", nil, {L["BI_Blocks"], L["BI_Icons"], L["BI_Numbers"]}, refreshRaidFrameIcons},
-		{3, "UFs", "BuffIndicatorScale", L["BuffIndicatorScale"].."*", true, {.5, 2, .01}, refreshRaidFrameIcons},
 		{1, "UFs", "InstanceAuras", DB.MyColor..L["Instance Auras"], nil, setupRaidDebuffs, nil, L["InstanceAurasTip"]},
-		{1, "UFs", "DispellOnly", L["DispellableOnly"], nil, nil, nil, L["DispellableOnlyTip"]},
+		{1, "UFs", "RaidAuraIndicator", DB.MyColor..L["RaidAuraIndicator"], true, setupAuraIndicator, nil, L["RaidAuraIndicatorTip"]},
+		{1, "UFs", "DispellOnly", L["DispellableOnly"].."*", nil, nil, nil, L["DispellableOnlyTip"]},
+		{1, "UFs", "RaidClickSets", DB.MyColor..L["Enable ClickSets"], true, setupClickCast},
 		{1, "UFs", "AurasClickThrough", L["RaidAuras ClickThrough"], nil, nil, nil, L["ClickThroughTip"]},
-		{3, "UFs", "RaidIconScale", L["Raid Icon Scale"].."*", true, {.5, 2, .01}, refreshRaidFrameIcons},
+		{1, "UFs", "AutoResurrect", L["UFs AutoResurrect"], true},
+		{},--blank
+		{4, "UFs", "RaidAurasType", L["RaidAurasType"].."*", nil, {DISABLE, L["RAT_1"], L["RAT_2"], L["RAT_3"], L["RAT_4"]}, updateRaidAuras, L["RaidAurasTypeTip"]},
+		{4, "UFs", "AuraIndicatorType", L["AuraIndicatorType"].."*", true, {L["RAI_Blocks"], L["RAI_Icons"], L["RAI_Numbers"]}, updateRaidAuras},
+		{3, "UFs", "RaidAuraScale", L["RaidAuraScale"].."*", nil, {.5, 2, .01}, updateRaidAuras},
+		{3, "UFs", "AuraIndicatorScale", L["AuraIndicatorScale"].."*", true, {.5, 2, .01}, updateRaidAuras},
 		{},--blank
 		{1, "UFs", "ShowSolo", L["ShowSolo"], nil, nil, nil, L["ShowSoloTip"]},
 		{1, "UFs", "SpecRaidPos", L["Spec RaidPos"], true, nil, nil, L["SpecRaidPosTip"]},
@@ -915,7 +916,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{3, "UFs", "NumGroups", L["Num Groups"], nil, {4, 8, 1}},
 		{3, "UFs", "RaidTextScale", L["UFTextScale"].."*", true, {.5, 1.5, .01}, updateRaidTextScale},
 		{4, "UFs", "RaidHealthColor", L["HealthColor"].."*", nil, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}, updateRaidTextScale},
-		{4, "UFs", "RaidHPMode", L["RaidHPMode"].."*", true, {L["DisableRaidHP"], L["RaidHPPercent"], L["RaidHPCurrent"], L["RaidHPLost"]}, updateRaidNameText},
+		{4, "UFs", "RaidHPMode", L["RaidHPMode"].."*", true, {L["DisableRaidHP"], L["RaidHPPercent"], L["RaidHPCurrent"], L["RaidHPLost"]}, updateRaidHPMode},
 		{},--blank
 		{1, "UFs", "SimpleMode", DB.MyColor..L["SimpleRaidFrame"], nil, nil, nil, L["SimpleRaidFrameTip"]},
 		{3, "UFs", "SMUnitsPerColumn", L["SimpleMode Column"], nil, {10, 40, 1}},

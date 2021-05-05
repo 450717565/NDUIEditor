@@ -39,6 +39,7 @@
 	<Script file="Blizzard_ObliterumUI.lua"/>
 	<Script file="Blizzard_PartyPoseUI.lua"/>
 	<Script file="Blizzard_PlayerChoiceUI.lua"/>
+	<Script file="Blizzard_PlayerChoice.lua"/>
 	<Script file="Blizzard_PVPUI.lua"/>
 	<Script file="Blizzard_RuneforgeUI.lua"/>
 	<Script file="Blizzard_ScrappingMachineUI.lua"/>

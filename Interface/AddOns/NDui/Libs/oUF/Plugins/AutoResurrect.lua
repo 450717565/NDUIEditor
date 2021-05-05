@@ -81,7 +81,7 @@ local function setupAttribute(self)
 end
 
 local function Enable(self)
-	if not C.db["UFs"]["AutoRes"] then return end
+	if not C.db["UFs"]["AutoResurrect"] then return end
 
 	if InCombatLockdown() then
 		self:RegisterEvent("PLAYER_REGEN_ENABLED", setupAttribute, true)
@@ -91,7 +91,7 @@ local function Enable(self)
 end
 
 local function Disable(self)
-	if C.db["UFs"]["AutoRes"] then return end
+	if C.db["UFs"]["AutoResurrect"] then return end
 
 	self:SetAttribute("*type3", nil)
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED", setupAttribute)

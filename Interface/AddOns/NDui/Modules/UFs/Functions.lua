@@ -8,6 +8,7 @@ local Auras = B:GetModule("Auras")
 local format, floor = string.format, math.floor
 local pairs, next = pairs, next
 local UnitFrame_OnEnter, UnitFrame_OnLeave = UnitFrame_OnEnter, UnitFrame_OnLeave
+local SpellGetVisibilityInfo, UnitAffectingCombat, SpellIsSelfBuff, SpellIsPriorityAura = SpellGetVisibilityInfo, UnitAffectingCombat, SpellIsSelfBuff, SpellIsPriorityAura
 
 local barWidth, barHeight
 
@@ -174,6 +175,8 @@ function UF:UpdateRaidHealthMethod()
 end
 
 function UF:CreateHealthText(self)
+	local isSimpleMode = (C.db["UFs"]["SimpleMode"] and not self.isPartyFrame)
+
 	local mystyle = self.mystyle
 	local textFrame = B.CreateParentFrame(self, 1, self.Health)
 	if mystyle == "nameplate" then
@@ -188,18 +191,11 @@ function UF:CreateHealthText(self)
 		if self.isPartyPet then
 			name:SetWidth(self:GetWidth()*.55)
 			name:SetPoint("LEFT", 3, -1)
-		elseif C.db["UFs"]["SimpleMode"] and not self.isPartyFrame then
+		elseif isSimpleMode then
 			name:SetPoint("LEFT", 4, 0)
-		elseif C.db["UFs"]["RaidBuffIndicator"] or C.db["UFs"]["RaidAurasMode"] then
-			name:SetJustifyH("CENTER")
-			if C.db["UFs"]["RaidHPMode"] ~= 1 then
-				name:SetPoint("TOP", 0, -3)
-			else
-				name:SetPoint("CENTER")
-			end
 		else
-			name:SetJustifyH("LEFT")
-			name:SetPoint("TOPLEFT", 2, -2)
+			name:SetJustifyH("CENTER")
+			name:SetPoint("CENTER")
 		end
 		name:SetScale(C.db["UFs"]["RaidTextScale"])
 	elseif mystyle == "nameplate" then
@@ -227,20 +223,18 @@ function UF:CreateHealthText(self)
 	end
 
 	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 13, 13, C.db["Nameplate"]["HealthTextSize"]), "", false, "RIGHT", -3, 0)
+	hpval:SetJustifyH("RIGHT")
 	if mystyle == "raid" then
 		self:Tag(hpval, "[raidhp]")
 		hpval:ClearAllPoints()
 		if self.isPartyPet then
 			hpval:SetPoint("RIGHT", -3, -1)
 			self:Tag(hpval, "[health]")
-		elseif C.db["UFs"]["SimpleMode"] and not self.isPartyFrame then
+		elseif isSimpleMode then
 			hpval:SetPoint("RIGHT", -4, 0)
-		elseif C.db["UFs"]["RaidBuffIndicator"] or C.db["UFs"]["RaidAurasMode"] then
-			hpval:SetJustifyH("CENTER")
-			hpval:SetPoint("TOP", self, "CENTER", 0, -1)
 		else
-			hpval:SetJustifyH("RIGHT")
-			hpval:SetPoint("BOTTOMRIGHT", -2, 2)
+			hpval:SetJustifyH("CENTER")
+			hpval:SetPoint("BOTTOM")
 		end
 		hpval:SetScale(C.db["UFs"]["RaidTextScale"])
 	elseif mystyle == "nameplate" then
@@ -255,23 +249,9 @@ function UF:CreateHealthText(self)
 	self.healthValue = hpval
 end
 
-function UF:UpdateRaidNameText()
+function UF:UpdateRaidHPMode()
 	for _, frame in pairs(oUF.objects) do
-		if frame.mystyle == "raid" and not frame.isPartyPet then
-			local name = frame.nameText
-			name:ClearAllPoints()
-			if C.db["UFs"]["SimpleMode"] and not frame.isPartyFrame then
-				name:SetPoint("LEFT", 4, 0)
-			elseif C.db["UFs"]["RaidBuffIndicator"] or C.db["UFs"]["RaidAurasMode"] then
-				name:SetJustifyH("CENTER")
-				if C.db["UFs"]["RaidHPMode"] ~= 1 then
-					name:SetPoint("TOP", 0, -3)
-				else
-					name:SetPoint("CENTER")
-				end
-			else
-				name:SetPoint("TOPLEFT", 2, -2)
-			end
+		if frame.mystyle == "raid" then
 			frame.healthValue:UpdateTag()
 		end
 	end
@@ -661,11 +641,13 @@ function UF.PostCreateIcon(element, button)
 	local fontSize = B.Round(fontsize)
 
 	local textFrame = B.CreateParentFrame(button)
+	button.timer = B.CreateFS(textFrame, fontSize)
 	button.count = B.CreateFS(textFrame, fontSize, "", false, "BOTTOMRIGHT", 4, -4)
 	button.count:SetJustifyH("RIGHT")
 
 	button.glowFrame = B.CreateGlowFrame(button, element.size)
 	button.icbg = B.ReskinIcon(button.icon)
+	button.icbg:SetFrameLevel(button:GetFrameLevel())
 
 	button.HL = button:CreateTexture(nil, "HIGHLIGHT")
 	button.HL:SetColorTexture(1, 1, 1, .25)
@@ -676,13 +658,9 @@ function UF.PostCreateIcon(element, button)
 
 	button.overlay:SetTexture("")
 	button.stealable:SetTexture("")
+	button.icon:SetDrawLayer("ARTWORK")
 
 	button:HookScript("OnMouseDown", Auras.RemoveSpellFromIgnoreList)
-
-	if element.disableCooldown then button.timer = B.CreateFS(button, fontSize, "", false, "CENTER", 1, 0) end
-	if element.__owner.mystyle == "raid" and C.db["UFs"]["RaidBuffIndicator"] then
-		button.icbg:SetFrameLevel(button:GetFrameLevel())
-	end
 end
 
 local filteredStyle = {
@@ -733,6 +711,11 @@ function UF.PostUpdateIcon(element, _, button, _, _, duration, expiration, debuf
 	else
 		B.HideOverlayGlow(button.glowFrame)
 	end
+
+	local fontsize = element.fontSize or element.size*.6
+	local fontSize = B.Round(fontsize)
+	if button.timer then button.timer:SetFont(DB.Font[1], fontSize, DB.Font[3]) end
+	if button.count then button.count:SetFont(DB.Font[1], fontSize, DB.Font[3]) end
 end
 
 local function bolsterPreUpdate(element)
@@ -770,12 +753,11 @@ function UF.CustomFilter(element, unit, button, name, _, _, _, duration, _, cast
 			return true
 		end
 	elseif style == "raid" then
-		if C.db["UFs"]["RaidAurasMode"] then
-			return (button.isDebuff and duration > 0) or (isPlayerCast and (duration > 0 and duration <= 60)) or C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID]
-		elseif C.db["UFs"]["RaidBuffIndicator"] then
-			return C.RaidBuffs["WARNING"][spellID] or C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID]
+		if C.RaidBuffs["WARNING"][spellID] or C.RaidBuffs["ALL"][spellID] or NDuiADB["RaidAuraWatch"][spellID] then
+			element.__owner.rawSpellID = spellID
+			return true
 		else
-			return (button.isDebuff and duration > 0) or (isPlayerCast and (duration > 0 and duration <= 60))
+			element.__owner.rawSpellID = nil
 		end
 	elseif style == "nameplate" or style == "boss" or style == "arena" or style == "focus" then
 		if element.__owner.isNameOnly then
@@ -795,18 +777,63 @@ function UF.CustomFilter(element, unit, button, name, _, _, _, duration, _, cast
 	end
 end
 
-function B.AuraIconSize(w, n, s)
+local buffWhiteList = {
+	-- 通灵战潮
+	[328126] = true, -- 被遗忘的铸锤
+	[328325] = true, -- 染血长枪
+	[328399] = true, -- 释放的心能
+	[325189] = true, -- 被遗忘的盾牌
+	[335161] = true, -- 残存心能
+	-- 赤红深渊
+	--[340433] = true, -- 堕罪之赐
+}
+function UF.RaidBuffFilter(_, _, _, _, _, _, _, _, _, caster, _, _, spellID, canApplyAura, isBossAura)
+	if isBossAura or buffWhiteList[spellID] then
+		return true
+	else
+		local hasCustom, alwaysShowMine, showForMySpec = SpellGetVisibilityInfo(spellID, UnitAffectingCombat("player") and "RAID_INCOMBAT" or "RAID_OUTOFCOMBAT")
+		local isPlayerSpell = (caster == "player" or caster == "pet" or caster == "vehicle")
+		if hasCustom then
+			return showForMySpec or (alwaysShowMine and isPlayerSpell)
+		else
+			return isPlayerSpell and canApplyAura and not SpellIsSelfBuff(spellID)
+		end
+	end
+end
+
+local debuffBlackList = {
+	[206151] = true,
+}
+function UF.RaidDebuffFilter(element, _, _, _, _, _, _, _, _, caster, _, _, spellID, _, isBossAura)
+	local parent = element.__owner
+	if debuffBlackList[spellID] then
+		return false
+	elseif (C.db["UFs"]["RaidAuraIndicator"] and UF.CornerSpells[spellID]) or (parent.RaidDebuffs and parent.RaidDebuffs.spellID == spellID) or parent.rawSpellID == spellID then
+		return false
+	elseif isBossAura or SpellIsPriorityAura(spellID) then
+		return true
+	else
+		local hasCustom, alwaysShowMine, showForMySpec = SpellGetVisibilityInfo(spellID, UnitAffectingCombat("player") and "RAID_INCOMBAT" or "RAID_OUTOFCOMBAT")
+		if hasCustom then
+			return showForMySpec or (alwaysShowMine and (caster == "player" or caster == "pet" or caster == "vehicle"))
+		else
+			return true
+		end
+	end
+end
+
+function UpdateIconSize(w, n, s)
 	return (w-(n-1)*s)/n
 end
 
-function B.AuraSetSize(frame, bu)
-	local width = frame:GetWidth()
-	local maxAuras = bu.num or bu.numTotal or (bu.numBuffs + bu.numDebuffs)
-	local maxLines = bu.iconsPerRow and B.Round(maxAuras/bu.iconsPerRow) or 1
+function UF:UpdateAuraContainer(parent, element, maxAuras)
+	local width = parent:GetWidth()
+	local iconsPerRow = element.iconsPerRow
+	local maxLines = iconsPerRow and B.Round(maxAuras/iconsPerRow) or 1
+	element.size = iconsPerRow and UpdateIconSize(width, iconsPerRow, element.spacing) or element.size
 
-	bu.size = bu.iconsPerRow and B.AuraIconSize(width, bu.iconsPerRow, bu.spacing) or bu.size
-	bu:SetWidth(width)
-	bu:SetHeight((bu.size + bu.spacing) * maxLines)
+	element:SetWidth(width)
+	element:SetHeight((element.size + element.spacing) * maxLines)
 end
 
 function UF:UpdateTargetAuras()
@@ -816,7 +843,7 @@ function UF:UpdateTargetAuras()
 	local element = frame.Auras
 	element.iconsPerRow = C.db["UFs"]["TargetAurasPerRow"]
 
-	B.AuraSetSize(frame, element)
+	UF:UpdateAuraContainer(frame, element, element.numBuffs + element.numDebuffs)
 	element:ForceUpdate()
 end
 
@@ -838,17 +865,11 @@ function UF:CreateAuras(self)
 		bu.iconsPerRow = C.db["UFs"]["TargetAurasPerRow"]
 		bu.gap = true
 	elseif mystyle == "raid" then
-		if C.db["UFs"]["RaidBuffIndicator"] then
-			bu.initialAnchor = "RIGHT"
-			bu:SetPoint("RIGHT", self, "CENTER", -5, 0)
-			bu.size = B.Round(self:GetHeight()*.6*C.db["UFs"]["RaidIconScale"])
-			bu.numTotal = 1
-			bu.disableCooldown = true
-		else
-			bu:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
-			bu.numTotal = C.db["UFs"]["SimpleMode"] and not self.isPartyFrame and 0 or 6
-			bu.iconsPerRow = C.db["UFs"]["SimpleMode"] and not self.isPartyFrame and 0 or 6
-		end
+		bu.initialAnchor = "RIGHT"
+		bu:SetPoint("RIGHT", self, "CENTER", -5, 0)
+		bu.size = B.Round(self:GetHeight()*.6*C.db["UFs"]["RaidAuraScale"])
+		bu.numTotal = 1
+		bu.disableCooldown = true
 		bu.disableMouse = C.db["UFs"]["AurasClickThrough"]
 	elseif mystyle == "nameplate" then
 		bu.initialAnchor = "BOTTOMLEFT"
@@ -863,7 +884,8 @@ function UF:CreateAuras(self)
 		end
 	end
 
-	B.AuraSetSize(self, bu)
+	UF:UpdateAuraContainer(self, bu, bu.numTotal or bu.numBuffs + bu.numDebuffs)
+
 	bu.showDebuffType = true
 	bu.showStealableBuffs = true
 	bu.CustomFilter = UF.CustomFilter
@@ -878,27 +900,31 @@ end
 
 function UF:CreateBuffs(self)
 	local bu = CreateFrame("Frame", nil, self)
-	bu.spacing = C.margin
 	bu.num = 6
 	bu.iconsPerRow = 6
+	bu.spacing = C.margin
+	bu.tooltipAnchor = "ANCHOR_BOTTOMLEFT"
 	bu.initialAnchor = "BOTTOMLEFT"
 	bu["growth-x"] = "RIGHT"
 	bu["growth-y"] = "UP"
-	bu.onlyShowPlayer = false
 
 	local mystyle = self.mystyle
-	if mystyle == "arena" then
-		bu:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.margin)
-	elseif mystyle == "raid" then
+	if mystyle == "raid" then
 		bu.initialAnchor = "TOPLEFT"
+		bu["growth-x"] = "RIGHT"
 		bu:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
+		bu.num = (C.db["UFs"]["SimpleMode"] and not self.isPartyFrame) and 0 or 6
+		bu.disableMouse = C.db["UFs"]["AurasClickThrough"]
+		bu.CustomFilter = UF.RaidBuffFilter
 	else
-		bu:SetPoint("BOTTOMLEFT", self.AlternativePower, "TOPLEFT", 0, C.margin)
+		bu:SetPoint("BOTTOMLEFT", self.AlternativePower or self, "TOPLEFT", 0, C.margin)
+		bu.CustomFilter = UF.CustomFilter
 	end
 
-	B.AuraSetSize(self, bu)
+	UF:UpdateAuraContainer(self, bu, bu.num)
+
+	bu.onlyShowPlayer = false
 	bu.showStealableBuffs = true
-	bu.CustomFilter = UF.CustomFilter
 	bu.PostCreateIcon = UF.PostCreateIcon
 	bu.PostUpdateIcon = UF.PostUpdateIcon
 
@@ -929,27 +955,66 @@ function UF:CreateDebuffs(self)
 		bu.num = 10
 		bu.iconsPerRow = 5
 	elseif mystyle == "focus" then
-		bu["growth-x"] = "RIGHT"
 		bu.initialAnchor = "TOPLEFT"
+		bu["growth-x"] = "RIGHT"
 		bu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -6)
 		bu.num = 14
 		bu.iconsPerRow = 7
 		bu.CustomFilter = UF.CustomFilter
 	elseif mystyle == "raid" then
-		bu["growth-x"] = "RIGHT"
-		bu.initialAnchor = "BOTTOMLEFT"
-		bu:SetPoint("BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
-		bu.num = 6
+		bu.initialAnchor = "BOTTOMRIGHT"
+		bu["growth-x"] = "LEFT"
+		bu:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 0)
+		bu.num = (C.db["UFs"]["SimpleMode"] and not self.isPartyFrame) and 0 or 6
 		bu.iconsPerRow = 6
-		bu.CustomFilter = UF.CustomFilter
+		bu.disableMouse = C.db["UFs"]["AurasClickThrough"]
+		bu.CustomFilter = UF.RaidDebuffFilter
 	end
 
-	B.AuraSetSize(self, bu)
+	UF:UpdateAuraContainer(self, bu, bu.num)
+
 	bu.showDebuffType = true
 	bu.PostCreateIcon = UF.PostCreateIcon
 	bu.PostUpdateIcon = UF.PostUpdateIcon
 
 	self.Debuffs = bu
+end
+
+function UF:UpdateRaidAuras()
+	for _, frame in pairs(oUF.objects) do
+		if frame.mystyle == "raid" then
+			local isSimpleMode = (C.db["UFs"]["SimpleMode"] and not self.isPartyFrame)
+
+			local debuffs = frame.Debuffs
+			if debuffs then
+				debuffs.num = isSimpleMode and 0 or 6
+				debuffs.iconsPerRow = 6
+				UF:UpdateAuraContainer(frame, debuffs, debuffs.num)
+				debuffs:ForceUpdate()
+			end
+
+			local buffs = frame.Buffs
+			if buffs then
+				buffs.num = isSimpleMode and 0 or 6
+				buffs.iconsPerRow = 6
+				UF:UpdateAuraContainer(frame, buffs, buffs.num)
+				buffs:ForceUpdate()
+			end
+		end
+	end
+end
+
+local function refreshAurasElements(self)
+	local buffs = self.Buffs
+	if buffs then buffs:ForceUpdate() end
+
+	local debuffs = self.Debuffs
+	if debuffs then debuffs:ForceUpdate() end
+end
+
+function UF:RefreshAurasByCombat(self)
+	self:RegisterEvent("PLAYER_REGEN_ENABLED", refreshAurasElements, true)
+	self:RegisterEvent("PLAYER_REGEN_DISABLED", refreshAurasElements, true)
 end
 
 -- Class Powers

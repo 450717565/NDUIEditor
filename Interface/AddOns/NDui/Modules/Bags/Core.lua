@@ -1008,7 +1008,7 @@ function Bags:OnLogin()
 	B:RegisterEvent("BANKFRAME_OPENED", Bags.AutoDeposit)
 
 	-- Fixes
-	BankFrame.GetRight = function() return f.bank:GetRight() end
+	--BankFrame.GetRight = function() return f.bank:GetRight() end
 	BankFrameItemButton_Update = B.Dummy
 
 	-- Shift key alert
