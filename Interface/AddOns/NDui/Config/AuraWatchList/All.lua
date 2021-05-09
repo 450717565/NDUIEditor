@@ -63,6 +63,7 @@ local list = {
 		{AuraID = 305276, UnitID = "player"},	-- 黑暗装备
 		{AuraID = 337622, UnitID = "player"},	-- 不稳形态
 		{AuraID = 337880, UnitID = "player"},	-- 堕落武装
+		{AuraID = 342024, UnitID = "player"},	-- 阿卡德涅的进食标记
 		-- 噬渊
 		{AuraID = 335861, UnitID = "player"},	-- 幽力之油
 		-- 种族天赋

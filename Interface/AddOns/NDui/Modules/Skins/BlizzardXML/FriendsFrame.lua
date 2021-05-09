@@ -282,10 +282,17 @@ tinsert(C.XMLThemes, function()
 	RaidInfoFrame:SetPoint("TOPLEFT", RaidFrame, "TOPRIGHT", 3, -25)
 	RaidFrameRaidInfoButton:ClearAllPoints()
 	RaidFrameRaidInfoButton:SetPoint("TOPRIGHT", FriendsFrame.CloseButton, "BOTTOMRIGHT", 0, -2)
-	RaidFrame.RoleCount:ClearAllPoints()
-	RaidFrame.RoleCount:SetPoint("RIGHT", RaidFrameRaidInfoButton, "LEFT", 0, 0)
+
 	RaidFrameAllAssistCheckButton:ClearAllPoints()
-	RaidFrameAllAssistCheckButton:SetPoint("RIGHT", RaidFrame.RoleCount, "LEFT", -60, 0)
+	RaidFrameAllAssistCheckButton:SetPoint("RIGHT", RaidFrame.RoleCount, "LEFT", -70, 0)
+
+	local RoleCount = RaidFrame.RoleCount
+	B.ReskinRole(RoleCount.TankIcon, "TANK")
+	B.ReskinRole(RoleCount.HealerIcon, "HEALER")
+	B.ReskinRole(RoleCount.DamagerIcon, "DPS")
+	B.ReskinRoleCount(RoleCount, "Damager", "Healer", "Tank")
+	RoleCount:ClearAllPoints()
+	RoleCount:SetPoint("RIGHT", RaidFrameRaidInfoButton, "LEFT", 5, 0)
 
 	local ConvertButton = RaidFrameConvertToRaidButton
 	B.ReskinButton(RaidFrameConvertToRaidButton)

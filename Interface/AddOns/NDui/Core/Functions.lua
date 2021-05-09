@@ -1359,6 +1359,38 @@ do
 		return icbg
 	end
 
+	function B:ReskinRoleCount(role1, role2, role3, xOffset)
+		local Icon_1 = self[role1.."Icon"]
+		Icon_1:ClearAllPoints()
+		Icon_1:SetPoint("RIGHT", self, "RIGHT", xOffset or -10, 0)
+
+		local Count_1 = self[role1.."Count"]
+		Count_1:SetWidth(24)
+		Count_1:SetJustifyH("CENTER")
+		Count_1:SetFontObject(Game13Font)
+		Count_1:SetPoint("RIGHT", Icon_1, "LEFT", 0, 0)
+
+		local Icon_2 = self[role2.."Icon"]
+		Icon_2:ClearAllPoints()
+		Icon_2:SetPoint("RIGHT", Count_1, "LEFT", 0, 0)
+
+		local Count_2 = self[role2.."Count"]
+		Count_2:SetWidth(24)
+		Count_2:SetJustifyH("CENTER")
+		Count_2:SetFontObject(Game13Font)
+		Count_2:SetPoint("RIGHT", Icon_2, "LEFT", 0, 0)
+
+		local Icon_3 = self[role3.."Icon"]
+		Icon_3:ClearAllPoints()
+		Icon_3:SetPoint("RIGHT", Count_2, "LEFT", 0, 0)
+
+		local Count_3 = self[role3.."Count"]
+		Count_3:SetWidth(24)
+		Count_3:SetJustifyH("CENTER")
+		Count_3:SetFontObject(Game13Font)
+		Count_3:SetPoint("RIGHT", Icon_3, "LEFT", 0, 0)
+	end
+
 	-- Handle Scroll
 	local function GetScrollThumb(self)
 		local thumb

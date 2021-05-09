@@ -182,6 +182,17 @@ DB.BuffList = {
 -- Reminder Buffs Checklist
 DB.ReminderBuffs = {
 	ITEMS = {
+		{	itemID = 178715, -- 唤雾者的陶笛
+			spells = {
+				[330067] = true, -- 全能
+				[332299] = true, -- 爆击
+				[332300] = true, -- 急速
+				[332301] = true, -- 精通
+			},
+			equip = true,
+			instance = true,
+			combat = true,
+		},
 		{	itemID = 178742, -- 瓶装毒素饰品
 			spells = {
 				[345545] = true,

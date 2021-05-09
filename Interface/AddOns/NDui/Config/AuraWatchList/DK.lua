@@ -47,7 +47,7 @@ local list = {
 		{AuraID = 188290, UnitID = "player"},	-- 枯萎凋零
 		{AuraID = 213003, UnitID = "player"},	-- 灵魂吞噬
 		{AuraID = 194679, UnitID = "player"},	-- 符文分流
-		{AuraID = 194844, UnitID = "player", Flash = true},	-- 白骨风暴
+		{AuraID = 194844, UnitID = "player"},	-- 白骨风暴
 		{AuraID = 207127, UnitID = "player"},	-- 饥饿符文刃
 		{AuraID = 207256, UnitID = "player"},	-- 湮灭
 		{AuraID = 207319, UnitID = "player"},	-- 血肉之盾
@@ -55,7 +55,7 @@ local list = {
 		{AuraID = 196770, UnitID = "player"},	-- 冷库严冬
 		{AuraID = 194879, UnitID = "player"},	-- 冰冷之爪
 		{AuraID = 211805, UnitID = "player"},	-- 风暴汇聚
-		{AuraID = 152279, UnitID = "player"},	-- 冰龙吐息
+		{AuraID = 152279, UnitID = "player", Flash = true},	-- 冰龙吐息
 		{AuraID = 235599, UnitID = "player"},	-- 冷酷之心
 		{AuraID = 246995, UnitID = "player"},	-- 食尸鬼主宰，2T20
 		{AuraID = 193320, UnitID = "player", Value = true},	-- 永恒脐带

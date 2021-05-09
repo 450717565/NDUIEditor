@@ -485,7 +485,7 @@ function UF:CreateAuraIndicator(self)
 		bu.timer = B.CreateFS(bu, fontSize, "", false, "CENTER", -counterOffsets[anchor][2][3], 0)
 		bu.count = B.CreateFS(bu, fontSize)
 
-		local icon = bu:CreateTexture(nil, "BORDER")
+		local icon = bu:CreateTexture(nil, "ARTWORK")
 		icon:SetInside(bu.bubg)
 		icon:SetTexCoord(tL, tR, tT, tB)
 		bu.icon = icon

@@ -75,7 +75,9 @@ function Auras:Reminder_Create(cfg)
 		end
 	end
 	frame.Icon:SetTexture(texture)
-	frame.text = B.CreateFS(frame, 14, L["Lack"], false, "TOP", 1, 15)
+	frame.text = B.CreateFS(frame, 14, L["Lack"])
+	frame.text:ClearAllPoints()
+	frame.text:SetPoint("CENTER", frame, "TOP", 0, 0)
 	frame:Hide()
 	cfg.frame = frame
 
@@ -122,7 +124,7 @@ function Auras:InitReminder()
 	if C.db["Auras"]["Reminder"] then
 		if not parentFrame then
 			parentFrame = CreateFrame("Frame", nil, UIParent)
-			parentFrame:SetPoint("CENTER", -220, 130)
+			parentFrame:SetPoint("TOPRIGHT", UIParent, "TOP", -200, -200)
 			parentFrame:SetSize(iconSize, iconSize)
 		end
 		parentFrame:Show()

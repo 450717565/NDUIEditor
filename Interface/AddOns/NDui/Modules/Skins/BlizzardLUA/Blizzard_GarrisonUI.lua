@@ -159,7 +159,10 @@ local function Reskin_MissionPage(self, isShop)
 	local bg = B.CreateBDFrame(self.Stage)
 	bg:SetOutside(self.Stage.LocBack)
 	bg:SetShown(self.Stage.LocBack and self.Stage.LocBack:IsShown())
-	B.ReskinClose(self.CloseButton, bg)
+
+	local CloseButton = self.CloseButton
+	B.ReskinClose(CloseButton, bg)
+	CloseButton.SetPoint = B.Dummy
 
 	local EnvIcon = self.Stage.MissionEnvIcon
 	EnvIcon.Texture:SetDrawLayer("ARTWORK")
@@ -716,6 +719,14 @@ local function Reskin_LandingPageReport(self)
 	self.selectedTex:Show()
 end
 
+-- Blizzard didn't set color for currency reward, incorrect color presents after scroll
+local function Update_CurrencyRewardBorder(self)
+	local reward = self:GetParent()
+	if reward and not reward.itemID then
+		reward.icbg:SetBackdropBorderColor(0, 0, 0)
+	end
+end
+
 local function Reskin_OrderHallMissionFrame()
 	local portrait = OrderHallMissionFrameMissions.CombatAllyUI.InProgress.PortraitFrame
 	if portrait:IsShown() then
@@ -795,8 +806,9 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 			reward:ClearAllPoints()
 			reward:SetPoint("TOPRIGHT", -5, -4.5)
 
-			local icbg = B.ReskinIcon(reward.Icon)
-			B.ReskinBorder(reward.IconBorder, icbg)
+			reward.icbg = B.ReskinIcon(reward.Icon)
+			B.ReskinBorder(reward.IconBorder, reward.icbg)
+			hooksecurefunc(reward.Icon, "SetTexture", Update_CurrencyRewardBorder)
 		end
 	end
 
@@ -1262,7 +1274,6 @@ local function Reskin_OrderHallTalentFrame(self)
 	B.StripTextures(self)
 
 	if self.CurrencyBG then self.CurrencyBG:SetAlpha(0) end
-	if self.CloseButton.Border then self.CloseButton.Border:SetAlpha(0) end
 
 	for _, button in pairs {self:GetChildren()} do
 		if button and button.talent then

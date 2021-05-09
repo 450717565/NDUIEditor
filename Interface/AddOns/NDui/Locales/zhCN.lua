@@ -110,7 +110,10 @@ L["RaidAurasTypeTip"] = "|n重要增/减益：以大图标显示重要增/减益
 L["RAT_1"] = "重要增/减益"
 L["RAT_2"] = "仅显示增益"
 L["RAT_3"] = "仅显示减益"
-L["RAT_4"] = "显示增/减益"
+L["RAT_4"] = "普通增/减益"
+L["RaidAuraNums"] = "团队框架光环数量"
+L["PartyAuraNums"] = "小队框架光环数量"
+L["AuraNumsTip"] = "|n光环图标大小属于自适应调整，所以当数量减小时，图标会变大。"
 
 L["Global Fade"] = "全局渐隐"
 L["Global Fade Alpha"] = "渐隐透明度"

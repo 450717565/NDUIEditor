@@ -57,6 +57,7 @@ function TT:HyperLink_SetJournal(link)
 		name = icon and "|T"..icon..":20:20:0:0:64:64:5:59:5:59:20|t "..name or name
 		idString = L["Section"].."ID："
 	end
+
 	if not name then return end
 
 	GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT", -3, 5)
@@ -74,6 +75,8 @@ function TT:HyperLink_SetTypes(link)
 end
 
 function TT:HyperLink_OnEnter(link, ...)
+	if not link then return end
+
 	local linkType = strmatch(link, "^([^:]+)")
 	if linkType then
 		if linkType == "battlepet" then

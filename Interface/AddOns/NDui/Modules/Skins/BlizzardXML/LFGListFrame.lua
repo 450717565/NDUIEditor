@@ -32,30 +32,12 @@ local function Reskin_RoleIcons(member)
 	end
 end
 
-local function Update_RoleAnchor(self, role)
-	local Count = self[role.."Count"]
-	Count:SetWidth(24)
-	Count:SetJustifyH("CENTER")
-	Count:SetFontObject(Game13Font)
-	Count:SetPoint("RIGHT", self[role.."Icon"], "LEFT", 1, 0)
-end
-
 local function Reskin_GroupDataDisplay(self)
 	if not self.styled then
 		B.ReskinRole(self.TankIcon, "TANK")
 		B.ReskinRole(self.HealerIcon, "HEALER")
 		B.ReskinRole(self.DamagerIcon, "DPS")
-
-		self.DamagerIcon:ClearAllPoints()
-		self.DamagerIcon:SetPoint("RIGHT", self, "RIGHT", -10, 0)
-		self.HealerIcon:ClearAllPoints()
-		self.HealerIcon:SetPoint("RIGHT", self.DamagerIcon, "LEFT", -24, 0)
-		self.TankIcon:ClearAllPoints()
-		self.TankIcon:SetPoint("RIGHT", self.HealerIcon, "LEFT", -24, 0)
-
-		Update_RoleAnchor(self, "Tank")
-		Update_RoleAnchor(self, "Healer")
-		Update_RoleAnchor(self, "Damager")
+		B.ReskinRoleCount(self, "Damager", "Healer", "Tank")
 
 		if self.Count then self.Count:SetWidth(25) end
 
@@ -140,18 +122,27 @@ tinsert(C.XMLThemes, function()
 	ApplicationViewer.RefreshButton:SetSize(24, 24)
 	ApplicationViewer.RefreshButton.Icon:SetPoint("CENTER")
 
+	local prevHeader
 	local headers = {
 		"NameColumnHeader",
 		"RoleColumnHeader",
 		"ItemLevelColumnHeader",
+		"DungeonScoreColumnHeader",
 	}
 	for _, headerName in pairs(headers) do
 		local header = ApplicationViewer[headerName]
+		if not header then break end -- isNewPatch
+
 		header.Label:SetFont(DB.Font[1], 14, DB.Font[3])
 		header.Label:SetShadowColor(0, 0, 0, 0)
 
 		B.StripTextures(header)
 		B.CreateBGFrame(header, 3, -1, 1, 1)
+
+		if prevHeader then
+			header:SetPoint("LEFT", prevHeader, "RIGHT", C.mult, 0)
+		end
+		prevHeader = header
 	end
 
 	hooksecurefunc("LFGListApplicationViewer_UpdateApplicant", Reskin_Applicant)

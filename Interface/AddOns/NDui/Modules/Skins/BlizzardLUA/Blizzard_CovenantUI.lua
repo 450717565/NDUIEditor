@@ -37,7 +37,6 @@ end
 
 local function Reskin_CovenantFrame(self)
 	B.StripTextures(self)
-	self.CloseButton.Border:Hide()
 
 	if not self.styled then
 		B.ReskinFrame(self)

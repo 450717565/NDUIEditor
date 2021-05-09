@@ -289,12 +289,18 @@ function EX:SetProgressionInfo(guid)
 	end
 
 	if C.db["Extras"]["ProgRaids"] and cache[guid].info.raids then
-		GameTooltip:AddLine(" ")
-		GameTooltip:AddLine(RAIDS.."：")
+		local title = false
 
 		for _, tier in ipairs(tiers) do
 			for _, level in ipairs(levels) do
 				if (cache[guid].info.raids[tier][level]) then
+					if not title then
+						GameTooltip:AddLine(" ")
+						GameTooltip:AddLine(RAIDS.."：")
+
+						title = true
+					end
+
 					local left = format("%s（%s）", locales[tier], GetLevelColoredString(level))
 					local right = cache[guid].info.raids[tier][level]
 					GameTooltip:AddDoubleLine(left, right, .6,.8,1, 1,1,1)

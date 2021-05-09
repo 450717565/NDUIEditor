@@ -244,7 +244,7 @@ function Auras:CreateAuraIcon(button)
 	local bubg = B.CreateBDFrame(button)
 	button.bubg = bubg
 
-	local icon = button:CreateTexture(nil, "BORDER")
+	local icon = button:CreateTexture(nil, "ARTWORK")
 	icon:SetTexCoord(tL, tR, tT, tB)
 	icon:SetInside(bubg)
 	button.icon = icon

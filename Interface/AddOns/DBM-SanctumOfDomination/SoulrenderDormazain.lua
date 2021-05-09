@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2445, "DBM-SanctumOfDomination", nil, 1193)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210422012611")
+mod:SetRevision("20210505230338")
 mod:SetCreatureID(175727)
 mod:SetEncounterID(2434)
 mod:SetUsedIcons(1, 2, 3, 4)
@@ -14,9 +14,9 @@ mod:RegisterCombat("combat")
 mod:RegisterEventsInCombat(
 	"SPELL_CAST_START 351779 350648 350422",
 	"SPELL_CAST_SUCCESS 349985",
-	"SPELL_AURA_APPLIED 352158 350650 354055 353429 350422 350448 350411 348985 350851 350647",
+	"SPELL_AURA_APPLIED 352158 350650 354055 353429 350422 350448 350411 348985 350851 350647 351773",
 	"SPELL_AURA_APPLIED_DOSE 350422 350448",
-	"SPELL_AURA_REMOVED 350650 354055 353429 350411 350647"
+	"SPELL_AURA_REMOVED 350650 354055 353429 350411 350647 351773"
 --	"SPELL_PERIODIC_DAMAGE",
 --	"SPELL_PERIODIC_MISSED",
 --	"UNIT_DIED"
@@ -127,7 +127,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnTorment:Show()
 		specWarnTorment:Play("watchstep")
 		timerTormentCD:Start()
-	elseif spellId == 350650 or spellId == 354055 then--Reg adds, Mythic Adds
+	elseif spellId == 350650 or spellId == 351773 or spellId == 354055 then--Reg adds, reg adds, Mythic Adds
 		warnDefiance:CombinedShow(0.5, args.destName)
 		if self.Options.NPAuraOnDefiance then
 			DBM.Nameplate:Show(true, args.sourceGUID, spellId)
@@ -183,7 +183,7 @@ mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
-	if spellId == 350650 or spellId == 354055 then--Reg adds, Mythic Adds
+	if spellId == 350650 or spellId == 351773 or spellId == 354055 then--Reg adds, Mythic Adds
 		if self.Options.NPAuraOnDefiance then
 			DBM.Nameplate:Hide(true, args.sourceGUID, spellId)
 		end

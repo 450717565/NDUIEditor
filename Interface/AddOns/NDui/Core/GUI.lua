@@ -142,7 +142,10 @@ GUI.DefaultSettings = {
 		FrequentHealth = false,
 		HealthFrequency = .2,
 		TargetAurasPerRow = 9,
+
 		RaidAurasType = 5,
+		RaidAuraNums = 5,
+		PartyAuraNums = 6,
 
 		PlayerWidth = 250,
 		PlayerHeight = 34,
@@ -905,6 +908,8 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{4, "UFs", "AuraIndicatorType", L["AuraIndicatorType"].."*", true, {L["RAI_Blocks"], L["RAI_Icons"], L["RAI_Numbers"]}, updateRaidAuras},
 		{3, "UFs", "RaidAuraScale", L["RaidAuraScale"].."*", nil, {.5, 2, .01}, updateRaidAuras},
 		{3, "UFs", "AuraIndicatorScale", L["AuraIndicatorScale"].."*", true, {.5, 2, .01}, updateRaidAuras},
+		{3, "UFs", "RaidAuraNums", L["RaidAuraNums"].."*", nil, {3, 6, 1}, updateRaidAuras, L["AuraNumsTip"]},
+		{3, "UFs", "PartyAuraNums", L["PartyAuraNums"].."*", true, {3, 6, 1}, updateRaidAuras, L["AuraNumsTip"]},
 		{},--blank
 		{1, "UFs", "ShowSolo", L["ShowSolo"], nil, nil, nil, L["ShowSoloTip"]},
 		{1, "UFs", "SpecRaidPos", L["Spec RaidPos"], true, nil, nil, L["SpecRaidPosTip"]},

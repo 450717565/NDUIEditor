@@ -207,7 +207,9 @@ local function BuildICON(iconSize)
 	frame.Cooldown = Cooldown
 
 	local parentFrame = B.CreateParentFrame(frame, 6)
-	frame.Spellname = B.CreateFS(parentFrame, 13, "", false, "TOP", 0, 5)
+	frame.Spellname = B.CreateFS(parentFrame, 13)
+	frame.Spellname:ClearAllPoints()
+	frame.Spellname:SetPoint("CENTER", frame, "TOP", 0, 0)
 	frame.Count = B.CreateFS(parentFrame, iconSize*.6, "", false, "BOTTOMRIGHT", 4, -4)
 	frame.Count:SetJustifyH("RIGHT")
 

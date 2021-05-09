@@ -31,11 +31,9 @@ local function Reskin_PlayerChoiceFrame(self)
 		B.ReskinText(optionFrame.OptionText, 1, 1, 1)
 
 		local optionButtonsContainer = optionFrame.OptionButtonsContainer
-		if optionButtonsContainer then
-			if optionButtonsContainer.buttonPool then
-				for button in optionButtonsContainer.buttonPool:EnumerateActive() do
-					Reskin_OptionButton(button)
-				end
+		if optionButtonsContainer and optionButtonsContainer.buttonPool then
+			for button in optionButtonsContainer.buttonPool:EnumerateActive() do
+				Reskin_OptionButton(button)
 			end
 		end
 
@@ -55,10 +53,16 @@ local function Reskin_PlayerChoiceFrame(self)
 			end
 
 			--[[ unseen templates
-				PlayerChoiceBaseOptionCurrencyContainerRewardTemplate
-				PlayerChoiceBaseOptionCurrencyRewardTemplate
-				PlayerChoiceBaseOptionReputationRewardTemplate
-			]]
+			PlayerChoiceBaseOptionCurrencyContainerRewardTemplate
+			PlayerChoiceBaseOptionCurrencyRewardTemplate
+			PlayerChoiceBaseOptionReputationRewardTemplate ]]
+		end
+
+		local widgetContainer = optionFrame.WidgetContainer
+		if widgetContainer and widgetContainer.widgetFrames then
+			for _, widgetFrame in pairs(widgetContainer.widgetFrames) do
+				B.ReskinText(widgetFrame.Text, 1, 1, 1)
+			end
 		end
 	end
 end

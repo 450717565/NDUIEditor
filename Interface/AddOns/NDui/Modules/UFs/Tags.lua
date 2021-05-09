@@ -12,14 +12,6 @@ local UnitIsAFK, UnitIsDND, UnitIsDead, UnitIsGhost, UnitName, UnitExists = Unit
 local UnitIsWildBattlePet, UnitIsBattlePetCompanion, UnitBattlePetLevel = UnitIsWildBattlePet, UnitIsBattlePetCompanion, UnitBattlePetLevel
 local GetNumArenaOpponentSpecs, GetCreatureDifficultyColor = GetNumArenaOpponentSpecs, GetCreatureDifficultyColor
 
-local function ValueAndPercent(cur, per)
-	if per < 100 then
-		return B.ColorText(per, B.FormatNumb(cur))..DB.Separator..B.ColorText(per)
-	else
-		return B.FormatNumb(cur)
-	end
-end
-
 -- UFs Tags
 oUF.Tags.Methods["health"] = function(unit)
 	local cur = oUF.Tags.Methods["curhp"](unit)
@@ -29,7 +21,11 @@ oUF.Tags.Methods["health"] = function(unit)
 		return oUF.Tags.Methods["state"](unit)
 	else
 		if unit == "player" or unit == "target" or unit == "focus" then
-			return ValueAndPercent(cur, per)
+			if per < 100 then
+				return B.ColorText(per, B.FormatNumb(cur))..DB.Separator..B.ColorText(per)
+			else
+				return B.FormatNumb(cur)
+			end
 		else
 			return B.ColorText(per)
 		end
@@ -153,7 +149,7 @@ oUF.Tags.Methods["nphp"] = function(unit)
 		elseif C.db["Nameplate"]["NPsHPMode"] == 2 then
 			return B.ColorText(per, B.FormatNumb(cur))
 		else
-			return ValueAndPercent(cur, per)
+			return B.ColorText(per, B.FormatNumb(cur))..DB.Separator..B.ColorText(per)
 		end
 	else
 		return B.FormatNumb(cur)

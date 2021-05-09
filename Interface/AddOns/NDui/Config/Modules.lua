@@ -70,7 +70,7 @@ C.Skins = {
 
 -- 鼠标提示框
 C.Tooltips = {
-	TooltipPos 		= {"BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -55, 230},		-- 鼠标提示框默认位置
+	TooltipPos 		= {"TOPRIGHT", UIParent, "RIGHT", -90, -90},		-- 鼠标提示框默认位置
 }
 
 -- 信息条
