@@ -39,16 +39,13 @@ local function StripMS_Textures(self)
 end
 
 local function ReskinMS_Button(self)
-	for _, child in pairs {self:GetChildren()} do
-		if child:IsObjectType("Button") and child.Icon and child.Text then
-			B.StripTextures(child, 11)
-			B.ReskinIcon(child.Icon)
+	if not self then return end
 
-			child.HL = child:CreateTexture(nil, "HIGHLIGHT")
-			child.HL:SetColorTexture(1, 1, 1, .25)
-			child.HL:SetAllPoints(child.Icon)
-		end
-	end
+	B.StripTextures(self, 11)
+	B.ReskinIcon(self.Icon)
+	self.HL = self:CreateTexture(nil, "HIGHLIGHT")
+	self.HL:SetColorTexture(1, 1, 1, .25)
+	self.HL:SetAllPoints(self.Icon)
 end
 
 local function ReskinMS_PageButton(self)
@@ -107,14 +104,23 @@ local function Reskin_TabView(self)
 		if not tab.styled then
 			B.ReskinTab(tab)
 
-			if tab.icon then B.ReskinIcon(tab.icon) end
+			if tab.Icon then
+				B.ReskinIcon(tab.Icon)
+			end
 
 			tab.styled = true
 		end
 
-		if i > 1 then
-			tab:ClearAllPoints()
-			tab:SetPoint("LEFT", self:GetButton(i-1), "RIGHT", -(15+C.mult), 0)
+		if tab.Icon then
+			tab.Icon:SetTexture(413584)
+		end
+
+		local point = tab:GetPoint()
+		if point == "BOTTOMLEFT" then
+			if i > 1 then
+				tab:ClearAllPoints()
+				tab:SetPoint("LEFT", self:GetButton(i-1), "RIGHT", -(15+C.mult), 0)
+			end
 		end
 	end
 end
@@ -215,6 +221,14 @@ function Skins:MeetingStone()
 	for _, child in pairs {CreateWidget:GetChildren()} do
 		B.StripTextures(child)
 		B.CreateBDFrame(child)
+	end
+
+	for _, key in pairs {"MemberWidget", "MiscWidget"} do
+		local panel = CreatePanel[key]
+		if panel then
+			B.CreateBDFrame(panel)
+			panel:DisableDrawLayer("BACKGROUND")
+		end
 	end
 
 	-- Button
@@ -332,29 +346,142 @@ function Skins:MeetingStone()
 
 	-- Misc
 	if MSEnv.ADDON_REGIONSUPPORT then
-		local MallPanel = MS:GetModule("MallPanel")
-		B.StripTextures(MallPanel.CategoryList:GetParent())
-		B.ReskinButton(MallPanel.PurchaseButton)
-		ReskinMS_Button(MallPanel)
+		local MallPanel = MS:GetModule("MallPanel", true)
+		if MallPanel then
+			B.ReskinButton(MallPanel.PurchaseButton)
 
-		local RewardPanel = MS:GetModule("RewardPanel")
-		B.ReskinButton(RewardPanel.ConfirmButton)
-		B.ReskinInput(RewardPanel.InputBox)
+			for _, child in pairs {MallPanel:GetChildren()} do
+				if child:IsObjectType("Button") and child.Icon and child.Text then
+					ReskinMS_Button(child)
+				end
+			end
+		end
 
-		B.StripTextures(MSEnv.ActivitiesParent)
-		ReskinMS_Button(MSEnv.ActivitiesParent)
-		B.ReskinScroll(MSEnv.ActivitiesSummary.Summary.ScrollBar)
+		local RewardPanel = MS:GetModule("RewardPanel", true)
+		if RewardPanel then
+			B.ReskinButton(RewardPanel.ConfirmButton)
+			B.ReskinInput(RewardPanel.InputBox)
+		end
 
 		local WalkthroughPanel = MS:GetModule("WalkthroughPanel", true)
 		if WalkthroughPanel then
 			B.ReskinScroll(WalkthroughPanel.SummaryHtml.ScrollBar)
 		end
+
+		local ActivitiesSummary = MSEnv.ActivitiesSummary
+		if ActivitiesSummary then
+			B.StripTextures(ActivitiesSummary)
+			B.CreateBDFrame(ActivitiesSummary.Background)
+
+			ReskinMS_Button(ActivitiesSummary.GiftButton)
+			ReskinMS_Button(ActivitiesSummary.MemberButton)
+			ReskinMS_Button(ActivitiesSummary.LeaderButton)
+
+			local Summary = ActivitiesSummary.Summary
+			B.ReskinScroll(Summary.ScrollBar)
+
+			local SummaryWidget = Summary:GetParent()
+			if SummaryWidget then
+				B.CreateBDFrame(SummaryWidget)
+			end
+		end
+
+		local ActivitiesParent = MSEnv.ActivitiesParent
+		if ActivitiesParent then
+			B.StripTextures(MSEnv.ActivitiesParent)
+
+			ReskinMS_Button(ActivitiesParent.ScoreButton)
+			ReskinMS_Button(ActivitiesParent.PlayerInfoButton)
+		end
+
+		for _, key in pairs {"QuestPanel", "QuestPanel2"} do
+			local QuestPanel = MSEnv[key]
+			if QuestPanel then
+				local Body = QuestPanel.Body
+				if Body then
+					B.StripTextures(Body)
+
+					for _, key in pairs {"Refresh", "Join", "Ranking"} do
+						local button = Body[key]
+						if button then
+							B.ReskinButton(button)
+						end
+					end
+				end
+
+				local Summary = QuestPanel.Summary
+				if Summary then
+					B.StripTextures(Summary)
+					B.CreateBDFrame(Summary)
+
+					for _, child in pairs {Summary:GetChildren()} do
+						if child.ScrollBar then
+							B.ReskinScroll(child.ScrollBar)
+							break
+						end
+					end
+				end
+
+				local Quests = QuestPanel.Quests
+				if Quests then
+					Quests:SetItemSpacing(1)
+					Quests:SetItemHeight(50)
+					B.ReskinScroll(Quests:GetScrollBar())
+
+					hooksecurefunc(Quests, "UpdateItemPosition", function(self, i)
+						if i == 1 then
+							local button = self:GetButton(i)
+							button:SetPoint("TOPLEFT", 0, -4)
+							button:SetPoint("TOPRIGHT",  0, -4)
+						end
+					end)
+				end
+			end
+		end
+	end
+
+	-- QuestItem
+	local QuestItem = MSEnv.QuestItem
+	if QuestItem then
+		local origQuestItemCreate = QuestItem.Create
+		QuestItem.Create = function(self, parent, ...)
+			local button = origQuestItemCreate(self, parent, ...)
+			B.StripTextures(button.Item)
+			B.ReskinButton(button.Reward)
+
+			button.Item.icbg = B.ReskinIcon(button.Item.icon)
+			B.ReskinBorder(button.Item.IconBorder, button.Item.icbg)
+
+			return button
+		end
 	end
 
 	-- App
-	B.StripTextures(MSEnv.AppParent)
-	ReskinMS_PageButton(MSEnv.AppFollowQueryPanel.QueryList.ScrollBar)
-	ReskinMS_PageButton(MSEnv.AppFollowPanel.FollowList.ScrollBar)
+	if MSEnv.AppParent then
+		B.StripTextures(MSEnv.AppParent)
+
+		ReskinMS_PageButton(MSEnv.AppFollowQueryPanel.QueryList.ScrollBar)
+		ReskinMS_PageButton(MSEnv.AppFollowPanel.FollowList.ScrollBar)
+	end
+
+	-- PlayerInfoDialog
+	local PlayerInfoDialog = MSEnv.PlayerInfoDialog
+	if PlayerInfoDialog then
+		for _, child in pairs {PlayerInfoDialog:GetChildren()} do
+			local objType = child:GetObjectType()
+			if objType == "Frame" then
+				B.StripTextures(child)
+			elseif objType == "Button" and child.Text then
+				B.ReskinButton(child)
+			end
+		end
+
+		for _, input in PlayerInfoDialog:IterateInputBoxes() do
+			B.ReskinInput(input)
+		end
+
+		B.ReskinFrame(PlayerInfoDialog)
+	end
 
 	-- MeetingStonePlus
 	if MeetingStone_QuickJoin then

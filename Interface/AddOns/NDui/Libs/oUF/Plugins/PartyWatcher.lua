@@ -101,8 +101,9 @@ local function Enable(self)
 		element.maxButtons = #element
 		element.spellToButton = {}
 		self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", Update)
-		self:RegisterEvent("GROUP_LEFT", ResetButtons, true)
 		self:RegisterEvent("CHALLENGE_MODE_START", ResetButtons, true)
+		self:RegisterEvent("GROUP_JOINED", ResetButtons, true)
+		self:RegisterEvent("GROUP_LEFT", ResetButtons, true)
 		self:RegisterEvent("GROUP_ROSTER_UPDATE", ResetButtonsWithCheck, true)
 		return true
 	end
@@ -113,8 +114,9 @@ local function Disable(self)
 
 	if element then
 		self:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED", Update)
-		self:UnregisterEvent("GROUP_LEFT", ResetButtons)
 		self:UnregisterEvent("CHALLENGE_MODE_START", ResetButtons)
+		self:UnregisterEvent("GROUP_JOINED", ResetButtons)
+		self:UnregisterEvent("GROUP_LEFT", ResetButtons)
 		self:UnregisterEvent("GROUP_ROSTER_UPDATE", ResetButtonsWithCheck)
 	end
 end

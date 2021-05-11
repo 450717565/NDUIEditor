@@ -40,21 +40,32 @@ local parentMaps = {
 }
 
 local factionList = {
-	[1579] = 2164,
-	[1592] = 2161,
-	[1593] = 2160,
-	[1594] = 2162,
-	[1595] = 2156,
-	[1596] = 2158,
-	[1597] = 2103,
-	[1598] = 2163,
-	[1599] = 2159,
-	[1600] = 2157,
-	[1738] = 2373,
-	[1739] = 2400,
-	[1740] = 2391,
-	[1742] = 2391,
+	[1579] = true,
+	[1592] = true,
+	[1593] = true,
+	[1594] = true,
+	[1595] = true,
+	[1596] = true,
+	[1597] = true,
+	[1598] = true,
+	[1599] = true,
+	[1600] = true,
+	[1738] = true,
+	[1739] = true,
+	[1740] = true,
+	[1742] = true,
+
+	[1804] = true, -- 晋升者
+	[1805] = true, -- 不朽军团
+	[1806] = true, -- 荒猎团
+	[1807] = true, -- 收割者之庭
 }
+
+local ANIMA_SPELLID = {[347555] = 3, [345706] = 5, [336327] = 35, [336456] = 250}
+local function GetAnimaValue(itemID)
+	local _, spellID = GetItemSpell(itemID)
+	return ANIMA_SPELLID[spellID] or 1
+end
 
 local r, g, b
 local warMode, warModeBonus
@@ -203,15 +214,31 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 	-- set texture to the item/currency/value it rewards
 	local questID = self.questID
 	if (GetNumQuestLogRewards(questID) > 0) then
-		local _, texture, _, quality, _, _, itemLevel = GetQuestLogRewardInfo(1, questID)
-		SetPortraitToTexture(self.Texture, texture)
+		local _, itemTexture, numItems, quality, _, itemID, itemLevel = GetQuestLogRewardInfo(1, questID)
+
+		if C_Item.IsAnimaItemByID(itemID) then
+			itemTexture = 3528288
+			itemLevel = numItems * GetAnimaValue(itemID)
+		elseif numItems and numItems > 1 then
+			itemLevel = numItems
+		elseif itemLevel and itemLevel <= 1 then
+			itemLevel = ""
+		end
+
+		SetPortraitToTexture(self.Texture, itemTexture)
 		self.Texture:SetSize(self:GetSize())
 
 		r, g, b = GetItemQualityColor(quality or 1)
 		self.Text:SetText(itemLevel)
 		self.Text:SetTextColor(r, g, b)
 	elseif (GetNumQuestLogRewardCurrencies(questID) > 0) then
-		local _, texture, numItems, currencyId, quality = GetQuestLogRewardCurrencyInfo(1, questID)
+		local name, texture, numItems, currencyId, quality
+		name, texture, numItems, currencyId, quality = GetQuestLogRewardCurrencyInfo(1, questID)
+
+		if GetQuestLogRewardCurrencyInfo(2, questID) then
+			name, texture, numItems, currencyId, quality = GetQuestLogRewardCurrencyInfo(2, questID)
+		end
+
 		SetPortraitToTexture(self.Texture, texture)
 		self.Texture:SetSize(self:GetSize())
 
@@ -224,7 +251,7 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 		self.Text:SetFormattedText("%d", numItems)
 		self.Text:SetTextColor(r, g, b)
 	elseif (GetQuestLogRewardMoney(questID) > 0) then
-		SetPortraitToTexture(self.Texture, [[Interface\Icons\inv_misc_coin_01]])
+		SetPortraitToTexture(self.Texture, "Interface\\Icons\\inv_misc_coin_01")
 		self.Texture:SetSize(self:GetSize())
 
 		r, g, b = 1, 1, 1
@@ -283,7 +310,7 @@ for provider in next, WorldMapFrame.dataProviders do
 	end
 end
 
--- ��ʹ�������
+-- 大使任务计数
 local WorldQuestBountyCount = CreateFrame("Frame")
 
 function WorldQuestBountyCount:OnLoad()

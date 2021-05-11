@@ -510,14 +510,35 @@ end
 function UF:RefreshRaidFrameIcons()
 	for _, frame in pairs(oUF.objects) do
 		if frame.mystyle == "raid" then
-			if frame.Auras then
-				frame.Auras:SetScale(C.db["UFs"]["RaidAuraScale"])
+			local auras = frame.Auras
+			if auras then
+				auras:SetScale(C.db["UFs"]["RaidAuraScale"])
 			end
-			if frame.RaidDebuffs then
-				frame.RaidDebuffs:SetScale(C.db["UFs"]["RaidAuraScale"])
+
+			local buffs = frame.Buffs
+			if buffs then
+				buffs.num = UF.GetStyleNums(frame)
+				buffs.iconsPerRow = UF.GetStyleNums(frame)
+				UF:UpdateAuraContainer(frame, buffs, buffs.num)
+				buffs:ForceUpdate()
 			end
-			if frame.AuraIndicator then
-				for _, bu in pairs(frame.AuraIndicator) do
+
+			local debuffs = frame.Debuffs
+			if debuffs then
+				debuffs.num = UF.GetStyleNums(frame)
+				debuffs.iconsPerRow = UF.GetStyleNums(frame)
+				UF:UpdateAuraContainer(frame, debuffs, debuffs.num)
+				debuffs:ForceUpdate()
+			end
+
+			local raidDebuffs = frame.RaidDebuffs
+			if raidDebuffs then
+				raidDebuffs:SetScale(C.db["UFs"]["RaidAuraScale"])
+			end
+
+			local auraIndicator = frame.AuraIndicator
+			if auraIndicator then
+				for _, bu in pairs(auraIndicator) do
 					bu:SetScale(C.db["UFs"]["AuraIndicatorScale"])
 					UF:RefreshAuraIndicator(bu)
 				end

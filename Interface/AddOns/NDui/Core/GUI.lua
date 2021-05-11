@@ -142,6 +142,7 @@ GUI.DefaultSettings = {
 		FrequentHealth = false,
 		HealthFrequency = .2,
 		TargetAurasPerRow = 9,
+		SmartRaid = false,
 
 		RaidAurasType = 5,
 		RaidAuraNums = 5,
@@ -699,8 +700,7 @@ local function updateSimpleModeGroupBy()
 	end
 end
 
-local function updateRaidAuras()
-	B:GetModule("UnitFrames"):UpdateRaidAuras()
+local function updateRaidFrameIcons()
 	B:GetModule("UnitFrames"):RefreshRaidFrameIcons()
 end
 
@@ -710,6 +710,10 @@ end
 
 local function updateSmoothingAmount()
 	B.SetSmoothingAmount(C.db["UFs"]["SmoothAmount"])
+end
+
+local function updateAllHeaders()
+	B:GetModule("UnitFrames"):UpdateAllHeaders()
 end
 
 local function updateMinimapScale()
@@ -888,6 +892,8 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 	},
 	[4] = {
 		{1, "UFs", "RaidFrame", DB.MyColor..L["UFs RaidFrame"], nil, setupRaidFrame, nil, L["RaidFrameTip"]},
+		{1, "UFs", "FrequentHealth", DB.MyColor..L["FrequentHealth"].."*", nil, nil, updateRaidHealthMethod, L["FrequentHealthTip"]},
+		{3, "UFs", "HealthFrequency", L["HealthFrequency"].."*", true, {.05, .25, .01}, updateRaidHealthMethod, L["HealthFrequencyTip"]},
 		{},--blank
 		{1, "UFs", "PartyFrame", DB.MyColor..L["UFs PartyFrame"]},
 		{1, "UFs", "PartyPetFrame", DB.MyColor..L["UFs PartyPetFrame"], true},
@@ -898,26 +904,24 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "UFs", "PartyWatcherSync", L["PartyWatcherSync"], nil, nil, nil, L["PartyWatcherSyncTip"]},
 		{},--blank
 		{1, "UFs", "InstanceAuras", DB.MyColor..L["Instance Auras"], nil, setupRaidDebuffs, nil, L["InstanceAurasTip"]},
-		{1, "UFs", "RaidAuraIndicator", DB.MyColor..L["RaidAuraIndicator"], true, setupAuraIndicator, nil, L["RaidAuraIndicatorTip"]},
-		{1, "UFs", "DispellOnly", L["DispellableOnly"].."*", nil, nil, nil, L["DispellableOnlyTip"]},
 		{1, "UFs", "RaidClickSets", DB.MyColor..L["Enable ClickSets"], true, setupClickCast},
-		{1, "UFs", "AurasClickThrough", L["RaidAuras ClickThrough"], nil, nil, nil, L["ClickThroughTip"]},
+		{1, "UFs", "DispellOnly", L["DispellableOnly"].."*", nil, nil, nil, L["DispellableOnlyTip"]},
 		{1, "UFs", "AutoResurrect", L["UFs AutoResurrect"], true},
+		{1, "UFs", "AurasClickThrough", L["RaidAuras ClickThrough"], nil, nil, nil, L["ClickThroughTip"]},
+		{1, "UFs", "RaidAuraIndicator", DB.MyColor..L["RaidAuraIndicator"], true, setupAuraIndicator, nil, L["RaidAuraIndicatorTip"]},
+		{4, "UFs", "RaidAurasType", L["RaidAurasType"].."*", nil, {DISABLE, L["RAT_1"], L["RAT_2"], L["RAT_3"], L["RAT_4"]}, updateRaidFrameIcons, L["RaidAurasTypeTip"]},
+		{4, "UFs", "AuraIndicatorType", L["AuraIndicatorType"].."*", true, {L["RAI_Blocks"], L["RAI_Icons"], L["RAI_Numbers"]}, updateRaidFrameIcons},
+		{3, "UFs", "RaidAuraScale", L["RaidAuraScale"].."*", nil, {.5, 2, .01}, updateRaidFrameIcons},
+		{3, "UFs", "AuraIndicatorScale", L["AuraIndicatorScale"].."*", true, {.5, 2, .01}, updateRaidFrameIcons},
+		{3, "UFs", "RaidAuraNums", L["RaidAuraNums"].."*", nil, {3, 6, 1}, updateRaidFrameIcons, L["AuraNumsTip"]},
+		{3, "UFs", "PartyAuraNums", L["PartyAuraNums"].."*", true, {3, 6, 1}, updateRaidFrameIcons, L["AuraNumsTip"]},
 		{},--blank
-		{4, "UFs", "RaidAurasType", L["RaidAurasType"].."*", nil, {DISABLE, L["RAT_1"], L["RAT_2"], L["RAT_3"], L["RAT_4"]}, updateRaidAuras, L["RaidAurasTypeTip"]},
-		{4, "UFs", "AuraIndicatorType", L["AuraIndicatorType"].."*", true, {L["RAI_Blocks"], L["RAI_Icons"], L["RAI_Numbers"]}, updateRaidAuras},
-		{3, "UFs", "RaidAuraScale", L["RaidAuraScale"].."*", nil, {.5, 2, .01}, updateRaidAuras},
-		{3, "UFs", "AuraIndicatorScale", L["AuraIndicatorScale"].."*", true, {.5, 2, .01}, updateRaidAuras},
-		{3, "UFs", "RaidAuraNums", L["RaidAuraNums"].."*", nil, {3, 6, 1}, updateRaidAuras, L["AuraNumsTip"]},
-		{3, "UFs", "PartyAuraNums", L["PartyAuraNums"].."*", true, {3, 6, 1}, updateRaidAuras, L["AuraNumsTip"]},
-		{},--blank
-		{1, "UFs", "ShowSolo", L["ShowSolo"], nil, nil, nil, L["ShowSoloTip"]},
-		{1, "UFs", "SpecRaidPos", L["Spec RaidPos"], true, nil, nil, L["SpecRaidPosTip"]},
+		{1, "UFs", "ShowSolo", L["ShowSolo"].."*", nil, nil, updateAllHeaders, L["ShowSoloTip"]},
+		{1, "UFs", "SmartRaid", L["SmartRaid"].."*", true, nil, updateAllHeaders, L["SmartRaidTip"]},
 		{1, "UFs", "ShowTeamIndex", L["RaidFrame TeamIndex"]},
-		{1, "UFs", "FrequentHealth", DB.MyColor..L["FrequentHealth"].."*", true, nil, updateRaidHealthMethod, L["FrequentHealthTip"]},
+		{1, "UFs", "SpecRaidPos", L["Spec RaidPos"], true, nil, nil, L["SpecRaidPosTip"]},
 		{1, "UFs", "HorizonRaid", L["Horizon RaidFrame"]},
-		{1, "UFs", "ReverseRaid", L["Reverse RaidFrame"]},
-		{3, "UFs", "HealthFrequency", L["HealthFrequency"].."*", true, {.05, .25, .01}, updateRaidHealthMethod, L["HealthFrequencyTip"]},
+		{1, "UFs", "ReverseRaid", L["Reverse RaidFrame"], true},
 		{3, "UFs", "NumGroups", L["Num Groups"], nil, {4, 8, 1}},
 		{3, "UFs", "RaidTextScale", L["UFTextScale"].."*", true, {.5, 1.5, .01}, updateRaidTextScale},
 		{4, "UFs", "RaidHealthColor", L["HealthColor"].."*", nil, {L["Default Dark"], L["ClassColorHP"], L["GradientHP"]}, updateRaidTextScale},

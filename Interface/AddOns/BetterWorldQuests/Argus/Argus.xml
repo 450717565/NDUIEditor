@@ -1,0 +1,12 @@
+<Ui>
+	<Script file="ZoneInfo.lua"/>
+	<Script file="Map.lua"/>
+	<Script file="Bounty.lua"/>
+	<Script file="Highlight.lua"/>
+	<Script file="Navigate.lua"/>
+	<Script file="Players.lua"/>
+	<Script file="Rifts.lua"/>
+	<Script file="Title.lua"/>
+	<Script file="Vindicaar.lua"/>
+	<Script file="WorldFlightMap.lua"/>
+</Ui>

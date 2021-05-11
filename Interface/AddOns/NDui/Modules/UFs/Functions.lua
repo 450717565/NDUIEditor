@@ -848,7 +848,7 @@ function UF:UpdateTargetAuras()
 	element:ForceUpdate()
 end
 
-local function GetStyleNums(self)
+function UF:GetStyleNums()
 	if self.isPartyFrame then
 		return C.db["UFs"]["PartyAuraNums"]
 	elseif C.db["UFs"]["SimpleMode"] then
@@ -924,8 +924,8 @@ function UF:CreateBuffs(self)
 		bu.initialAnchor = "TOPLEFT"
 		bu["growth-x"] = "RIGHT"
 		bu:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
-		bu.num = GetStyleNums(self)
-		bu.iconsPerRow = GetStyleNums(self)
+		bu.num = UF.GetStyleNums(self)
+		bu.iconsPerRow = UF.GetStyleNums(self)
 		bu.disableMouse = C.db["UFs"]["AurasClickThrough"]
 		bu.CustomFilter = UF.RaidBuffFilter
 	else
@@ -977,8 +977,8 @@ function UF:CreateDebuffs(self)
 		bu.initialAnchor = "BOTTOMRIGHT"
 		bu["growth-x"] = "LEFT"
 		bu:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 0)
-		bu.num = GetStyleNums(self)
-		bu.iconsPerRow = GetStyleNums(self)
+		bu.num = UF.GetStyleNums(self)
+		bu.iconsPerRow = UF.GetStyleNums(self)
 		bu.disableMouse = C.db["UFs"]["AurasClickThrough"]
 		bu.CustomFilter = UF.RaidDebuffFilter
 	end
@@ -990,28 +990,6 @@ function UF:CreateDebuffs(self)
 	bu.PostUpdateIcon = UF.PostUpdateIcon
 
 	self.Debuffs = bu
-end
-
-function UF:UpdateRaidAuras()
-	for _, frame in pairs(oUF.objects) do
-		if frame.mystyle == "raid" then
-			local debuffs = frame.Debuffs
-			if debuffs then
-				debuffs.num = GetStyleNums(frame)
-				debuffs.iconsPerRow = GetStyleNums(frame)
-				UF:UpdateAuraContainer(frame, debuffs, debuffs.num)
-				debuffs:ForceUpdate()
-			end
-
-			local buffs = frame.Buffs
-			if buffs then
-				buffs.num = GetStyleNums(frame)
-				buffs.iconsPerRow = GetStyleNums(frame)
-				UF:UpdateAuraContainer(frame, buffs, buffs.num)
-				buffs:ForceUpdate()
-			end
-		end
-	end
 end
 
 local function refreshAurasElements(self)

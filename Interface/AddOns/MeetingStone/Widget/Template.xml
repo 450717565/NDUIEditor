@@ -1,0 +1,42 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Frame name="NetEaseCoverAnimation" virtual="true">
+        <Layers>
+            <Layer level="ARTWORK">
+                <Texture parentKey="Waitdot2" hidden="false" alpha="0" atlas="groupfinder-waitdot">
+                    <Size x="16" y="16"/>
+                    <Anchors>
+                        <Anchor point="CENTER" x="0" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="Waitdot1" hidden="false" alpha="0" atlas="groupfinder-waitdot">
+                    <Size x="16" y="16"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeKey="$parent.Waitdot2" x="-17" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture parentKey="Waitdot3" hidden="false" alpha="0" atlas="groupfinder-waitdot">
+                    <Size x="16" y="16"/>
+                    <Anchors>
+                        <Anchor point="CENTER" relativeKey="$parent.Waitdot2" x="17" y="0"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Animations>
+            <AnimationGroup parentKey="WaitAnim" looping="REPEAT">
+                <Alpha childKey="Waitdot1" startDelay="0.65" duration="0.15" order="1" fromAlpha="0" toAlpha="1"/>
+                <Alpha childKey="Waitdot2" startDelay="0.50" duration="0.15" order="2" fromAlpha="0" toAlpha="1"/>
+                <Alpha childKey="Waitdot3" startDelay="0.50" duration="0.15" order="3" fromAlpha="0" toAlpha="1"/>
+                <Alpha childKey="Waitdot1" startDelay="0.50" duration="0.15" order="4" fromAlpha="1" toAlpha="0"/>
+                <Alpha childKey="Waitdot2" startDelay="0.50" duration="0.15" order="4" fromAlpha="1" toAlpha="0"/>
+                <Alpha childKey="Waitdot3" startDelay="0.50" duration="0.15" order="4" fromAlpha="1" toAlpha="0"/>
+            </AnimationGroup>
+        </Animations>
+        <Scripts>
+            <OnLoad>
+                self.WaitAnim:Play();
+            </OnLoad>
+        </Scripts>
+    </Frame>
+</Ui>
