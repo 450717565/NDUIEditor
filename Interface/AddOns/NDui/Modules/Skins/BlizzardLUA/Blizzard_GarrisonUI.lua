@@ -1181,12 +1181,6 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 
 	-- VenturePlan
 	if IsAddOnLoaded("VenturePlan") then
-		local ANIMA_SPELLID = {[347555] = 3, [345706] = 5, [336327] = 35, [336456] = 250}
-		local function GetAnimaMultiplier(itemID)
-			local _, spellID = GetItemSpell(itemID)
-			return ANIMA_SPELLID[spellID]
-		end
-
 		local function Reskin_RewardFrame(self, rew)
 			if not rew then return end
 
@@ -1217,7 +1211,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 				if C_Item.IsAnimaItemByID(rew.itemID) then
 					self.Icon:SetTexture(3528288)
 
-					local mult = GetAnimaMultiplier(rew.itemID)
+					local mult = B.GetAnimaMultiplier(rew.itemID)
 					if mult then
 						local total = rew.quantity * mult
 						self.Quantity:SetText(total)

@@ -9,6 +9,15 @@ local min, max, floor, rad = math.min, math.max, math.floor, math.rad
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
+-- Anima Multiplier
+do
+	local ANIMA_SPELLID = {[347555] = 3, [345706] = 5, [336327] = 35, [336456] = 250}
+	function B.GetAnimaMultiplier(itemID)
+		local _, spellID = GetItemSpell(itemID)
+		return ANIMA_SPELLID[spellID]
+	end
+end
+
 -- Math Function
 do
 	-- Number
