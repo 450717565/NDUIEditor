@@ -712,6 +712,12 @@ function Bags:OnLogin()
 		end
 	end
 
+	local ANIMA_SPELLID = {[347555] = 3, [345706] = 5, [336327] = 35, [336456] = 250}
+	local function GetAnimaMultiplier(itemID)
+		local _, spellID = GetItemSpell(itemID)
+		return ANIMA_SPELLID[spellID]
+	end
+
 	local bagTypeColor = {
 		[ 0] = { 0,  0,  0,  0},	-- 容器
 		[ 1] = {.3, .3, .3, .5},	-- 弹药袋
@@ -797,7 +803,13 @@ function Bags:OnLogin()
 
 			if level < C.db["Bags"]["iLvlToShow"] then level = "" end
 
-			if (item.equipLoc and item.equipLoc ~= "") or IsArtifactRelicItem(item.link) then
+			if C_Item.IsAnimaItemByID(item.id) then
+				if showItemSlot then
+					local mult = GetAnimaMultiplier(item.id)
+					local total = item.count * mult
+					self.Slot:SetText(total)
+				end
+			elseif (item.equipLoc and item.equipLoc ~= "") or IsArtifactRelicItem(item.link) then
 				if showItemLevel then self.iLvl:SetText(level) end
 				if showItemSlot then self.Slot:SetText(slot) end
 			elseif (item.classID and (item.classID == LE_ITEM_CLASS_ARMOR or item.classID == LE_ITEM_CLASS_CONSUMABLE or item.classID == LE_ITEM_CLASS_MISCELLANEOUS)) or C_ToyBox.GetToyInfo(item.id) then

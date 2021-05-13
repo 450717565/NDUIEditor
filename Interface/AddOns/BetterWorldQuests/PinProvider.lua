@@ -62,13 +62,10 @@ local factionList = {
 }
 
 local ANIMA_SPELLID = {[347555] = 3, [345706] = 5, [336327] = 35, [336456] = 250}
-local function GetAnimaValue(itemID)
+local function GetAnimaMultiplier(itemID)
 	local _, spellID = GetItemSpell(itemID)
-	return ANIMA_SPELLID[spellID] or 1
+	return ANIMA_SPELLID[spellID]
 end
-
-local r, g, b
-local warMode, warModeBonus
 
 local factionAssaultAtlasName = UnitFactionGroup('player') == 'Horde' and 'worldquest-icon-horde' or 'worldquest-icon-alliance'
 
@@ -208,17 +205,25 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 
 	-- hide frames we don't want to use
 	self.BountyRing:Hide()
-	warMode = C_PvP.IsWarModeDesired()
-	warModeBonus = format("%.1f", 1 + (C_PvP.GetWarModeRewardBonus() / 100))
 
 	-- set texture to the item/currency/value it rewards
+	local r, g, b = 1, 1, 1
+	local warMode = C_PvP.IsWarModeDesired()
+	local warModeBonus = format("%.1f", 1 + (C_PvP.GetWarModeRewardBonus() / 100))
+
 	local questID = self.questID
-	if (GetNumQuestLogRewards(questID) > 0) then
-		local _, itemTexture, numItems, quality, _, itemID, itemLevel = GetQuestLogRewardInfo(1, questID)
+	local numMoney = GetQuestLogRewardMoney(questID)
+	local numRewards = GetNumQuestLogRewards(questID)
+	local numCurrencies = GetNumQuestLogRewardCurrencies(questID)
+	if numRewards > 0 then
+		local itemName, itemTexture, numItems, quality, isUsable, itemID, itemLevel
+		for index = 1, numRewards do
+			itemName, itemTexture, numItems, quality, isUsable, itemID, itemLevel = GetQuestLogRewardInfo(index, questID)
+		end
 
 		if C_Item.IsAnimaItemByID(itemID) then
 			itemTexture = 3528288
-			itemLevel = numItems * GetAnimaValue(itemID)
+			itemLevel = numItems * GetAnimaMultiplier(itemID)
 		elseif numItems and numItems > 1 then
 			itemLevel = numItems
 		elseif itemLevel and itemLevel <= 1 then
@@ -231,12 +236,10 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 		r, g, b = GetItemQualityColor(quality or 1)
 		self.Text:SetText(itemLevel)
 		self.Text:SetTextColor(r, g, b)
-	elseif (GetNumQuestLogRewardCurrencies(questID) > 0) then
+	elseif numCurrencies > 0 then
 		local name, texture, numItems, currencyId, quality
-		name, texture, numItems, currencyId, quality = GetQuestLogRewardCurrencyInfo(1, questID)
-
-		if GetQuestLogRewardCurrencyInfo(2, questID) then
-			name, texture, numItems, currencyId, quality = GetQuestLogRewardCurrencyInfo(2, questID)
+		for index = 1, numCurrencies do
+			name, texture, numItems, currencyId, quality = GetQuestLogRewardCurrencyInfo(index, questID)
 		end
 
 		SetPortraitToTexture(self.Texture, texture)
@@ -250,11 +253,10 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 
 		self.Text:SetFormattedText("%d", numItems)
 		self.Text:SetTextColor(r, g, b)
-	elseif (GetQuestLogRewardMoney(questID) > 0) then
+	elseif numMoney > 0 then
 		SetPortraitToTexture(self.Texture, "Interface\\Icons\\inv_misc_coin_01")
 		self.Texture:SetSize(self:GetSize())
 
-		r, g, b = 1, 1, 1
 		local copper = GetQuestLogRewardMoney(questID)
 		if warMode then
 			copper = copper * warModeBonus

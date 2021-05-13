@@ -133,7 +133,7 @@ local list = {
 		{AuraID = 345432, UnitID = "player"},	-- 断魂乐谱
 		{AuraID = 345474, UnitID = "player"},	-- 执政官的恩赐
 		{AuraID = 345530, UnitID = "player"},	-- 过载的心能电池
-		{AuraID = 345533, UnitID = "player"},	-- 心能力场发生器
+		{AuraID = 345535, UnitID = "player"},	-- 心能力场发生器
 		{AuraID = 345549, UnitID = "player"},	-- 虹吸护命匣碎片
 		{AuraID = 345695, UnitID = "player"},	-- 鬼灵精华之瓶
 		{AuraID = 345801, UnitID = "player"},	-- 释魂红玉

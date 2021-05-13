@@ -467,20 +467,22 @@ function Auras:AuraWatch_UpdateAura(spellID, UnitID, index, bool)
 end
 
 function Auras:UpdateAuraWatch(UnitID)
-	local index = 1
+	local buffIndex = 1
 	while true do
-		local name, _, _, _, _, _, _, _, _, spellID = UnitBuff(UnitID, index)
+		local name, _, _, _, _, _, _, _, _, spellID = UnitBuff(UnitID, buffIndex)
 		if not name then break end
-		Auras:AuraWatch_SetupAura(Auras:AuraWatch_UpdateAura(spellID, UnitID, index, true))
-		index = index + 1
+		Auras:AuraWatch_SetupAura(Auras:AuraWatch_UpdateAura(spellID, UnitID, buffIndex, true))
+
+		buffIndex = buffIndex + 1
 	end
 
-	local index = 1
+	local debuffIndex = 1
 	while true do
-		local name, _, _, _, _, _, _, _, _, spellID = UnitDebuff(UnitID, index)
+		local name, _, _, _, _, _, _, _, _, spellID = UnitDebuff(UnitID, debuffIndex)
 		if not name then break end
-		Auras:AuraWatch_SetupAura(Auras:AuraWatch_UpdateAura(spellID, UnitID, index, false))
-		index = index + 1
+		Auras:AuraWatch_SetupAura(Auras:AuraWatch_UpdateAura(spellID, UnitID, debuffIndex, false))
+
+		debuffIndex = debuffIndex + 1
 	end
 end
 

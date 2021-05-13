@@ -432,7 +432,7 @@ function UF:CreateIcons(self)
 	phase:SetSize(24, 24)
 	phase:SetPoint("CENTER", self, "TOP", 0, 0)
 	if mystyle == "raid" then
-		phase:SetPoint("CENTER", self, "BOTTOM", 0, 0)
+		phase:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 3, -1)
 	end
 	self.PhaseIndicator = phase
 

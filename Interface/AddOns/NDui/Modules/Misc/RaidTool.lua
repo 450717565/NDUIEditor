@@ -335,11 +335,11 @@ function Misc:RaidTool_BuffChecker(parent)
 		local count = #NoBuff[i]
 		if count > 0 then
 			if count >= numPlayer then
-				sendMsg(L["Lack"]..BuffName[i].."："..ALL..PLAYER)
+				sendMsg(ADDON_MISSING..BuffName[i].."："..ALL..PLAYER)
 			elseif count >= 5 and i > 2 then
-				sendMsg(L["Lack"]..BuffName[i].."："..format(L["Player Count"], count))
+				sendMsg(ADDON_MISSING..BuffName[i].."："..format(L["Player Count"], count))
 			else
-				local str = L["Lack"]..BuffName[i].."："
+				local str = ADDON_MISSING..BuffName[i].."："
 				for j = 1, count do
 					str = str..NoBuff[i][j]..(j < #NoBuff[i] and "，" or "")
 					if #str > 230 then

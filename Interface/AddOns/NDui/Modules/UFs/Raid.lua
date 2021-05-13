@@ -19,18 +19,18 @@ function UF:CreateRaidIcons(self)
 	local parentFrame = B.CreateParentFrame(self, 2)
 
 	local readyCheck = parentFrame:CreateTexture(nil, "OVERLAY")
-	readyCheck:SetSize(16, 16)
-	readyCheck:SetPoint("CENTER", 1, 0)
+	readyCheck:SetSize(20, 20)
+	readyCheck:SetPoint("BOTTOMLEFT", 0, 3)
 	self.ReadyCheckIndicator = readyCheck
 
 	local resurrect = parentFrame:CreateTexture(nil, "OVERLAY")
 	resurrect:SetSize(20, 20)
-	resurrect:SetPoint("CENTER", 1, 0)
+	resurrect:SetPoint("BOTTOMLEFT", 0, 3)
 	self.ResurrectIndicator = resurrect
 
 	local summon = parentFrame:CreateTexture(nil, "OVERLAY")
 	summon:SetSize(32, 32)
-	summon:SetPoint("CENTER", 1, 0)
+	summon:SetPoint("BOTTOMLEFT", -6, -3)
 	self.SummonIndicator = summon
 
 	local raidRole = parentFrame:CreateTexture(nil, "OVERLAY")

@@ -858,6 +858,21 @@ do
 		["auctionhouse-itemicon-border-orange"] = LE_ITEM_QUALITY_LEGENDARY,
 		["auctionhouse-itemicon-border-artifact"] = LE_ITEM_QUALITY_ARTIFACT,
 		["auctionhouse-itemicon-border-account"] = LE_ITEM_QUALITY_HEIRLOOM,
+
+		["loottoast-itemborder-green"] = LE_ITEM_QUALITY_UNCOMMON,
+		["loottoast-itemborder-blue"] = LE_ITEM_QUALITY_RARE,
+		["loottoast-itemborder-purple"] = LE_ITEM_QUALITY_EPIC,
+		["loottoast-itemborder-orange"] = LE_ITEM_QUALITY_LEGENDARY,
+		["loottoast-itemborder-heirloom"] = LE_ITEM_QUALITY_ARTIFACT,
+		["loottoast-itemborder-artifact"] = LE_ITEM_QUALITY_HEIRLOOM,
+
+		["bags-glow-white"] = LE_ITEM_QUALITY_COMMON,
+		["bags-glow-green"] = LE_ITEM_QUALITY_UNCOMMON,
+		["bags-glow-blue"] = LE_ITEM_QUALITY_RARE,
+		["bags-glow-purple"] = LE_ITEM_QUALITY_EPIC,
+		["bags-glow-orange"] = LE_ITEM_QUALITY_LEGENDARY,
+		["bags-glow-artifact"] = LE_ITEM_QUALITY_ARTIFACT,
+		["bags-glow-heirloom"] = LE_ITEM_QUALITY_HEIRLOOM,
 	}
 
 	local function updateBorderAtlas(self, atlas)
