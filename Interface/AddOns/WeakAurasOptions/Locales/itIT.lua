@@ -9,7 +9,8 @@ local L = WeakAuras.L
 -- WeakAuras/Options
 	--[[Translation missing --]]
 	L[" and |cFFFF0000mirrored|r"] = " and |cFFFF0000mirrored|r"
-	L["-- Do not remove this comment, it is part of this trigger: "] = "-- Non rimuovere questo commento, è parte di questo innesco:"
+	--[[Translation missing --]]
+	L["-- Do not remove this comment, it is part of this aura: "] = "-- Do not remove this comment, it is part of this aura: "
 	--[[Translation missing --]]
 	L[" rotated |cFFFF0000%s|r degrees"] = " rotated |cFFFF0000%s|r degrees"
 	L["% of Progress"] = "% di Progresso"
@@ -231,7 +232,7 @@ Off Screen]=]
 	--[[Translation missing --]]
 	L["Collapse all non-loaded displays"] = "Collapse all non-loaded displays"
 	--[[Translation missing --]]
-	L["Collapse all Pending Import"] = "Collapse all Pending Import"
+	L["Collapse all pending Import"] = "Collapse all pending Import"
 	--[[Translation missing --]]
 	L["Collapsible Group"] = "Collapsible Group"
 	L["color"] = "Colore"
@@ -369,11 +370,11 @@ Off Screen]=]
 	--[[Translation missing --]]
 	L["Do not group this display"] = "Do not group this display"
 	--[[Translation missing --]]
+	L["Do you want to ignore all future updates for this aura"] = "Do you want to ignore all future updates for this aura"
+	--[[Translation missing --]]
 	L["Documentation"] = "Documentation"
 	--[[Translation missing --]]
 	L["Done"] = "Done"
-	--[[Translation missing --]]
-	L["Don't skip this Version"] = "Don't skip this Version"
 	--[[Translation missing --]]
 	L["Drag to move"] = "Drag to move"
 	--[[Translation missing --]]
@@ -452,7 +453,7 @@ Off Screen]=]
 	--[[Translation missing --]]
 	L["Expand all non-loaded displays"] = "Expand all non-loaded displays"
 	--[[Translation missing --]]
-	L["Expand all Pending Import"] = "Expand all Pending Import"
+	L["Expand all pending Import"] = "Expand all pending Import"
 	--[[Translation missing --]]
 	L["Expansion is disabled because this group has no children"] = "Expansion is disabled because this group has no children"
 	--[[Translation missing --]]
@@ -528,8 +529,6 @@ Supports multiple entries, separated by commas
 	--[[Translation missing --]]
 	L["From Template"] = "From Template"
 	--[[Translation missing --]]
-	L["From version %s to version %s"] = "From version %s to version %s"
-	--[[Translation missing --]]
 	L["Full Circle"] = "Full Circle"
 	--[[Translation missing --]]
 	L["Get Help"] = "Get Help"
@@ -561,8 +560,6 @@ Supports multiple entries, separated by commas
 	L["Group aura count description"] = "Group aura count description"
 	--[[Translation missing --]]
 	L["Group by Frame"] = "Group by Frame"
-	--[[Translation missing --]]
-	L["Group contains updates from Wago"] = "Group contains updates from Wago"
 	--[[Translation missing --]]
 	L["Group Description"] = "Group Description"
 	--[[Translation missing --]]
@@ -646,8 +643,6 @@ Supports multiple entries, separated by commas
 	--[[Translation missing --]]
 	L["If unchecked, then this space will fill the entire line it is on in User Mode."] = "If unchecked, then this space will fill the entire line it is on in User Mode."
 	--[[Translation missing --]]
-	L["Ignore all Updates"] = "Ignore all Updates"
-	--[[Translation missing --]]
 	L["Ignore Dead"] = "Ignore Dead"
 	--[[Translation missing --]]
 	L["Ignore Disconnected"] = "Ignore Disconnected"
@@ -659,6 +654,8 @@ Supports multiple entries, separated by commas
 	L["Ignore Self"] = "Ignore Self"
 	--[[Translation missing --]]
 	L["Ignore self"] = "Ignore self"
+	--[[Translation missing --]]
+	L["Ignore updates"] = "Ignore updates"
 	--[[Translation missing --]]
 	L["Ignored"] = "Ignored"
 	--[[Translation missing --]]
@@ -721,6 +718,8 @@ Supports multiple entries, separated by commas
 	L["Limit"] = "Limit"
 	--[[Translation missing --]]
 	L["Lines & Particles"] = "Lines & Particles"
+	--[[Translation missing --]]
+	L["Linked aura: "] = "Linked aura: "
 	--[[Translation missing --]]
 	L["Load"] = "Load"
 	--[[Translation missing --]]
@@ -942,7 +941,9 @@ Supports multiple entries, separated by commas
 	--[[Translation missing --]]
 	L["Raid Role"] = "Raid Role"
 	--[[Translation missing --]]
-	L["Ready to Import"] = "Ready to Import"
+	L["Ready for Install"] = "Ready for Install"
+	--[[Translation missing --]]
+	L["Ready for Update"] = "Ready for Update"
 	--[[Translation missing --]]
 	L["Re-center X"] = "Re-center X"
 	--[[Translation missing --]]
@@ -1088,8 +1089,6 @@ Supports multiple entries, separated by commas
 	--[[Translation missing --]]
 	L["Size"] = "Size"
 	--[[Translation missing --]]
-	L["Skip this Version"] = "Skip this Version"
-	--[[Translation missing --]]
 	L["Slant Amount"] = "Slant Amount"
 	--[[Translation missing --]]
 	L["Slant Mode"] = "Slant Mode"
@@ -1161,8 +1160,6 @@ Supports multiple entries, separated by commas
 	L["Stealable"] = "Stealable"
 	--[[Translation missing --]]
 	L["Step Size"] = "Step Size"
-	--[[Translation missing --]]
-	L["Stop ignoring Updates"] = "Stop ignoring Updates"
 	--[[Translation missing --]]
 	L["Stop Motion"] = "Stop Motion"
 	--[[Translation missing --]]
@@ -1296,15 +1293,11 @@ Supports multiple entries, separated by commas
 	--[[Translation missing --]]
 	L["Unlike the start or finish animations, the main animation will loop over and over until the display is hidden."] = "Unlike the start or finish animations, the main animation will loop over and over until the display is hidden."
 	--[[Translation missing --]]
-	L["Update %s by %s"] = "Update %s by %s"
+	L["Update"] = "Update"
 	--[[Translation missing --]]
 	L["Update Auras"] = "Update Auras"
 	--[[Translation missing --]]
 	L["Update Custom Text On..."] = "Update Custom Text On..."
-	--[[Translation missing --]]
-	L["Update in Group"] = "Update in Group"
-	--[[Translation missing --]]
-	L["Update this Aura"] = "Update this Aura"
 	--[[Translation missing --]]
 	L["URL"] = "URL"
 	--[[Translation missing --]]
@@ -1344,8 +1337,6 @@ Supports multiple entries, separated by commas
 	--[[Translation missing --]]
 	L["View"] = "View"
 	--[[Translation missing --]]
-	L["Wago Update"] = "Wago Update"
-	--[[Translation missing --]]
 	L["Whole Area"] = "Whole Area"
 	--[[Translation missing --]]
 	L["Width"] = "Width"
@@ -1370,9 +1361,11 @@ Supports multiple entries, separated by commas
 	--[[Translation missing --]]
 	L["Yellow Rune"] = "Yellow Rune"
 	--[[Translation missing --]]
-	L["Y-Offset"] = "Y-Offset"
+	L["Yes"] = "Yes"
 	--[[Translation missing --]]
 	L["y-Offset"] = "y-Offset"
+	--[[Translation missing --]]
+	L["Y-Offset"] = "Y-Offset"
 	--[[Translation missing --]]
 	L["You are about to delete %d aura(s). |cFFFF0000This cannot be undone!|r Would you like to continue?"] = "You are about to delete %d aura(s). |cFFFF0000This cannot be undone!|r Would you like to continue?"
 	--[[Translation missing --]]

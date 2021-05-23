@@ -1114,7 +1114,6 @@ L["Source Reaction"] = "Source Reaction"
 L["Source Unit"] = "Unité source"
 --[[Translation missing --]]
 L["Source Unit Name/Realm"] = "Source Unit Name/Realm"
-L["Source: "] = "Source :"
 L["Space"] = "Ecart"
 L["Spacing"] = "Ecartement"
 L["Spark"] = "Étincelle"

@@ -43,8 +43,7 @@ tinsert(C.XMLThemes, function()
 
 	local horizontalBreak = QuestGreetingFrameHorizontalBreak
 	horizontalBreak:SetHeight(C.mult)
-	horizontalBreak:SetTexture(DB.bgTex)
-	horizontalBreak:SetColorTexture(cr, cg, cb, .5)
+	horizontalBreak:SetColorTexture(cr, cg, cb, C.alpha)
 
 	local lists = {
 		QuestFrameDetailPanel,

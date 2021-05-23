@@ -8,7 +8,8 @@ local L = WeakAuras.L
 
 -- WeakAuras/Options
 	L[" and |cFFFF0000mirrored|r"] = "y |cFFFF0000reflejado|r"
-	L["-- Do not remove this comment, it is part of this trigger: "] = "-- No remover este comentario. Es parte de este desencadenador:"
+	--[[Translation missing --]]
+	L["-- Do not remove this comment, it is part of this aura: "] = "-- Do not remove this comment, it is part of this aura: "
 	L[" rotated |cFFFF0000%s|r degrees"] = "rotado |cFFFF0000%s|r grados"
 	L["% of Progress"] = "% de progreso"
 	L["%i auras selected"] = "%i auras seleccionados"
@@ -231,7 +232,7 @@ Off Screen]=]
 	L["Collapse all loaded displays"] = "Plegar todas las auras"
 	L["Collapse all non-loaded displays"] = "Plegar todas las auras sin cargar"
 	--[[Translation missing --]]
-	L["Collapse all Pending Import"] = "Collapse all Pending Import"
+	L["Collapse all pending Import"] = "Collapse all pending Import"
 	--[[Translation missing --]]
 	L["Collapsible Group"] = "Collapsible Group"
 	--[[Translation missing --]]
@@ -356,10 +357,10 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Distribute Vertically"] = "Distribución vertical"
 	L["Do not group this display"] = "No combines esta visualización"
 	--[[Translation missing --]]
+	L["Do you want to ignore all future updates for this aura"] = "Do you want to ignore all future updates for this aura"
+	--[[Translation missing --]]
 	L["Documentation"] = "Documentation"
 	L["Done"] = "Finalizado"
-	--[[Translation missing --]]
-	L["Don't skip this Version"] = "Don't skip this Version"
 	L["Drag to move"] = "Arrastrar para mover"
 	L["Duplicate"] = "Duplicar"
 	--[[Translation missing --]]
@@ -422,7 +423,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Expand all loaded displays"] = "Expandir todas las auras cargadas"
 	L["Expand all non-loaded displays"] = "Expandir todas las auras sin cargar"
 	--[[Translation missing --]]
-	L["Expand all Pending Import"] = "Expand all Pending Import"
+	L["Expand all pending Import"] = "Expand all pending Import"
 	L["Expansion is disabled because this group has no children"] = "No se puede expandir ya que este grupo no posee dependientes"
 	L["Export to Lua table..."] = "Exportar a tabla de Lua...."
 	L["Export to string..."] = "Exportar al hilo..."
@@ -483,8 +484,6 @@ Supports multiple entries, separated by commas
 	L["Frequency"] = "Frequency"
 	L["From Template"] = "Desde la plantilla"
 	--[[Translation missing --]]
-	L["From version %s to version %s"] = "From version %s to version %s"
-	--[[Translation missing --]]
 	L["Full Circle"] = "Full Circle"
 	--[[Translation missing --]]
 	L["Get Help"] = "Get Help"
@@ -523,8 +522,6 @@ Con |cFF00CC00> 1/2|r se activará cuando más de la mitad de miembros del grupo
 Con |cFF00CC00>= 0|r se activará siempre.]=]
 	--[[Translation missing --]]
 	L["Group by Frame"] = "Group by Frame"
-	--[[Translation missing --]]
-	L["Group contains updates from Wago"] = "Group contains updates from Wago"
 	--[[Translation missing --]]
 	L["Group Description"] = "Group Description"
 	--[[Translation missing --]]
@@ -592,8 +589,6 @@ Con |cFF00CC00>= 0|r se activará siempre.]=]
 	--[[Translation missing --]]
 	L["If unchecked, then this space will fill the entire line it is on in User Mode."] = "If unchecked, then this space will fill the entire line it is on in User Mode."
 	--[[Translation missing --]]
-	L["Ignore all Updates"] = "Ignore all Updates"
-	--[[Translation missing --]]
 	L["Ignore Dead"] = "Ignore Dead"
 	--[[Translation missing --]]
 	L["Ignore Disconnected"] = "Ignore Disconnected"
@@ -605,6 +600,8 @@ Con |cFF00CC00>= 0|r se activará siempre.]=]
 	L["Ignore Self"] = "Ignore Self"
 	--[[Translation missing --]]
 	L["Ignore self"] = "Ignore self"
+	--[[Translation missing --]]
+	L["Ignore updates"] = "Ignore updates"
 	L["Ignored"] = "Ignorar"
 	--[[Translation missing --]]
 	L["Ignored Aura Name"] = "Ignored Aura Name"
@@ -659,6 +656,8 @@ Con |cFF00CC00>= 0|r se activará siempre.]=]
 	L["Limit"] = "Limit"
 	--[[Translation missing --]]
 	L["Lines & Particles"] = "Lines & Particles"
+	--[[Translation missing --]]
+	L["Linked aura: "] = "Linked aura: "
 	L["Load"] = "Cargar"
 	L["Loaded"] = "Cargado"
 	--[[Translation missing --]]
@@ -835,7 +834,9 @@ Sólo un valor coincidente puede ser escogido.]=]
 	--[[Translation missing --]]
 	L["Raid Role"] = "Raid Role"
 	--[[Translation missing --]]
-	L["Ready to Import"] = "Ready to Import"
+	L["Ready for Install"] = "Ready for Install"
+	--[[Translation missing --]]
+	L["Ready for Update"] = "Ready for Update"
 	L["Re-center X"] = "Centrar X"
 	L["Re-center Y"] = "Centrar Y"
 	--[[Translation missing --]]
@@ -949,8 +950,6 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["Simple"] = "Simple"
 	L["Size"] = "Tamaño"
 	--[[Translation missing --]]
-	L["Skip this Version"] = "Skip this Version"
-	--[[Translation missing --]]
 	L["Slant Amount"] = "Slant Amount"
 	--[[Translation missing --]]
 	L["Slant Mode"] = "Slant Mode"
@@ -998,8 +997,6 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["Stealable"] = "Puede robarse"
 	--[[Translation missing --]]
 	L["Step Size"] = "Step Size"
-	--[[Translation missing --]]
-	L["Stop ignoring Updates"] = "Stop ignoring Updates"
 	--[[Translation missing --]]
 	L["Stop Motion"] = "Stop Motion"
 	--[[Translation missing --]]
@@ -1106,14 +1103,10 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["Unknown property '%s' found in '%s'"] = "Unknown property '%s' found in '%s'"
 	L["Unlike the start or finish animations, the main animation will loop over and over until the display is hidden."] = "Ignorar animaciones de inicio y final: la animación principal se repetirá hasta que el aura se oculte."
 	--[[Translation missing --]]
-	L["Update %s by %s"] = "Update %s by %s"
+	L["Update"] = "Update"
 	--[[Translation missing --]]
 	L["Update Auras"] = "Update Auras"
 	L["Update Custom Text On..."] = "Actualizar texto personalizado en..."
-	--[[Translation missing --]]
-	L["Update in Group"] = "Update in Group"
-	--[[Translation missing --]]
-	L["Update this Aura"] = "Update this Aura"
 	--[[Translation missing --]]
 	L["URL"] = "URL"
 	--[[Translation missing --]]
@@ -1148,8 +1141,6 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["Vertical Bar"] = "Barra vertical"
 	L["View"] = "Visualización"
 	--[[Translation missing --]]
-	L["Wago Update"] = "Wago Update"
-	--[[Translation missing --]]
 	L["Whole Area"] = "Whole Area"
 	L["Width"] = "Ancho"
 	--[[Translation missing --]]
@@ -1166,9 +1157,11 @@ Sólo un valor coincidente puede ser escogido.]=]
 	L["Y Scale"] = "Ajuste de tamaño de Y"
 	L["Yellow Rune"] = "Runa amarilla"
 	--[[Translation missing --]]
-	L["Y-Offset"] = "Y-Offset"
+	L["Yes"] = "Yes"
 	--[[Translation missing --]]
 	L["y-Offset"] = "y-Offset"
+	--[[Translation missing --]]
+	L["Y-Offset"] = "Y-Offset"
 	--[[Translation missing --]]
 	L["You are about to delete %d aura(s). |cFFFF0000This cannot be undone!|r Would you like to continue?"] = "You are about to delete %d aura(s). |cFFFF0000This cannot be undone!|r Would you like to continue?"
 	--[[Translation missing --]]

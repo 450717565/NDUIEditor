@@ -131,11 +131,6 @@ local function Reskin_SpecialReward()
 	local numSpellRewards = isQuestLog and GetNumQuestLogRewardSpells() or GetNumRewardSpells()
 
 	if numSpellRewards > 0 then
-		-- Spell Headers
-		for spellHeader in rewardsFrame.spellHeaderPool:EnumerateActive() do
-			spellHeader:SetVertexColor(1, 1, 1)
-		end
-
 		-- Spell Rewards
 		for spellReward in rewardsFrame.spellRewardPool:EnumerateActive() do
 			if not spellReward.styled then

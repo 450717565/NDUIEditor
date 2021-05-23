@@ -1318,8 +1318,6 @@ L["Source Unit"] = "Unidad de origen"
 --[[Translation missing --]]
 L["Source Unit Name/Realm"] = "Source Unit Name/Realm"
 --[[Translation missing --]]
-L["Source: "] = "Source: "
---[[Translation missing --]]
 L["Space"] = "Space"
 L["Spacing"] = "Espaciar"
 --[[Translation missing --]]

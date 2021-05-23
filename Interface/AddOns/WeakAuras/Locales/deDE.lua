@@ -1244,7 +1244,6 @@ L["Source Reaction"] = "Source Reaction"
 L["Source Unit"] = "Quelleinheit"
 --[[Translation missing --]]
 L["Source Unit Name/Realm"] = "Source Unit Name/Realm"
-L["Source: "] = "Quelle:"
 --[[Translation missing --]]
 L["Space"] = "Space"
 L["Spacing"] = "Abstand"

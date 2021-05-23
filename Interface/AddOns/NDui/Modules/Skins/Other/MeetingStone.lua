@@ -132,7 +132,7 @@ local function Reskin_ListView(self)
 			if not button.styled then
 				B.StripTextures(button)
 				B.ReskinButton(button)
-				B.ReskinHighlight(button:GetCheckedTexture(), button, true, true)
+				B.ReskinHighlight(button:GetCheckedTexture(), button, true)
 
 				if button.Option then
 					B.ReskinButton(button.Option.InviteButton)
@@ -354,6 +354,22 @@ function Skins:MeetingStone()
 				if child:IsObjectType("Button") and child.Icon and child.Text then
 					ReskinMS_Button(child)
 				end
+			end
+
+			for _, blocker in pairs(MallPanel.blockers) do
+				blocker:HookScript("OnShow", function(self)
+					if not self.styled then
+						for _, child in pairs {self:GetChildren()} do
+							if child:IsObjectType("Button") and child.Text then
+								B.Reskin(child)
+							elseif child.ScrollBar then
+								B.ReskinScroll(child.ScrollBar)
+							end
+						end
+
+						self.styled = true
+					end
+				end)
 			end
 		end
 

@@ -9,7 +9,6 @@ local function Reskin_UpdateButton(self)
 		local frame = self:GetDebugName()
 
 		local hl = _G[frame.."Highlight"]
-		hl:SetTexture(DB.bgTex)
 		hl:SetColorTexture(1, 1, 1, .25)
 
 		local icon = _G[frame.."IconTexture"]

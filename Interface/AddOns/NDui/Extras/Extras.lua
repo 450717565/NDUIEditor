@@ -94,17 +94,15 @@ end
 
 -- 副本难度自动喊话
 function EX.UpdateInstanceDifficulty()
-	if IsInInstance() and (IsInGroup() and not IsInRaid()) then
-		C_Timer.After(.5, function()
-			local _, _, difficultyID, difficultyName = GetInstanceInfo()
-			if difficultyID ~= 0 and difficultyID ~= 8 and difficultyID ~= 23 then
-				if not IsInGroup() then
-					UIErrorsFrame:AddMessage(format(DB.InfoColor..L["Instance Difficulty"], difficultyName))
-				else
-					SendChatMessage(format(L["Instance Difficulty"], difficultyName), msgChannel())
-				end
+	if IsInInstance() then
+		local _, instanceType, difficultyID, difficultyName = GetInstanceInfo()
+		if instanceType == "party" and difficultyID ~= 23 then
+			if not IsInGroup() then
+				UIErrorsFrame:AddMessage(format(DB.InfoColor..L["Instance Difficulty"], difficultyName))
+			else
+				SendChatMessage(format(L["Instance Difficulty"], difficultyName), msgChannel())
 			end
-		end)
+		end
 	end
 end
 
@@ -114,7 +112,7 @@ end
 
 -- 进本自动标记坦克和治疗
 function EX.UpdateInstanceAutoMarke()
-	if IsInInstance() and (IsInGroup() and not IsInRaid()) then
+	if IsInInstance() and (UnitIsGroupLeader("player") or UnitIsGroupAssistant("player")) then
 		for i = 1, 5 do
 			local unit = i == 5 and "player" or ("party"..i)
 			local role = UnitGroupRolesAssigned(unit)

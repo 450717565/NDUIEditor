@@ -266,8 +266,10 @@ function W.GetLazyTimeStringFromSeconds(sec, roundUp)
 		return GARRISON_DURATION_MINUTES:format(h(sec/60))
 	elseif sec < 84600 then
 		return GARRISON_DURATION_HOURS:format(h(sec/3600))
-	else
+	elseif sec < 3e6 then
 		return GARRISON_DURATION_DAYS:format(h(sec/84600))
+	else
+		return ""
 	end
 end
 function W.GetMissionLethalMask(mid, enemies)

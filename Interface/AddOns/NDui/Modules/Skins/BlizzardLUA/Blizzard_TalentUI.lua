@@ -175,7 +175,7 @@ C.LUAThemes["Blizzard_TalentUI"] = function()
 			button.knownSelection:SetAlpha(0)
 
 			local bubg = B.CreateBGFrame(button, 10, 0, 0, 0)
-			B.ReskinHighlight(button, bubg, true)
+			B.ReskinHighlight(button, bubg, true, true)
 
 			local icon = _G[buttons.."Talent"..j.."IconTexture"]
 			B.ReskinIcon(icon)

@@ -805,7 +805,7 @@ GUI.TabList = {
 	L["ActionBar"],
 	L["Bags"],
 	L["Unitframes"],
-	NewTag..L["RaidFrame"],
+	L["RaidFrame"],
 	L["Nameplate"],
 	L["PlayerPlate"],
 	L["Auras"],

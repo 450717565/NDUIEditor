@@ -71,7 +71,7 @@ tinsert(C.XMLThemes, function()
 
 		local name = _G[container.."Name"]
 		name:ClearAllPoints()
-		name:SetPoint("TOP", bg, 0, -10)
+		name:SetPoint("TOP", bg, 0, -5)
 
 		for j = 1, 36 do
 			local item = container.."Item"..j

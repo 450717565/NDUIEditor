@@ -3,8 +3,8 @@ local _, T = ...
 local C, z, V, K = GetLocale(), nil
 V =
     C == "deDE" and { -- 22/22 (100%)
-      "%d |4Mission:Missionen; verfügbar", "%d |4Mission:Missionen; abgeschlossen", "%d laufende |4Mission:Missionen", "%d |4Mission:Missionen; übrig", "%d |4Gruppe:Gruppen; übrig", "Missionskosten: %s", "Belohnung Bonuswurf", "Lösche alle geplanten Gruppen", "Abschließen", "Alle abschließen",
-      "Vor %s abgeschlossen", "Läuft ab in:", "BONUS erhalten!", "In geplanter Gruppe:", "Mission fehlgeschlagen", "Missions-Verlauf", "Mission erfolgreich", "Keine möglichen Gruppen", "Lädt das Inteface neu ohne %s zu starten bis zum nächsten Reload.", "Ergebnisse vergangener Missionen werden hier angezeigt.",
+      "%d |4Mission:Missionen; verfügbar", "%d |4Mission:Missionen; abgeschlossen", "%d laufende |4Mission:Missionen;", "%d |4Mission:Missionen; übrig", "%d |4Gruppe:Gruppen; übrig", "Missionskosten: %s", "Bonuswurfbelohnung", "Lösche alle geplanten Gruppen", "Abschließen", "Alle abschließen",
+      "Vor %s abgeschlossen", "Noch verfügbar:", "BONUS erhalten!", "In geplanter Gruppe:", "Mission fehlgeschlagen", "Missions-Verlauf", "Mission erfolgreich", "Keine möglichen Gruppen", "Lädt das Inteface neu ohne %s zu starten bis zum nächsten Reload.", "Ergebnisse vergangener Missionen werden hier angezeigt.",
       "Zurück zum Blizzard UI", "Schicke geplante Gruppen",
     }
     or C == "esES" and { -- 22/22 (100%)
@@ -16,6 +16,16 @@ V =
       "%d |4mission:missions; |4disponible:disponibles", "%d |4mission:missions; |4terminée:terminées", "%d |4mission:missions; en cours", "%d |4mission:missions; |4restante:restantes ...", "%d |4groupe:groupes; |4restant:restants ...", "Coût de la mission: %s", "Récompense Bonus", "Effacer la sélection en cours", "Cliquer pour terminer", "Tout Terminer",
       "Terminé il y a %s", "Expire dans:", "Succès Total", "En Groupe:", "Mission Échouée", "Historique des Missions", "Mission Accomplie", "Aucun groupe adapté.", "Recharge l'interface et désactive %s jusqu'au prochain rechargement.", "L'historique des précédentes missions terminées sera enregistré et affiché ici.",
       "Revenir à l'UI de Blizzard", "Envoyer en mission",
+    }
+    or C == "itIT" and { -- 22/22 (100%)
+      "%d |4 missione disponibile:missioni disponibili;", "%d |4 missione completata:missioni completate;", "%d |4 missione:missioni; in corso", "%d |4 missione rimanente:missioni rimanenti; ...", "%d |4 gruppo rimanente:gruppi rimanenti; ...", "Costo missione base: %s", "Ricompensa del tiro bonus", "Cancella tutti i gruppi provvisori", "Clicca per completare", "Completa tutto",
+      "Completato %s fa", "Scade tra:", "Grande successo", "Nel gruppo provvisorio:", "Fallimento della missione", "Storia della missione", "Missione compiuta", "Nessun gruppo fattibile.", "Ricarica l'interfaccia e non attivare %s fino al successivo ricaricamento.", "I risultati delle missioni completate verranno registrati e visualizzati qui.",
+      "Torna all'IU di Blizzard", "Invia i gruppi provvisori",
+    }
+    or C == "koKR" and { -- 22/22 (100%)
+      "%d |4mission:missions; 수행 가능", "%d |4mission:missions; 완료", "%d |4mission:missions; 진행중", "%d |4mission:missions; 남음...", "%d |4party:parties; 남음...", "기본 임무 비용: %s", "보너스 굴림 보상", "임시 멤버 초기화", "임무 완료", "모든 임무 완료",
+      "%s 전 완료됨", "만료:", "위대한 성공", "임시 그룹", "임무 실패", "임무 기록", "임무 성공", "생존 가능 그룹 없음", "UI 재시작 및 다음 재시작까지 %s 비활성화", "완료한 임무 결과를 이곳에서 확인 가능",
+      "블리자드 UI로 복구", "임시 그룹 보내기",
     }
     or C == "ruRU" and { -- 22/22 (100%)
       "%d |4миссия доступна:миссии доступны:миссий доступно; ", "%d |4миссия завершена:миссии завершены:миссий завершено;", "%d |4миссия:миссии:миссий; в процессе ", "%d |4миссия:миссии:миссий; осталось....", "%d |4группа осталась:группы осталось:групп осталось;...", "Стоимость миссии: %s", "Награда бонусного броска", "Очистить все пробные группы", "Нажмите, чтобы завершить", "Завершить все",

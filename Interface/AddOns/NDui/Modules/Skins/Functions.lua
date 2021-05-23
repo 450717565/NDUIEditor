@@ -42,7 +42,7 @@ do
 		if self.Empty then
 			self.Empty:SetTexture("")
 			self.Empty:SetInside(squareBG)
-			self.Empty:SetColorTexture(0, 0, 0, 0)
+			self.Empty:SetVertexColor(0, 0, 0, 0)
 		end
 
 		if self.PortraitRing then
@@ -50,7 +50,7 @@ do
 			self.PortraitRingQuality:SetTexture("")
 			self.PortraitRingCover:SetTexture("")
 			self.PortraitRingCover:SetInside(squareBG)
-			self.PortraitRingCover:SetColorTexture(0, 0, 0, 0)
+			self.PortraitRingCover:SetVertexColor(0, 0, 0, 0)
 		end
 
 		if self.HealthBar then
@@ -193,6 +193,25 @@ do
 		self:SetPushedTexture("Interface\\Icons\\INV_Pet_Broom")
 		self:GetNormalTexture():SetTexCoord(tL, tR, tT, tB)
 		self:GetPushedTexture():SetTexCoord(tL, tR, tT, tB)
+	end
+
+	function Skins:ReskinOptions(types)
+		for _, name in pairs(self) do
+			local options = _G[name]
+			if not options then
+				if DB.isDeveloper then print(options, "not found.") end
+			else
+				if types == "bt" then
+					B.ReskinButton(options)
+				elseif types == "cb" then
+					B.ReskinCheck(options)
+				elseif types == "dd" then
+					B.ReskinDropDown(options)
+				elseif types == "sd" then
+					B.ReskinSlider(options)
+				end
+			end
+		end
 	end
 
 	-- Reskin RequiredMoneyText Color

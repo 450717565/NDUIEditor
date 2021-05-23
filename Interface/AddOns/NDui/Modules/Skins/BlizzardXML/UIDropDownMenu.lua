@@ -32,7 +32,7 @@ end
 
 local function Reskin_SetIconImage(icon, texture)
 	if texture:find("Divider") then
-		icon:SetColorTexture(1, 1, 1, .5)
+		icon:SetColorTexture(cr, cg, cb, C.alpha)
 		icon:SetHeight(C.mult)
 	end
 end
@@ -49,28 +49,38 @@ local function Reskin_ToggleDropDownMenu(level)
 	local listFrame = _G["DropDownList"..level]
 	for index = 1, UIDROPDOWNMENU_MAXBUTTONS do
 		local button = _G["DropDownList"..level.."Button"..index]
-		local x = select(4, button:GetPoint())
-		if button:IsShown() and x then
+		local xOffset = select(4, button:GetPoint())
+		local lfWidth = listFrame:GetWidth()
+		local buWidth = button:GetWidth()
+		if button:IsShown() and xOffset then
 			local arrow = _G["DropDownList"..level.."Button"..index.."ExpandArrow"]
 			arrow:SetNormalTexture(DB.arrowTex.."right")
 			arrow:SetSize(14, 14)
 
 			local hl = _G["DropDownList"..level.."Button"..index.."Highlight"]
 			hl:SetColorTexture(cr, cg, cb, .25)
-			hl:SetPoint("TOPLEFT", -x + C.mult, 0)
-			hl:SetPoint("BOTTOMRIGHT", listFrame:GetWidth() - button:GetWidth() - x - C.mult, 0)
-
-			local check = _G["DropDownList"..level.."Button"..index.."Check"]
-			if isCheckTexture(check) then
-				check:SetSize(20, 20)
-				check:SetTexCoord(0, 1, 0, 1)
-				check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
-				check:SetVertexColor(cr, cg, cb, 1)
-				check:SetDesaturated(true)
-			end
+			hl:SetPoint("TOPLEFT", -xOffset + C.mult, 0)
+			hl:SetPoint("BOTTOMRIGHT", lfWidth - buWidth - xOffset - C.mult, 0)
 
 			local uncheck = _G["DropDownList"..level.."Button"..index.."UnCheck"]
-			if isCheckTexture(uncheck) then uncheck:SetTexture("") end
+			if uncheck then uncheck:SetTexture("") end
+
+			local check = _G["DropDownList"..level.."Button"..index.."Check"]
+			if not button.notCheckable then
+				local _, cood = check:GetTexCoord()
+				if cood == 0 then
+					check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
+					check:SetVertexColor(cr, cg, cb, 1)
+					check:SetSize(20, 20)
+					check:SetDesaturated(true)
+				else
+					check:SetColorTexture(cr, cg, cb, C.alpha)
+					check:SetSize(10, 10)
+					check:SetDesaturated(false)
+				end
+
+				check:SetTexCoord(0, 1, 0, 1)
+			end
 		end
 	end
 end

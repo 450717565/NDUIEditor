@@ -16,8 +16,8 @@ local function Reskin_BlackMarketScrollFrame()
 			B.ReskinHighlight(item, icbg)
 
 			local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
-			B.ReskinHighlight(button, bubg, true, true)
-			B.ReskinHighlight(button.Selection, bubg, true, true)
+			B.ReskinHighlight(button, bubg, true)
+			B.ReskinHighlight(button.Selection, bubg, true)
 
 			button.icbg = icbg
 			button.bubg = bubg

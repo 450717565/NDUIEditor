@@ -15,7 +15,7 @@ local B, C, L, DB = unpack(ns)
 ]]
 
 local strfind, format, strsplit = string.find, string.format, string.split
-local pairs, tonumber, tostring = pairs, tonumber, tostring
+local gsub, pairs, tonumber, tostring = gsub, pairs, tonumber, tostring
 local floor, ceil = math.floor, math.ceil
 local IsQuestFlaggedCompleted = C_QuestLog.IsQuestFlaggedCompleted
 
@@ -25,7 +25,8 @@ DB.Devs = {
 	["风暴柠檬汁-永恒之井"] = true,
 }
 local function isDeveloper()
-	return DB.Devs[DB.MyFullName]
+	local rawName = gsub(DB.MyFullName, "%s", "")
+	return DB.Devs[rawName]
 end
 DB.isDeveloper = isDeveloper()
 

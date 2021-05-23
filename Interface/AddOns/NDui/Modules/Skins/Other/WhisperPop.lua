@@ -12,7 +12,7 @@ function Skins:WhisperPop()
 	B.ReskinArrow(WhisperPopScrollingMessageFrameButtonUp, "up")
 	B.ReskinCheck(WhisperPopMessageFrameProtectCheck)
 	B.ReskinScroll(WhisperPopFrameListScrollBar)
-	B.ReskinHighlight(WhisperPopFrameListHighlightTexture, nil, true, true)
+	B.ReskinHighlight(WhisperPopFrameListHighlightTexture, nil, true)
 
 	local lists = {
 		WhisperPopFrameListDelete,

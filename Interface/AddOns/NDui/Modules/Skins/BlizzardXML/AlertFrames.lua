@@ -103,10 +103,7 @@ local function Reskin_AlertFrame(_, frame)
 			frame.bg = B.CreateBG(frame, 0, -7, 0, 8)
 			frame.icbg = B.ReskinIcon(frame.Icon.Texture)
 
-			if DB.isNewPatch then
-				frame.bg:SetPoint("TOPLEFT", 0, -17)
-				frame.bg:SetPoint("BOTTOMRIGHT", 0, 14)
-			else
+			if not DB.isNewPatch then
 				frame.bg:SetPoint("TOPLEFT", 0, -7)
 				frame.bg:SetPoint("BOTTOMRIGHT", 0, 8)
 			end
@@ -118,8 +115,18 @@ local function Reskin_AlertFrame(_, frame)
 			frame.GuildName:SetPoint("TOPRIGHT", -50, -14)
 		end
 
-		frame.Shield.Icon:Show()
-		frame.Shield.Points:Show()
+		if not DB.isNewPatch then
+			frame.Shield.Points:Show()
+			frame.Shield.Icon:Show()
+		else
+			if frame.GuildBanner:IsShown() then
+				frame.bg:SetPoint("TOPLEFT", 2, -29)
+				frame.bg:SetPoint("BOTTOMRIGHT", -2, 4)
+			else
+				frame.bg:SetPoint("TOPLEFT", frame, -2, -17)
+				frame.bg:SetPoint("BOTTOMRIGHT", 2, 12)
+			end
+		end
 	elseif frame.queue == CriteriaAlertSystem then
 		if not frame.bg then
 			frame.bg = B.CreateBG(frame, -18, 5, 18, -1)

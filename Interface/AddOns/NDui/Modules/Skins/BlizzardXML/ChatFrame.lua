@@ -1,6 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
+
 -- ChatFrame
 local homeTex = "Interface\\Buttons\\UI-HomeButton"
 
@@ -235,12 +237,28 @@ local function Reskin_TextToSpeechFrame()
 	end
 end
 
+local function Reskin_VoicePicker()
+	for _, child in pairs {self.ScrollBox.ScrollTarget:GetChildren()} do
+		if child and not child.styled then
+			child.UnCheck:SetTexture(nil)
+			child.Highlight:SetColorTexture(cr, cg, cb, .25)
+
+			local check = child.Check
+			check:SetColorTexture(cr, cg, cb, .25)
+			check:SetSize(10, 10)
+			check:SetPoint("LEFT", 2, 0)
+			B.CreateBDFrame(check)
+
+			child.styled = true
+		end
+	end
+end
+
 tinsert(C.XMLThemes, function()
 	if DB.isNewPatch then
 		B.ReskinFrame(TextToSpeechFrame)
 
-		TextToSpeechButton:DisableDrawLayer("BACKGROUND")
-
+		B.StripTextures(TextToSpeechButton, 5)
 		TextToSpeechFramePanelContainer:SetBackdrop(nil)
 		B.CreateBDFrame(TextToSpeechFramePanelContainer)
 		TextToSpeechFramePanelContainerChatTypeContainer:SetBackdrop(nil)
@@ -266,5 +284,12 @@ tinsert(C.XMLThemes, function()
 		end
 
 		hooksecurefunc("TextToSpeechFrame_Update", Reskin_TextToSpeechFrame)
+
+		-- voice picker
+		local VoicePicker = TextToSpeechFramePanelContainer.VoicePicker
+		local customFrame = VoicePicker:GetChildren()
+		B.ReskinFrame(customFrame)
+
+		VoicePicker:HookScript("OnShow", Reskin_VoicePicker)
 	end
 end)

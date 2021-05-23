@@ -706,10 +706,9 @@ do
 		local SkinStyle = C.db["Skins"]["SkinStyle"]
 
 		local gdTex = self:CreateTexture(nil, "BORDER")
-		gdTex:SetTexture(DB.bgTex)
 		gdTex:SetInside()
 		if SkinStyle == 1 then
-			gdTex:SetVertexColor(FSColor.r, FSColor.g, FSColor.b, FSAlpha)
+			gdTex:SetColorTexture(FSColor.r, FSColor.g, FSColor.b, FSAlpha)
 		else
 			gdTex:SetGradientAlpha(GSDirection == 1 and "Vertical" or "Horizontal", GSColor1.r, GSColor1.g, GSColor1.b, GSAlpha1, GSColor2.r, GSColor2.g, GSColor2.b, GSAlpha2)
 		end
@@ -859,6 +858,24 @@ do
 
 	-- Handle Border
 	local AtlasToQuality = {
+		["bags-glow-gray"] = LE_ITEM_QUALITY_POOR,
+		["bags-glow-white"] = LE_ITEM_QUALITY_COMMON,
+		["bags-glow-green"] = LE_ITEM_QUALITY_UNCOMMON,
+		["bags-glow-blue"] = LE_ITEM_QUALITY_RARE,
+		["bags-glow-purple"] = LE_ITEM_QUALITY_EPIC,
+		["bags-glow-orange"] = LE_ITEM_QUALITY_LEGENDARY,
+		["bags-glow-artifact"] = LE_ITEM_QUALITY_ARTIFACT,
+		["bags-glow-heirloom"] = LE_ITEM_QUALITY_HEIRLOOM,
+
+		["loottoast-itemborder-gray"] = LE_ITEM_QUALITY_POOR,
+		["loottoast-itemborder-white"] = LE_ITEM_QUALITY_COMMON,
+		["loottoast-itemborder-green"] = LE_ITEM_QUALITY_UNCOMMON,
+		["loottoast-itemborder-blue"] = LE_ITEM_QUALITY_RARE,
+		["loottoast-itemborder-purple"] = LE_ITEM_QUALITY_EPIC,
+		["loottoast-itemborder-orange"] = LE_ITEM_QUALITY_LEGENDARY,
+		["loottoast-itemborder-heirloom"] = LE_ITEM_QUALITY_ARTIFACT,
+		["loottoast-itemborder-artifact"] = LE_ITEM_QUALITY_HEIRLOOM,
+
 		["auctionhouse-itemicon-border-gray"] = LE_ITEM_QUALITY_POOR,
 		["auctionhouse-itemicon-border-white"] = LE_ITEM_QUALITY_COMMON,
 		["auctionhouse-itemicon-border-green"] = LE_ITEM_QUALITY_UNCOMMON,
@@ -867,21 +884,6 @@ do
 		["auctionhouse-itemicon-border-orange"] = LE_ITEM_QUALITY_LEGENDARY,
 		["auctionhouse-itemicon-border-artifact"] = LE_ITEM_QUALITY_ARTIFACT,
 		["auctionhouse-itemicon-border-account"] = LE_ITEM_QUALITY_HEIRLOOM,
-
-		["loottoast-itemborder-green"] = LE_ITEM_QUALITY_UNCOMMON,
-		["loottoast-itemborder-blue"] = LE_ITEM_QUALITY_RARE,
-		["loottoast-itemborder-purple"] = LE_ITEM_QUALITY_EPIC,
-		["loottoast-itemborder-orange"] = LE_ITEM_QUALITY_LEGENDARY,
-		["loottoast-itemborder-heirloom"] = LE_ITEM_QUALITY_ARTIFACT,
-		["loottoast-itemborder-artifact"] = LE_ITEM_QUALITY_HEIRLOOM,
-
-		["bags-glow-white"] = LE_ITEM_QUALITY_COMMON,
-		["bags-glow-green"] = LE_ITEM_QUALITY_UNCOMMON,
-		["bags-glow-blue"] = LE_ITEM_QUALITY_RARE,
-		["bags-glow-purple"] = LE_ITEM_QUALITY_EPIC,
-		["bags-glow-orange"] = LE_ITEM_QUALITY_LEGENDARY,
-		["bags-glow-artifact"] = LE_ITEM_QUALITY_ARTIFACT,
-		["bags-glow-heirloom"] = LE_ITEM_QUALITY_HEIRLOOM,
 	}
 
 	local function updateBorderAtlas(self, atlas)
@@ -940,11 +942,10 @@ do
 		if not self then return end
 
 		self:SetTexture(DB.bgTex)
-		self.SetTexture = B.Dummy
 		self:SetDrawLayer("BACKGROUND")
 
 		if classColor then
-			self:SetColorTexture(cr, cg, cb)
+			self:SetVertexColor(cr, cg, cb)
 		end
 
 		self:SetAllPoints(relativeTo)
@@ -1252,7 +1253,7 @@ do
 	end
 
 	-- Handle Highlight
-	function B:ReskinHighlight(relativeTo, classColor, isVertex)
+	function B:ReskinHighlight(relativeTo, classColor, isColorTex)
 		if not self then return end
 
 		local r, g, b = 1, 1, 1
@@ -1262,18 +1263,18 @@ do
 		if self.SetHighlightTexture then
 			self:SetHighlightTexture(DB.bgTex)
 			tex = self:GetHighlightTexture()
-		elseif self.GetNormalTexture then
+		elseif self.SetNormalTexture then
+			self:SetNormalTexture(DB.bgTex)
 			tex = self:GetNormalTexture()
-			tex:SetTexture(DB.bgTex)
 		elseif self.SetTexture then
+			self:SetTexture(DB.bgTex)
 			tex = self
-			tex:SetTexture(DB.bgTex)
 		end
 
-		if isVertex then
-			tex:SetVertexColor(r, g, b, .25)
-		else
+		if isColorTex then
 			tex:SetColorTexture(r, g, b, .25)
+		else
+			tex:SetVertexColor(r, g, b, .25)
 		end
 
 		if relativeTo then
@@ -1565,18 +1566,23 @@ end
 do
 	B.EasyMenu = CreateFrame("Frame", "NDui_EasyMenu", UIParent, "UIDropDownMenuTemplate")
 
-	function B:CreateLines(isHorizontal)
+	function B:CreateLines(direction, noClassColor)
 		if self.Line then return end
 
 		local w, h = self:GetSize()
 		local Line = self:CreateTexture(nil, "ARTWORK")
-		Line:SetColorTexture(1, 1, 1, .5)
 		Line:ClearAllPoints()
 
-		if isHorizontal then
+		if direction == "H" then
 			Line:SetSize(w*.9, C.mult)
-		else
+		elseif direction == "V" then
 			Line:SetSize(C.mult, h*.9)
+		end
+
+		if noClassColor then
+			Line:SetColorTexture(1, 1, 1, C.alpha)
+		else
+			Line:SetColorTexture(cr, cg, cb, C.alpha)
 		end
 
 		self.Line = Line

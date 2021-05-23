@@ -26,7 +26,6 @@ C.LUAThemes["Blizzard_IslandsQueueUI"] = function()
 	B.CreateBDFrame(OverlayFrame, 0, -C.mult)
 
 	local StatusBar = WeeklyQuest.StatusBar
-	StatusBar.BarTexture:SetTexture(DB.normTex)
 	StatusBar.BarTexture:SetColorTexture(cr, cg, cb, C.alpha)
 
 	local QuestReward = WeeklyQuest.QuestReward

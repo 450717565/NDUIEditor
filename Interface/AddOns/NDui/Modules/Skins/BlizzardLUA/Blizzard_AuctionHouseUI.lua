@@ -246,9 +246,17 @@ C.LUAThemes["Blizzard_AuctionHouseUI"] = function()
 	local WoWTokenResults = AuctionHouseFrame.WoWTokenResults
 	B.StripTextures(WoWTokenResults)
 	B.StripTextures(WoWTokenResults.TokenDisplay)
-	B.CreateBDFrame(WoWTokenResults.TokenDisplay)
 	B.ReskinButton(WoWTokenResults.Buyout)
 	B.ReskinScroll(WoWTokenResults.DummyScrollBar)
+
+	local Name = WoWTokenResults.TokenDisplay.Name
+	Name:SetJustifyH("Center")
+	Name:ClearAllPoints()
+	Name:SetPoint("BOTTOM", WoWTokenResults.InvisiblePriceFrame, "TOP", 0, 0)
+
+	local ItemButton = WoWTokenResults.TokenDisplay.ItemButton
+	ItemButton:ClearAllPoints()
+	ItemButton:SetPoint("CENTER", Name, "TOP", 0, 10)
 
 	local WoWTokenSellFrame = AuctionHouseFrame.WoWTokenSellFrame
 	B.StripTextures(WoWTokenSellFrame)

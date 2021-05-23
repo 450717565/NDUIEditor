@@ -54,7 +54,7 @@ local function Reskin_GuildRosterContainer()
 		local button = GuildRosterContainer.buttons[i]
 
 		if not button.icbg then
-			B.ReskinHighlight(button, nil, true, true)
+			B.ReskinHighlight(button, nil, true)
 
 			button.icbg = B.ReskinIcon(button.icon)
 		end

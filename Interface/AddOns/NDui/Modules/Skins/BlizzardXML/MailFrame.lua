@@ -94,7 +94,7 @@ tinsert(C.XMLThemes, function()
 		input:EnableDrawLayer("BACKGROUND")
 	end
 
-	local line = B.CreateLines(OpenMailInvoiceFrame, true)
+	local line = B.CreateLines(OpenMailInvoiceFrame, "H")
 	line:SetWidth(250)
 	line:SetPoint("BOTTOMRIGHT", OpenMailInvoiceAmountReceived, "TOPRIGHT", 7, 7)
 

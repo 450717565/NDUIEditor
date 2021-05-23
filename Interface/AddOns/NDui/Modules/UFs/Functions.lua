@@ -432,7 +432,7 @@ function UF:CreateIcons(self)
 	phase:SetSize(24, 24)
 	phase:SetPoint("CENTER", self, "TOP", 0, 0)
 	if mystyle == "raid" then
-		phase:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 3, -1)
+		phase:SetPoint("BOTTOM", self, "BOTTOM", 0, -2)
 	end
 	self.PhaseIndicator = phase
 
@@ -468,6 +468,8 @@ function UF:CreateRaidMark(self)
 		raidTarget:SetPoint("RIGHT", self, "TOPRIGHT", -40, 2)
 	elseif mystyle == "nameplate" then
 		raidTarget:SetPoint("BOTTOMRIGHT", self, "TOPLEFT", -1, 1)
+	elseif mystyle == "raid" then
+		raidTarget:SetPoint("TOP", self, "TOP", 0, 0)
 	else
 		raidTarget:SetPoint("CENTER", self, "TOP", 0, 0)
 	end
@@ -530,14 +532,14 @@ function UF:CreateCastBar(self)
 	end
 
 	if mystyle == "player" then
-		local safe = cb:CreateTexture(nil, "OVERLAY")
-		safe:SetTexture(DB.normTex)
-		safe:SetVertexColor(1, 0, 0, .6)
-		safe:SetPoint("TOPRIGHT")
-		safe:SetPoint("BOTTOMRIGHT")
-		cb.SafeZone = safe
-
 		if C.db["UFs"]["LagString"] then
+			local safe = cb:CreateTexture(nil, "OVERLAY")
+			safe:SetTexture(DB.normTex)
+			safe:SetVertexColor(1, 0, 0, .6)
+			safe:SetPoint("TOPRIGHT")
+			safe:SetPoint("BOTTOMRIGHT")
+			cb.SafeZone = safe
+
 			local lag = B.CreateFS(cb, 10)
 			lag:ClearAllPoints()
 			lag:SetPoint("BOTTOM", cb, "TOP", 0, 2)

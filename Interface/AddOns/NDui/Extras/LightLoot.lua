@@ -98,7 +98,6 @@ local function CreateSlot(id)
 	local glow = button:CreateTexture(nil, "ARTWORK")
 	glow:SetPoint("TOPLEFT", icon, "TOPRIGHT", 3, 0)
 	glow:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT")
-	glow:SetTexture(DB.bgTex)
 	glow:SetColorTexture(cr, cg, cb, .5)
 	glow:Hide()
 	button.glow = glow

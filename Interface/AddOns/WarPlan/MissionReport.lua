@@ -24,8 +24,8 @@ function EV:I_LOAD_MAINUI()
 end
 
 local function Tooltip_AddGarrisonStatus(self, mt, prefixLine)
-	local am, nextExpire = C.GetAvailableMissions(mt) or {}, math.huge
-	local im, inProgressCount, inProgressNext = C.GetInProgressMissions(mt) or {}, 0, math.huge
+	local am, nextExpire = C.GetAvailableMissions(mt) or {}
+	local im, inProgressCount, nextComplete = C.GetInProgressMissions(mt) or {}, 0
 	local cm = C.GetCompleteMissions(mt) or {}
 	
 	if prefixLine and (#am + #im + #cm) > 0 then
@@ -34,21 +34,21 @@ local function Tooltip_AddGarrisonStatus(self, mt, prefixLine)
 	
 	for i=1,#am do
 		local et = am[i].offerEndTime
-		nextExpire = et and et < nextExpire and et or nextExpire
+		nextExpire = nextExpire and et and nextExpire > et and nextExpire or et or nextExpire
 	end
 	if #am > 0 then
-		local tl = "|A:worldquest-icon-clock:16:17:0:0|a" .. W.GetLazyTimeStringFromSeconds(nextExpire - GetTime(), false)
+		local tl = nextExpire and "|A:worldquest-icon-clock:16:17:0:0|a" .. W.GetLazyTimeStringFromSeconds(nextExpire - GetTime(), false) or ""
 		self:AddDoubleLine((L"%d |4mission:missions; available"):format(#am), tl, 1,1,1, 0.85, 0.35,0)
 	end
 
 	for i=1, #im do
 		local e = im[i]
 		if e.timeLeftSeconds > 0 then
-			inProgressCount, inProgressNext = inProgressCount + 1, inProgressNext > e.timeLeftSeconds and e.timeLeftSeconds or inProgressNext
+			inProgressCount, nextComplete = inProgressCount + 1, nextComplete and nextComplete <= e.timeLeftSeconds and nextComplete or e.timeLeftSeconds
 		end
 	end
 	if inProgressCount > 0 then
-		local tl = "|A:GarrMission_MissionTooltipAway:14:14:-1.5:0|a" .. W.GetLazyTimeStringFromSeconds(inProgressNext, true)
+		local tl = nextComplete and "|A:GarrMission_MissionTooltipAway:14:14:-1.5:0|a" .. W.GetLazyTimeStringFromSeconds(nextComplete, true) or ""
 		self:AddDoubleLine((L"%d |4mission:missions; in progress"):format(inProgressCount), tl, 0.65, 0.65, 0.65, 0.45, 0.65, 0.85)
 	end
 

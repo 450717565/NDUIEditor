@@ -808,7 +808,9 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 
 			reward.icbg = B.ReskinIcon(reward.Icon)
 			B.ReskinBorder(reward.IconBorder, reward.icbg)
-			hooksecurefunc(reward.Icon, "SetTexture", Update_CurrencyRewardBorder)
+			if not DB.isNewPatch then
+				hooksecurefunc(reward.Icon, "SetTexture", Update_CurrencyRewardBorder)
+			end
 		end
 	end
 

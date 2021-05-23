@@ -197,7 +197,6 @@ function Bar:StyleActionButton(button, cfg)
 	local pushedTexture = button:GetPushedTexture()
 	local highlightTexture = button:GetHighlightTexture()
 
-
 	--normal buttons do not have a checked texture, but checkbuttons do and normal actionbuttons are checkbuttons
 	local checkedTexture = nil
 	if button.GetCheckedTexture then checkedTexture = button:GetCheckedTexture() end
@@ -228,7 +227,7 @@ function Bar:StyleActionButton(button, cfg)
 	SetupTexture(checkedTexture, cfg.checkedTexture, "SetCheckedTexture", button)
 	SetupTexture(highlightTexture, cfg.highlightTexture, "SetHighlightTexture", button)
 
-	highlightTexture:SetColorTexture(1, 1, 1, .25)
+	highlightTexture:SetVertexColor(1, 1, 1, .25)
 
 	--cooldown
 	SetupCooldown(cooldown, cfg.cooldown)
@@ -297,7 +296,7 @@ function Bar:StyleExtraActionButton(cfg)
 	SetupTexture(checkedTexture, cfg.checkedTexture, "SetCheckedTexture", button)
 	SetupTexture(highlightTexture, cfg.highlightTexture, "SetHighlightTexture", button)
 
-	highlightTexture:SetColorTexture(1, 1, 1, .25)
+	highlightTexture:SetVertexColor(1, 1, 1, .25)
 
 	--cooldown
 	SetupCooldown(cooldown, cfg.cooldown)

@@ -139,7 +139,7 @@ tinsert(C.XMLThemes, function()
 		category.Background:Hide()
 		B.ReskinText(category.Title, cr, cg, cb)
 
-		local line = B.CreateLines(category, true)
+		local line = B.CreateLines(category, "H", true)
 		line:SetPoint("BOTTOM", 0, 5)
 	end
 
@@ -247,9 +247,8 @@ local function Reskin_ReputationFrameBars()
 		local factionRow = _G["ReputationBar"..i]
 		local factionBar = _G["ReputationBar"..i.."ReputationBar"]
 
-		local highlight = _G["ReputationBar"..i.."ReputationBarAtWarHighlight1"]
-		highlight:SetTexture(DB.bgTex)
-		highlight:SetColorTexture(1, 0, 0)
+		local atWarBar = _G["ReputationBar"..i.."ReputationBarAtWarHighlight1"]
+		atWarBar:SetColorTexture(1, 0, 0)
 
 		if factionIndex <= numFactions then
 			if factionBar then
@@ -263,9 +262,9 @@ local function Reskin_ReputationFrameBars()
 			end
 
 			if atWarWith then
-				highlight:Show()
+				atWarBar:Show()
 			else
-				highlight:Hide()
+				atWarBar:Hide()
 			end
 		end
 	end
