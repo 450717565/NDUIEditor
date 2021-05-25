@@ -97,7 +97,6 @@ function Skins:Fonts()
 		Game72Font,
 		GameFont_Gigantic,
 		GameFontNormalHuge2,
-		GameTooltipHeader,
 		InvoiceFont_Med,
 		InvoiceFont_Small,
 		MailFont_Large,
@@ -165,8 +164,6 @@ function Skins:Fonts()
 		SystemFont_Small2,
 		SystemFont_Tiny,
 		SystemFont_Tiny2,
-		Tooltip_Med,
-		Tooltip_Small,
 	}
 	for _, font in pairs(fontList) do
 		B.ReskinFont(font)

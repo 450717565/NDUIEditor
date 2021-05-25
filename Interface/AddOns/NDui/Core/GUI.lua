@@ -67,6 +67,7 @@ GUI.DefaultSettings = {
 		FilterJunk = true,
 		FilterLegendary = true,
 		FilterQuest = true,
+		FilterAnima = true,
 	},
 	Auras = {
 		BuffSize = 30,

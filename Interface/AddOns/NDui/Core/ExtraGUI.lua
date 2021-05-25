@@ -1073,6 +1073,7 @@ function GUI:SetupBagFilter(parent)
 		[8] = "FilterFavourite",
 		[9] = "FilterGoods",
 		[10] = "FilterQuest",
+		[11] = "FilterAnima",
 	}
 
 	local Bags = B:GetModule("Bags")
