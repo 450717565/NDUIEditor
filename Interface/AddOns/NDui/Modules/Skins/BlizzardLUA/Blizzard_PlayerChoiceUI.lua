@@ -43,42 +43,44 @@ local function Reskin_Update(self)
 		B.ReskinText(option.Header.Text, 1, .8, 0)
 		B.ReskinText(option.OptionText, 1, 1, 1)
 
-		for _, child1 in pairs {option.WidgetContainer:GetChildren()} do
-			if child1 then
-				if child1.Text then
-					Reskin_TextColor(child1.Text, 1, 1, 1)
+		local children = {option.WidgetContainer:GetChildren()}
+		for _, child in pairs(children) do
+			if child then
+				if child.Text then
+					Reskin_TextColor(child.Text, 1, 1, 1)
 				end
 
-				if child1.LeadingText then
-					Reskin_TextColor(child1.LeadingText, 1, .8, 0)
+				if child.LeadingText then
+					Reskin_TextColor(child.LeadingText, 1, .8, 0)
 				end
 
-				if child1.Spell then
-					if not child1.Spell.styled then
-						child1.Spell.Border:SetTexture("")
-						child1.Spell.IconMask:Hide()
-						B.ReskinIcon(child1.Spell.Icon)
+				if child.Spell then
+					if not child.Spell.styled then
+						child.Spell.Border:SetTexture("")
+						child.Spell.IconMask:Hide()
+						B.ReskinIcon(child.Spell.Icon)
 
-						child1.Spell.styled = true
+						child.Spell.styled = true
 					end
 
-					Reskin_TextColor(child1.Spell.Text, 1, .8, 0)
+					Reskin_TextColor(child.Spell.Text, 1, .8, 0)
 				end
 
-				for _, child2 in pairs {child1:GetChildren()} do
-					if child2 then
-						if child2.Text then
-							Reskin_TextColor(child2.Text, 1, 1, 1)
+				local subChildren = {child:GetChildren()}
+				for _, subChild in pairs(subChildren) do
+					if subChild then
+						if subChild.Text then
+							Reskin_TextColor(subChild.Text, 1, 1, 1)
 						end
 
-						if child2.LeadingText then
-							Reskin_TextColor(child2.LeadingText, 1, .8, 0)
+						if subChild.LeadingText then
+							Reskin_TextColor(subChild.LeadingText, 1, .8, 0)
 						end
 
-						if child2.Icon and not child2.Icon.styled then
-							B.ReskinIcon(child2.Icon)
+						if subChild.Icon and not subChild.Icon.styled then
+							B.ReskinIcon(subChild.Icon)
 
-							child2.Icon.styled = true
+							subChild.Icon.styled = true
 						end
 					end
 				end

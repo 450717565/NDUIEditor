@@ -13,7 +13,8 @@ end
 
 local function Reskin_PopupMenu(self)
 	if not styled then
-		for _, child in pairs {PremadeGroupsFilterDialog:GetChildren()} do
+		local children = {PremadeGroupsFilterDialog:GetChildren()}
+		for _, child in pairs(children) do
 			if child and child.Shadow then
 				TT.ReskinTooltip(child)
 

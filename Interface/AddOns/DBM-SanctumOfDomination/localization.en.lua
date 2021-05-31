@@ -12,7 +12,11 @@ L:SetMiscLocalization({
 ---------------------------
 --  The Eye of the Jailer --
 ---------------------------
---L= DBM:GetModLocalization(2442)
+L= DBM:GetModLocalization(2442)
+
+L:SetOptionLocalization({
+	ContinueRepeating	= "Continue repeating icon yells for Scorn and Ire until debuffs are gone"
+})
 
 ---------------------------
 --  The Nine --
@@ -21,7 +25,8 @@ L= DBM:GetModLocalization(2439)
 
 L:SetMiscLocalization({
 	AgathaBlade		= "Fall before my blade!",
-	AradneStrike	= "You are all outmatched!"
+	AradneStrike	= "You are all outmatched!",
+	Fragment		= "Fragment "--Space is intentional, leave a space to add a number after it
 })
 
 ---------------------------
@@ -45,7 +50,8 @@ L:SetMiscLocalization({
 L= DBM:GetModLocalization(2446)
 
 L:SetMiscLocalization({
-	Dissection	= "Dissection!"
+	Dissection	= "Dissection!",
+	Dismantle	= "Dismantle"
 })
 
 ---------------------------

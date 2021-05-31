@@ -1364,7 +1364,8 @@ local function Reskin_OrderHallTalentFrame(self)
 
 	if self.CurrencyBG then self.CurrencyBG:SetAlpha(0) end
 
-	for _, button in pairs {self:GetChildren()} do
+	local children = {self:GetChildren()}
+	for _, button in pairs(children) do
 		if button and button.talent then
 			button.Border:SetAlpha(0)
 

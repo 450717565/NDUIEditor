@@ -35,21 +35,17 @@ local function CreateGearFrame()
 	gearFrame:SetPoint("CENTER")
 	gearFrame:SetSize(500, 250)
 	gearFrame:SetFrameStrata("DIALOG")
-	B.CreateMF(gearFrame)
-	B.CreateBG(gearFrame)
 
 	local header = B.CreateFS(gearFrame, 14, TRANSMOGRIFY, true, "TOP", 0, -5)
 	gearFrame.Header = header
 
 	local close = CreateFrame("Button", nil, gearFrame, "UIPanelCloseButton")
 	close:SetPoint("TOPRIGHT", gearFrame)
-	B.ReskinClose(close)
 	gearFrame.Close = close
 
 	local scrollArea = CreateFrame("ScrollFrame", nil, gearFrame, "UIPanelScrollFrameTemplate")
 	scrollArea:SetPoint("TOPLEFT", 10, -30)
 	scrollArea:SetPoint("BOTTOMRIGHT", -28, 10)
-	B.ReskinScroll(scrollArea.ScrollBar)
 
 	local editBox = CreateFrame("EditBox", nil, gearFrame)
 	editBox:SetMultiLine(true)
@@ -62,6 +58,10 @@ local function CreateGearFrame()
 	editBox:SetScript("OnEscapePressed", function() gearFrame:Hide() end)
 	scrollArea:SetScrollChild(editBox)
 	gearFrame.EditBox = editBox
+
+	B.CreateMF(gearFrame)
+	B.ReskinFrame(gearFrame)
+	B.ReskinScroll(scrollArea.ScrollBar)
 end
 
 local function GenerateSource(sourceID, sourceType, itemModID, itemQuality)

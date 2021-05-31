@@ -55,7 +55,8 @@ local function Reskin_Region(self, fType)
 end
 
 local function Reskin_ChildButton(self)
-	for _, child in pairs {self:GetChildren()} do
+	local children = {self:GetChildren()}
+	for _, child in pairs(children) do
 		if child:IsObjectType("Button") and child.Text then
 			B.ReskinButton(child)
 		end
@@ -80,7 +81,8 @@ local function Reskin_WAOptions()
 	B.ReskinButton(_G.WASettingsButton)
 
 	-- Minimize, Close Button
-	for _, child in pairs {frame:GetChildren()} do
+	local children = {frame:GetChildren()}
+	for _, child in pairs(children) do
 		local numRegions = child:GetNumRegions()
 		local numChildren = child:GetNumChildren()
 
@@ -130,7 +132,8 @@ local function Reskin_WAOptions()
 	-- IconPicker
 	local iconPicker = frame.iconPicker.frame
 	if iconPicker then
-		for _, child in pairs {iconPicker:GetChildren()} do
+		local children = {iconPicker:GetChildren()}
+		for _, child in pairs(children) do
 			if child:IsObjectType("EditBox") then
 				B.ReskinInput(child, 20)
 			end
@@ -163,7 +166,8 @@ local function Reskin_WAOptions()
 	B.CreateBDFrame(moversizer)
 
 	local index = 1
-	for _, child in pairs {moversizer:GetChildren()} do
+	local children = {moversizer:GetChildren()}
+	for _, child in pairs(children) do
 		local numChildren = child:GetNumChildren()
 
 		if numChildren == 2 and child:IsClampedToScreen() then
@@ -181,13 +185,15 @@ local function Reskin_WAOptions()
 	end
 
 	-- TipPopup
-	for _, child in pairs {frame:GetChildren()} do
+	local children = {frame:GetChildren()}
+	for _, child in pairs(children) do
 		if child:GetFrameStrata() == "FULLSCREEN" and child.PixelSnapDisabled and child.backdropInfo then
 			B.ReskinFrame(child)
 
-			for _, child2 in pairs {child:GetChildren()} do
-				if child2:IsObjectType("EditBox") then
-					B.ReskinInput(child2, 18)
+			local subChildren = {child:GetChildren()}
+			for _, subChild in pairs(subChildren) do
+				if subChild:IsObjectType("EditBox") then
+					B.ReskinInput(subChild, 18)
 				end
 			end
 

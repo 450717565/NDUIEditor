@@ -50,6 +50,7 @@ local function Reskin_InterfaceOptionsFrame(self)
 	}
 	if DB.isNewPatch then
 		tinsert(buttons, "InterfaceOptionsAccessibilityPanelConfigureTextToSpeech")
+		tinsert(buttons, "InterfaceOptionsAccessibilityPanelRemoteTextToSpeechVoicePlaySample")
 	end
 	S.ReskinOptions(buttons, "bt")
 
@@ -153,6 +154,7 @@ local function Reskin_InterfaceOptionsFrame(self)
 	if DB.isNewPatch then
 		tremove(dropdowns, 1)
 		tinsert(dropdowns, "InterfaceOptionsColorblindPanelColorFilterDropDown")
+		tinsert(dropdowns, "InterfaceOptionsAccessibilityPanelRemoteTextToSpeechVoiceDropdown")
 	end
 	S.ReskinOptions(dropdowns, "dd")
 

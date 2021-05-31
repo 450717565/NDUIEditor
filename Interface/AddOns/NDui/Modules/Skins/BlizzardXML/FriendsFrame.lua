@@ -50,12 +50,18 @@ local function Reskin_UpdateFriendButton(button)
 			if faction == "Alliance" or faction == "Horde" or faction == "Neutral" then
 				button.gameIcon:SetTexture(icPatch..faction)
 			end
+
+			local gameText = gameAccountInfo.richPresence
+			if gameText == "移动版" then
+				button.gameIcon:SetTexture(icPatch.."Mobile")
+			end
 		end
 	end
 end
 
 local function Reskin_RecruitAFriendRewardsFrame(self)
-	for _, child in pairs {self:GetChildren()} do
+	local children = {self:GetChildren()}
+	for _, child in pairs(children) do
 		local button = child and child.Button
 		if button and not button.styled then
 			local icbg = B.ReskinIcon(button.Icon)

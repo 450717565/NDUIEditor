@@ -107,7 +107,7 @@ end
 
 local function Heroic_OnClick()
 	if IsInGroup() then
-		SendChatMessage("YX10", "PARTY")
+		SendChatMessage("H", "PARTY")
 	end
 end
 

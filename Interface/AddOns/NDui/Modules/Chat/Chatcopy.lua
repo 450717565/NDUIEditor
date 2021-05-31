@@ -94,10 +94,9 @@ function Chat:ChatCopy_Create()
 	frame:SetSize(700, 400)
 	frame:Hide()
 	frame:SetFrameStrata("DIALOG")
-	B.CreateBG(frame)
-	B.CreateMF(frame)
-	frame.close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
-	frame.close:SetPoint("TOPRIGHT", frame)
+
+	frame.Close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
+	frame.Close:SetPoint("TOPRIGHT", frame)
 
 	local scrollArea = CreateFrame("ScrollFrame", "ChatCopyScrollFrame", frame, "UIPanelScrollFrameTemplate")
 	scrollArea:SetPoint("TOPLEFT", 10, -30)
@@ -139,7 +138,8 @@ function Chat:ChatCopy_Create()
 	copy:HookScript("OnEnter", function() copy:SetAlpha(1) end)
 	copy:HookScript("OnLeave", function() copy:SetAlpha(.5) end)
 
-	B.ReskinClose(frame.close)
+	B.CreateMF(frame)
+	B.ReskinFrame(frame)
 	B.ReskinScroll(ChatCopyScrollFrameScrollBar)
 end
 

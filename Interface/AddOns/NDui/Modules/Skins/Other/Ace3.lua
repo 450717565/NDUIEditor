@@ -300,7 +300,8 @@ function Skins:Ace3_RegisterAsContainer(widget)
 		local frame = widget.content:GetParent()
 		B.StripTextures(frame)
 		if TYPE == "Frame" then
-			for _, child in pairs {frame:GetChildren()} do
+			local children = {frame:GetChildren()}
+			for _, child in pairs(children) do
 				if child:IsObjectType("Button") and child:GetText() then
 					B.ReskinButton(child)
 				else
@@ -461,7 +462,8 @@ do -- Early Skin Loading
 
 	for n in pairs(LibStub.libs) do
 		if n == "AceGUI-3.0" then
-			for _, x in pairs {_G.UIParent:GetChildren()} do
+			local children = {_G.UIParent:GetChildren()}
+			for _, x in pairs(children) do
 				if x and x.obj then earlyWidget(x.obj) end
 			end
 		end

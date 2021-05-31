@@ -52,7 +52,8 @@ local function Reskin_RequestCheckbox(self)
 end
 
 local function Reskin_ColumnDisplay(self)
-	for _, child in pairs {self:GetChildren()} do
+	local children = {self:GetChildren()}
+	for _, child in pairs(children) do
 		if child and not child.styled then
 			B.StripTextures(child)
 
@@ -131,8 +132,8 @@ local function Reskin_MemberList(self)
 end
 
 local function Reskin_NotificationSettingsDialog(self)
-	local frame = self.ScrollFrame.Child
-	for _, child in pairs {frame:GetChildren()} do
+	local children = {self.ScrollFrame.Child:GetChildren()}
+	for _, child in pairs(children) do
 		if child.StreamName and not child.styled then
 			B.ReskinRadio(child.ShowNotificationsButton)
 			B.ReskinRadio(child.HideNotificationsButton)
@@ -444,7 +445,6 @@ C.LUAThemes["Blizzard_Communities"] = function()
 	B.ReskinFrame(TicketManagerDialog)
 	B.ReskinButton(TicketManagerDialog.LinkToChat)
 	B.ReskinButton(TicketManagerDialog.Copy)
-	B.ReskinButton(TicketManagerDialog.Close)
 	B.ReskinArrow(TicketManagerDialog.MaximizeButton, "down")
 	B.ReskinDropDown(TicketManagerDialog.ExpiresDropDownMenu)
 	B.ReskinDropDown(TicketManagerDialog.UsesDropDownMenu)

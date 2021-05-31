@@ -148,8 +148,7 @@ do
 		B.CleanTextures(results)
 		local bg = B.CreateBG(results, 0, 0, 5, 0)
 
-		local frameName = self:GetDebugName()
-		local closeButton = results.closeButton or (frameName and _G[frameName.."SearchResultsCloseButton"])
+		local closeButton = results.closeButton or B.GetKeyWord(self, "SearchResultsCloseButton")
 		B.ReskinClose(closeButton, bg)
 
 		local bar = results.scrollFrame.scrollBar
@@ -297,8 +296,7 @@ do
 	end
 
 	function Skins:UpdateTabAnchor()
-		local frameName = self:GetDebugName()
-		local text = self.Text or (frameName and _G[frameName.."Text"])
+		local text = B.GetKeyWord(self, "Text")
 		if text then
 			text:SetJustifyH("CENTER")
 			text:ClearAllPoints()

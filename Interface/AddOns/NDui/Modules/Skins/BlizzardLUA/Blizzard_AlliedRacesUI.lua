@@ -5,7 +5,8 @@ local function Reskin_AlliedRacesFrame()
 	local Child = AlliedRacesFrame.RaceInfoFrame.ScrollFrame.Child
 	B.StripTextures(Child.ObjectivesFrame)
 
-	for _, button in pairs {Child:GetChildren()} do
+	local children = {Child:GetChildren()}
+	for _, button in pairs(children) do
 		if button and not button.styled then
 			if button.Icon then
 				B.ReskinIcon(button.Icon)

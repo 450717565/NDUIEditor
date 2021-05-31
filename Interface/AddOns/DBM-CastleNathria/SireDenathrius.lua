@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(2424, "DBM-CastleNathria", nil, 1190)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision("20210509221708")
+mod:SetRevision("20210524134429")
 mod:SetCreatureID(167406)
 mod:SetEncounterID(2407)
 mod:SetUsedIcons(1, 2, 3, 4, 7, 8)
@@ -564,10 +564,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		end
 		warnNightHunter:CombinedShow(0.5, args.destName)
 		self.vb.DebuffIcon = self.vb.DebuffIcon + 1
-		if self.vb.DebuffIcon > 8 then
-			self.vb.DebuffIcon = 1
-			DBM:AddMsg("Cast event for Night Hunter is wrong, doing backup icon reset")
-		end
 	elseif spellId == 327992 and args:IsPlayer() and self:AntiSpam(2, 2) then
 		specWarnGTFO:Show(args.spellName)
 		specWarnGTFO:Play("watchfeet")
@@ -667,7 +663,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			timerCrimsonCabalistsCD:Start(timer, self.vb.addCount+1)
 		end
 		if self.Options.SetIconOnBalefulShadows then--Only use up to 5 icons
-			self:ScanForMobs(175205, 0, 8, 2, 0.2, 12, "SetIconOnBalefulShadows")
+			self:ScanForMobs(175205, 0, 8, 2, 0.2, 25, "SetIconOnBalefulShadows")
 		end
 	end
 end

@@ -199,7 +199,10 @@ function Bar:StyleActionButton(button, cfg)
 
 	--normal buttons do not have a checked texture, but checkbuttons do and normal actionbuttons are checkbuttons
 	local checkedTexture = nil
-	if button.GetCheckedTexture then checkedTexture = button:GetCheckedTexture() end
+	if button.GetCheckedTexture then
+		checkedTexture = button:GetCheckedTexture()
+		SetupTexture(checkedTexture, cfg.checkedTexture, "SetCheckedTexture", button)
+	end
 
 	--hide stuff
 	local floatingBG = _G[buttonName.."FloatingBG"]
@@ -224,7 +227,6 @@ function Bar:StyleActionButton(button, cfg)
 
 	SetupTexture(normalTexture, cfg.normalTexture, "SetNormalTexture", button)
 	SetupTexture(pushedTexture, cfg.pushedTexture, "SetPushedTexture", button)
-	SetupTexture(checkedTexture, cfg.checkedTexture, "SetCheckedTexture", button)
 	SetupTexture(highlightTexture, cfg.highlightTexture, "SetHighlightTexture", button)
 
 	highlightTexture:SetVertexColor(1, 1, 1, .25)

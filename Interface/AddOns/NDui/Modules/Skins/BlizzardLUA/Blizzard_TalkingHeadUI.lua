@@ -2,16 +2,19 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local function Reskin_TalkingHeadFrame()
-	B.StripTextures(TalkingHeadFrame.PortraitFrame)
-	B.StripTextures(TalkingHeadFrame.BackgroundFrame)
+	local frame = TalkingHeadFrame
 
-	B.ReskinText(TalkingHeadFrame.NameFrame.Name, 1, .8, 0)
-	B.ReskinText(TalkingHeadFrame.TextFrame.Text, 1, 1, 1)
+	B.StripTextures(frame.PortraitFrame)
+	B.StripTextures(frame.BackgroundFrame)
 
-	local MainFrame = TalkingHeadFrame.MainFrame
+	B.ReskinText(frame.NameFrame.Name, 1, .8, 0)
+	B.ReskinText(frame.TextFrame.Text, 1, 1, 1)
+
+	local MainFrame = frame.MainFrame
 	B.StripTextures(MainFrame.Model)
 
 	if not MainFrame.styled then
+		B.ReskinFrame(MainFrame)
 		B.CreateBDFrame(MainFrame.Model, 0, -C.mult)
 
 		MainFrame.styled = true
@@ -20,8 +23,6 @@ end
 
 C.LUAThemes["Blizzard_TalkingHeadUI"] = function()
 	TalkingHeadFrame:SetScale(UIParent:GetScale())
-
-	B.ReskinFrame(TalkingHeadFrame.MainFrame)
 
 	hooksecurefunc("TalkingHeadFrame_PlayCurrent", Reskin_TalkingHeadFrame)
 end

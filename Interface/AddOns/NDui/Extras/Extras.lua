@@ -24,7 +24,6 @@ function EX:OnLogin()
 	self:ChatClassColor()
 	self:ChatEmote()
 	self:ChatRaidIndex()
-	self:GlobalFade()
 	self:KeystoneHelper()
 	self:MountSource()
 end
@@ -94,16 +93,18 @@ end
 
 -- 副本难度自动喊话
 function EX.UpdateInstanceDifficulty()
-	if IsInInstance() then
-		local _, instanceType, difficultyID, difficultyName = GetInstanceInfo()
-		if instanceType == "party" and difficultyID ~= 23 then
-			if not IsInGroup() then
-				UIErrorsFrame:AddMessage(format(DB.InfoColor..L["Instance Difficulty"], difficultyName))
-			else
-				SendChatMessage(format(L["Instance Difficulty"], difficultyName), msgChannel())
+	C_Timer.After(.5, function()
+		if IsInInstance() then
+			local _, instanceType, difficultyID, difficultyName = GetInstanceInfo()
+			if instanceType == "party" and difficultyID ~= 23 then
+				if not IsInGroup() then
+					UIErrorsFrame:AddMessage(format(DB.InfoColor..L["Instance Difficulty"], difficultyName))
+				else
+					SendChatMessage(format(L["Instance Difficulty"], difficultyName), msgChannel())
+				end
 			end
 		end
-	end
+	end)
 end
 
 function EX:InstanceDifficulty()
@@ -141,8 +142,13 @@ function EX.UpdateFriendlyNameAutoSet()
 end
 
 function EX:FriendlyNameAutoSet()
-	B:RegisterEvent("PLAYER_ENTERING_WORLD", self.UpdateFriendlyNameAutoSet)
-	B:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND", self.UpdateFriendlyNameAutoSet)
+	if C.db["Extras"]["FNAutoSet"] then
+		B:RegisterEvent("PLAYER_ENTERING_WORLD", self.UpdateFriendlyNameAutoSet)
+		B:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND", self.UpdateFriendlyNameAutoSet)
+	else
+		B:UnregisterEvent("PLAYER_ENTERING_WORLD", self.UpdateFriendlyNameAutoSet)
+		B:UnregisterEvent("PLAYER_ENTERING_BATTLEGROUND", self.UpdateFriendlyNameAutoSet)
+	end
 end
 
 -- 自动选择节日BOSS

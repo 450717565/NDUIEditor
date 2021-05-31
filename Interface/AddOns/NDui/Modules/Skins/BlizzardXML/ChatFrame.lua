@@ -171,7 +171,8 @@ end)
 
 -- ChannelFrame
 local function Reskin_ChannelList(self)
-	for _, tab in pairs {self.Child:GetChildren()} do
+	local children = {self.Child:GetChildren()}
+	for _, tab in pairs(children) do
 		if tab:IsHeader() and not tab.styled then
 			B.CleanTextures(tab)
 
@@ -225,20 +226,23 @@ end)
 local function Reskin_TextToSpeechFrame()
 	local checkBoxNameString = "TextToSpeechFramePanelContainerChatTypeContainerCheckBox"
 	local checkBoxName, checkBox
-	local checkBoxTable = TextToSpeechFramePanelContainerChatTypeContainer.checkBoxTable or {}
-	for index, value in ipairs(checkBoxTable) do
-		checkBoxName = checkBoxNameString..index
-		checkBox = _G[checkBoxName]
-		if checkBox and not checkBox.styled then
-			B.ReskinCheck(checkBox)
+	local checkBoxTable = TextToSpeechFramePanelContainerChatTypeContainer.checkBoxTable
+	if checkBoxTable then
+		for index, value in ipairs(checkBoxTable) do
+			checkBoxName = checkBoxNameString..index
+			checkBox = _G[checkBoxName]
+			if checkBox and not checkBox.styled then
+				B.ReskinCheck(checkBox)
 
-			checkBox.styled = true
+				checkBox.styled = true
+			end
 		end
 	end
 end
 
 local function Reskin_VoicePicker()
-	for _, child in pairs {self.ScrollBox.ScrollTarget:GetChildren()} do
+	local children = {self.ScrollBox.ScrollTarget:GetChildren()}
+	for _, child in pairs(children) do
 		if child and not child.styled then
 			child.UnCheck:SetTexture(nil)
 			child.Highlight:SetColorTexture(cr, cg, cb, .25)

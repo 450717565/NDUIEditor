@@ -207,10 +207,10 @@ local function BuildICON(iconSize)
 	frame.Cooldown = Cooldown
 
 	local parentFrame = B.CreateParentFrame(frame, 6)
-	frame.Spellname = B.CreateFS(parentFrame, 13)
+	frame.Spellname = B.CreateFS(parentFrame, B.Round(iconSize*.5))
 	frame.Spellname:ClearAllPoints()
 	frame.Spellname:SetPoint("CENTER", frame, "TOP", 0, 0)
-	frame.Count = B.CreateFS(parentFrame, iconSize*.6, "", false, "BOTTOMRIGHT", 4, -4)
+	frame.Count = B.CreateFS(parentFrame, B.Round(iconSize*.6), "", false, "BOTTOMRIGHT", 4, -4)
 	frame.Count:SetJustifyH("RIGHT")
 
 	if not C.db["AuraWatch"]["ClickThrough"] then enableTooltip(frame) end
@@ -511,6 +511,7 @@ end
 
 function Auras:AuraWatch_IntTimer(elapsed)
 	self.elapsed = self.elapsed + elapsed
+
 	local timer = self.duration - self.elapsed
 	if timer < 0 then
 		self:SetScript("OnUpdate", nil)

@@ -8,6 +8,17 @@ local tinsert, pairs, type = table.insert, pairs, type
 local buttonList = {}
 local cr, cg, cb, color
 
+local function ResetButtonParent(button, parent)
+	if parent ~= button.__owner then
+		button:SetParent(button.__owner)
+	end
+end
+
+local function ResetButtonAnchor(button)
+	button:ClearAllPoints()
+	button:SetAllPoints()
+end
+
 function Bar:MicroButton_SetupTexture(icon, texture)
 	icon:SetOutside(nil, 3, 3)
 	icon:SetTexture(DB.menuTex..texture)
@@ -26,11 +37,15 @@ function Bar:MicroButton_Create(parent, data)
 
 	if type(method) == "string" then
 		local button = _G[method]
-		button:SetHitRectInsets(0, 0, 0, 0)
+		button.__owner = bu
+
 		button:SetParent(bu)
-		button:ClearAllPoints(bu)
-		button:SetAllPoints(bu)
-		button.SetPoint = B.Dummy
+		hooksecurefunc(button, "SetParent", ResetButtonParent)
+
+		ResetButtonAnchor(button)
+		hooksecurefunc(button, "SetPoint", ResetButtonAnchor)
+
+		button:SetHitRectInsets(0, 0, 0, 0)
 		button:UnregisterAllEvents()
 		button:SetNormalTexture(nil)
 		button:SetPushedTexture(nil)

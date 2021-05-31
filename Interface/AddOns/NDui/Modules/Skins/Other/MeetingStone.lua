@@ -191,7 +191,8 @@ function Skins:MeetingStone()
 
 	local AdvFilterPanel = BrowsePanel.AdvFilterPanel
 	AdvFilterPanel:SetPoint("TOPLEFT", MSEnv.MainPanel, "TOPRIGHT", 3, -30)
-	for _, child in pairs {AdvFilterPanel:GetChildren()} do
+	local children = {AdvFilterPanel:GetChildren()}
+	for _, child in pairs(children) do
 		if child:IsObjectType("Button") and not child:GetText() then
 			B.ReskinClose(child)
 
@@ -218,7 +219,8 @@ function Skins:MeetingStone()
 	B.CreateBGFrame(InfoWidget, 1, 1, -1, -1)
 
 	local CreateWidget = CreatePanel.CreateWidget
-	for _, child in pairs {CreateWidget:GetChildren()} do
+	local children = {CreateWidget:GetChildren()}
+	for _, child in pairs(children) do
 		B.StripTextures(child)
 		B.CreateBDFrame(child)
 	end
@@ -350,7 +352,8 @@ function Skins:MeetingStone()
 		if MallPanel then
 			B.ReskinButton(MallPanel.PurchaseButton)
 
-			for _, child in pairs {MallPanel:GetChildren()} do
+			local children = {MallPanel:GetChildren()}
+			for _, child in pairs(children) do
 				if child:IsObjectType("Button") and child.Icon and child.Text then
 					ReskinMS_Button(child)
 				end
@@ -359,7 +362,8 @@ function Skins:MeetingStone()
 			for _, blocker in pairs(MallPanel.blockers) do
 				blocker:HookScript("OnShow", function(self)
 					if not self.styled then
-						for _, child in pairs {self:GetChildren()} do
+						local children = {self:GetChildren()}
+						for _, child in pairs(children) do
 							if child:IsObjectType("Button") and child.Text then
 								B.Reskin(child)
 							elseif child.ScrollBar then
@@ -430,7 +434,8 @@ function Skins:MeetingStone()
 					B.StripTextures(Summary)
 					B.CreateBDFrame(Summary)
 
-					for _, child in pairs {Summary:GetChildren()} do
+					local children = {Summary:GetChildren()}
+					for _, child in pairs(children) do
 						if child.ScrollBar then
 							B.ReskinScroll(child.ScrollBar)
 							break
@@ -483,7 +488,8 @@ function Skins:MeetingStone()
 	-- PlayerInfoDialog
 	local PlayerInfoDialog = MSEnv.PlayerInfoDialog
 	if PlayerInfoDialog then
-		for _, child in pairs {PlayerInfoDialog:GetChildren()} do
+		local children = {PlayerInfoDialog:GetChildren()}
+		for _, child in pairs(children) do
 			local objType = child:GetObjectType()
 			if objType == "Frame" then
 				B.StripTextures(child)
@@ -503,7 +509,8 @@ function Skins:MeetingStone()
 	if MeetingStone_QuickJoin then
 		B.ReskinCheck(MeetingStone_QuickJoin)
 
-		for _, child in pairs {AdvFilterPanel.Inset:GetChildren()} do
+		local children = {AdvFilterPanel:GetChildren()}
+		for _, child in pairs(children) do
 			if child.Check and not child.styled then
 				B.ReskinCheck(child.Check)
 
@@ -512,7 +519,8 @@ function Skins:MeetingStone()
 		end
 
 		local ManagerPanel = MSEnv.ManagerPanel
-		for _, child in pairs {ManagerPanel:GetChildren()} do
+		local children = {ManagerPanel:GetChildren()}
+		for _, child in pairs(children) do
 			if child:IsObjectType("Button") and child.Icon and child.Text and not child.styled then
 				B.ReskinButton(child)
 

@@ -181,7 +181,7 @@ end
 -- Itemlevel Function
 do
 	local iLvlDB = {}
-	local itemLevelString = gsub(ITEM_LEVEL, "%%d", "")
+	local itemLevelString = "^"..gsub(ITEM_LEVEL, "%%d", "")
 	local enchantString = gsub(ENCHANTED_TOOLTIP_LINE, "%%s", "(.+)")
 	local essenceTextureID = 2975691
 	local essenceDescription = GetSpellDescription(277253)
@@ -400,6 +400,12 @@ end
 
 -- Kill Function
 do
+	-- Get Function
+	function B:GetKeyWord(key)
+		local frameName = self:GetDebugName()
+		return self[key] or (frameName and _G[frameName..key])
+	end
+
 	function B:Dummy()
 		return
 	end
@@ -456,9 +462,8 @@ do
 	}
 
 	function B:StripTextures(kill)
-		local frameName = self:GetDebugName()
 		for _, texture in pairs(blizzTextures) do
-			local blizzFrame = self[texture] or (frameName and _G[frameName..texture])
+			local blizzFrame = B.GetKeyWord(self, texture)
 			if blizzFrame then
 				B.StripTextures(blizzFrame, kill)
 			end
@@ -559,9 +564,8 @@ do
 		if self.SetPushedTexture then self:SetPushedTexture("") end
 		if self.SetNormalTexture and not isOverride then self:SetNormalTexture("") end
 
-		local frameName = self:GetDebugName()
 		for _, key in pairs(cleanTextures) do
-			local cleanFrame = self[key] or (frameName and _G[frameName..key])
+			local cleanFrame = B.GetKeyWord(self, key)
 			if cleanFrame then
 				cleanFrame:SetAlpha(0)
 				cleanFrame:Hide()
@@ -1150,8 +1154,7 @@ do
 
 		icon:SetInside(nil, 2, 2)
 
-		local frameName = self:GetDebugName()
-		local bg = self.SwatchBg or (frameName and _G[frameName.."SwatchBg"])
+		local bg = B.GetKeyWord(self, "SwatchBg")
 		bg:SetColorTexture(0, 0, 0, 1)
 		bg:SetOutside(icon)
 	end
@@ -1161,9 +1164,7 @@ do
 		B.StripTextures(self)
 		B.CleanTextures(self)
 
-		local frameName = self:GetDebugName()
-
-		local button = self.Button or (frameName and (_G[frameName.."Button"] or _G[frameName.."_Button"]))
+		local button = B.GetKeyWord(self, "Button") or B.GetKeyWord(self, "_Button")
 		button:ClearAllPoints()
 		button:Point("RIGHT", -18, 2)
 		B.ReskinArrow(button, "down", 20)
@@ -1176,7 +1177,7 @@ do
 		bg:Point("BOTTOMRIGHT", button, "BOTTOMLEFT", -2, 0)
 
 		for _, key in pairs(textWords) do
-			local text = self[key] or (frameName and _G[frameName..key])
+			local text = B.GetKeyWord(self, key)
 			if text then
 				text:SetJustifyH("CENTER")
 				text:ClearAllPoints()
@@ -1210,9 +1211,8 @@ do
 		self.Icon:Point("RIGHT", self, "RIGHT", -5, 0)
 		self.Icon:SetSize(height, height)
 
-		local frameName = self:GetDebugName()
 		for _, key in pairs(textWords) do
-			local text = self[key] or (frameName and _G[frameName..key])
+			local text = B.GetKeyWord(self, key)
 			if text then
 				text:SetJustifyH("CENTER")
 				text:ClearAllPoints()
@@ -1231,9 +1231,8 @@ do
 		B.CleanTextures(self)
 
 		local bg = B.CreateBG(self)
-		local frameName = self:GetDebugName()
 		for _, key in pairs {"Header", "header"} do
-			local frameHeader = self[key] or (frameName and _G[frameName..key])
+			local frameHeader = B.GetKeyWord(self, key)
 			if frameHeader then
 				B.StripTextures(frameHeader, 0)
 
@@ -1242,12 +1241,15 @@ do
 			end
 		end
 		for _, key in pairs {"Portrait", "portrait"} do
-			local framePortrait = self[key] or (frameName and _G[frameName..key])
+			local framePortrait = B.GetKeyWord(self, key)
 			if framePortrait then framePortrait:SetAlpha(0) end
 		end
-
-		local closeButton = self.CloseButton or (frameName and _G[frameName.."CloseButton"])
-		if closeButton then B.ReskinClose(closeButton, bg) end
+		for _, key in pairs {"CloseButton", "Close"} do
+			local closeButton = B.GetKeyWord(self, key)
+			if closeButton and closeButton:IsObjectType("Button") then
+				B.ReskinClose(closeButton, bg)
+			end
+		end
 
 		return bg
 	end
@@ -1339,9 +1341,8 @@ do
 	end
 
 	function B:ReskinRole(role)
-		local frameName = self:GetDebugName()
 		for _, key in pairs {"background", "Cover", "cover"} do
-			local tex = self[key] or (frameName and _G[frameName..key])
+			local tex = B.GetKeyWord(self, key)
 			if tex then tex:SetTexture("") end
 		end
 
@@ -1419,12 +1420,11 @@ do
 	-- Handle Scroll
 	local function GetScrollThumb(self)
 		local thumb
-		local frameName = self:GetDebugName()
 		if self.GetThumbTexture then
 			thumb = self:GetThumbTexture()
 		else
 			for _, key in pairs {"ThumbTexture", "thumbTexture"} do
-				thumb = self[key] or (frameName and _G[frameName..key])
+				thumb = B.GetKeyWord(self, key)
 			end
 		end
 
@@ -1504,9 +1504,8 @@ do
 			hooksecurefunc(self, "SetStatusBarAtlas", Update_BarAtlas)
 		end
 
-		local frameName = self:GetDebugName()
 		for _, key in pairs(barWords) do
-			local text = self[key] or (frameName and _G[frameName..key])
+			local text = B.GetKeyWord(self, key)
 			if text then
 				text:SetJustifyH("CENTER")
 				text:ClearAllPoints()

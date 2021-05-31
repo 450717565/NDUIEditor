@@ -66,8 +66,9 @@ local function Reskin_ListIcon(self)
 end
 
 local function Reskin_ListHeader(self)
+	local headers = {self.HeaderContainer:GetChildren()}
 	local maxHeaders = self.HeaderContainer:GetNumChildren()
-	for index, header in pairs {self.HeaderContainer:GetChildren()} do
+	for index, header in pairs(headers) do
 		if header then
 			if not header.bg then
 				header:DisableDrawLayer("BACKGROUND")
@@ -164,7 +165,6 @@ function Skins:Auctionator()
 		local SplashScreen = _G.AuctionatorSplashScreen
 		if SplashScreen then
 			B.ReskinFrame(SplashScreen)
-			B.ReskinClose(SplashScreen.Close)
 			B.ReskinScroll(SplashScreen.ScrollFrame.ScrollBar)
 			B.ReskinCheck(SplashScreen.HideCheckbox.CheckBox)
 		end

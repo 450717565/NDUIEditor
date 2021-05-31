@@ -18,7 +18,8 @@ local function Reskin_EventTraceScrollBar(self)
 end
 
 local function Reskin_ScrollChild(self)
-	for _, child in pairs {self.ScrollTarget:GetChildren()} do
+	local children = {self.ScrollTarget:GetChildren()}
+	for _, child in pairs(children) do
 		local HideButton = child and child.HideButton
 		if HideButton and not HideButton.styled then
 			B.ReskinClose(HideButton)

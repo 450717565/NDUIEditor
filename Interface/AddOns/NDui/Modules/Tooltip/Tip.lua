@@ -437,8 +437,6 @@ function TT:ReskinTooltip()
 	if self:IsForbidden() then return end
 	self:SetScale(C.db["Tooltip"]["TTScale"])
 
-	local frameName = self:GetDebugName()
-
 	if not self.tipStyled then
 		if self.SetBackdrop then self:SetBackdrop(nil) end
 		self:DisableDrawLayer("BACKGROUND")
@@ -448,7 +446,7 @@ function TT:ReskinTooltip()
 		TT.ReskinRewardIcon(self)
 		TT.ReskinStatusBar(self)
 
-		local closeButton = self.CloseButton or (frameName and _G[frameName.."CloseButton"])
+		local closeButton = B.GetKeyWord(self, "CloseButton")
 		if closeButton then B.ReskinClose(closeButton) end
 
 		local scrollBar = self.ScrollBar or self.scrollBar
@@ -486,16 +484,15 @@ function TT:SetupTooltipFonts()
 	TooltipSetFont(GameTooltipText, textSize)
 	TooltipSetFont(GameTooltipTextSmall, textSize)
 
-	if not GameTooltip.hasMoney then
-		SetTooltipMoney(GameTooltip, 1, nil, "", "")
-		SetTooltipMoney(GameTooltip, 1, nil, "", "")
-		GameTooltip_ClearMoney(GameTooltip)
-	end
 	if GameTooltip.hasMoney then
 		for i = 1, GameTooltip.numMoneyFrames do
 			TooltipSetFont(_G["GameTooltipMoneyFrame"..i.."PrefixText"], textSize)
 			TooltipSetFont(_G["GameTooltipMoneyFrame"..i.."SuffixText"], textSize)
 		end
+	else
+		SetTooltipMoney(GameTooltip, 1, nil, "", "")
+		SetTooltipMoney(GameTooltip, 1, nil, "", "")
+		GameTooltip_ClearMoney(GameTooltip)
 	end
 
 	for _, tt in ipairs(GameTooltip.shoppingTooltips) do

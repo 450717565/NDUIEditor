@@ -103,8 +103,9 @@ local function Reskin_SummaryIcon(self)
 end
 
 local function Reskin_ListHeader(self)
+	local headers = {self.HeaderContainer:GetChildren()}
 	local maxHeaders = self.HeaderContainer:GetNumChildren()
-	for index, header in pairs {self.HeaderContainer:GetChildren()} do
+	for index, header in pairs(headers) do
 		if header then
 			if not header.bg then
 				header:DisableDrawLayer("BACKGROUND")

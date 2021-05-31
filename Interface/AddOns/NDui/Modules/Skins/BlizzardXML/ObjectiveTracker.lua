@@ -87,7 +87,8 @@ local function Reskin_ContentTracker()
 	local widgetContainer = ScenarioStageBlock.WidgetContainer
 	if not widgetContainer then return end
 
-	for _, widgetFrame in pairs {widgetContainer:GetChildren()} do
+	local widgets = {widgetContainer:GetChildren()}
+	for _, widgetFrame in pairs(widgets) do
 		if not widgetFrame then return end
 
 		local frame = widgetFrame.Frame
@@ -112,7 +113,8 @@ local function Reskin_ContentTracker()
 
 		local currencyContainer = widgetFrame.CurrencyContainer
 		if currencyContainer then
-			for _, child in pairs {currencyContainer:GetChildren()} do
+			local children = {currencyContainer:GetChildren()}
+			for _, child in pairs(children) do
 				if child and not child.styled then
 					B.ReskinIcon(child.Icon)
 
