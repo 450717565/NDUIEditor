@@ -470,7 +470,8 @@ do
 		end
 
 		if self.GetRegions then
-			for index, region in pairs {self:GetRegions()} do
+			local regions = {self:GetRegions()}
+			for index, region in pairs(regions) do
 				if region and region.IsObjectType and region:IsObjectType("Texture") then
 					if kill and type(kill) == "boolean" then
 						B.HideObject(region)

@@ -235,7 +235,8 @@ function Maps:RecycleBin()
 	}
 
 	local function KillMinimapButton(child, name)
-		for _, region in pairs {child:GetRegions()} do
+		local regions = {child:GetRegions()}
+		for _, region in pairs(regions) do
 			if region:IsObjectType("Texture") then
 				local texture = region:GetTexture() or ""
 				if removedTextures[texture] or strfind(texture, "Interface\\CharacterFrame") or strfind(texture, "Interface\\Minimap") then
@@ -403,7 +404,8 @@ function Maps:ShowCalendar()
 			GameTimeFrame:SetPoint("BOTTOMRIGHT", Minimap, 1, 18)
 			GameTimeFrame:SetHitRectInsets(0, 0, 0, 0)
 
-			for _, region in pairs {GameTimeFrame:GetRegions()} do
+			local regions = {GameTimeFrame:GetRegions()}
+			for _, region in pairs(regions) do
 				if region and region.SetTextColor then
 					region:SetFont(unpack(DB.Font))
 					B.ReskinText(region, cr, cg, cb)

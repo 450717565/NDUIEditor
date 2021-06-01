@@ -55,6 +55,8 @@ local function Reskin_Region(self, fType)
 end
 
 local function Reskin_ChildButton(self)
+	if not self then return end
+
 	local children = {self:GetChildren()}
 	for _, child in pairs(children) do
 		if child:IsObjectType("Button") and child.Text then
@@ -64,7 +66,8 @@ local function Reskin_ChildButton(self)
 end
 
 local function Remove_Border(self)
-	for _, region in pairs {self:GetRegions()} do
+	local regions = {self:GetRegions()}
+	for _, region in pairs(regions) do
 		local texture = region.GetTexture and region:GetTexture()
 		if texture and texture ~= "" and type(texture) == "string" and texture:find("Quickslot2") then
 			region:SetTexture("")
@@ -151,16 +154,6 @@ local function Reskin_WAOptions()
 	B.ReskinFrame(snippets)
 	Reskin_ChildButton(snippets)
 
-	-- WeakAurasTemplates
-	hooksecurefunc(WeakAuras, "OpenTriggerTemplate", function()
-		local newView = frame.newView
-		if newView and not newView.styled then
-			Reskin_ChildButton(newView.frame)
-
-			newView.styled = true
-		end
-	end)
-
 	-- MoverSizer
 	local moversizer = frame.moversizer
 	B.CreateBDFrame(moversizer)
@@ -242,10 +235,9 @@ local function Reskin_WeakAuras()
 	if not WeakAuras then return end
 
 	-- WeakAurasTooltip
-	local tooltipAnchor = _G.WeakAurasTooltipImportButton:GetParent()
-	Reskin_ChildButton(tooltipAnchor)
-	B.ReskinRadio(WeakAurasTooltipRadioButtonCopy)
-	B.ReskinRadio(WeakAurasTooltipRadioButtonUpdate)
+	Reskin_ChildButton(_G.WeakAurasTooltipImportButton:GetParent())
+	B.ReskinRadio(_G.WeakAurasTooltipRadioButtonCopy)
+	B.ReskinRadio(_G.WeakAurasTooltipRadioButtonUpdate)
 
 	local index = 1
 	local check = _G["WeakAurasTooltipCheckButton"..index]
@@ -283,9 +275,27 @@ local function Reskin_WeakAuras()
 	end
 
 	-- WeakAurasOptions
+	local count = 0
 	local function loadFunc(event, addon)
 		if addon == "WeakAurasOptions" then
 			hooksecurefunc(WeakAuras, "ShowOptions", Reskin_WAOptions)
+			count = count + 1
+		end
+
+		if addon == "WeakAurasTemplates" then
+			if WeakAuras.CreateTemplateView then
+				local origCreateTemplateView = WeakAuras.CreateTemplateView
+				WeakAuras.CreateTemplateView = function(...)
+					local group = origCreateTemplateView(...)
+					Reskin_ChildButton(group.frame)
+
+					return group
+				end
+			end
+			count = count + 1
+		end
+
+		if count >= 2 then
 			B:UnregisterEvent(event, loadFunc)
 		end
 	end

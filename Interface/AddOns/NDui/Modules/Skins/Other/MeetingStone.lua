@@ -10,7 +10,7 @@ local TT = B:GetModule("Tooltip")
 
 local function strToPath(str)
 	local path = {}
-	for v in string.gmatch(str, "([^\.]+)") do
+	for v in string.gmatch(str, "([^%.]+)") do
 		table.insert(path, v)
 	end
 	return path
@@ -29,7 +29,8 @@ local function StripMS_Textures(self)
 	if self.NineSlice then self.NineSlice:Hide() end
 
 	if self.GetRegions then
-		for _, region in pairs {self:GetRegions()} do
+		local regions = {self:GetRegions()}
+		for _, region in pairs(regions) do
 			if region and region.IsObjectType and region:IsObjectType("Texture") then
 				region:SetAlpha(0)
 				region:Hide()
@@ -63,89 +64,6 @@ local function ReskinMS_ALFrame()
 		B.ReskinButton(ALFrameButton)
 
 		ALFrame.styled = true
-	end
-end
-
-local function Reskin_AutoCompleteFrame(self)
-	for i = 1, #self.buttons do
-		local button = self:GetButton(i)
-		if button and button:IsShown() then
-			if not button.styled then
-				B.StripTextures(button)
-				B.ReskinButton(button)
-
-				button.styled = true
-			end
-		end
-	end
-end
-
-local function Reskin_DropMenu(self, level, ...)
-	level = level or 1
-	local menu = self.menuList[level]
-	if menu and not menu.styled then
-		TT.ReskinTooltip(menu)
-
-		local scrollBar = menu.GetScrollBar and menu:GetScrollBar()
-		if scrollBar then B.ReskinScroll(scrollBar) end
-
-		menu.styled = true
-	end
-end
-
-local function Reskin_DropMenuItem(self)
-	self.Arrow:SetTexture(DB.arrowTex.."right")
-	self.Arrow:SetSize(14, 14)
-end
-
-local function Reskin_TabView(self)
-	for i = 1, self:GetItemCount() do
-		local tab = self:GetButton(i)
-		if not tab.styled then
-			B.ReskinTab(tab)
-
-			if tab.Icon then
-				B.ReskinIcon(tab.Icon)
-			end
-
-			tab.styled = true
-		end
-
-		if tab.Icon then
-			tab.Icon:SetTexture(413584)
-		end
-
-		local point = tab:GetPoint()
-		if point == "BOTTOMLEFT" then
-			if i > 1 then
-				tab:ClearAllPoints()
-				tab:SetPoint("LEFT", self:GetButton(i-1), "RIGHT", -(15+C.mult), 0)
-			end
-		end
-	end
-end
-
-local function Reskin_ListView(self)
-	for i = 1, #self.buttons do
-		local button = self:GetButton(i)
-		if button and button:IsShown() then
-			if not button.styled then
-				B.StripTextures(button)
-				B.ReskinButton(button)
-				B.ReskinHighlight(button:GetCheckedTexture(), button, true)
-
-				if button.Option then
-					B.ReskinButton(button.Option.InviteButton)
-					B.ReskinDecline(button.Option.DeclineButton)
-				end
-
-				if button.Summary then
-					B.ReskinDecline(button.Summary.CancelButton)
-				end
-
-				button.styled = true
-			end
-		end
 	end
 end
 
@@ -204,7 +122,19 @@ function Skins:MeetingStone()
 	B.StripTextures(AutoCompleteFrame)
 	B.ReskinScroll(AutoCompleteFrame:GetScrollBar())
 
-	hooksecurefunc(AutoCompleteFrame, "UpdateItems", Reskin_AutoCompleteFrame)
+	hooksecurefunc(AutoCompleteFrame, "UpdateItems", function(self)
+		for i = 1, #self.buttons do
+			local button = self:GetButton(i)
+			if button and button:IsShown() then
+				if not button.styled then
+					B.StripTextures(button)
+					B.ReskinButton(button)
+
+					button.styled = true
+				end
+			end
+		end
+	end)
 
 	-- CreatePanel
 	local CreatePanel = MSEnv.CreatePanel
@@ -282,14 +212,53 @@ function Skins:MeetingStone()
 
 	-- DropMenu
 	local DropMenu = GUI:GetClass("DropMenu")
-	hooksecurefunc(DropMenu, "Open", Reskin_DropMenu)
+	hooksecurefunc(DropMenu, "Open", function(self, level, ...)
+		level = level or 1
+		local menu = self.menuList[level]
+		if menu and not menu.styled then
+			TT.ReskinTooltip(menu)
+
+			local scrollBar = menu.GetScrollBar and menu:GetScrollBar()
+			if scrollBar then B.ReskinScroll(scrollBar) end
+
+			menu.styled = true
+		end
+	end)
 
 	local DropMenuItem = GUI:GetClass("DropMenuItem")
-	hooksecurefunc(DropMenuItem, "SetHasArrow", Reskin_DropMenuItem)
+	hooksecurefunc(DropMenuItem, "SetHasArrow", function(self)
+		self.Arrow:SetTexture(DB.arrowTex.."right")
+		self.Arrow:SetSize(14, 14)
+	end)
 
 	-- Tab
 	local TabView = GUI:GetClass("TabView")
-	hooksecurefunc(TabView, "UpdateItems", Reskin_TabView)
+	hooksecurefunc(TabView, "UpdateItems", function(self)
+		for i = 1, self:GetItemCount() do
+			local tab = self:GetButton(i)
+			if not tab.styled then
+				B.ReskinTab(tab)
+
+				if tab.Icon then
+					B.ReskinIcon(tab.Icon)
+				end
+
+				tab.styled = true
+			end
+
+			if tab.Icon then
+				tab.Icon:SetTexture(413584)
+			end
+
+			local point = tab:GetPoint()
+			if point == "BOTTOMLEFT" then
+				if i > 1 then
+					tab:ClearAllPoints()
+					tab:SetPoint("LEFT", self:GetButton(i-1), "RIGHT", -(15+C.mult), 0)
+				end
+			end
+		end
+	end)
 
 	-- GridView
 	local GridViews = {
@@ -321,7 +290,29 @@ function Skins:MeetingStone()
 	end
 
 	local ListView = GUI:GetClass("ListView")
-	hooksecurefunc(ListView, "UpdateItems", Reskin_ListView)
+	hooksecurefunc(ListView, "UpdateItems", function(self)
+		for i = 1, #self.buttons do
+			local button = self:GetButton(i)
+			if button and button:IsShown() then
+				if not button.styled then
+					B.StripTextures(button)
+					B.ReskinButton(button)
+					B.ReskinHighlight(button:GetCheckedTexture(), button, true)
+
+					if button.Option then
+						B.ReskinButton(button.Option.InviteButton)
+						B.ReskinDecline(button.Option.DeclineButton)
+					end
+
+					if button.Summary then
+						B.ReskinDecline(button.Summary.CancelButton)
+					end
+
+					button.styled = true
+				end
+			end
+		end
+	end)
 
 	-- EditBox
 	local EditBoxes = {
@@ -358,23 +349,6 @@ function Skins:MeetingStone()
 					ReskinMS_Button(child)
 				end
 			end
-
-			for _, blocker in pairs(MallPanel.blockers) do
-				blocker:HookScript("OnShow", function(self)
-					if not self.styled then
-						local children = {self:GetChildren()}
-						for _, child in pairs(children) do
-							if child:IsObjectType("Button") and child.Text then
-								B.Reskin(child)
-							elseif child.ScrollBar then
-								B.ReskinScroll(child.ScrollBar)
-							end
-						end
-
-						self.styled = true
-					end
-				end)
-			end
 		end
 
 		local RewardPanel = MS:GetModule("RewardPanel", true)
@@ -385,7 +359,25 @@ function Skins:MeetingStone()
 
 		local WalkthroughPanel = MS:GetModule("WalkthroughPanel", true)
 		if WalkthroughPanel then
-			B.ReskinScroll(WalkthroughPanel.SummaryHtml.ScrollBar)
+			for _, key in pairs {"CategoryList", "SummaryHtml"} do
+				local widget = WalkthroughPanel[key] and WalkthroughPanel[key]:GetParent()
+				if widget then
+					B.StripTextures(widget)
+					B.CreateBDFrame(widget)
+
+					local children = {widget:GetChildren()}
+					for _, child in pairs(children) do
+						if child.layoutType and child.layoutType == "InsetFrameTemplate" then
+							B.StripTextures(child)
+						end
+					end
+				end
+
+				local scrollBar = WalkthroughPanel[key] and WalkthroughPanel[key].ScrollBar
+				if scrollBar then
+					B.ReskinScroll(scrollBar)
+				end
+			end
 		end
 
 		local ActivitiesSummary = MSEnv.ActivitiesSummary
@@ -399,11 +391,7 @@ function Skins:MeetingStone()
 
 			local Summary = ActivitiesSummary.Summary
 			B.ReskinScroll(Summary.ScrollBar)
-
-			local SummaryWidget = Summary:GetParent()
-			if SummaryWidget then
-				B.CreateBDFrame(SummaryWidget)
-			end
+			B.CreateBDFrame(Summary:GetParent())
 		end
 
 		local ActivitiesParent = MSEnv.ActivitiesParent
@@ -503,6 +491,42 @@ function Skins:MeetingStone()
 		end
 
 		B.ReskinFrame(PlayerInfoDialog)
+	end
+
+	-- Feedback
+	local Feedback = GUI.Feedback
+	if Feedback then
+		Feedback:HookScript("OnShow", function(self)
+			if not self.styled then
+				B.ReskinFrame(self)
+				B.ReskinButton(self.SendButton)
+				B.ReskinInput(self.Text)
+				B.CreateMF(self)
+
+				self.styled = true
+			end
+		end)
+	end
+
+	-- Blocker
+	for _, blocker in pairs(MSEnv.MainPanel.blockers) do
+		blocker:HookScript("OnShow", function(self)
+			if not self.styled then
+				local children = {self:GetChildren()}
+				for _, child in pairs(children) do
+					if child:IsObjectType("Button") and child.Text then
+						B.ReskinButton(child)
+					elseif child.ScrollBar then
+						B.ReskinScroll(child.ScrollBar)
+					elseif child.btnKnow and child.Header then
+						B.ReskinButton(child.btnKnow)
+						select(2, child:GetRegions()):SetTextColor(1, 1, 1)
+					end
+				end
+
+				self.styled = true
+			end
+		end)
 	end
 
 	-- MeetingStonePlus
