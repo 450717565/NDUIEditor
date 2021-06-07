@@ -28,7 +28,7 @@ local function Reskin_Progressbar(_, _, line)
 
 	if not bar.styled then
 		B.ReskinStatusBar(bar)
-		B.SmoothBar(bar)
+		B.SmoothSB(bar)
 
 		bar:ClearAllPoints()
 		bar:SetPoint("LEFT", 22, 0)

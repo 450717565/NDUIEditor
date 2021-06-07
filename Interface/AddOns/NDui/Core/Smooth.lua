@@ -78,7 +78,7 @@ local function bar_SetSmoothedMinMaxValues(self, min, max)
 	self._max = max
 end
 
-function B.SmoothBar(bar)
+function B.SmoothSB(bar)
 	bar._min, bar._max = bar:GetMinMaxValues()
 	bar._value = bar:GetValue()
 
@@ -94,7 +94,7 @@ function B.SmoothBar(bar)
 	end
 end
 
-function B.DesmoothBar(bar)
+function B.DesmoothSB(bar)
 	if activeObjects[bar] then
 		bar:SetValue_(activeObjects[bar])
 		activeObjects[bar] = nil

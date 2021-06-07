@@ -86,35 +86,58 @@ local function IsTrackingHidden()
 end
 
 local ignoreQuestNPC = {
-	[88570] = true,		-- Fate-Twister Tiklal
-	[87391] = true,		-- Fate-Twister Seress
-	[111243] = true,	-- Archmage Lan'dalock
-	[108868] = true,	-- Hunter's order hall
-	[101462] = true,	-- Reaves
-	[43929] = true,		-- 4000
-	[14847] = true,		-- DarkMoon
-	[119388] = true,	-- 酋长哈顿
-	[114719] = true,	-- 商人塞林
-	[121263] = true,	-- 大技师罗姆尔
-	[126954] = true,	-- 图拉扬
-	[124312] = true,	-- 图拉扬
-	[103792] = true,	-- 格里伏塔
-	[101880] = true,	-- 泰克泰克
-	[141584] = true,	-- 祖尔温
-	[142063] = true,	-- 特兹兰
-	[143388] = true,	-- 德鲁扎
-	[98489] = true,		-- 海难俘虏
-	[135690] = true,	-- 亡灵舰长
-	[105387] = true,	-- 安杜斯
-	[93538] = true,		-- 达瑞妮斯
-	[154534] = true,	-- 大杂院阿畅
-	[150987] = true,	-- 肖恩·维克斯，斯坦索姆
-	[150563] = true,	-- 斯卡基特，麦卡贡订单日常
-	[143555] = true,	-- 山德·希尔伯曼，祖达萨PVP军需官
-	[168430] = true,	-- 戴克泰丽丝，格里恩挑战
-	[160248] = true,	-- 档案员费安，罪魂碎片
-	[127037] = true,	-- 纳毕鲁
-	[326027] = true,	-- 运输站回收生成器DX-82
+	-- 考古学训练师
+	[ 44238] = true, -- 哈里森·琼斯
+	[ 47571] = true, -- 贝洛克·辉刃
+	[ 93538] = true, -- 博学者达瑞妮斯
+
+	-- 传送门训练师
+	[ 29156] = true, -- 大法师塞琳德拉
+	[131443] = true, -- 首席传送师欧库勒斯
+	[143172] = true, -- 伊薇拉·晨翼 <阿拉希高地>
+	[143380] = true, -- 伊薇拉·晨翼
+	[143381] = true, -- 德鲁扎·虚空之牙 <阿拉希高地>
+	[143388] = true, -- 德鲁扎·虚空之牙
+
+	-- 命运大师
+	[ 87391] = true, -- 命运扭曲者赛瑞斯
+	[ 88570] = true, -- 命运扭曲者提拉尔
+	[111243] = true, -- 大法师兰达洛克
+	[141584] = true, -- 祖尔温
+	[142063] = true, -- 特兹兰
+
+	-- 荣耀印记军需官
+	[143555] = true, -- 山德·希尔伯曼 <部落>
+	[143560] = true, -- 加布里埃尔元帅 <联盟>
+
+	-- 麦卡贡订单日常
+	[149813] = true, -- 吉拉·交线 <联盟>
+	[150563] = true, -- 斯卡基特 <部落>
+
+	-- 布林顿
+	[ 43929] = true, -- 4000
+	[ 77789] = true, -- 5000
+	[101527] = true, -- 6000
+	[153897] = true, -- 7000
+
+	-- 其他
+	[ 14847] = true, -- 萨杜斯·帕雷教授 <暗月卡片商人>
+	[101462] = true, -- 里弗斯
+	[101880] = true, -- 泰克泰克
+	[103792] = true, -- 格里伏塔 <绝世宝物商人>
+	[108868] = true, -- 塔鲁瓦 <雄鹰管理员>
+	[114719] = true, -- 商人塞林
+	[119388] = true, -- 酋长哈顿
+	[121263] = true, -- 大技师罗姆尔
+	[124312] = true, -- 大主教图拉扬
+	[126954] = true, -- 大主教图拉扬
+	[127037] = true, -- 纳毕鲁
+	[135690] = true, -- 亡灵舰长塔特赛尔
+	[150987] = true, -- 肖恩·维克斯，斯坦索姆
+	[154534] = true, -- 阿畅 <电涌保护者>
+	[160248] = true, -- 档案员费安，罪魂碎片
+	[168430] = true, -- 戴克泰丽丝 <晋升之路工匠>
+	[326027] = true, -- 回收生成器DX-82
 }
 
 QuickQuest:Register("QUEST_GREETING", function()
@@ -144,16 +167,16 @@ QuickQuest:Register("QUEST_GREETING", function()
 end)
 
 local ignoreGossipNPC = {
-	-- Bodyguards
-	[86945] = true, -- Aeda Brightdawn (Horde)
-	[86933] = true, -- Vivianne (Horde)
-	[86927] = true, -- Delvar Ironfist (Alliance)
-	[86934] = true, -- Defender Illona (Alliance)
-	[86682] = true, -- Tormmok
-	[86964] = true, -- Leorajh
-	[86946] = true, -- Talonpriest Ishaal
+	-- 保镖
+	[86682] = true, -- 高里亚退役百夫长
+	[86927] = true, -- 暴风之盾死亡骑士
+	[86933] = true, -- 战争之矛魔导师
+	[86934] = true, -- 沙塔尔防御者
+	[86945] = true, -- 誓日术士
+	[86946] = true, -- 流亡者鸦爪祭司
+	[86964] = true, -- 血鬃缚地者
 
-	-- Sassy Imps
+	-- 邪能小鬼
 	[95139] = true,
 	[95141] = true,
 	[95142] = true,
@@ -164,37 +187,41 @@ local ignoreGossipNPC = {
 	[95200] = true,
 	[95201] = true,
 
-	-- Misc NPCs
-	[79740] = true, -- Warmaster Zog (Horde)
-	[79953] = true, -- Lieutenant Thorn (Alliance)
-	[84268] = true, -- Lieutenant Thorn (Alliance)
-	[84511] = true, -- Lieutenant Thorn (Alliance)
-	[84684] = true, -- Lieutenant Thorn (Alliance)
-	[117871] = true, -- War Councilor Victoria (Class Challenges @ Broken Shore)
-	[155101] = true, -- 元素精华融合器
-	[155261] = true, -- 肖恩·维克斯，斯坦索姆
+	-- 任务专员
+	[79740] = true, -- 战争大师佐格
+	[79953] = true, -- 索恩中尉
+	[84268] = true, -- 索恩中尉
+	[90250] = true, -- 格雷森·沙东布瑞克公爵
+	[93568] = true, -- 女妖希奥克丝
+	[98002] = true, -- 啸天者欧穆隆
+
+	-- 向导招募员
+	[172558] = true, -- 艾拉·引路者
+	[172572] = true, -- 瑟蕾丝特·贝利文科
+
+	-- 其他
+	[117871] = true, -- 军事顾问维多利亚
 	[150122] = true, -- 荣耀堡法师
 	[150131] = true, -- 萨尔玛法师
-
-	[173021] = true, -- 刻符牛头人
+	[155101] = true, -- 元素精华融合器
+	[155261] = true, -- 肖恩·维克斯，斯坦索姆
 	[171589] = true, -- 德莱文将军
 	[171787] = true, -- 文官阿得赖斯提斯
 	[171795] = true, -- 月莓女勋爵
 	[171821] = true, -- 德拉卡女男爵
-	[172558] = true, -- 艾拉·引路者（导师）
-	[172572] = true, -- 瑟蕾丝特·贝利文科（导师）
+	[173021] = true, -- 刻符牛头人
 	[175513] = true, -- 纳斯利亚审判官，傲慢
 }
 
 local rogueClassHallInsignia = {
-	[97004] = true, -- "Red" Jack Findle
-	[96782] = true, -- Lucian Trias
-	[93188] = true, -- Mongar
+	[93188] = true, -- 墨戈 <采矿商人>
+	[96782] = true, -- 鲁希安·提亚斯 <面包与奶酪商人>
+	[97004] = true, -- “红发”杰克·芬德 <材料供应商>
 }
 
 local followerAssignees = {
-	[138708] = true, -- 半兽人迦罗娜
 	[135614] = true, -- 马迪亚斯·肖尔大师
+	[138708] = true, -- 半兽人迦罗娜
 }
 
 QuickQuest:Register("GOSSIP_SHOW", function()
@@ -248,9 +275,9 @@ QuickQuest:Register("GOSSIP_SHOW", function()
 end)
 
 local darkmoonNPC = {
-	[57850] = true, -- Teleportologist Fozlebub
-	[55382] = true, -- Darkmoon Faire Mystic Mage (Horde)
-	[54334] = true, -- Darkmoon Faire Mystic Mage (Alliance)
+	[57850] = true, -- 传送技师弗兹尔巴布
+	[55382] = true, -- 暗月马戏团秘法师 <部落>
+	[54334] = true, -- 暗月马戏团秘法师 <联盟>
 }
 
 QuickQuest:Register("GOSSIP_CONFIRM", function(index)

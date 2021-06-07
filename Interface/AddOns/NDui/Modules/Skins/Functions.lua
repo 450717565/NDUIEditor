@@ -182,33 +182,24 @@ do
 		end
 	end
 
-	-- Reskin SortButton
-	function Skins:ReskinSort()
-		local bg = B.CreateBDFrame(self, 0, -C.mult)
-		B.ReskinHighlight(self, bg)
-
-		self:SetSize(26, 26)
-		self:SetNormalTexture("Interface\\Icons\\INV_Pet_Broom")
-		self:SetPushedTexture("Interface\\Icons\\INV_Pet_Broom")
-		self:GetNormalTexture():SetTexCoord(tL, tR, tT, tB)
-		self:GetPushedTexture():SetTexCoord(tL, tR, tT, tB)
-	end
-
-	function Skins:ReskinOptions(types)
+	function Skins:ReskinOptions()
 		for _, name in pairs(self) do
-			local options = _G[name]
-			if not options then
-				if DB.isDeveloper then print(options, "not found.") end
-			else
-				if types == "bt" then
-					B.ReskinButton(options)
-				elseif types == "cb" then
-					B.ReskinCheck(options)
-				elseif types == "dd" then
-					B.ReskinDropDown(options)
-				elseif types == "sd" then
-					B.ReskinSlider(options)
+			local panel = _G[name]
+			if panel then
+				local children = {panel:GetChildren()}
+				for _, child in pairs(children) do
+					if child:IsObjectType("CheckButton") then
+						B.ReskinCheck(child)
+					elseif child:IsObjectType("Button") then
+						B.ReskinButton(child)
+					elseif child:IsObjectType("Slider") then
+						B.ReskinSlider(child)
+					elseif child:IsObjectType("Frame") and child.Left and child.Middle and child.Right then
+						B.ReskinDropDown(child)
+					end
 				end
+			else
+				if DB.isDeveloper then print(name, "not found.") end
 			end
 		end
 	end

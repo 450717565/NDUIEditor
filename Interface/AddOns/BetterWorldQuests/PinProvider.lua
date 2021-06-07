@@ -254,7 +254,7 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 		self.Text:SetFormattedText("%d", numItems)
 		self.Text:SetTextColor(r, g, b)
 	elseif numMoney > 0 then
-		SetPortraitToTexture(self.Texture, "Interface\\Icons\\inv_misc_coin_01")
+		SetPortraitToTexture(self.Texture, "Interface\\Icons\\inv_misc_coin_02")
 		self.Texture:SetSize(self:GetSize())
 
 		local copper = GetQuestLogRewardMoney(questID)

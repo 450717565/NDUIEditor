@@ -139,10 +139,10 @@ local list = {
 		{AuraID = 345801, UnitID = "player"}, -- 释魂红玉
 		{AuraID = 348139, UnitID = "player"}, -- 导师的圣钟
 		-- isNewPatch
-	--	{AuraID = 351872, UnitID = "player"}, -- 钢铁尖刺
-	--	{AuraID = 355316, UnitID = "player"}, -- 安海尔德之盾
-	--	{AuraID = 356326, UnitID = "player"}, -- 折磨洞察
-	--	{AuraID = 355333, UnitID = "player"}, -- 回收的聚变增幅器
+		--{AuraID = 351872, UnitID = "player"}, -- 钢铁尖刺
+		--{AuraID = 355316, UnitID = "player"}, -- 安海尔德之盾
+		--{AuraID = 356326, UnitID = "player"}, -- 折磨洞察
+		--{AuraID = 355333, UnitID = "player"}, -- 回收的聚变增幅器
 		-- 盟约
 		{AuraID = 308495, UnitID = "player"}, -- 共鸣箭
 		{AuraID = 310143, UnitID = "player", Combat = true}, -- 灵魂变形
@@ -343,10 +343,10 @@ local list = {
 		{AuraID =    498, UnitID = "target"}, -- 圣佑术
 		{AuraID =    642, UnitID = "target"}, -- 圣盾术
 		{AuraID =    871, UnitID = "target"}, -- 盾墙
-		{AuraID =   5277, UnitID = "target"}, -- 闪避
-		{AuraID =   1044, UnitID = "target"}, -- 自由祝福
-		{AuraID =   6940, UnitID = "target"}, -- 牺牲祝福
 		{AuraID =   1022, UnitID = "target"}, -- 保护祝福
+		{AuraID =   1044, UnitID = "target"}, -- 自由祝福
+		{AuraID =   5277, UnitID = "target"}, -- 闪避
+		{AuraID =   6940, UnitID = "target"}, -- 牺牲祝福
 		{AuraID =  19574, UnitID = "target"}, -- 狂野怒火
 		{AuraID =  23920, UnitID = "target"}, -- 法术反射
 		{AuraID =  31884, UnitID = "target"}, -- 复仇之怒
@@ -354,32 +354,32 @@ local list = {
 		{AuraID =  45438, UnitID = "target"}, -- 寒冰屏障
 		{AuraID =  47585, UnitID = "target"}, -- 消散
 		{AuraID =  47788, UnitID = "target"}, -- 守护之魂
-		{AuraID =  48792, UnitID = "target"}, -- 冰封之韧
 		{AuraID =  48707, UnitID = "target"}, -- 反魔法护罩
+		{AuraID =  48792, UnitID = "target"}, -- 冰封之韧
 		{AuraID =  61336, UnitID = "target"}, -- 生存本能
-		{AuraID = 197690, UnitID = "target"}, -- 防御姿态
-		{AuraID = 147833, UnitID = "target"}, -- 援护
-		{AuraID = 186265, UnitID = "target"}, -- 灵龟守护
+		{AuraID = 104773, UnitID = "target"}, -- 不灭决心
 		{AuraID = 113862, UnitID = "target"}, -- 强化隐形术
-		{AuraID = 118038, UnitID = "target"}, -- 剑在人在
 		{AuraID = 114050, UnitID = "target"}, -- 升腾 元素
 		{AuraID = 114051, UnitID = "target"}, -- 升腾 增强
 		{AuraID = 114052, UnitID = "target"}, -- 升腾 恢复
-		{AuraID = 204018, UnitID = "target"}, -- 破咒祝福
-		{AuraID = 205191, UnitID = "target"}, -- 以眼还眼 惩戒
-		{AuraID = 104773, UnitID = "target"}, -- 不灭决心
-		{AuraID = 199754, UnitID = "target"}, -- 还击
+		{AuraID = 118038, UnitID = "target"}, -- 剑在人在
 		{AuraID = 120954, UnitID = "target"}, -- 壮胆酒
 		{AuraID = 122278, UnitID = "target"}, -- 躯不坏
 		{AuraID = 122783, UnitID = "target"}, -- 散魔功
-		{AuraID = 188499, UnitID = "target"}, -- 刃舞
-		{AuraID = 210152, UnitID = "target"}, -- 刃舞
-		{AuraID = 247938, UnitID = "target"}, -- 混乱之刃
-		{AuraID = 212800, UnitID = "target"}, -- 疾影
-		{AuraID = 162264, UnitID = "target"}, -- 恶魔变形
-		{AuraID = 187827, UnitID = "target"}, -- 恶魔变形
 		{AuraID = 125174, UnitID = "target"}, -- 业报之触
+		{AuraID = 147833, UnitID = "target"}, -- 援护
+		{AuraID = 162264, UnitID = "target"}, -- 恶魔变形
 		{AuraID = 171607, UnitID = "target"}, -- 爱情光线
+		{AuraID = 186265, UnitID = "target"}, -- 灵龟守护
+		{AuraID = 187827, UnitID = "target"}, -- 恶魔变形
+		{AuraID = 188499, UnitID = "target"}, -- 刃舞
+		{AuraID = 197690, UnitID = "target"}, -- 防御姿态
+		{AuraID = 199754, UnitID = "target"}, -- 还击
+		{AuraID = 204018, UnitID = "target"}, -- 破咒祝福
+		{AuraID = 205191, UnitID = "target"}, -- 以眼还眼 惩戒
+		{AuraID = 210152, UnitID = "target"}, -- 刃舞
+		{AuraID = 212800, UnitID = "target"}, -- 疾影
+		{AuraID = 247938, UnitID = "target"}, -- 混乱之刃
 		{AuraID = 228323, UnitID = "target", Value = true}, -- 克罗塔的护盾
 	},
 	["Focus Aura"] = { -- 焦点光环组

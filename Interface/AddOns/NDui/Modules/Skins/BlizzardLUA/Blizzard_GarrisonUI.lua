@@ -1131,8 +1131,9 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 								if reward.currencyID == 0 then
 									r, g, b = 1, 1, 0
 								else
-									local ci_1 = C_CurrencyInfo.GetCurrencyContainerInfo(reward.currencyID, reward.quantity or 1)
-									r, g, b = GetItemQualityColor(ci_1.quality or 1)
+									local ci_1 = C_CurrencyInfo.GetBasicCurrencyInfo(reward.currencyID)
+									local ci_2 = C_CurrencyInfo.GetCurrencyInfo(reward.currencyID)
+									r, g, b = GetItemQualityColor((ci_1 and ci_1.quality) or (ci_2 and ci_2.quality))
 								end
 							elseif reward.itemID then
 								local itemQuality = select(3,GetItemInfo(reward.itemLink or reward.itemID))

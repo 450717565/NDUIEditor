@@ -128,16 +128,15 @@ function UF:UpdateHealthBarColor(self, force)
 end
 
 function UF:CreateHealthBar(self)
-	local mystyle = self.mystyle
-	local health = CreateFrame("StatusBar", nil, self)
+	local health = B.CreateSB(self, false, .1, .1, .1)
 	health:SetFrameLevel(self:GetFrameLevel())
 	health:SetPoint("TOPLEFT", self)
 	health:SetPoint("TOPRIGHT", self)
-
-	B.CreateSB(health, false, .1, .1, .1)
-	B.SmoothBar(health)
+	B.SmoothSB(health)
 
 	local healthHeight
+	local mystyle = self.mystyle
+
 	if mystyle == "playerplate" then
 		healthHeight = C.db["Nameplate"]["PPHealthHeight"]
 	elseif mystyle == "raid" then
@@ -291,16 +290,15 @@ function UF:UpdatePowerBarColor(self, force)
 end
 
 function UF:CreatePowerBar(self)
-	local mystyle = self.mystyle
-	local power = CreateFrame("StatusBar", nil, self)
+	local power = B.CreateSB(self)
 	power:SetFrameLevel(self:GetFrameLevel())
 	power:SetPoint("BOTTOMLEFT", self)
 	power:SetPoint("BOTTOMRIGHT", self)
-
-	B.CreateSB(power)
-	B.SmoothBar(power)
+	B.SmoothSB(power)
 
 	local powerHeight
+	local mystyle = self.mystyle
+
 	if mystyle == "playerplate" then
 		powerHeight = C.db["Nameplate"]["PPPowerHeight"]
 	elseif mystyle == "raid" then
@@ -490,9 +488,8 @@ function UF:CreateCastBar(self)
 	local mystyle = self.mystyle
 	if mystyle ~= "nameplate" and not C.db["UFs"]["Castbars"] then return end
 
-	local cb = CreateFrame("StatusBar", "oUF_Castbar"..mystyle, self)
+	local cb = B.CreateSB(self, true)
 	cb:SetSize(self:GetWidth(), self:GetHeight())
-	B.CreateSB(cb, true)
 
 	if mystyle == "player" then
 		cb:SetFrameLevel(10)
@@ -1102,10 +1099,9 @@ function UF:CreateClassPower(self)
 
 	local bars = {}
 	for i = 1, 6 do
-		bars[i] = CreateFrame("StatusBar", nil, bar)
+		bars[i] = B.CreateSB(bar)
 		bars[i]:SetHeight(barHeight)
 		bars[i]:SetWidth((barWidth - 5*C.margin) / 6)
-		B.CreateSB(bars[i])
 
 		if i == 1 then
 			bars[i]:SetPoint("BOTTOMLEFT")
@@ -1153,12 +1149,10 @@ end
 function UF:StaggerBar(self)
 	if DB.MyClass ~= "MONK" then return end
 
-	local stagger = CreateFrame("StatusBar", nil, self.Health)
+	local stagger = B.CreateSB(self)
 	stagger:SetSize(barWidth, barHeight)
 	stagger:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.margin)
-
-	B.CreateSB(stagger)
-	B.SmoothBar(stagger)
+	B.SmoothSB(stagger)
 
 	local text = B.CreateFS(stagger, 14)
 	text:SetJustifyH("CENTER")
@@ -1179,13 +1173,11 @@ function UF.PostUpdateAddPower(element, cur, max)
 end
 
 function UF:CreateAddPower(self)
-	local bar = CreateFrame("StatusBar", nil, self)
+	local bar = B.CreateSB(self)
 	bar:SetPoint("TOPLEFT", self.Power, "BOTTOMLEFT", 0, -C.margin)
 	bar:SetPoint("TOPRIGHT", self.Power, "BOTTOMRIGHT", 0, -C.margin)
 	bar:SetHeight(barHeight)
-
-	B.CreateSB(bar)
-	B.SmoothBar(bar)
+	B.SmoothSB(bar)
 
 	bar.bg:SetAlpha(1)
 	bar.bg.multiplier = .25
@@ -1219,13 +1211,11 @@ function UF.PostUpdateAltPower(element, _, cur, _, max)
 end
 
 function UF:CreateAltPower(self)
-	local bar = CreateFrame("StatusBar", nil, self)
+	local bar = B.CreateSB(self)
 	bar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, C.margin)
 	bar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, C.margin)
 	bar:SetHeight(barHeight)
-
-	B.CreateSB(bar)
-	B.SmoothBar(bar)
+	B.SmoothSB(bar)
 
 	local text = B.CreateFS(bar, 14)
 	text:SetJustifyH("CENTER")
@@ -1236,13 +1226,11 @@ function UF:CreateAltPower(self)
 end
 
 function UF:CreateExpRepBar(self)
-	local bar = CreateFrame("StatusBar", nil, self)
+	local bar = B.CreateSB(self)
 	bar:SetPoint("TOPLEFT", self, "TOPRIGHT", 5, 0)
-	bar:SetPoint("BOTTOMRIGHT", self.Power, "BOTTOMRIGHT", 10, 0)
+	bar:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 10, 0)
 	bar:SetOrientation("VERTICAL")
-
-	B.CreateSB(bar)
-	B.SmoothBar(bar)
+	B.SmoothSB(bar)
 
 	local rest = CreateFrame("StatusBar", nil, bar)
 	rest:SetAllPoints(bar)
@@ -1322,21 +1310,18 @@ function UF:CreateSwing(self)
 	bar:SetSize(width, 3)
 	bar:SetPoint("TOP", self.Castbar.mover, "BOTTOM", 0, -5)
 
-	local two = CreateFrame("StatusBar", nil, bar)
+	local two = B.CreateSB(bar, true, .8, .8, .8)
 	two:Hide()
 	two:SetAllPoints()
-	B.CreateSB(two, true, .8, .8, .8)
 
-	local main = CreateFrame("StatusBar", nil, bar)
+	local main = B.CreateSB(bar, true, .8, .8, .8)
 	main:Hide()
 	main:SetAllPoints()
-	B.CreateSB(main, true, .8, .8, .8)
 
-	local off = CreateFrame("StatusBar", nil, bar)
+	local off = B.CreateSB(bar, true, .8, .8, .8)
 	off:Hide()
 	off:SetPoint("TOPLEFT", bar, "BOTTOMLEFT", 0, -3)
 	off:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", 0, -6)
-	B.CreateSB(off, true, .8, .8, .8)
 
 	if C.db["UFs"]["SwingTimer"] then
 		bar.Text = B.CreateFS(bar, 12)
@@ -1354,9 +1339,8 @@ end
 function UF:CreateQuakeTimer(self)
 	if not C.db["UFs"]["Castbars"] then return end
 
-	local bar = CreateFrame("StatusBar", nil, self)
+	local bar = B.CreateSB(self, true, 0, 1, 0)
 	bar:SetSize(C.db["UFs"]["PlayerCBWidth"], C.db["UFs"]["PlayerCBHeight"])
-	B.CreateSB(bar, true, 0, 1, 0)
 	bar:Hide()
 
 	bar.SpellName = B.CreateFS(bar, 12, "", false, "LEFT", 2, 0)

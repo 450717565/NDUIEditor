@@ -371,13 +371,14 @@ function Misc:MawWidgetFrame()
 	if not C.db["Misc"]["MawThreatBar"] then return end
 	if Misc.mawbar then return end
 
-	local bar = CreateFrame("StatusBar", nil, UIParent)
+	local bar = B.CreateSB(UIParent)
 	bar:SetPoint("TOP", 0, -50)
 	bar:SetSize(200, 16)
 	bar:SetMinMaxValues(0, maxValue)
+	B.SmoothSB(bar)
+
 	bar.text = B.CreateFS(bar, 14)
-	B.CreateSB(bar)
-	B.SmoothBar(bar)
+
 	Misc.mawbar = bar
 
 	B.Mover(bar, L["MawThreatBar"], "MawThreatBar", {"TOP", UIParent, 0, -40})

@@ -100,28 +100,30 @@ local function Reskin_Style(self)
 	label:SetPoint("BOTTOMRIGHT", self.candyBarBar, "BOTTOMRIGHT", -2, 8)
 end
 
-local function Set_Style(self, style)
-	if style ~= "NDui" then
-		self:SetBarStyle("NDui")
-	end
-end
+local styleData = {
+	apiVersion = 1,
+	version = 3,
+	GetSpacing = function(bar) return bar:GetHeight()+5 end,
+	ApplyStyle = Reskin_Style,
+	BarStopped = Remove_Style,
+	fontSizeNormal = 13,
+	fontSizeEmphasized = 14,
+	fontOutline = "OUTLINE",
+	GetStyleName = function() return "NDui" end,
+}
 
-local function Register_Style()
+local function registerStyle()
 	if not BigWigsAPI then return end
-	BigWigsAPI:RegisterBarStyle("NDui", {
-		apiVersion = 1,
-		version = 3,
-		GetSpacing = function(bar) return bar:GetHeight()+5 end,
-		ApplyStyle = Reskin_Style,
-		BarStopped = Remove_Style,
-		fontSizeNormal = 13,
-		fontSizeEmphasized = 14,
-		fontOutline = "OUTLINE",
-		GetStyleName = function() return "NDui" end,
-	})
 
-	local bars = BigWigs:GetPlugin("Bars", true)
-	hooksecurefunc(bars, "SetBarStyle", Set_Style)
+	BigWigsAPI:RegisterBarStyle("NDui", styleData)
+	-- Force to use NDui style
+	local pending = true
+	hooksecurefunc(BigWigsAPI, "GetBarStyle", function(_, key)
+		if pending then
+			BigWigsAPI.GetBarStyle = function() return styleData end
+			pending = nil
+		end
+	end)
 end
 
 function Skins:BigWigs()

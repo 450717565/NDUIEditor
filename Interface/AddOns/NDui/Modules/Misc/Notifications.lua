@@ -517,14 +517,14 @@ function Misc:NVision_Create()
 	}
 
 	for i, v in ipairs(barData) do
-		local bar = CreateFrame("StatusBar", nil, frame)
+		local bar = B.CreateSB(frame, nil, unpack(v.color))
 		bar:SetSize(80, 20)
 		bar:SetPoint(v.anchorF, frame, "CENTER", v.offset, 0)
 		bar:SetMinMaxValues(0, v.maxValue)
 		bar:SetValue(0)
 		bar:SetReverseFill(v.reverse)
-		B.SmoothBar(bar)
-		B.CreateSB(bar, nil, unpack(v.color))
+		B.SmoothSB(bar)
+
 		bar.text = B.CreateFS(bar, 16, "0/"..v.maxValue, nil, "CENTER", 0, 0)
 
 		local icon = CreateFrame("Frame", nil, bar)

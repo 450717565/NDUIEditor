@@ -1740,31 +1740,35 @@ do
 
 	-- StatusBar
 	function B:CreateSB(spark, r, g, b)
-		self:SetStatusBarTexture(DB.normTex)
+		local bar = CreateFrame("StatusBar", nil, self)
+		bar:SetStatusBarTexture(DB.normTex)
+
 		if r and g and b then
-			self:SetStatusBarColor(r, g, b)
+			bar:SetStatusBarColor(r, g, b)
 		else
-			self:SetStatusBarColor(cr, cg, cb)
+			bar:SetStatusBarColor(cr, cg, cb)
 		end
 
-		local bd = B.CreateBDFrame(self, 0, -C.mult, true)
-		self.bd = bd
+		local bd = B.CreateBDFrame(bar, 0, -C.mult, true)
+		bar.bd = bd
 
-		local bg = self:CreateTexture(nil, "BACKGROUND")
+		local bg = bar:CreateTexture(nil, "BACKGROUND")
 		bg:SetInside(bd)
 		bg:SetTexture(DB.normTex)
 		bg:SetVertexColor(0, 0, 0, .25)
-		self.bg = bg
+		bar.bg = bg
 
 		if spark then
-			self.Spark = self:CreateTexture(nil, "OVERLAY")
-			self.Spark:SetTexture(DB.sparkTex)
-			self.Spark:SetBlendMode("ADD")
-			self.Spark:SetAlpha(C.alpha)
-			self.Spark:ClearAllPoints()
-			self.Spark:SetPoint("TOPLEFT", self:GetStatusBarTexture(), "TOPRIGHT", -10, 10)
-			self.Spark:SetPoint("BOTTOMRIGHT", self:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -10)
+			bar.Spark = bar:CreateTexture(nil, "OVERLAY")
+			bar.Spark:SetTexture(DB.sparkTex)
+			bar.Spark:SetBlendMode("ADD")
+			bar.Spark:SetAlpha(C.alpha)
+			bar.Spark:ClearAllPoints()
+			bar.Spark:SetPoint("TOPLEFT", bar:GetStatusBarTexture(), "TOPRIGHT", -10, 10)
+			bar.Spark:SetPoint("BOTTOMRIGHT", bar:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -10)
 		end
+
+		return bar
 	end
 
 	-- Gear

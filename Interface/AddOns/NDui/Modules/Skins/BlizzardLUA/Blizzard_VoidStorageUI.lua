@@ -1,7 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-local function Reskin_Button(self)
+local function Reskin_ItemButton(self)
 	B.CleanTextures(self)
 
 	local icbg = B.ReskinIcon(self.icon)
@@ -16,7 +16,7 @@ end
 
 C.LUAThemes["Blizzard_VoidStorageUI"] = function()
 	local bg = B.ReskinFrame(VoidStorageBorderFrame)
-	--bg:SetFrameLevel(0)
+	bg:SetFrameLevel(0)
 
 	B.ReskinFrame(VoidStoragePurchaseFrame)
 
@@ -36,20 +36,17 @@ C.LUAThemes["Blizzard_VoidStorageUI"] = function()
 		B.StripTextures(list)
 	end
 
-	local buttons = {
-		"VoidStorageDepositButton",
-		"VoidStorageWithdrawButton",
-	}
-	for _, buttons in pairs(buttons) do
-		for i = 1, 9 do
-			local button = _G[buttons..i]
-			Reskin_Button(button)
-		end
+	for i = 1, 9 do
+		local deposit = _G["VoidStorageDepositButton"..i]
+		Reskin_ItemButton(deposit)
+
+		local withdraw = _G["VoidStorageWithdrawButton"..i]
+		Reskin_ItemButton(withdraw)
 	end
 
 	for i = 1, 80 do
-		local button = _G["VoidStorageStorageButton"..i]
-		Reskin_Button(button)
+		local storage = _G["VoidStorageStorageButton"..i]
+		Reskin_ItemButton(storage)
 	end
 
 	for i = 1, 2 do

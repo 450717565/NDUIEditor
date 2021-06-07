@@ -5,7 +5,7 @@ local Auras = B:GetModule("Auras")
 local maxFrames = 12 -- Max Tracked Auras
 local updater = CreateFrame("Frame")
 local AuraList, FrameList, UnitIDTable, IntTable, IntCD, myTable, cooldownTable = {}, {}, {}, {}, {}, {}, {}
-local pairs, select, tinsert, tremove, wipe = pairs, select, table.insert, table.remove, table.wipe
+local pairs, select, tinsert, tremove, wipe, strfind = pairs, select, table.insert, table.remove, table.wipe, strfind
 local InCombatLockdown, UnitBuff, UnitDebuff, GetPlayerInfoByGUID, UnitInRaid, UnitInParty = InCombatLockdown, UnitBuff, UnitDebuff, GetPlayerInfoByGUID, UnitInRaid, UnitInParty
 local GetTime, GetSpellInfo, GetSpellCooldown, GetSpellCharges, GetTotemInfo, IsPlayerSpell = GetTime, GetSpellInfo, GetSpellCooldown, GetSpellCharges, GetTotemInfo, IsPlayerSpell
 local GetItemCooldown, GetItemInfo, GetInventoryItemLink, GetInventoryItemCooldown = GetItemCooldown, GetItemInfo, GetInventoryItemLink, GetInventoryItemCooldown
@@ -18,7 +18,11 @@ local function DataAnalyze(v)
 	if type(v[1]) == "number" then
 		newTable.IntID = v[1]
 		newTable.Duration = v[2]
-		if v[3] == "OnCastSuccess" then newTable.OnSuccess = true end
+		if v[3] == "OnCastSuccess" then
+			newTable.OnSuccess = true
+		elseif v[3] == "UnitCastSucceed" then
+			newTable.CastSucceed = true
+		end
 		newTable.UnitID = v[4]
 		newTable.ItemID = v[5]
 	else
@@ -229,19 +233,22 @@ local function BuildBAR(barWidth, iconSize)
 	frame.Icon:SetInside(frame.bubg)
 	frame.Icon:SetTexCoord(tL, tR, tT, tB)
 
-	frame.Statusbar = CreateFrame("StatusBar", nil, frame)
+	frame.Statusbar = B.CreateSB(frame, true)
 	frame.Statusbar:SetSize(barWidth, iconSize/2.5)
 	frame.Statusbar:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", C.margin, 0)
 	frame.Statusbar:SetMinMaxValues(0, 1)
 	frame.Statusbar:SetValue(0)
-	B.CreateSB(frame.Statusbar, true)
 
 	frame.Count = B.CreateFS(frame, 14, "", false, "BOTTOMRIGHT", 2, -2)
+	frame.Count:SetJustifyH("RIGHT")
+
 	frame.Time = B.CreateFS(frame.Statusbar, 14, "", false, "RIGHT", 2, 8)
 	frame.Time:SetJustifyH("LEFT")
+
 	frame.Spellname = B.CreateFS(frame.Statusbar, 14, "", false, "LEFT", 2, 8)
 	frame.Spellname:SetWidth(frame.Statusbar:GetWidth()*.6)
 	frame.Spellname:SetJustifyH("LEFT")
+
 	if not C.db["AuraWatch"]["ClickThrough"] then enableTooltip(frame) end
 
 	frame:Hide()
@@ -604,22 +611,40 @@ end
 
 local cache = {}
 local soundKitID = SOUNDKIT.ALARM_CLOCK_WARNING_3
-function Auras:AuraWatch_UpdateInt(_, ...)
+function Auras:AuraWatch_UpdateInt(event, ...)
 	if not IntCD.List then return end
 
-	local timestamp, eventType, _, sourceGUID, sourceName, sourceFlags, _, destGUID, destName, destFlags, _, spellID = ...
-	local value = IntCD.List[spellID]
-	if value and cache[timestamp] ~= spellID and Auras:IsAuraTracking(value, eventType, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags) then
-		local guid, name = destGUID, destName
-		if value.OnSuccess then guid, name = sourceGUID, sourceName end
+	if event == "UNIT_SPELLCAST_SUCCEEDED" then
+		local unit, _, spellID = ...
+		local value = IntCD.List[spellID]
+		if value and value.CastSucceed and unit then
+			local unitID = value.UnitID:lower()
+			local guid = UnitGUID(unit)
+			local isPassed
+			if unitID == "all" and (unit == "player" or strfind(unit, "pet") or UnitInRaid(unit) or UnitInParty(unit) or not GetPlayerInfoByGUID(guid)) then
+				isPassed = true
+			elseif unitID == "player" and (unit == "player" or unit == "pet") then
+				isPassed = true
+			end
+			if isPassed then
+				Auras:AuraWatch_SetupInt(value.IntID, value.ItemID, value.Duration, value.UnitID, guid, UnitName(unit))
+			end
+		end
+	else
+		local timestamp, eventType, _, sourceGUID, sourceName, sourceFlags, _, destGUID, destName, destFlags, _, spellID = ...
+		local value = IntCD.List[spellID]
+		if value and cache[timestamp] ~= spellID and Auras:IsAuraTracking(value, eventType, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags) then
+			local guid, name = destGUID, destName
+			if value.OnSuccess then guid, name = sourceGUID, sourceName end
 
-		Auras:AuraWatch_SetupInt(value.IntID, value.ItemID, value.Duration, value.UnitID, guid, name)
-		if C.db["AuraWatch"]["QuakeRing"] and spellID == 240447 then PlaySound(soundKitID, "Master") end -- 'Ding' on quake
+			Auras:AuraWatch_SetupInt(value.IntID, value.ItemID, value.Duration, value.UnitID, guid, name)
+			if C.db["AuraWatch"]["QuakeRing"] and spellID == 240447 then PlaySound(soundKitID, "Master") end -- 'Ding' on quake
 
-		cache[timestamp] = spellID
+			cache[timestamp] = spellID
+		end
+
+		if #cache > 666 then wipe(cache) end
 	end
-
-	if #cache > 666 then wipe(cache) end
 end
 
 -- CleanUp
@@ -644,6 +669,7 @@ end
 function Auras.AuraWatch_OnEvent(event, ...)
 	if not C.db["AuraWatch"]["Enable"] then
 		B:UnregisterEvent("PLAYER_ENTERING_WORLD", Auras.AuraWatch_OnEvent)
+		B:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED", Auras.AuraWatch_OnEvent)
 		B:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED", Auras.AuraWatch_OnEvent)
 		return
 	end
@@ -657,6 +683,7 @@ function Auras.AuraWatch_OnEvent(event, ...)
 	end
 end
 B:RegisterEvent("PLAYER_ENTERING_WORLD", Auras.AuraWatch_OnEvent)
+B:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", Auras.AuraWatch_OnEvent)
 B:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED", Auras.AuraWatch_OnEvent)
 
 function Auras:AuraWatch_OnUpdate(elapsed)

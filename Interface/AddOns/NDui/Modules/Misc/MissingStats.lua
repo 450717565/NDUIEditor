@@ -68,6 +68,7 @@ function Misc:MissingStats()
 				{stat = "DODGE", hideAt = 0, roles = { "TANK" }},
 				{stat = "BLOCK", hideAt = 0, roles = { "TANK" }},
 				{stat = "PARRY", hideAt = 0, roles = { "TANK" }},
+				{stat = "SPEED", hideAt = 0 }
 			},
 		},
 	}
@@ -82,6 +83,7 @@ function Misc:MissingStats()
 		[STAT_LIFESTEAL] = true,
 		[STAT_MASTERY] = true,
 		[STAT_PARRY] = true,
+		[STAT_SPEED] = true,
 		[STAT_VERSATILITY] = true,
 	}
 

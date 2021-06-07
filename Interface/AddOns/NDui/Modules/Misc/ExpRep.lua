@@ -250,18 +250,17 @@ end
 function Misc:Expbar()
 	if not C.db["Misc"]["ExpRep"] then return end
 
-	local bar = CreateFrame("StatusBar", nil, MinimapCluster)
+	local bar = B.CreateSB(MinimapCluster)
 	bar:SetPoint("TOPLEFT", Minimap, "BOTTOMLEFT", 0, -5)
 	bar:SetPoint("TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -5)
 	bar:SetHeight(6)
 	bar:SetHitRectInsets(0, 0, 0, -10)
-	B.CreateSB(bar)
+	B.SmoothSB(bar)
 
 	local rest = CreateFrame("StatusBar", nil, bar)
 	rest:SetAllPoints()
 	rest:SetStatusBarTexture(DB.normTex)
 	rest:SetStatusBarColor(0, .4, 1, .6)
-	rest:SetFrameLevel(bar:GetFrameLevel() - 1)
 	bar.restBar = rest
 
 	Misc:SetupScript(bar)

@@ -455,30 +455,24 @@ local function GetFilterButton(key)
 		local button = CreateFrame("Button", nil, QuestMapFrame.QuestsFrame.Contents)
 		button.filter = key
 
+		button:SetSize(24, 24)
+		button:RegisterForClicks("LeftButtonUp","RightButtonUp")
+
 		button:SetScript("OnEnter", FilterButton_OnEnter)
 		button:SetScript("OnLeave", FilterButton_OnLeave)
-		button:RegisterForClicks("LeftButtonUp","RightButtonUp")
 		button:SetScript("OnClick", FilterButton_OnClick)
 
-		button:SetSize(24, 24)
+		button:SetNormalAtlas("worldquest-tracker-ring")
+		button:SetHighlightAtlas("worldquest-tracker-ring")
+		button:GetHighlightTexture():SetAlpha(0.5)
 
-		if key == "SORT" then
-			button:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Up")
-			button:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Down")
-			button:SetDisabledTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Disabled")
-			button:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
-		else
-			button:SetNormalAtlas("worldquest-tracker-ring")
-			button:SetHighlightAtlas("worldquest-tracker-ring")
-			button:GetHighlightTexture():SetAlpha(0.4)
+		local icon = button:CreateTexture(nil, "BACKGROUND", nil, -1)
+		icon:SetMask("Interface\\CharacterFrame\\TempPortraitAlphaMask")
+		icon:SetSize(16, 16)
+		icon:SetPoint("CENTER", 0, 1)
+		icon:SetTexture(Mod.Filters[key].icon or "inv_misc_questionmark")
+		button.Icon = icon
 
-			local icon = button:CreateTexture(nil, "BACKGROUND", nil, -1)
-			icon:SetMask("Interface\\CharacterFrame\\TempPortraitAlphaMask")
-			icon:SetSize(16, 16)
-			icon:SetPoint("CENTER", 0, 1)
-			icon:SetTexture(Mod.Filters[key].icon or "inv_misc_questionmark")
-			button.Icon = icon
-		end
 		filterButtons[index] = button
 	end
 	return filterButtons[index]
@@ -543,6 +537,7 @@ local function QuestFrame_AddQuestButton(questInfo)
 	local difficultyColor = GetQuestDifficultyColor( UnitLevel("player") + TitleButton_RarityColorTable[questTagInfo.quality] )
 
 	button.Text:SetText(title)
+	button.Text:SetWordWrap(false)
 	button.Text:SetTextColor( difficultyColor.r, difficultyColor.g, difficultyColor.b )
 
 	totalHeight = totalHeight + button.Text:GetHeight()
@@ -595,14 +590,13 @@ local function QuestFrame_AddQuestButton(questInfo)
 		button.TimeIcon:Hide()
 	end
 
-	local tagText, tagTexture, tagTexCoords, tagColor
+	local tagText, tagTexture, tagColor
 	tagColor = {r=1, g=1, b=1}
 
 	local money = GetQuestLogRewardMoney(questID)
 	if ( money > 0 ) then
 		local gold = floor(money / (COPPER_PER_GOLD))
-		tagTexture = "Interface\\MoneyFrame\\UI-MoneyIcons"
-		tagTexCoords = { 0, 0.25, 0, 1 }
+		tagTexture = "Interface\\Icons\\INV_Misc_Coin_01"
 		tagText = BreakUpLargeNumbers(gold)
 		button.rewardCategory = "GOLD"
 		button.rewardValue = gold
@@ -616,7 +610,6 @@ local function QuestFrame_AddQuestButton(questInfo)
 			if currencyID ~= CURRENCYID_WAR_SUPPLIES and currencyID ~= CURRENCYID_NETHERSHARD then
 				tagText = numItems
 				tagTexture = texture
-				tagTexCoords = nil
 				if currencyID == CURRENCYID_AZERITE then
 					tagColor = BAG_ITEM_QUALITY_COLORS[Enum.ItemQuality.Artifact]
 				end
@@ -633,7 +626,6 @@ local function QuestFrame_AddQuestButton(questInfo)
 		if itemName and itemTexture then
 			local iLevel = Addon.Data:RewardItemLevel(itemID, questID)
 			tagTexture = itemTexture
-			tagTexCoords = nil
 			if iLevel then
 				tagText = iLevel
 				tagColor = BAG_ITEM_QUALITY_COLORS[quality]
@@ -666,18 +658,11 @@ local function QuestFrame_AddQuestButton(questInfo)
 		button.TagTexture:Show()
 		button.TagTexture:SetTexture(tagTexture)
 	end
-	if tagTexture then
-		if tagTexCoords then
-			button.TagTexture:SetTexCoord( unpack(tagTexCoords) )
-		else
-			button.TagTexture:SetTexCoord(.08, .92, .08, .92)
 
-			if NDui and not button.styled then
-				B.CreateBDFrame(button.TagTexture, 0, -C.mult)
+	if NDui and not button.styled then
+		B.ReskinIcon(button.TagTexture)
 
-				button.styled = true
-			end
-		end
+		button.styled = true
 	end
 
 	button:SetHeight(totalHeight)
@@ -993,7 +978,7 @@ local function QuestFrame_Update()
 					filterButton:SetPoint("RIGHT", prevFilter, "LEFT", 5, 0)
 					filterButton:SetPoint("TOP", prevButton, "TOP", 0, 3)
 				else
-					filterButton:SetPoint("RIGHT", 1, 0)
+					filterButton:SetPoint("RIGHT", prevButton.ButtonText, -3, 0)
 					filterButton:SetPoint("TOP", prevButton, "TOP", 0, 3)
 				end
 
@@ -1157,33 +1142,33 @@ function Mod:BeforeStartup()
 	self.Filters = {}
 	self.FiltersOrder = {}
 
-	self:AddFilter("EMISSARY", BOUNTY_BOARD_LOCKED_TITLE, "achievement_reputation_01")
-	self:AddFilter("TIME", CLOSES_IN, "ability_bossmagistrix_timewarp2")
-	--self:AddFilter("ZONE", Addon.Locale.CURRENT_ZONE, "inv_misc_map02") -- ZONE
-	self:AddFilter("TRACKED", TRACKING, "icon_treasuremap")
-	self:AddFilter("FACTION", FACTION, "achievement_reputation_06", true)
+	-- self:AddFilter("ZONE", Addon.Locale.CURRENT_ZONE, "inv_misc_map02") -- ZONE
 	-- self:AddFilter("ARTIFACT_POWER", ARTIFACT_POWER, "inv_7xp_inscription_talenttome01", true)
-	self:AddFilter("LOOT", BONUS_ROLL_REWARD_ITEM, "inv_misc_lockboxghostiron", true)
-	self:AddFilter("CONDUIT", Addon.Locale.CODUIT_ITEMS, "Spell_Shadow_SoulGem", true)
-	self:AddFilter("ANIMA", ANIMA, "Spell_AnimaBastion_Orb", true)
-
-	self:AddCurrencyFilter("ORDER_RESOURCES", CURRENCYID_RESOURCES, true)
+	-- self:AddFilter("PVP", PVP, "pvpcurrency-honor-horde")
 	-- self:AddCurrencyFilter("WAR_SUPPLIES", CURRENCYID_WAR_SUPPLIES)
 	-- self:AddCurrencyFilter("NETHERSHARD", CURRENCYID_NETHERSHARD)
 	-- self:AddCurrencyFilter("VEILED_ARGUNITE", CURRENCYID_VEILED_ARGUNITE)
-	self:AddCurrencyFilter("WAKENING_ESSENCE", CURRENCYID_WAKENING_ESSENCE)
+
+	self:AddFilter("ANIMA", ANIMA, "Spell_AnimaBastion_Orb", true)
+	self:AddFilter("CONDUIT", Addon.Locale.CODUIT_ITEMS, "Ability_NightFae_SoulShape", true)
+	self:AddFilter("DUNGEON", GROUP_FINDER, "INV_Misc_Summonable_Boss_Token")
+	self:AddFilter("EMISSARY", BOUNTY_BOARD_LOCKED_TITLE, "Achievement_Reputation_ArgentCrusader")
+	self:AddFilter("GOLD", BONUS_ROLL_REWARD_MONEY, "INV_Misc_Coin_01")
+	self:AddFilter("ITEMS", ITEMS, "INV_Misc_OrnateBox", true)
+	self:AddFilter("LOOT", BONUS_ROLL_REWARD_ITEM, "inv_misc_lockboxghostiron", true)
+	self:AddFilter("PETBATTLE", SHOW_PET_BATTLES_ON_MAP_TEXT, "tracking_wildpet")
+	self:AddFilter("PROFESSION", TRADE_SKILLS, "70_professions_scroll_02", true)
+	self:AddFilter("RARE", ITEM_QUALITY3_DESC, "achievement_general_stayclassy")
+	self:AddFilter("TIME", CLOSES_IN, "SPELL_HOLY_BORROWEDTIME")
+	self:AddFilter("TRACKED", TRACKING, "INV_Misc_Map_01")
+
+	self:AddFilter("FACTION", FACTION, "Achievement_Reputation_01")
+	self:AddFilter("SORT", RAID_FRAME_SORT_LABEL, "achievement_guildperk_quick and dead")
 
 	self:AddCurrencyFilter("AZERITE", CURRENCYID_AZERITE)
+	self:AddCurrencyFilter("ORDER_RESOURCES", CURRENCYID_RESOURCES, true)
+	self:AddCurrencyFilter("WAKENING_ESSENCE", CURRENCYID_WAKENING_ESSENCE)
 	self:AddCurrencyFilter("WAR_RESOURCES", CURRENCYID_WAR_RESOURCES)
-
-	self:AddFilter("GOLD", BONUS_ROLL_REWARD_MONEY, "inv_misc_coin_01")
-	self:AddFilter("ITEMS", ITEMS, "inv_box_01")
-	-- self:AddFilter("PVP", PVP, "pvpcurrency-honor-horde")
-	self:AddFilter("PROFESSION", TRADE_SKILLS, "inv_misc_note_01", true)
-	self:AddFilter("PETBATTLE", SHOW_PET_BATTLES_ON_MAP_TEXT, "tracking_wildpet", true)
-	self:AddFilter("RARE", ITEM_QUALITY3_DESC, "achievement_general_stayclassy")
-	self:AddFilter("DUNGEON", GROUP_FINDER, "inv_misc_summonable_boss_token")
-	self:AddFilter("SORT", RAID_FRAME_SORT_LABEL, "inv_misc_map_01")
 
 	-- if UnitFactionGroup("player") == "Alliance" then self.Filters.PVP.icon = "Interface\\Icons\\pvpcurrency-honor-alliance" end
 

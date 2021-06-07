@@ -1,7 +1,6 @@
 <Ui>
 	<Script file="AddonList.lua"/>
 	<Script file="AlertFrames.lua"/>
-	<Script file="BankFrame.lua"/>
 	<Script file="CharacterFrame.lua"/>
 	<Script file="ChatConfigFrame.lua"/>
 	<Script file="ChatFrame.lua"/>

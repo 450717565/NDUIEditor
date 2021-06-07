@@ -10,4 +10,5 @@
 
 BetterWorldQuests.xml
 PinProvider.lua
-Argus.xml
+Argus\Argus.xml
+Helpers\Helpers.xml

@@ -6,7 +6,7 @@ local cr, cg, cb = DB.cr, DB.cg, DB.cb
 -- ChatFrame
 local homeTex = "Interface\\Buttons\\UI-HomeButton"
 
-local function Reskin_ScrollBar(self)
+local function Reskin_ChatScrollBar(self)
 	local thumb = _G[self:GetDebugName().."ThumbTexture"]
 	thumb:SetAlpha(0)
 	thumb:SetWidth(18)
@@ -47,7 +47,7 @@ tinsert(C.XMLThemes, function()
 	for i = 1, NUM_CHAT_WINDOWS do
 		local frame = "ChatFrame"..i
 
-		Reskin_ScrollBar(_G[frame])
+		Reskin_ChatScrollBar(_G[frame])
 		B.StripTextures(_G[frame.."Tab"])
 	end
 end)
@@ -224,10 +224,11 @@ end)
 
 -- TextToSpeech
 local function Reskin_TextToSpeechFrame()
-	local checkBoxNameString = "TextToSpeechFramePanelContainerChatTypeContainerCheckBox"
-	local checkBoxName, checkBox
 	local checkBoxTable = TextToSpeechFramePanelContainerChatTypeContainer.checkBoxTable
 	if checkBoxTable then
+		local checkBoxNameString = "TextToSpeechFramePanelContainerChatTypeContainerCheckBox"
+		local checkBoxName, checkBox
+
 		for index, value in ipairs(checkBoxTable) do
 			checkBoxName = checkBoxNameString..index
 			checkBox = _G[checkBoxName]
@@ -236,24 +237,6 @@ local function Reskin_TextToSpeechFrame()
 
 				checkBox.styled = true
 			end
-		end
-	end
-end
-
-local function Reskin_VoicePicker()
-	local children = {self.ScrollBox.ScrollTarget:GetChildren()}
-	for _, child in pairs(children) do
-		if child and not child.styled then
-			child.UnCheck:SetTexture(nil)
-			child.Highlight:SetColorTexture(cr, cg, cb, .25)
-
-			local check = child.Check
-			check:SetColorTexture(cr, cg, cb, .25)
-			check:SetSize(10, 10)
-			check:SetPoint("LEFT", 2, 0)
-			B.CreateBDFrame(check)
-
-			child.styled = true
 		end
 	end
 end
@@ -268,19 +251,26 @@ tinsert(C.XMLThemes, function()
 		TextToSpeechFramePanelContainerChatTypeContainer:SetBackdrop(nil)
 		B.CreateBDFrame(TextToSpeechFramePanelContainerChatTypeContainer)
 
-		B.ReskinButton(TextToSpeechFramePlaySampleButton)
-		B.ReskinButton(TextToSpeechFrameDefaults)
-		B.ReskinButton(TextToSpeechFrameOkay)
-
 		B.ReskinDropDown(TextToSpeechFrameTtsVoiceDropdown)
+		B.ReskinDropDown(TextToSpeechFrameTtsVoiceAlternateDropdown)
 		B.ReskinSlider(TextToSpeechFrameAdjustRateSlider)
 		B.ReskinSlider(TextToSpeechFrameAdjustVolumeSlider)
 
+		local buttons = {
+			"TextToSpeechFrameDefaults",
+			"TextToSpeechFrameOkay",
+			"TextToSpeechFramePlaySampleAlternateButton",
+			"TextToSpeechFramePlaySampleButton",
+		}
+		for _, button in pairs(buttons) do
+			B.ReskinButton(_G[button])
+		end
+
 		local checkboxes = {
-			"PlaySoundWhenEnteringChatWindowCheckButton",
+			"AddCharacterNameToSpeechCheckButton",
 			"PlayActivitySoundWhenNotFocusedCheckButton",
 			"PlaySoundSeparatingChatLinesCheckButton",
-			"AddCharacterNameToSpeechCheckButton",
+			"PlaySoundWhenEnteringChatWindowCheckButton",
 			"UseAlternateVoiceForSystemMessagesCheckButton",
 		}
 		for _, checkbox in pairs(checkboxes) do
@@ -288,12 +278,40 @@ tinsert(C.XMLThemes, function()
 		end
 
 		hooksecurefunc("TextToSpeechFrame_Update", Reskin_TextToSpeechFrame)
+	end
+end)
 
-		-- voice picker
-		local VoicePicker = TextToSpeechFramePanelContainer.VoicePicker
-		local customFrame = VoicePicker:GetChildren()
-		B.ReskinFrame(customFrame)
+-- VoicePicker
+local function Reskin_PickerOptions(self)
+	local scrollTarget = self.ScrollBox.ScrollTarget
+	if scrollTarget then
+		local children = {scrollTarget:GetChildren()}
+		for _, child in pairs(children) do
+			if child and not child.styled then
+				child.UnCheck:SetTexture(nil)
+				child.Highlight:SetColorTexture(cr, cg, cb, .25)
 
-		VoicePicker:HookScript("OnShow", Reskin_VoicePicker)
+				local check = child.Check
+				check:SetColorTexture(cr, cg, cb, .6)
+				check:SetSize(10, 10)
+				check:SetPoint("LEFT", 2, 0)
+				B.CreateBDFrame(check, .25)
+
+				child.styled = true
+			end
+		end
+	end
+end
+
+local function Reskin_VoicePicker(self)
+	local customFrame = self:GetChildren()
+	B.ReskinFrame(customFrame)
+	self:HookScript("OnShow", Reskin_PickerOptions)
+end
+
+tinsert(C.XMLThemes, function()
+	if DB.isNewPatch then
+		Reskin_VoicePicker(TextToSpeechFrameTtsVoicePicker)
+		Reskin_VoicePicker(TextToSpeechFrameTtsVoiceAlternatePicker)
 	end
 end)

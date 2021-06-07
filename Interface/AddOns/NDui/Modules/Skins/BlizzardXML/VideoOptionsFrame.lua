@@ -10,25 +10,42 @@ local function Reskin_AudioOptionsVoicePanel(self)
 	end
 end
 
+local function Reskin_PanelTitle(self)
+	local title = _G[self:GetDebugName().."Title"]
+
+	title:ClearAllPoints()
+	title:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 5, 2)
+end
+
 local function Reskin_VideoOptionsFrame(self)
 	if self.styled then return end
 
 	B.ReskinFrame(self)
 
-	local textures = {
+	local lists = {
+		Display_,
+		Graphics_,
+		RaidGraphics_,
 		AudioOptionsSoundPanelHardware,
 		AudioOptionsSoundPanelPlayback,
 		AudioOptionsSoundPanelVolume,
-		Display_,
-		Graphics_,
-		GraphicsButton,
-		RaidButton,
-		RaidGraphics_,
 		VideoOptionsFrameCategoryFrame,
 		VideoOptionsFramePanelContainer,
 	}
-	for _, texture in pairs(textures) do
-		B.StripTextures(texture)
+	for _, list in pairs(lists) do
+		B.StripTextures(list)
+	end
+
+	local lines = {
+		Advanced_DisplayHeaderUnderline,
+		Display_DisplayHeaderUnderline,
+		AudioOptionsSoundPanelDisplayHeaderUnderline,
+		AudioOptionsVoicePanelDisplayHeaderUnderline,
+		InterfaceOptionsLanguagesPanelDisplayHeaderUnderline,
+		NetworkOptionsPanelDisplayHeaderUnderline,
+	}
+	for _, line in pairs(lines) do
+		line:Hide()
 	end
 
 	local buttons = {
@@ -39,126 +56,8 @@ local function Reskin_VideoOptionsFrame(self)
 		"GraphicsButton",
 		"RaidButton",
 	}
-	S.ReskinOptions(buttons, "bt")
-
-	local dropdowns = {
-		"Advanced_AdapterDropDown",
-		"Advanced_BufferingDropDown",
-		"Advanced_FilteringDropDown",
-		"Advanced_GraphicsAPIDropDown",
-		"Advanced_MultisampleAlphaTest",
-		"Advanced_MultisampleAntiAliasingDropDown",
-		"Advanced_PhysicsInteractionDropDown",
-		"Advanced_PostProcessAntiAliasingDropDown",
-		"Advanced_ResampleQualityDropDown",
-		"Advanced_RTShadowQualityDropDown",
-		"Advanced_SSAOTypeDropDown",
-		"AudioOptionsSoundPanelHardwareDropDown",
-		"AudioOptionsSoundPanelSoundCacheSizeDropDown",
-		"AudioOptionsSoundPanelSoundChannelsDropDown",
-		"AudioOptionsVoicePanelChatModeDropdown",
-		"AudioOptionsVoicePanelMicDeviceDropdown",
-		"AudioOptionsVoicePanelOutputDeviceDropdown",
-		"Display_AntiAliasingDropDown",
-		"Display_DisplayModeDropDown",
-		"Display_PrimaryMonitorDropDown",
-		"Display_ResolutionDropDown",
-		"Display_VerticalSyncDropDown",
-		"Graphics_DepthEffectsDropDown",
-		"Graphics_LiquidDetailDropDown",
-		"Graphics_OutlineModeDropDown",
-		"Graphics_ParticleDensityDropDown",
-		"Graphics_ProjectedTexturesDropDown",
-		"Graphics_ShadowsDropDown",
-		"Graphics_SpellDensityDropDown",
-		"Graphics_SSAODropDown",
-		"Graphics_SunshaftsDropDown", -- isNewPatch, removed in 38627
-		"Graphics_TextureResolutionDropDown",
-		"InterfaceOptionsLanguagesPanelAudioLocaleDropDown",
-		"InterfaceOptionsLanguagesPanelLocaleDropDown",
-		"RaidGraphics_DepthEffectsDropDown",
-		"RaidGraphics_LiquidDetailDropDown",
-		"RaidGraphics_OutlineModeDropDown",
-		"RaidGraphics_ParticleDensityDropDown",
-		"RaidGraphics_ProjectedTexturesDropDown",
-		"RaidGraphics_ShadowsDropDown",
-		"RaidGraphics_SpellDensityDropDown",
-		"RaidGraphics_SSAODropDown",
-		"RaidGraphics_SunshaftsDropDown", -- isNewPatch, removed in 38627
-		"RaidGraphics_TextureResolutionDropDown",
-	}
-	if DB.isNewPatch then
-		tinsert(dropdowns, "Graphics_ComputeEffectsDropDown")
-		tinsert(dropdowns, "RaidGraphics_ComputeEffectsDropDown")
-		tremove(dropdowns, 31)
-		tremove(dropdowns, 43)
-	end
-	S.ReskinOptions(dropdowns, "dd")
-
-	local sliders = {
-		"Advanced_BrightnessSlider",
-		"Advanced_ContrastSlider",
-		"Advanced_GammaSlider",
-		"Advanced_MaxFPSBKSlider",
-		"Advanced_MaxFPSSlider",
-		"Advanced_TargetFPSSlider",
-		"AudioOptionsSoundPanelAmbienceVolume",
-		"AudioOptionsSoundPanelDialogVolume",
-		"AudioOptionsSoundPanelMasterVolume",
-		"AudioOptionsSoundPanelMusicVolume",
-		"AudioOptionsSoundPanelSoundVolume",
-		"AudioOptionsVoicePanelVoiceChatDucking",
-		"AudioOptionsVoicePanelVoiceChatMicSensitivity",
-		"AudioOptionsVoicePanelVoiceChatMicVolume",
-		"AudioOptionsVoicePanelVoiceChatVolume",
-		"Display_RenderScaleSlider",
-		"Display_UIScaleSlider",
-		"Graphics_EnvironmentalDetailSlider",
-		"Graphics_GroundClutterSlider",
-		"Graphics_Quality",
-		"Graphics_ViewDistanceSlider",
-		"RaidGraphics_EnvironmentalDetailSlider",
-		"RaidGraphics_GroundClutterSlider",
-		"RaidGraphics_Quality",
-		"RaidGraphics_ViewDistanceSlider",
-	}
-	S.ReskinOptions(sliders, "sd")
-
-	local checkboxes = {
-		"Advanced_MaxFPSBKCheckBox",
-		"Advanced_MaxFPSCheckBox",
-		"Advanced_TargetFPSCheckBox",
-		"AudioOptionsSoundPanelAmbientSounds",
-		"AudioOptionsSoundPanelDialogSounds",
-		"AudioOptionsSoundPanelEmoteSounds",
-		"AudioOptionsSoundPanelEnableSound",
-		"AudioOptionsSoundPanelErrorSpeech",
-		"AudioOptionsSoundPanelHRTF",
-		"AudioOptionsSoundPanelLoopMusic",
-		"AudioOptionsSoundPanelMusic",
-		"AudioOptionsSoundPanelPetBattleMusic",
-		"AudioOptionsSoundPanelPetSounds",
-		"AudioOptionsSoundPanelReverb",
-		"AudioOptionsSoundPanelSoundEffects",
-		"AudioOptionsSoundPanelSoundInBG",
-		"Display_RaidSettingsEnabledCheckBox",
-		"Display_UseUIScale",
-		"NetworkOptionsPanelAdvancedCombatLogging",
-		"NetworkOptionsPanelOptimizeSpeed",
-		"NetworkOptionsPanelUseIPv6",
-	}
-	S.ReskinOptions(checkboxes, "cb")
-
-	local lines = {
-		Advanced_DisplayHeaderUnderline,
-		AudioOptionsSoundPanelDisplayHeaderUnderline,
-		AudioOptionsVoicePanelDisplayHeaderUnderline,
-		Display_DisplayHeaderUnderline,
-		InterfaceOptionsLanguagesPanelDisplayHeaderUnderline,
-		NetworkOptionsPanelDisplayHeaderUnderline,
-	}
-	for _, line in pairs(lines) do
-		line:Hide()
+	for _, button in pairs(buttons) do
+		B.ReskinButton(_G[button])
 	end
 
 	for i = 1, 6 do
@@ -178,14 +77,24 @@ local function Reskin_VideoOptionsFrame(self)
 	B.StripTextures(testInputDevie.VUMeter)
 	B.ReskinStatusBar(testInputDevie.VUMeter.Status, true)
 
+	Reskin_PanelTitle(AudioOptionsSoundPanelPlayback)
+	Reskin_PanelTitle(AudioOptionsSoundPanelHardware)
+	Reskin_PanelTitle(AudioOptionsSoundPanelVolume)
+
 	VideoOptionsFrameOkay:ClearAllPoints()
 	VideoOptionsFrameOkay:SetPoint("BOTTOMRIGHT", VideoOptionsFrameCancel, "BOTTOMLEFT", -1, 0)
-	AudioOptionsSoundPanelPlaybackTitle:ClearAllPoints()
-	AudioOptionsSoundPanelPlaybackTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelPlayback, "TOPLEFT", 5, 2)
-	AudioOptionsSoundPanelHardwareTitle:ClearAllPoints()
-	AudioOptionsSoundPanelHardwareTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelHardware, "TOPLEFT", 5, 2)
-	AudioOptionsSoundPanelVolumeTitle:ClearAllPoints()
-	AudioOptionsSoundPanelVolumeTitle:SetPoint("BOTTOMLEFT", AudioOptionsSoundPanelVolume, "TOPLEFT", 5, 2)
+
+	local panels = {
+		"Advanced_",
+		"Display_",
+		"Graphics_",
+		"RaidGraphics_",
+		"AudioOptionsSoundPanel",
+		"AudioOptionsVoicePanel",
+		"InterfaceOptionsLanguagesPanel",
+		"NetworkOptionsPanel",
+	}
+	S.ReskinOptions(panels)
 
 	self.styled = true
 end

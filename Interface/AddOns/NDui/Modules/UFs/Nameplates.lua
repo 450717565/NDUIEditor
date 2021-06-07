@@ -666,10 +666,9 @@ function UF:CreateNamePlates()
 	self:SetPoint("CENTER")
 	self:SetScale(NDuiADB["UIScale"])
 
-	local health = CreateFrame("StatusBar", nil, self)
+	local health = B.CreateSB(self)
 	health:SetAllPoints()
-	B.CreateSB(health)
-	B.SmoothBar(health)
+	B.SmoothSB(health)
 
 	self.Health = health
 	self.Health.UpdateColor = UF.UpdateColor
