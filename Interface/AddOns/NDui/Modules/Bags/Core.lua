@@ -296,7 +296,7 @@ function Bags:CreateFreeSlots()
 
 	local slot = CreateFrame("Button", name.."FreeSlot", self)
 	local bubg = B.CreateBDFrame(slot)
-	B.ReskinHighlight(slot, bubg)
+	B.ReskinHLTex(slot, bubg)
 
 	slot:SetSize(self.iconSize, self.iconSize)
 	slot:SetScript("OnMouseUp", Bags.FreeSlotOnDrop)
@@ -671,7 +671,7 @@ function Bags:OnLogin()
 		B.CleanTextures(self)
 
 		self.bubg = B.CreateBDFrame(self)
-		B.ReskinHighlight(self, self.bubg)
+		B.ReskinHLTex(self, self.bubg)
 
 		self:SetSize(iconSize, iconSize)
 		self.Cooldown:SetInside(self.bubg)
@@ -977,7 +977,7 @@ function Bags:OnLogin()
 		B.CleanTextures(self)
 
 		self.bubg = B.CreateBDFrame(self)
-		B.ReskinHighlight(self, self.bubg)
+		B.ReskinHLTex(self, self.bubg)
 
 		self:SetSize(iconSize, iconSize)
 		self.Icon:SetTexCoord(tL, tR, tT, tB)

@@ -28,7 +28,7 @@ C.LUAThemes["Blizzard_ArtifactUI"] = function()
 			local SlotPool = AppearancesTab.appearanceSlotPool:Acquire()
 
 			local slotbg = B.CreateBDFrame(SlotPool)
-			B.ReskinHighlight(SlotPool, slotbg, false, true)
+			B.ReskinHLTex(SlotPool, slotbg, false, true)
 			B.ReskinSpecialBorder(SlotPool.Selected, slotbg, true)
 
 			SlotPool.Border:SetAlpha(0)

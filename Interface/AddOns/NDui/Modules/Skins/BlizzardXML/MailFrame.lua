@@ -103,7 +103,7 @@ tinsert(C.XMLThemes, function()
 		B.CleanTextures(bu)
 
 		local icbg = B.ReskinIcon(_G[button.."IconTexture"])
-		B.ReskinHighlight(bu, icbg)
+		B.ReskinHLTex(bu, icbg)
 	end
 
 	for i = 1, INBOXITEMS_TO_DISPLAY do
@@ -116,8 +116,8 @@ tinsert(C.XMLThemes, function()
 		B.StripTextures(button)
 
 		local icbg = B.ReskinIcon(_G[items.."Button".."Icon"])
-		B.ReskinHighlight(button, icbg)
-		B.ReskinChecked(button, icbg)
+		B.ReskinHLTex(button, icbg)
+		B.ReskinCPTex(button, icbg)
 
 		local border = _G[items.."Button".."IconBorder"]
 		B.ReskinBorder(border, icbg)
@@ -138,7 +138,7 @@ tinsert(C.XMLThemes, function()
 		B.CleanTextures(button)
 
 		local icbg = B.ReskinIcon(_G[buttons.."IconTexture"])
-		B.ReskinHighlight(button, icbg)
+		B.ReskinHLTex(button, icbg)
 
 		local border = button.IconBorder
 		B.ReskinBorder(border, icbg)
@@ -149,7 +149,7 @@ tinsert(C.XMLThemes, function()
 		B.StripTextures(button)
 
 		local bubg = B.CreateBDFrame(button)
-		B.ReskinHighlight(button, bubg)
+		B.ReskinHLTex(button, bubg)
 
 		local border = button.IconBorder
 		B.ReskinBorder(border, bubg)

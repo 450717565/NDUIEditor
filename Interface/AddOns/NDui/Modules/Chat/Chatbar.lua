@@ -200,7 +200,7 @@ function Chat:ChatBarBackground()
 	frame:SetPoint("LEFT", parent, "LEFT", -5, 0)
 	frame:SetSize(width, height)
 
-	local tex = B.CreateGA(frame, "H", 0, 0, 0, .5, 0, width, height)
+	local tex = B.CreateGA(frame, "H", 0, 0, 0, C.alpha, 0, width, height)
 	tex:SetPoint("CENTER")
 	local bottomLine = B.CreateGA(frame, "H", cr, cg, cb, C.alpha, 0, width, C.mult*2)
 	bottomLine:SetPoint("TOP", frame, "BOTTOM")

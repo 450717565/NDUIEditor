@@ -233,6 +233,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self.rangeTimer = 0
 
 	local bubg = B.CreateBDFrame(self)
+	B.ReskinCPTex(self, bubg)
 
 	local Icon = self:CreateTexture("$parentIcon", "ARTWORK")
 	Icon:SetTexCoord(tL, tR, tT, tB)
@@ -243,11 +244,6 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	Highlight:SetColorTexture(1, 1, 1, .25)
 	Highlight:SetInside(bubg)
 	self.Highlight = Highlight
-
-	self:SetPushedTexture(DB.pushed)
-	local push = self:GetPushedTexture()
-	push:SetBlendMode("ADD")
-	push:SetInside(bubg)
 
 	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
 	HotKey:ClearAllPoints()

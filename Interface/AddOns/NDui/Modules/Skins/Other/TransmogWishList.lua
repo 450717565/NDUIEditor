@@ -21,7 +21,7 @@ function Skins:TransmogWishList()
 	for _, button in pairs(ModList.ModButtons) do
 		if button and not button.styled then
 			B.ReskinButton(button)
-			B.ReskinHighlight(button.SelectTexture, button)
+			B.ReskinHLTex(button.SelectTexture, button)
 
 			button.styled = true
 		end

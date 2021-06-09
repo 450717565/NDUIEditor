@@ -133,7 +133,7 @@ local function Reskin_QuestIcon(self)
 		B.CleanTextures(self)
 
 		self.icbg = B.CreateBDFrame(self.icon or self.Icon, 0, -C.mult)
-		B.ReskinHighlight(self, self.icbg)
+		B.ReskinHLTex(self, self.icbg)
 
 		if self.icon then
 			self.icon:SetTexCoord(tL, tR, tT, tB)
@@ -160,8 +160,8 @@ local function Reskin_SpellButton(spellButton)
 		B.CleanTextures(spellButton)
 
 		local icbg = B.ReskinIcon(spellButton.Icon)
-		B.ReskinHighlight(spellButton, icbg)
-		B.ReskinPushed(spellButton, icbg)
+		B.ReskinHLTex(spellButton, icbg)
+		B.ReskinCPTex(spellButton, icbg)
 
 		spellButton.styled = true
 	end

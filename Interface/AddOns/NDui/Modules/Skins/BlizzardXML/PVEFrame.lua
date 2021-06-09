@@ -16,7 +16,7 @@ tinsert(C.XMLThemes, function()
 		local button = GroupFinderFrame["groupButton"..i]
 		B.StripTextures(button)
 		B.ReskinButton(button)
-		B.ReskinHighlight(button.bg, button.bgTex, true)
+		B.ReskinHLTex(button.bg, button.bgTex, true)
 
 		local icon = button.icon
 		icon:ClearAllPoints()

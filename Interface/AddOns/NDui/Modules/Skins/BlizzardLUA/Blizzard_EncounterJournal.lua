@@ -16,7 +16,7 @@ local function Reskin_ListInstances()
 			instance.bgImage:SetTexCoord(.02, .66, .04, .71)
 
 			local bubg = B.CreateBDFrame(instance.bgImage, 0, -C.mult)
-			B.ReskinHighlight(instance, bubg)
+			B.ReskinHLTex(instance, bubg)
 
 			instance.styled = true
 		end
@@ -59,7 +59,7 @@ local function Reskin_DisplayInstance()
 			button.creature:SetPoint("BOTTOMLEFT", button, "BOTTOMLEFT", 0, 0)
 
 			local bubg = B.CreateBDFrame(button)
-			B.ReskinHighlight(button, bubg, true)
+			B.ReskinHLTex(button, bubg, true)
 
 			button.styled = true
 		end
@@ -267,7 +267,7 @@ C.LUAThemes["Blizzard_EncounterJournal"] = function()
 		tab:SetSize(60, 60)
 
 		local bg = B.CreateBG(tab, 5, -5, -5, 5)
-		B.ReskinHighlight(tab, bg, true)
+		B.ReskinHLTex(tab, bg, true)
 	end
 
 	local scrolls = {
@@ -308,7 +308,7 @@ C.LUAThemes["Blizzard_EncounterJournal"] = function()
 		B.ReskinBorder(border, icbg)
 
 		local bubg = B.CreateBGFrame(item, 2, 0, 0, 0, icbg)
-		B.ReskinHighlight(item, bubg, true)
+		B.ReskinHLTex(item, bubg, true)
 		item.bubg = bubg
 
 		local armor = item.armorType

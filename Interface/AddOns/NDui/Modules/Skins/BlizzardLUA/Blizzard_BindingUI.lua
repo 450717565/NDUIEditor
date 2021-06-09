@@ -4,7 +4,7 @@ local B, C, L, DB = unpack(ns)
 local function Reskin_BindingButtonTemplate(_, button)
 	if not button.styled then
 		B.ReskinButton(button)
-		B.ReskinHighlight(button.selectedHighlight, button, true)
+		B.ReskinHLTex(button.selectedHighlight, button, true)
 
 		button.styled = true
 	end

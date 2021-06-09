@@ -21,7 +21,7 @@ local function Reskin_QuestHeader(self, isCalling)
 		self.styled = true
 	end
 
-	B.ReskinHighlight(self.HighlightTexture, self.bg, true)
+	B.ReskinHLTex(self.HighlightTexture, self.bg, true)
 end
 
 local function Reskin_SessionDialog(_, dialog)

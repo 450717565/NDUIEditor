@@ -73,7 +73,7 @@ local function Reskin_ListHeader(self)
 			if not header.bg then
 				header:DisableDrawLayer("BACKGROUND")
 				header.bg = B.CreateBDFrame(header)
-				B.ReskinHighlight(header, header.bg, true)
+				B.ReskinHLTex(header, header.bg, true)
 			end
 
 			if header.bg then
@@ -119,7 +119,7 @@ local function Reskin_BagItem(button)
 
 	B.StripTextures(button, 1)
 	local icbg = B.ReskinIcon(button.Icon)
-	B.ReskinHighlight(button, icbg)
+	B.ReskinHLTex(button, icbg)
 	B.ReskinBorder(button.IconBorder, icbg)
 
 	button.IconBorder:Hide()

@@ -8,8 +8,8 @@ function Skins:ExtVendor()
 	B.ReskinButton(MerchantFrameFilterButton)
 
 	local icbg = B.ReskinIcon(MerchantFrameSellJunkButtonIcon)
-	B.ReskinHighlight(MerchantFrameSellJunkButton, icbg)
-	B.ReskinPushed(MerchantFrameSellJunkButton, icbg)
+	B.ReskinHLTex(MerchantFrameSellJunkButton, icbg)
+	B.ReskinCPTex(MerchantFrameSellJunkButton, icbg)
 
 	for i = 13, 20 do
 		local item = _G["MerchantItem"..i]

@@ -297,7 +297,7 @@ function Skins:MeetingStone()
 				if not button.styled then
 					B.StripTextures(button)
 					B.ReskinButton(button)
-					B.ReskinHighlight(button:GetCheckedTexture(), button, true)
+					B.ReskinHLTex(button:GetCheckedTexture(), button, true)
 
 					if button.Option then
 						B.ReskinButton(button.Option.InviteButton)

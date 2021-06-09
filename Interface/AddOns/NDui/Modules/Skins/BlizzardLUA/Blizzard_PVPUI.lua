@@ -16,7 +16,7 @@ end
 
 local function Reskin_Reward(self)
 	B.ReskinButton(self)
-	B.ReskinHighlight(self.SelectedTexture, self, true)
+	B.ReskinHLTex(self.SelectedTexture, self, true)
 
 	local Reward = self.Reward
 	if Reward then
@@ -76,7 +76,7 @@ C.LUAThemes["Blizzard_PVPUI"] = function()
 		local button = PVPQueueFrame["CategoryButton"..i]
 		B.StripTextures(button)
 		B.ReskinButton(button)
-		B.ReskinHighlight(button.Background, button.bgTex, true)
+		B.ReskinHLTex(button.Background, button.bgTex, true)
 
 		local icon = button.Icon
 		icon:ClearAllPoints()
@@ -138,8 +138,8 @@ C.LUAThemes["Blizzard_PVPUI"] = function()
 
 		local icbg = B.ReskinIcon(button.Icon)
 		local bubg = B.CreateBGFrame(button, 2, 0, -2, 0, icbg)
-		B.ReskinHighlight(button.HighlightTexture, bubg, true)
-		B.ReskinHighlight(button.SelectedTexture, bubg, true)
+		B.ReskinHLTex(button.HighlightTexture, bubg, true)
+		B.ReskinHLTex(button.SelectedTexture, bubg, true)
 
 		local name = button.NameText
 		name:ClearAllPoints()

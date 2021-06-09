@@ -15,8 +15,8 @@ local function Reskin_SetServiceButton(skillButton, skillIndex)
 			bubg:SetPoint("RIGHT", 2+C.mult, 0)
 		end
 
-		B.ReskinHighlight(skillButton, bubg, true)
-		B.ReskinHighlight(skillButton.selectedTex, bubg, true)
+		B.ReskinHLTex(skillButton, bubg, true)
+		B.ReskinHLTex(skillButton.selectedTex, bubg, true)
 
 		skillButton.disabledBG:SetInside(bubg)
 

@@ -53,7 +53,7 @@ function Skins:Ace3_SkinTab(tab)
 	B.StripTextures(tab)
 	tab.bg = B.CreateBGFrame(tab, 8, -2, -8, 2)
 
-	B.ReskinHighlight(tab, tab.bg, true)
+	B.ReskinHLTex(tab, tab.bg, true)
 	hooksecurefunc(tab, "SetSelected", function(self, selected)
 		if selected then
 			self.bg:SetBackdropColor(cr, cg, cb, .5)
@@ -114,7 +114,7 @@ function Skins:Ace3_RegisterAsWidget(widget)
 
 		local highlight = widget.highlight
 		B.StripTextures(highlight)
-		B.ReskinHighlight(highlight, bg, true)
+		B.ReskinHLTex(highlight, bg, true)
 		highlight.SetTexture = B.Dummy
 
 		hooksecurefunc(widget, "SetDisabled", function(self, disabled)
@@ -246,7 +246,7 @@ function Skins:Ace3_RegisterAsWidget(widget)
 		icon:SetPoint("LEFT", button, "LEFT", 1, 0)
 
 		local icbg = B.ReskinIcon(icon)
-		B.ReskinHighlight(button.highlight, icbg)
+		B.ReskinHLTex(button.highlight, icbg)
 
 		hooksecurefunc(widget, "SetIcon", Skins.WeakAuras_SkinIcon)
 		hooksecurefunc(widget, "UpdateThumbnail", Skins.WeakAuras_UpdateIcon)
@@ -255,7 +255,7 @@ function Skins:Ace3_RegisterAsWidget(widget)
 		icon:SetPoint("LEFT", widget.frame, "LEFT", 1, 0)
 
 		local icbg = B.ReskinIcon(icon)
-		B.ReskinHighlight(widget.frame.highlight, icbg)
+		B.ReskinHLTex(widget.frame.highlight, icbg)
 	elseif TYPE == "WeakAurasMultiLineEditBox" then
 		B.StripTextures(widget.scrollBG)
 		B.CreateBGFrame(widget.scrollBG, 0, -2, -2, 1)
@@ -284,11 +284,11 @@ function Skins:Ace3_RegisterAsWidget(widget)
 		widget.expand.SetPushedTexture = B.Dummy
 	elseif TYPE == "WeakAurasIconButton" then
 		B.ReskinIcon(widget.texture)
-		B.ReskinHighlight(widget.frame)
+		B.ReskinHLTex(widget.frame)
 	elseif TYPE == "WeakAurasTextureButton" then
 		local button = widget.frame
 		local bg = B.CreateBDFrame(button)
-		B.ReskinHighlight(button, bg)
+		B.ReskinHLTex(button, bg)
 	end
 end
 

@@ -8,8 +8,8 @@ local function Reskin_Button(self)
 		local icon = _G[frameName.."Icon"]
 
 		local icbg = B.ReskinIcon(icon)
-		B.ReskinChecked(self, icbg)
-		B.ReskinHighlight(self, icbg)
+		B.ReskinCPTex(self, icbg)
+		B.ReskinHLTex(self, icbg)
 
 		self.styled = true
 	end
@@ -75,7 +75,7 @@ C.LUAThemes["Blizzard_MacroUI"] = function()
 	ic:SetPoint("BOTTOMRIGHT", MacroEditButton, "BOTTOMLEFT", -5, C.mult)
 
 	local bg = B.ReskinIcon(ic)
-	B.ReskinHighlight(bu, bg)
+	B.ReskinHLTex(bu, bg)
 
 	for i = 1, MAX_ACCOUNT_MACROS do
 		Reskin_Button(_G["MacroButton"..i])

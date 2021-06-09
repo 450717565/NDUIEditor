@@ -139,7 +139,7 @@ C.LUAThemes["Blizzard_TalentUI"] = function()
 			local _, _, _, icon, role = GetSpecializationInfo(i, false, frame.isPet)
 			B.StripTextures(button)
 			B.ReskinButton(button)
-			B.ReskinHighlight(button.selectedTex, button.bgTex, true)
+			B.ReskinHLTex(button.selectedTex, button.bgTex, true)
 
 			local specIcon = button.specIcon
 			specIcon:SetTexture(icon)
@@ -175,7 +175,7 @@ C.LUAThemes["Blizzard_TalentUI"] = function()
 			button.knownSelection:SetAlpha(0)
 
 			local bubg = B.CreateBGFrame(button, 10, 0, 0, 0)
-			B.ReskinHighlight(button, bubg, true, true)
+			B.ReskinHLTex(button, bubg, true, true)
 
 			local icon = _G[buttons.."Talent"..j.."IconTexture"]
 			B.ReskinIcon(icon)
@@ -213,8 +213,8 @@ C.LUAThemes["Blizzard_TalentUI"] = function()
 
 		local icbg = B.ReskinIcon(icon)
 		local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
-		B.ReskinHighlight(button, bubg, true)
-		B.ReskinHighlight(button.Selected, bubg, true)
+		B.ReskinHLTex(button, bubg, true)
+		B.ReskinHLTex(button.Selected, bubg, true)
 
 		local name = button.Name
 		name:ClearAllPoints()

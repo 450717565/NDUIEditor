@@ -13,8 +13,8 @@ local function Reskin_EssenceList(self)
 			local icbg = B.ReskinIcon(button.Icon)
 
 			local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
-			B.ReskinHighlight(button, bubg, true)
-			B.ReskinHighlight(button.PendingGlow, bubg, true)
+			B.ReskinHLTex(button, bubg, true)
+			B.ReskinHLTex(button.PendingGlow, bubg, true)
 
 			button.styled = true
 		end

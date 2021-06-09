@@ -71,7 +71,7 @@ C.LUAThemes["Blizzard_ArchaeologyUI"] = function()
 
 		local icbg = B.ReskinIcon(_G[buttons.."Icon"])
 		local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
-		B.ReskinHighlight(button, bubg, true)
+		B.ReskinHLTex(button, bubg, true)
 
 		local name = _G[buttons.."ArtifactName"]
 		B.ReskinText(name, 1, .8, 0)

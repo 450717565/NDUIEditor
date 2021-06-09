@@ -13,7 +13,7 @@ local function Reskin_Button(self)
 	border:Hide()
 
 	local icbg = B.ReskinIcon(_G[self.."IconTexture"])
-	B.ReskinHighlight(button, icbg)
+	B.ReskinHLTex(button, icbg)
 end
 
 local function Update_MountList()
@@ -104,7 +104,7 @@ local function Reskin_UpdateButton(_, button)
 		button.levelBackground:SetAlpha(0)
 
 		local icbg = B.ReskinIcon(button.iconTexture)
-		B.ReskinHighlight(button, icbg)
+		B.ReskinHLTex(button, icbg)
 		button.icbg = icbg
 
 		button.level:ClearAllPoints()
@@ -278,11 +278,11 @@ C.LUAThemes["Blizzard_Collections"] = function()
 			button.icbg = icbg
 
 			local bubg = B.CreateBDFrame(button, 0, 1)
-			B.ReskinHighlight(button, bubg, true)
+			B.ReskinHLTex(button, bubg, true)
 			button.bubg = bubg
 
 			local selected = button.SelectedTexture or button.selectedTexture
-			B.ReskinHighlight(selected, bubg, true)
+			B.ReskinHLTex(selected, bubg, true)
 
 			local Name = button.Name
 			if Name then
@@ -318,7 +318,7 @@ C.LUAThemes["Blizzard_Collections"] = function()
 			if DragButton then
 				DragButton.ActiveTexture:SetTexture("")
 
-				B.ReskinHighlight(DragButton, icbg)
+				B.ReskinHLTex(DragButton, icbg)
 			end
 
 			local dragButton = button.dragButton
@@ -326,7 +326,7 @@ C.LUAThemes["Blizzard_Collections"] = function()
 				dragButton.levelBG:SetAlpha(0)
 				dragButton.ActiveTexture:SetTexture("")
 
-				B.ReskinHighlight(dragButton, icbg)
+				B.ReskinHLTex(dragButton, icbg)
 				B.ReskinText(dragButton.level, 1, 1, 1)
 			end
 		end
@@ -361,8 +361,8 @@ C.LUAThemes["Blizzard_Collections"] = function()
 	local SlotButton = BottomLeftInset.SlotButton
 	B.StripTextures(SlotButton)
 	local icbg = B.ReskinIcon(SlotButton.ItemIcon)
-	B.ReskinHighlight(SlotButton, icbg)
-	B.ReskinHighlight(SlotButton.DragTargetHighlight, icbg)
+	B.ReskinHLTex(SlotButton, icbg)
+	B.ReskinHLTex(SlotButton.DragTargetHighlight, icbg)
 
 	MountJournalSummonRandomFavoriteButton:ClearAllPoints()
 	MountJournalSummonRandomFavoriteButton:SetPoint("BOTTOMRIGHT", MountJournal.MountDisplay, "TOPRIGHT", 0, 4)
@@ -392,7 +392,7 @@ C.LUAThemes["Blizzard_Collections"] = function()
 	for i = 1, 6 do
 		local button = PetCard["spell"..i]
 		local icbg = B.ReskinIcon(button.icon)
-		B.ReskinHighlight(button, icbg)
+		B.ReskinHLTex(button, icbg)
 	end
 
 	for i = 1, 3 do
@@ -403,10 +403,10 @@ C.LUAThemes["Blizzard_Collections"] = function()
 		B.ReskinStatusBar(button.healthFrame.healthBar, true)
 
 		local setButton = button.setButton:GetRegions()
-		B.ReskinHighlight(setButton, button.qualityBorder)
+		B.ReskinHLTex(setButton, button.qualityBorder)
 
 		local icbg = B.ReskinIcon(button.icon)
-		B.ReskinHighlight(button.dragButton, icbg)
+		B.ReskinHLTex(button.dragButton, icbg)
 		B.ReskinBorder(button.qualityBorder, icbg)
 		B.ReskinText(button.level, 1, 1, 1)
 
@@ -420,8 +420,8 @@ C.LUAThemes["Blizzard_Collections"] = function()
 			spell.FlyoutArrow:SetTexCoord(0, 1, 0, 1)
 
 			local icbg = B.ReskinIcon(spell.icon)
-			B.ReskinHighlight(spell, icbg)
-			B.ReskinChecked(spell.selected, icbg)
+			B.ReskinHLTex(spell, icbg, false, true)
+			B.ReskinSpecialBorder(spell.selected, icbg)
 			spell.BlackCover:SetInside(icbg)
 		end
 	end
@@ -431,8 +431,8 @@ C.LUAThemes["Blizzard_Collections"] = function()
 		B.CleanTextures(button)
 
 		local icbg = B.ReskinIcon(button.icon)
-		B.ReskinHighlight(button, icbg)
-		B.ReskinChecked(button, icbg)
+		B.ReskinHLTex(button, icbg)
+		B.ReskinCPTex(button, icbg)
 	end
 
 	PetJournalHealPetButton:ClearAllPoints()
@@ -454,7 +454,7 @@ C.LUAThemes["Blizzard_Collections"] = function()
 		B.StripTextures(button)
 
 		local icbg = B.ReskinIcon(button.iconTexture)
-		B.ReskinHighlight(button, icbg)
+		B.ReskinHLTex(button, icbg)
 		button.icbg = icbg
 
 		local cooldown = button.cooldown
@@ -536,7 +536,7 @@ C.LUAThemes["Blizzard_Collections"] = function()
 			slot.Border:Hide()
 
 			local icbg = B.ReskinIcon(slot.Icon)
-			B.ReskinHighlight(slot, icbg)
+			B.ReskinHLTex(slot, icbg)
 
 			slot.HiddenVisualCover:SetInside(icbg)
 		end

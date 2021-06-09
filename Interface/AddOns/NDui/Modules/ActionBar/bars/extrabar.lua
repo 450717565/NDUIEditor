@@ -65,8 +65,8 @@ function Bar:CreateExtrabar()
 				spellButton.Icon:SetInside()
 
 				local icbg = B.ReskinIcon(spellButton.Icon)
-				B.ReskinHighlight(spellButton, icbg)
-				B.ReskinPushed(spellButton, icbg)
+				B.ReskinHLTex(spellButton, icbg)
+				B.ReskinCPTex(spellButton, icbg)
 
 				spellButton.styled = true
 			end

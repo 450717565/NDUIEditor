@@ -11,8 +11,8 @@ C.LUAThemes["Blizzard_TimeManager"] = function()
 
 	local check = TimeManagerStopwatchCheck
 	local icbg = B.ReskinIcon(check:GetNormalTexture())
-	B.ReskinChecked(check, icbg)
-	B.ReskinHighlight(check, icbg)
+	B.ReskinCPTex(check, icbg)
+	B.ReskinHLTex(check, icbg)
 
 	local dropdowns = {
 		TimeManagerAlarmHourDropDown,
@@ -40,7 +40,7 @@ C.LUAThemes["Blizzard_TimeManager"] = function()
 
 	local reset = StopwatchResetButton
 	local resetBG = B.CreateBDFrame(reset)
-	B.ReskinHighlight(reset, resetBG)
+	B.ReskinHLTex(reset, resetBG)
 	reset:GetNormalTexture():SetInside(resetBG)
 	reset:GetNormalTexture():SetTexCoord(.25, .75, .27, .75)
 	reset:SetSize(18, 18)
@@ -49,7 +49,7 @@ C.LUAThemes["Blizzard_TimeManager"] = function()
 
 	local play = StopwatchPlayPauseButton
 	local playBG = B.CreateBDFrame(play)
-	B.ReskinHighlight(play, playBG)
+	B.ReskinHLTex(play, playBG)
 	play:GetNormalTexture():SetInside(playBG)
 	play:GetNormalTexture():SetTexCoord(.25, .75, .27, .75)
 	play:SetSize(18, 18)

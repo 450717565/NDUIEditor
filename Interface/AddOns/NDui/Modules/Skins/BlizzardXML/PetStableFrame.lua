@@ -9,7 +9,7 @@ local function Reskin_Slot(self, index)
 		B.StripTextures(button)
 
 		local icbg = B.ReskinIcon(icon)
-		B.ReskinHighlight(button, icbg)
+		B.ReskinHLTex(button, icbg)
 
 		button.icbg = icbg
 	end
@@ -40,7 +40,7 @@ tinsert(C.XMLThemes, function()
 		Reskin_Slot("PetStableActivePet", i)
 
 		local button = _G["PetStableActivePet"..i]
-		B.ReskinChecked(button.Checked, button.icbg)
+		B.ReskinSpecialBorder(button.Checked, button.icbg)
 	end
 
 	for i = 1, NUM_PET_STABLE_SLOTS do

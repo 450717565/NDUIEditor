@@ -44,7 +44,7 @@ local function Reskin_ItemButton(self)
 	if questTexture then questTexture:SetAlpha(0) end
 
 	local icbg = B.ReskinIcon(self.icon)
-	B.ReskinHighlight(self, icbg)
+	B.ReskinHLTex(self, icbg)
 
 	local border = self.IconBorder
 	B.ReskinBorder(border, icbg)
@@ -58,7 +58,7 @@ end
 
 local function Reskin_SortButton(self)
 	local bg = B.CreateBDFrame(self, 0, -C.mult)
-	B.ReskinHighlight(self, bg)
+	B.ReskinHLTex(self, bg)
 
 	self:SetSize(26, 26)
 	self:SetNormalTexture("Interface\\Icons\\INV_Pet_Broom")

@@ -21,7 +21,7 @@ local function Reskin_ItemDisplay(self)
 
 	local icbg = B.ReskinIcon(ItemButton.Icon)
 	B.ReskinBorder(ItemButton.IconBorder, icbg)
-	B.ReskinHighlight(ItemButton.Highlight, icbg)
+	B.ReskinHLTex(ItemButton.Highlight, icbg)
 end
 
 local function Reskin_SellFrame(self)
@@ -110,7 +110,7 @@ local function Reskin_ListHeader(self)
 			if not header.bg then
 				header:DisableDrawLayer("BACKGROUND")
 				header.bg = B.CreateBDFrame(header)
-				B.ReskinHighlight(header, header.bg, true)
+				B.ReskinHLTex(header, header.bg, true)
 			end
 
 			if header.bg then

@@ -16,7 +16,7 @@ function Skins:BaudErrorFrame()
 	B.CreateBDFrame(BaudErrorFrameDetailScrollBox)
 	B.ReskinScroll(BaudErrorFrameListScrollBoxScrollBarScrollBar)
 	B.ReskinScroll(BaudErrorFrameDetailScrollFrameScrollBar)
-	B.ReskinHighlight(BaudErrorFrameListScrollBoxHighlightTexture, nil, true)
+	B.ReskinHLTex(BaudErrorFrameListScrollBoxHighlightTexture, nil, true)
 
 	local buttons = {
 		BaudErrorFrameClearButton,

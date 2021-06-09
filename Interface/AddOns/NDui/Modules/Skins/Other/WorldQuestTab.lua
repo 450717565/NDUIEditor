@@ -118,7 +118,7 @@ function Skins:WorldQuestTab()
 		icon:ClearAllPoints()
 		icon:SetPoint("CENTER")
 
-		B.ReskinHighlight(tab.Hider, tab.bgTex)
+		B.ReskinHLTex(tab.Hider, tab.bgTex)
 
 		tab.HL = tab:CreateTexture(nil, "ARTWORK")
 		tab.HL:SetTexture(DB.bgTex)

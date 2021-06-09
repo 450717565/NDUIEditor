@@ -5,7 +5,7 @@ local function Reskin_ItemButton(self)
 	B.CleanTextures(self)
 
 	local icbg = B.ReskinIcon(self.icon)
-	B.ReskinHighlight(self, icbg)
+	B.ReskinHLTex(self, icbg)
 
 	local border = self.IconBorder
 	B.ReskinBorder(border, icbg)

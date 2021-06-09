@@ -86,7 +86,7 @@ local function Reskin_UpdateActionBarLayout(self)
 
 		if not button.styled then
 			local icbg = B.ReskinIcon(button.Icon)
-			B.ReskinHighlight(button, icbg)
+			B.ReskinHLTex(button, icbg)
 
 			button.CooldownShadow:SetInside(icbg)
 			button.SelectedHighlight:SetOutside(icbg, 16, 16)
@@ -314,7 +314,7 @@ tinsert(C.XMLThemes, function()
 	local SkipButton = TurnTimer.SkipButton
 	B.StripTextures(SkipButton)
 	local bg = B.CreateBDFrame(SkipButton, 0, -C.mult)
-	B.ReskinPushed(SkipButton, bg)
+	B.ReskinCPTex(SkipButton, bg)
 	SkipButton:SetParent(bar)
 	SkipButton:SetSize(40, 40)
 	local text = SkipButton.Text

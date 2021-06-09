@@ -9,8 +9,8 @@ local function Reskin_Applicants(self)
 			B.StripTextures(button)
 
 			local bubg = B.CreateBDFrame(button, 0, -3)
-			B.ReskinHighlight(button, bubg, true)
-			B.ReskinHighlight(button.selectedTex, bubg, true)
+			B.ReskinHLTex(button, bubg, true)
+			B.ReskinHLTex(button.selectedTex, bubg, true)
 
 			button.styled = true
 		end

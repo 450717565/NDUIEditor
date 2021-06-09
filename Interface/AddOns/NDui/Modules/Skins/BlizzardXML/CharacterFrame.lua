@@ -32,7 +32,7 @@ end
 local function Update_PaperDollItemSlotButton(self)
 	self.icon:SetShown(GetInventoryItemTexture("player", self:GetID()) ~= nil)
 	Update_Cosmetic(self)
-	B.ReskinHighlight(self, self.icbg)
+	B.ReskinHLTex(self, self.icbg)
 end
 
 local function Update_PaperDollEquipmentManagerPane()
@@ -57,7 +57,7 @@ local function Reskin_EquipmentFlyoutCreateButton()
 	B.StripTextures(button)
 
 	local icbg = B.ReskinIcon(button.icon)
-	B.ReskinHighlight(button, icbg)
+	B.ReskinHLTex(button, icbg)
 
 	local border = button.IconBorder
 	B.ReskinBorder(border, icbg)
@@ -159,8 +159,8 @@ tinsert(C.XMLThemes, function()
 		tab.TabBg:Hide()
 
 		local bg = B.CreateBDFrame(tab)
-		B.ReskinHighlight(tab.Highlight, bg)
-		B.ReskinHighlight(tab.Hider, bg)
+		B.ReskinHLTex(tab.Highlight, bg)
+		B.ReskinHLTex(tab.Hider, bg)
 
 		if i == 1 then
 			tab.Icon:SetTexCoord(.16, .86, .16, .86)
@@ -173,7 +173,7 @@ tinsert(C.XMLThemes, function()
 	for i = 1, 17 do
 		local button = _G["PaperDollTitlesPaneButton"..i]
 		button:DisableDrawLayer("BACKGROUND")
-		B.ReskinHighlight(button, button, true)
+		B.ReskinHLTex(button, button, true)
 
 		local selected = button.SelectedBar
 		selected:SetColorTexture(cr, cg, cb, .5)
@@ -214,7 +214,7 @@ tinsert(C.XMLThemes, function()
 		B.StripTextures(bu)
 
 		local icbg = B.ReskinIcon(bu.icon)
-		B.ReskinHighlight(bu, icbg)
+		B.ReskinHLTex(bu, icbg)
 	end
 
 	-- EquipmentFlyoutFrame

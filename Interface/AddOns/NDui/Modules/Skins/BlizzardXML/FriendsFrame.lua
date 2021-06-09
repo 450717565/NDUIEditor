@@ -30,7 +30,7 @@ local function Reskin_InvitePool(self)
 			B.CleanTextures(Children)
 
 			local bg = B.CreateBDFrame(Children, 0, 1)
-			B.ReskinHighlight(Children, bg, true)
+			B.ReskinHLTex(Children, bg, true)
 
 			invite.styled = true
 		end
@@ -65,7 +65,7 @@ local function Reskin_RecruitAFriendRewardsFrame(self)
 		local button = child and child.Button
 		if button and not button.styled then
 			local icbg = B.ReskinIcon(button.Icon)
-			B.ReskinHighlight(button, icbg)
+			B.ReskinHLTex(button, icbg)
 			B.ReskinBorder(button.IconBorder, icbg)
 
 			button.styled = true
@@ -267,7 +267,7 @@ tinsert(C.XMLThemes, function()
 		B.StripTextures(ColumnHeader)
 
 		if i ~= 2 then
-			B.ReskinHighlight(ColumnHeader, ColumnHeader, true)
+			B.ReskinHLTex(ColumnHeader, ColumnHeader, true)
 		end
 	end
 end)
@@ -328,7 +328,7 @@ C.LUAThemes["Blizzard_RaidUI"] = function()
 			slot:GetRegions():Hide()
 
 			B.CreateBDFrame(slot)
-			B.ReskinHighlight(slot, slot, true)
+			B.ReskinHLTex(slot, slot, true)
 		end
 	end
 
@@ -337,7 +337,7 @@ C.LUAThemes["Blizzard_RaidUI"] = function()
 
 		local button = _G[buttons]
 		select(4, button:GetRegions()):SetAlpha(0)
-		B.ReskinHighlight(button, button, true)
+		B.ReskinHLTex(button, button, true)
 
 		local class = _G[buttons.."Class"]
 		class:Hide()

@@ -30,7 +30,7 @@ C.LUAThemes["Blizzard_ItemUpgradeUI"] = function()
 	local ItemButton = ItemUpgradeFrame.ItemButton
 	B.StripTextures(ItemButton)
 	local icbg = B.ReskinIcon(ItemButton.IconTexture)
-	B.ReskinHighlight(ItemButton, icbg)
+	B.ReskinHLTex(ItemButton, icbg)
 	ItemButton.icbg = icbg
 
 	local TextFrame = ItemUpgradeFrame.TextFrame

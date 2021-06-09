@@ -186,8 +186,8 @@ tinsert(C.XMLThemes, function()
 		end
 
 		local icbg = B.ReskinIcon(icon)
-		B.ReskinChecked(button, icbg)
-		B.ReskinHighlight(button.highlightTexture, icbg)
+		B.ReskinCPTex(button, icbg)
+		B.ReskinHLTex(button.highlightTexture, icbg)
 
 		local name = _G[buttons.."SpellName"]
 		name:ClearAllPoints()

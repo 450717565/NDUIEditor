@@ -599,6 +599,7 @@ do
 		local dis = self:GetDisabledTexture()
 		dis:SetVertexColor(0, 0, 0, .5)
 		dis:SetDrawLayer("OVERLAY")
+		dis:ClearAllPoints()
 		dis:SetAllPoints()
 	end
 
@@ -953,6 +954,7 @@ do
 			self:SetVertexColor(cr, cg, cb)
 		end
 
+		self:ClearAllPoints()
 		self:SetAllPoints(relativeTo)
 	end
 
@@ -1001,49 +1003,52 @@ do
 		B.SetupHook(self)
 	end
 
-	-- Handle Checked and Pushed
-	function B:ReskinChecked(relativeTo, classColor)
+	-- Handle Highlight and Checked and Pushed
+	function B:ReskinHLTex(relativeTo, classColor, isColorTex)
 		if not self then return end
 
-		local checked
-		if self.SetCheckedTexture then
-			self:SetCheckedTexture(DB.checked)
-			checked = self:GetCheckedTexture()
-		elseif self.GetNormalTexture then
-			checked = self:GetNormalTexture()
-			checked:SetTexture(DB.checked)
+		local r, g, b = 1, 1, 1
+		if classColor then r, g, b = cr, cg, cb end
+
+		local tex
+		if self.SetHighlightTexture then
+			self:SetHighlightTexture(DB.bgTex)
+			tex = self:GetHighlightTexture()
+		elseif self.SetNormalTexture then
+			self:SetNormalTexture(DB.bgTex)
+			tex = self:GetNormalTexture()
 		elseif self.SetTexture then
-			checked = self
-			checked:SetTexture(DB.checked)
+			self:SetTexture(DB.bgTex)
+			tex = self
 		end
 
-		if classColor then
-			checked:SetVertexColor(cr, cg, cb)
-		end
+		if tex then
+			if isColorTex then
+				tex:SetColorTexture(r, g, b, .25)
+			else
+				tex:SetVertexColor(r, g, b, .25)
+			end
 
-		checked:SetInside(relativeTo)
+			if relativeTo then
+				tex:SetInside(relativeTo)
+			end
+		end
 	end
 
-	function B:ReskinPushed(relativeTo, classColor)
+	function B:ReskinCPTex(relativeTo)
 		if not self then return end
 
-		local pushed
-		if self.SetPushedTexture then
-			self:SetPushedTexture(DB.pushed)
-			pushed = self:GetPushedTexture()
-		elseif self.GetNormalTexture then
-			pushed = self:GetNormalTexture()
-			pushed:SetTexture(DB.pushed)
-		elseif self.SetTexture then
-			pushed = self
-			pushed:SetTexture(DB.pushed)
+		local checked = self.GetCheckedTexture and self:GetCheckedTexture()
+		if checked then
+			checked:SetVertexColor(1, 1, 1)
+			B.ReskinSpecialBorder(checked, relativeTo)
 		end
 
-		if classColor then
-			pushed:SetVertexColor(cr, cg, cb)
+		local pushed = self.GetPushedTexture and self:GetPushedTexture()
+		if pushed then
+			pushed:SetVertexColor(0, 1, 1)
+			B.ReskinSpecialBorder(pushed, relativeTo)
 		end
-
-		pushed:SetInside(relativeTo)
 	end
 
 	-- Handle Close and Decline
@@ -1255,38 +1260,14 @@ do
 		return bg
 	end
 
-	-- Handle Highlight
-	function B:ReskinHighlight(relativeTo, classColor, isColorTex)
-		if not self then return end
-
-		local r, g, b = 1, 1, 1
-		if classColor then r, g, b = cr, cg, cb end
-
-		local tex
-		if self.SetHighlightTexture then
-			self:SetHighlightTexture(DB.bgTex)
-			tex = self:GetHighlightTexture()
-		elseif self.SetNormalTexture then
-			self:SetNormalTexture(DB.bgTex)
-			tex = self:GetNormalTexture()
-		elseif self.SetTexture then
-			self:SetTexture(DB.bgTex)
-			tex = self
-		end
-
-		if isColorTex then
-			tex:SetColorTexture(r, g, b, .25)
-		else
-			tex:SetVertexColor(r, g, b, .25)
-		end
-
-		if relativeTo then
-			tex:SetInside(relativeTo)
-		end
-	end
-
 	-- Handle Icon
 	function B:ReskinIcon(alpha)
+		if self.SetDrawLayer then
+			if self:GetDrawLayer() == "BACKGROUND" or self:GetDrawLayer() == "BORDER" then
+				self:SetDrawLayer("ARTWORK")
+			end
+		end
+
 		self:SetTexCoord(tL, tR, tT, tB)
 		local icbg = B.CreateBDFrame(self, alpha, -C.mult)
 
@@ -1521,7 +1502,7 @@ do
 		B.CleanTextures(self)
 
 		local bg = B.CreateBG(self, 8, -3, -8, 2)
-		B.ReskinHighlight(self, bg, true)
+		B.ReskinHLTex(self, bg, true)
 	end
 
 	function B:ReskinSideTab()
@@ -1530,9 +1511,10 @@ do
 		self:SetSize(32, 32)
 		self:GetRegions():Hide()
 
-		local icbg = B.ReskinIcon(self:GetNormalTexture())
-		B.ReskinHighlight(self, icbg)
-		B.ReskinChecked(self, icbg)
+		local icon = self:GetNormalTexture()
+		local icbg = B.ReskinIcon(icon)
+		B.ReskinHLTex(self, icbg)
+		B.ReskinCPTex(self, icbg)
 	end
 
 	function B:ReskinFrameTab(index, tabName)
@@ -1600,6 +1582,7 @@ do
 
 	function B:CreateParentFrame(lvl, frame)
 		local parent = CreateFrame("Frame", nil, self)
+		parent:ClearAllPoints()
 		parent:SetAllPoints(frame or self)
 		parent:SetFrameLevel(self:GetFrameLevel() + (lvl or 1))
 
@@ -1775,12 +1758,14 @@ do
 	function B:CreateGear(name)
 		local gear = CreateFrame("Button", name, self)
 		gear:SetSize(24, 24)
+		gear:SetHighlightTexture(DB.gearTex)
+		gear:GetHighlightTexture():SetTexCoord(0, .5, 0, .5)
+
 		gear.Icon = gear:CreateTexture(nil, "ARTWORK")
+		gear.Icon:ClearAllPoints()
 		gear.Icon:SetAllPoints()
 		gear.Icon:SetTexture(DB.gearTex)
 		gear.Icon:SetTexCoord(0, .5, 0, .5)
-		gear:SetHighlightTexture(DB.gearTex)
-		gear:GetHighlightTexture():SetTexCoord(0, .5, 0, .5)
 
 		return gear
 	end
@@ -1789,10 +1774,12 @@ do
 	function B:CreateHelpInfo(tooltip)
 		local help = CreateFrame("Button", nil, self)
 		help:SetSize(40, 40)
+		help:SetHighlightTexture(616343)
+
 		help.Icon = help:CreateTexture(nil, "ARTWORK")
+		help.Icon:ClearAllPoints()
 		help.Icon:SetAllPoints()
 		help.Icon:SetTexture(616343)
-		help:SetHighlightTexture(616343)
 		if tooltip then
 			help.title = L["Tips"]
 			B.AddTooltip(help, "ANCHOR_BOTTOMLEFT", tooltip, "info")
@@ -2064,6 +2051,7 @@ do
 		slider.value:SetScript("OnEnterPressed", updateSliderEditBox)
 
 		slider.clicker = CreateFrame("Button", nil, slider)
+		slider.clicker:ClearAllPoints()
 		slider.clicker:SetAllPoints(slider.Text)
 		slider.clicker.__owner = slider
 		slider.clicker:SetScript("OnDoubleClick", resetSliderValue)

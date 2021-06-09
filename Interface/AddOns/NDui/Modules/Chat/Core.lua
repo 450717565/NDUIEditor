@@ -56,7 +56,7 @@ local function GradientBackground(self)
 	frame:SetFrameLevel(0)
 	frame:SetShown(C.db["Chat"]["ChatBGType"] == 3)
 
-	local tex = B.CreateGA(frame, "H", 0, 0, 0, .5, 0)
+	local tex = B.CreateGA(frame, "H", 0, 0, 0, C.alpha, 0)
 	tex:SetAllPoints()
 	local line = B.CreateGA(frame, "H", cr, cg, cb, C.alpha, 0, nil, C.mult*2)
 	line:SetPoint("BOTTOMLEFT", frame, "TOPLEFT")
@@ -106,10 +106,21 @@ function Chat:SkinChat()
 	B.HideObject(self.buttonFrame)
 	B.HideObject(self.ScrollBar)
 	B.HideObject(self.ScrollToBottomButton)
+	Chat:ToggleChatFrameTextures(self)
 
 	self.oldAlpha = self.oldAlpha or 0 -- fix blizz error
 
 	self.styled = true
+end
+
+function Chat:ToggleChatFrameTextures(frame)
+	if C.db["Chat"]["ChatBGType"] == 1 then
+		frame:EnableDrawLayer("BORDER")
+		frame:EnableDrawLayer("BACKGROUND")
+	else
+		frame:DisableDrawLayer("BORDER")
+		frame:DisableDrawLayer("BACKGROUND")
+	end
 end
 
 function Chat:ToggleChatBackground()
@@ -121,6 +132,7 @@ function Chat:ToggleChatBackground()
 		if frame.__gradient then
 			frame.__gradient:SetShown(C.db["Chat"]["ChatBGType"] == 3)
 		end
+		Chat:ToggleChatFrameTextures(frame)
 	end
 end
 
@@ -364,6 +376,10 @@ function Chat:OnLogin()
 	if C.db["Chat"]["Freedom"] then
 		if GetCVar("portal") == "CN" then
 			ConsoleExec("portal TW")
+
+			HelpFrame:HookScript("OnShow", function()
+				UIErrorsFrame:AddMessage(DB.InfoColor..L["LanguageFilterTip"])
+			end)
 		end
 		SetCVar("profanityFilter", 0)
 	else

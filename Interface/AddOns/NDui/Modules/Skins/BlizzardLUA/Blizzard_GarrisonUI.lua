@@ -165,7 +165,6 @@ local function Reskin_MissionPage(self, isShop)
 	CloseButton.SetPoint = B.Dummy
 
 	local EnvIcon = self.Stage.MissionEnvIcon
-	EnvIcon.Texture:SetDrawLayer("ARTWORK")
 
 	local icbg = B.ReskinIcon(EnvIcon.Texture)
 	icbg:SetFrameLevel(EnvIcon:GetFrameLevel())
@@ -270,7 +269,7 @@ local function Reskin_MissionList(self)
 			end
 		end
 
-		B.ReskinHighlight(button.Highlight, button.bubg, true)
+		B.ReskinHLTex(button.Highlight, button.bubg, true)
 	end
 end
 
@@ -295,8 +294,8 @@ local function Reskin_UpdateData(self)
 			B.StripTextures(button)
 
 			local bubg = B.CreateBDFrame(button)
-			B.ReskinHighlight(button, bubg, true)
-			B.ReskinHighlight(button.Selection, bubg, true)
+			B.ReskinHLTex(button, bubg, true)
+			B.ReskinHLTex(button.Selection, bubg, true)
 			button.BusyFrame:SetAllPoints(bubg)
 
 			if portrait then
@@ -638,8 +637,8 @@ local function Reskin_BuildingListSelectTab(tab)
 
 			local icbg = B.ReskinIcon(button.Icon)
 			local bg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
-			B.ReskinHighlight(button, bg, true)
-			B.ReskinHighlight(button.SelectedBG, bg, true)
+			B.ReskinHLTex(button, bg, true)
+			B.ReskinHLTex(button.SelectedBG, bg, true)
 
 			button.styled = true
 		end
@@ -1254,9 +1253,10 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 				elseif otype == "FollowerListButton" then
 					peek("TextLabel"):SetFontObject("Game12Font")
 				elseif otype == "IconButton" then
-					local icbg = B.ReskinIcon(widget:GetNormalTexture())
-					B.ReskinHighlight(widget, icbg)
-					B.ReskinPushed(widget, icbg)
+					local icon = widget:GetNormalTexture()
+					local icbg = B.ReskinIcon(icon)
+					B.ReskinHLTex(widget, icbg)
+					B.ReskinCPTex(widget, icbg)
 					widget.Icon:SetTexCoord(tL, tR, tT, tB)
 				elseif otype == "ILButton" then
 					widget:DisableDrawLayer("BACKGROUND")
@@ -1372,7 +1372,7 @@ local function Reskin_OrderHallTalentFrame(self)
 
 			if not button.icbg then
 				button.icbg = B.ReskinIcon(button.Icon)
-				B.ReskinHighlight(button.Highlight, button.icbg)
+				B.ReskinHLTex(button.Highlight, button.icbg)
 			end
 
 			if button.talent.selected then

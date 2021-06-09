@@ -97,7 +97,7 @@ do
 		button:SetPoint("LEFT", self, 4, 0)
 
 		local icbg = B.ReskinIcon(button.icon)
-		B.ReskinHighlight(button, icbg)
+		B.ReskinHLTex(button, icbg)
 		B.ReskinBorder(button.IconBorder, icbg)
 		button.icbg = icbg
 
@@ -131,7 +131,7 @@ do
 		B.CleanTextures(self)
 
 		local bg = B.CreateBDFrame(self, 0, 1)
-		B.ReskinHighlight(self, bg, true)
+		B.ReskinHLTex(self, bg, true)
 
 		local icon = self.icon or self.Icon
 		if icon then B.ReskinIcon(icon) end
@@ -163,7 +163,7 @@ do
 				button.icon.SetTexCoord = B.Dummy
 
 				local bubg = B.CreateBGFrame(button, 2, 2, -2, -2, icbg)
-				B.ReskinHighlight(button, bubg, true)
+				B.ReskinHLTex(button, bubg, true)
 
 				local name = button.name
 				name:ClearAllPoints()

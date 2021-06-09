@@ -46,7 +46,7 @@ C.LUAThemes["Blizzard_ItemSocketingUI"] = function()
 
 		local icon = _G[buttons.."IconTexture"]
 		local icbg = B.ReskinIcon(icon)
-		B.ReskinHighlight(button, icbg)
+		B.ReskinHLTex(button, icbg)
 
 		local shine = _G[buttons.."Shine"]
 		shine:SetInside(icbg)

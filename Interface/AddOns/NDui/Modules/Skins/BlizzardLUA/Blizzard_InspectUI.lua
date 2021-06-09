@@ -57,7 +57,7 @@ C.LUAThemes["Blizzard_InspectUI"] = function()
 		B.StripTextures(slot)
 
 		local icbg = B.ReskinIcon(slot.icon)
-		B.ReskinHighlight(slot, icbg)
+		B.ReskinHLTex(slot, icbg)
 
 		local border = slot.IconBorder
 		B.ReskinBorder(border, icbg)

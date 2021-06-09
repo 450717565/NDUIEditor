@@ -132,7 +132,7 @@ for k, v in next, {
 		if (not enabled) then return end
 
 		local update = elements[name].update
-		if(update) then
+		if (update) then
 		for k, func in next, self.__elements do
 			if (func == update) then
 				table.remove(self.__elements, k)

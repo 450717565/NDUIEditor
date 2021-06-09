@@ -8,8 +8,8 @@ local function Reskin_CommunityTab(self)
 	self:GetRegions():Hide()
 
 	local icbg = B.ReskinIcon(self.Icon)
-	B.ReskinHighlight(self, icbg)
-	B.ReskinChecked(self, icbg)
+	B.ReskinHLTex(self, icbg)
+	B.ReskinCPTex(self, icbg)
 end
 
 local function Reskin_GuildCards(self)
@@ -34,7 +34,6 @@ local function Reskin_CommunityCards(self)
 		button.CircleMask:Hide()
 		button.LogoBorder:Hide()
 		button.Background:Hide()
-		button.CommunityLogo:SetDrawLayer("ARTWORK")
 
 		B.ReskinButton(button)
 		B.ReskinIcon(button.CommunityLogo)
@@ -58,7 +57,7 @@ local function Reskin_ColumnDisplay(self)
 			B.StripTextures(child)
 
 			local bg = B.CreateBGFrame(child, 4, -2, 0, 2)
-			B.ReskinHighlight(child, bg, true)
+			B.ReskinHLTex(child, bg, true)
 
 			child.styled = true
 		end
@@ -108,7 +107,7 @@ local function Reskin_MemberList(self)
 	for _, button in pairs(self.ListScrollFrame.buttons or {}) do
 		if button then
 			if not button.styled then
-				B.ReskinHighlight(button, nil, true)
+				B.ReskinHLTex(button, nil, true)
 
 				hooksecurefunc(button, "RefreshExpandedColumns", Reskin_RefreshExpandedColumns)
 
@@ -117,7 +116,7 @@ local function Reskin_MemberList(self)
 					B.StripTextures(header)
 
 					local bg = B.CreateBDFrame(header, 0, 1)
-					B.ReskinHighlight(header, bg, true)
+					B.ReskinHLTex(header, bg, true)
 					B.ReskinIcon(header.Icon)
 				end
 
@@ -152,7 +151,7 @@ local function Reskin_AvatarPickerDialog(self)
 				avatarButton.Selected:SetTexture("")
 
 				avatarButton.icbg = B.ReskinIcon(avatarButton.Icon)
-				B.ReskinHighlight(avatarButton, avatarButton.icbg)
+				B.ReskinHLTex(avatarButton, avatarButton.icbg)
 			end
 
 			if avatarButton.Selected:IsShown() then
@@ -207,7 +206,7 @@ local function Reskin_ApplicantList(self)
 			button.InviteButton:SetSize(66, 18)
 			button.CancelInvitationButton:SetSize(20, 18)
 
-			B.ReskinHighlight(button, nil, true)
+			B.ReskinHLTex(button, nil, true)
 			B.ReskinButton(button.InviteButton)
 			B.ReskinDecline(button.CancelInvitationButton)
 
@@ -227,7 +226,7 @@ local function Reskin_GuildPerks(self)
 
 			local icbg = B.ReskinIcon(button.Icon)
 			local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
-			B.ReskinHighlight(button, bubg, true)
+			B.ReskinHLTex(button, bubg, true)
 
 			button.styled = true
 		end
@@ -243,7 +242,7 @@ local function Reskin_GuildRewards(self)
 			B.ReskinIcon(button.Icon)
 
 			local bubg = B.CreateBDFrame(button, 0, 1)
-			B.ReskinHighlight(button, bubg, true)
+			B.ReskinHLTex(button, bubg, true)
 
 			button.styled = true
 		end

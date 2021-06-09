@@ -32,7 +32,7 @@ local function Reskin_UpdateTradeSkills()
 				B.ReskinIcon(HeaderButton.icon)
 
 				local bg = B.CreateBDFrame(HeaderButton, 0, 1)
-				B.ReskinHighlight(HeaderButton, bg, true)
+				B.ReskinHLTex(HeaderButton, bg, true)
 
 				HeaderButton.styled = true
 			end
@@ -54,7 +54,7 @@ local function Reskin_GuildRosterContainer()
 		local button = GuildRosterContainer.buttons[i]
 
 		if not button.icbg then
-			B.ReskinHighlight(button, nil, true)
+			B.ReskinHLTex(button, nil, true)
 
 			button.icbg = B.ReskinIcon(button.icon)
 		end
@@ -79,7 +79,7 @@ local function Reskin_GuildPerks()
 
 			local icbg = B.ReskinIcon(button.icon)
 			local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
-			B.ReskinHighlight(button, bubg, true)
+			B.ReskinHLTex(button, bubg, true)
 
 			button.styled = true
 		end
@@ -95,7 +95,7 @@ local function Reskin_GuildRewards()
 			B.ReskinIcon(button.icon)
 
 			local bubg = B.CreateBDFrame(button, 0, 1)
-			B.ReskinHighlight(button, bubg, true)
+			B.ReskinHLTex(button, bubg, true)
 
 			button.styled = true
 		end
@@ -257,7 +257,7 @@ C.LUAThemes["Blizzard_GuildUI"] = function()
 		B.StripTextures(button)
 
 		local bubg = B.CreateBDFrame(button, 0, 2)
-		B.ReskinHighlight(button, bubg, true)
+		B.ReskinHLTex(button, bubg, true)
 	end
 
 	hooksecurefunc(GuildRosterContainer, "update", Reskin_GuildRosterContainer)

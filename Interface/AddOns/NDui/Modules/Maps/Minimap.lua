@@ -194,8 +194,6 @@ function Maps:RecycleBin()
 	bin:SetFrameStrata("TOOLTIP")
 	bin:Hide()
 
-	local tex = B.CreateGA(bin, "H", 0, 0, 0, 0, .5, width, height)
-	tex:SetPoint("CENTER")
 	local topLine = B.CreateGA(bin, "H", cr, cg, cb, 0, C.alpha, width, C.mult*2)
 	topLine:SetPoint("BOTTOM", bin, "TOP")
 	local bottomLine = B.CreateGA(bin, "H", cr, cg, cb, 0, C.alpha, width, C.mult*2)
@@ -259,16 +257,17 @@ function Maps:RecycleBin()
 		for _, child in pairs(buttons) do
 			if child and not child.styled then
 				child:SetParent(bin)
+
 				if child:HasScript("OnDragStop") then child:SetScript("OnDragStop", nil) end
 				if child:HasScript("OnDragStart") then child:SetScript("OnDragStart", nil) end
 				if child:HasScript("OnClick") then child:HookScript("OnClick", clickFunc) end
 
 				local bubg = B.CreateBDFrame(child, 0, -C.mult)
 				if child:IsObjectType("Button") then
-					B.ReskinHighlight(child, bubg)
+					B.ReskinHLTex(child, bubg)
 				elseif child:IsObjectType("Frame") then
 					child.highlight = child:CreateTexture(nil, "HIGHLIGHT")
-					B.ReskinHighlight(child.highlight, bubg)
+					B.ReskinHLTex(child.highlight, bubg)
 				end
 
 				-- Naughty Addons

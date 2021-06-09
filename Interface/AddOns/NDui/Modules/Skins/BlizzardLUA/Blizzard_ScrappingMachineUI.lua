@@ -12,7 +12,7 @@ C.LUAThemes["Blizzard_ScrappingMachineUI"] = function()
 	for button in pairs(activeObjects) do
 		if button and not button.styled then
 			local icbg = B.ReskinIcon(button.Icon)
-			B.ReskinHighlight(button, icbg)
+			B.ReskinHLTex(button, icbg)
 			B.ReskinBorder(button.IconBorder, icbg)
 
 			button.styled = true

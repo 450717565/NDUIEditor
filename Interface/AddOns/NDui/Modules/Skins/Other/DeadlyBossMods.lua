@@ -25,7 +25,17 @@ local function Reskin_Bar(bar, frame)
 	if not bar then return end
 
 	if not bar.styled then
-		B.CreateSB(bar, true)
+		B.StripTextures(bar, 6)
+		B.CreateBDFrame(bar, 0, -C.mult, true)
+		bar:SetStatusBarTexture(DB.normTex)
+
+		bar.Spark = bar:CreateTexture(nil, "OVERLAY")
+		bar.Spark:SetTexture(DB.sparkTex)
+		bar.Spark:SetBlendMode("ADD")
+		bar.Spark:SetAlpha(C.alpha)
+		bar.Spark:ClearAllPoints()
+		bar.Spark:SetPoint("TOPLEFT", bar:GetStatusBarTexture(), "TOPRIGHT", -10, 10)
+		bar.Spark:SetPoint("BOTTOMRIGHT", bar:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -10)
 
 		bar.styled = true
 	end

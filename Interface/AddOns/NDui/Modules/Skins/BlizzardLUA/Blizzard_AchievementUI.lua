@@ -36,7 +36,7 @@ local function Reskin_DisplayButton(button)
 		B.StripTextures(button)
 
 		local bubg = B.CreateBDFrame(button, 0, 1)
-		B.ReskinHighlight(button, bubg, true)
+		B.ReskinHLTex(button, bubg, true)
 
 		button.styled = true
 	end

@@ -76,7 +76,7 @@ local function Reskin_SearchPanel(self)
 			B.StripTextures(result)
 
 			local bubg = B.CreateBDFrame(result, 0, 1)
-			B.ReskinHighlight(result, bubg, true)
+			B.ReskinHLTex(result, bubg, true)
 
 			result.styled = true
 		end

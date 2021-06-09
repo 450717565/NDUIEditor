@@ -9,7 +9,7 @@ local function Reskin_ItemButton(self)
 	B.StripTextures(button)
 
 	local icbg = B.ReskinIcon(button.icon)
-	B.ReskinHighlight(button, icbg)
+	B.ReskinHLTex(button, icbg)
 
 	local bubg = B.CreateBGFrame(item, 2, 0, -15, 0, icbg)
 	B.ReskinBorder(button.IconBorder, icbg, bubg)

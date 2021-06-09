@@ -6,8 +6,8 @@ local function Reskin_Button(self, index)
 	button:SetBackdrop(nil)
 
 	local bg = B.CreateBDFrame(button, 0, 1)
-	B.ReskinHighlight(button, bg, true)
-	B.ReskinHighlight(button.selectedTex, bg, true)
+	B.ReskinHLTex(button, bg, true)
+	B.ReskinHLTex(button.selectedTex, bg, true)
 
 	local remove = _G[self..index.."RemoveButton"]
 	if remove then

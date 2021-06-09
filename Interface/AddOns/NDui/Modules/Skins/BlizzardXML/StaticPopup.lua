@@ -69,7 +69,7 @@ tinsert(C.XMLThemes, function()
 
 		local icon = _G[main.."ItemFrameIconTexture"]
 		local icbg = B.ReskinIcon(icon)
-		B.ReskinHighlight(item, icbg)
+		B.ReskinHLTex(item, icbg)
 		B.ReskinBorder(item.IconBorder, icbg)
 
 		local gold = _G[main.."MoneyInputFrameGold"]

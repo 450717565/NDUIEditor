@@ -178,7 +178,7 @@ local function Reskin_ChannelList(self)
 
 			local bg = B.CreateBDFrame(tab)
 			bg:SetAllPoints()
-			B.ReskinHighlight(tab, bg, true)
+			B.ReskinHLTex(tab, bg, true)
 
 			tab.styled = true
 		end

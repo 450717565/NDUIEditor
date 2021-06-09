@@ -12,7 +12,7 @@ function Skins:WhisperPop()
 	B.ReskinArrow(WhisperPopScrollingMessageFrameButtonUp, "up")
 	B.ReskinCheck(WhisperPopMessageFrameProtectCheck)
 	B.ReskinScroll(WhisperPopFrameListScrollBar)
-	B.ReskinHighlight(WhisperPopFrameListHighlightTexture, nil, true)
+	B.ReskinHLTex(WhisperPopFrameListHighlightTexture, nil, true)
 
 	local lists = {
 		WhisperPopFrameListDelete,
@@ -34,10 +34,10 @@ function Skins:WhisperPop()
 		local icon = _G[button.."Icon"]
 
 		local icbg = B.ReskinIcon(icon)
-		B.ReskinHighlight(bu, icbg)
+		B.ReskinHLTex(bu, icbg)
 
 		if bu.SetCheckedTexture then
-			B.ReskinChecked(bu, icbg)
+			B.ReskinCPTex(bu, icbg)
 		end
 	end
 end

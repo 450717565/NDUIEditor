@@ -113,8 +113,8 @@ function addon:CreateButton(parent, scale)
 		B.StripTextures(button)
 
 		local bubg = B.CreateBG(button)
-		B.ReskinHighlight(button, bubg, true)
-		B.ReskinHighlight(button:GetCheckedTexture(), bubg)
+		B.ReskinHLTex(button, bubg, true)
+		B.ReskinHLTex(button:GetCheckedTexture(), bubg, true)
 
 		if parent.lastButton then
 			button:SetPoint("TOPLEFT", parent.lastButton, "BOTTOMLEFT", 0, -5)

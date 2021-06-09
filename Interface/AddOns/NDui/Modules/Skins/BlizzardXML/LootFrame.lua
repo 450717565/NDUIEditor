@@ -14,7 +14,7 @@ local function Reskin_LootFrame()
 			B.CleanTextures(button)
 
 			local icbg = B.ReskinIcon(icon)
-			B.ReskinHighlight(button, icbg)
+			B.ReskinHLTex(button, icbg)
 
 			local bubg = B.CreateBDFrame(button)
 			bubg:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 2, 0)

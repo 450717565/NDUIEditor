@@ -199,7 +199,7 @@ C.LUAThemes["Blizzard_Calendar"] = function()
 
 		local button = _G[buttons]
 		B.StripTextures(button)
-		B.ReskinHighlight(button, button, true)
+		B.ReskinHLTex(button, button, true)
 
 		local dark = _G[buttons.."DarkFrame"]
 		dark:SetAlpha(.5)
@@ -219,7 +219,7 @@ C.LUAThemes["Blizzard_Calendar"] = function()
 		local index = 1
 		local eventButton = _G[buttons.."EventButton"..index]
 		while eventButton do
-			B.ReskinHighlight(eventButton)
+			B.ReskinHLTex(eventButton)
 			eventButton.black:SetTexture("")
 
 			index = index + 1

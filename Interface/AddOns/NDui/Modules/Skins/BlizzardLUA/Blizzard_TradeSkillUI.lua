@@ -23,7 +23,7 @@ local function Reskin_Reagents(self)
 		local bubg = B.CreateBGFrame(reagent, 2, 0, -10, 0, icbg)
 
 		if reagent.SelectedTexture then
-			B.ReskinHighlight(reagent.SelectedTexture, icbg)
+			B.ReskinHLTex(reagent.SelectedTexture, icbg)
 		end
 	end
 end

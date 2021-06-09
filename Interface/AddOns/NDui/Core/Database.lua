@@ -60,11 +60,6 @@ DB.logoTex = Media.."Logo\\logoTex"
 DB.afdianTex = Media.."Logo\\Afdian"
 DB.patreonTex = Media.."Logo\\Patreon"
 
-DB.checked = Media.."Button\\checked"
-DB.flash = Media.."Button\\flash"
-DB.normal = Media.."Button\\normal"
-DB.pushed = Media.."Button\\pushed"
-
 DB.arrowTex = Media.."Reskin\\arrowTex_"
 DB.bdTex = Media.."Reskin\\backdropTex"
 DB.closeTex = Media.."Reskin\\closeTex"

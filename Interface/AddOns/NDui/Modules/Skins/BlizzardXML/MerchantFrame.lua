@@ -91,7 +91,7 @@ tinsert(C.XMLThemes, function()
 		local parent = repair:GetParent()
 		local icbg = B.ReskinIcon(repair)
 
-		B.ReskinHighlight(parent, icbg)
+		B.ReskinHLTex(parent, icbg)
 	end
 
 	hooksecurefunc("MerchantFrame_UpdateCurrencies", Reskin_UpdateCurrencies)

@@ -124,6 +124,7 @@ local function SetupBackdrop(icon)
 	local icbg = B.CreateBDFrame(icon, 0, -C.mult)
 	B.CreateBT(icbg)
 
+	icon:SetDrawLayer("ARTWORK")
 	icon:GetParent().icbg = icbg
 end
 
@@ -212,13 +213,8 @@ function Bar:StyleActionButton(button, cfg)
 
 	local normalTexture = button:GetNormalTexture()
 	local pushedTexture = button:GetPushedTexture()
-	local highlightTexture = button:GetHighlightTexture()
-
-	--normal buttons do not have a checked texture, but checkbuttons do and normal actionbuttons are checkbuttons
 	local checkedTexture = button:GetCheckedTexture()
-	if checkedTexture then
-		SetupTexture(checkedTexture, cfg.checkedTexture, "SetCheckedTexture", button)
-	end
+	local highlightTexture = button:GetHighlightTexture()
 
 	--hide stuff
 	local floatingBG = _G[buttonName.."FloatingBG"]
@@ -244,9 +240,17 @@ function Bar:StyleActionButton(button, cfg)
 
 	SetupTexture(normalTexture, cfg.normalTexture, "SetNormalTexture", button)
 	SetupTexture(pushedTexture, cfg.pushedTexture, "SetPushedTexture", button)
+	SetupTexture(checkedTexture, cfg.checkedTexture, "SetCheckedTexture", button)
 	SetupTexture(highlightTexture, cfg.highlightTexture, "SetHighlightTexture", button)
 
 	highlightTexture:SetVertexColor(1, 1, 1, .25)
+	highlightTexture:SetDrawLayer("HIGHLIGHT")
+
+	pushedTexture:SetVertexColor(0, 1, 1, 1)
+	pushedTexture:SetDrawLayer("BACKGROUND")
+
+	checkedTexture:SetVertexColor(1, 1, 1, 1)
+	checkedTexture:SetDrawLayer("BACKGROUND")
 
 	--cooldown
 	SetupCooldown(cooldown, cfg.cooldown)
@@ -297,10 +301,15 @@ function Bar:StyleExtraActionButton(cfg)
 	local cooldown = _G[buttonName.."Cooldown"]
 	--local flash = _G[buttonName.."Flash"] --wierd the template has two textures of the same name
 
-	button:SetPushedTexture(DB.pushed) --force it to gain a texture
-	local checkedTexture = button:GetCheckedTexture()
+	--force it to gain a texture
+	button:SetNormalTexture(DB.blankTex)
+	button:SetPushedTexture(DB.blankTex)
+	button:SetCheckedTexture(DB.blankTex)
+	button:SetHighlightTexture(DB.blankTex)
+
 	local normalTexture = button:GetNormalTexture()
 	local pushedTexture = button:GetPushedTexture()
+	local checkedTexture = button:GetCheckedTexture()
 	local highlightTexture = button:GetHighlightTexture()
 
 	--backdrop
@@ -316,6 +325,13 @@ function Bar:StyleExtraActionButton(cfg)
 	SetupTexture(highlightTexture, cfg.highlightTexture, "SetHighlightTexture", button)
 
 	highlightTexture:SetVertexColor(1, 1, 1, .25)
+	highlightTexture:SetDrawLayer("HIGHLIGHT")
+
+	pushedTexture:SetVertexColor(0, 1, 1, 1)
+	pushedTexture:SetDrawLayer("BACKGROUND")
+
+	checkedTexture:SetVertexColor(1, 1, 1, 1)
+	checkedTexture:SetDrawLayer("BACKGROUND")
 
 	--cooldown
 	SetupCooldown(cooldown, cfg.cooldown)
@@ -395,7 +411,7 @@ function Bar:ReskinBars()
 	local cfg = {
 		border = {file = ""},
 		buttonstyle = {file = ""},
-		flash = {file = DB.flash},
+		flash = {file = DB.blankTex},
 		flyoutBorder = {file = ""},
 		flyoutBorderShadow = {file = ""},
 		icon = {
@@ -405,23 +421,7 @@ function Bar:ReskinBars()
 				{"BOTTOMRIGHT", -C.mult, C.mult},
 			},
 		},
-		normalTexture = {
-			file = DB.normal,
-			texCoord = DB.TexCoord,
-			points = {
-				{"TOPLEFT", C.mult, -C.mult},
-				{"BOTTOMRIGHT", -C.mult, C.mult},
-			},
-		},
-		pushedTexture = {
-			file = DB.pushed,
-			points = {
-				{"TOPLEFT", C.mult, -C.mult},
-				{"BOTTOMRIGHT", -C.mult, C.mult},
-			},
-		},
-		checkedTexture = {
-			file = DB.checked,
+		cooldown = {
 			points = {
 				{"TOPLEFT", C.mult, -C.mult},
 				{"BOTTOMRIGHT", -C.mult, C.mult},
@@ -434,10 +434,25 @@ function Bar:ReskinBars()
 				{"BOTTOMRIGHT", -C.mult, C.mult},
 			},
 		},
-		cooldown = {
+		normalTexture = {
+			file = DB.blankTex,
 			points = {
-				{"TOPLEFT", C.mult, -C.mult},
-				{"BOTTOMRIGHT", -C.mult, C.mult},
+				{"TOPLEFT", 0, 0},
+				{"BOTTOMRIGHT", 0, 0},
+			},
+		},
+		pushedTexture = {
+			file = DB.bgTex,
+			points = {
+				{"TOPLEFT", 0, 0},
+				{"BOTTOMRIGHT", 0, 0},
+			},
+		},
+		checkedTexture = {
+			file = DB.bgTex,
+			points = {
+				{"TOPLEFT", 0, 0},
+				{"BOTTOMRIGHT", 0, 0},
 			},
 		},
 		name = {

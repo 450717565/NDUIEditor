@@ -15,8 +15,8 @@ local function Reskin_GuildBankPopupFrame(self)
 			B.StripTextures(button)
 
 			local icbg = B.ReskinIcon(icon)
-			B.ReskinChecked(button, icbg)
-			B.ReskinHighlight(button, icbg)
+			B.ReskinCPTex(button, icbg)
+			B.ReskinHLTex(button, icbg)
 
 			button.styled = true
 		end
@@ -72,8 +72,8 @@ C.LUAThemes["Blizzard_GuildBankUI"] = function()
 
 		local icon = _G[tabs.."ButtonIconTexture"]
 		local icbg = B.ReskinIcon(icon)
-		B.ReskinHighlight(button, icbg)
-		B.ReskinChecked(button, icbg)
+		B.ReskinHLTex(button, icbg)
+		B.ReskinCPTex(button, icbg)
 
 		if i == 1 then
 			tab:ClearAllPoints()
@@ -91,7 +91,7 @@ C.LUAThemes["Blizzard_GuildBankUI"] = function()
 			B.CleanTextures(button)
 
 			local icbg = B.ReskinIcon(button.icon)
-			B.ReskinHighlight(button, icbg)
+			B.ReskinHLTex(button, icbg)
 
 			local border = button.IconBorder
 			B.ReskinBorder(border, icbg)

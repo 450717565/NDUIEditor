@@ -658,7 +658,6 @@ function UF.PostCreateIcon(element, button)
 
 	button.overlay:SetTexture("")
 	button.stealable:SetTexture("")
-	button.icon:SetDrawLayer("ARTWORK")
 
 	button:HookScript("OnMouseDown", Auras.RemoveSpellFromIgnoreList)
 end
