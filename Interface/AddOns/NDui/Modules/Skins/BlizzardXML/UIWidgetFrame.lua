@@ -56,7 +56,7 @@ local function Reskin_SpellDisplay(self)
 
 	if not self.styled then
 		local icbg = B.ReskinIcon(spell.Icon)
-		B.ReskinSpecialBorder(spell.DebuffBorder, icbg)
+		B.ReskinBGBorder(spell.DebuffBorder, icbg)
 
 		self.styled = true
 	end

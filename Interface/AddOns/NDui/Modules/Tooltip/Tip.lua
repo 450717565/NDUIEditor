@@ -615,7 +615,7 @@ TT:RegisterTooltips("NDui", function()
 				local frame = self.Debuffs.frames[nextDebuff]
 				if frame and frame.Icon then
 					local icbg = B.ReskinIcon(frame.Icon)
-					B.ReskinSpecialBorder(frame.DebuffBorder, icbg)
+					B.ReskinBGBorder(frame.DebuffBorder, icbg)
 				end
 				nextDebuff = nextDebuff + 1
 			end

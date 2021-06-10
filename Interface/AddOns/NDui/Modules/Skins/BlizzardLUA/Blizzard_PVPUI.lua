@@ -99,8 +99,18 @@ C.LUAThemes["Blizzard_PVPUI"] = function()
 	B.ReskinButton(season.Leave)
 	B.ReskinText(season.NewSeason, 1, .8, 0)
 	B.ReskinText(season.SeasonRewardText, 1, .8, 0)
-	B.ReskinText(season.SeasonDescription, 1, 1, 1)
-	B.ReskinText(season.SeasonDescription2, 1, 1, 1)
+
+	if DB.isNewPatch then
+		B.ReskinText(season.SeasonDescriptionHeader, 1, 1, 1)
+		season:HookScript("OnShow", function(self)
+			for _, description in pairs(self.SeasonDescriptions) do
+				B.ReskinText(description, 1, 1, 1)
+			end
+		end)
+	else
+		B.ReskinText(season.SeasonDescription, 1, 1, 1)
+		B.ReskinText(season.SeasonDescription2, 1, 1, 1)
+	end
 
 	local frames = {
 		season.SeasonRewardFrame,

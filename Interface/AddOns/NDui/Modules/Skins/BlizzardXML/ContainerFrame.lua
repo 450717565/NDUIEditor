@@ -53,7 +53,7 @@ local function Reskin_ItemButton(self)
 	search:SetAllPoints(icbg)
 
 	local slotTexture = self.SlotHighlightTexture
-	if slotTexture then B.ReskinSpecialBorder(slotTexture, icbg) end
+	if slotTexture then B.ReskinBGBorder(slotTexture, icbg) end
 end
 
 local function Reskin_SortButton(self)

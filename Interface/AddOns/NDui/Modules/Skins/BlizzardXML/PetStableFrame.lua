@@ -40,7 +40,7 @@ tinsert(C.XMLThemes, function()
 		Reskin_Slot("PetStableActivePet", i)
 
 		local button = _G["PetStableActivePet"..i]
-		B.ReskinSpecialBorder(button.Checked, button.icbg)
+		B.ReskinBGBorder(button.Checked, button.icbg)
 	end
 
 	for i = 1, NUM_PET_STABLE_SLOTS do

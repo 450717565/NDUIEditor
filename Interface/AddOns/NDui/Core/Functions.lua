@@ -944,7 +944,7 @@ do
 		if parent.IconOverlay2 then parent.IconOverlay2:SetInside(icbg) end
 	end
 
-	function B:ReskinSpecialBorder(relativeTo, classColor)
+	function B:ReskinBGBorder(relativeTo, classColor)
 		if not self then return end
 
 		self:SetTexture(DB.bgTex)
@@ -1041,13 +1041,13 @@ do
 		local checked = self.GetCheckedTexture and self:GetCheckedTexture()
 		if checked then
 			checked:SetVertexColor(1, 1, 1)
-			B.ReskinSpecialBorder(checked, relativeTo)
+			B.ReskinBGBorder(checked, relativeTo)
 		end
 
 		local pushed = self.GetPushedTexture and self:GetPushedTexture()
 		if pushed then
 			pushed:SetVertexColor(0, 1, 1)
-			B.ReskinSpecialBorder(pushed, relativeTo)
+			B.ReskinBGBorder(pushed, relativeTo)
 		end
 	end
 

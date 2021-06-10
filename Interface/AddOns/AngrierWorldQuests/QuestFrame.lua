@@ -473,6 +473,15 @@ local function GetFilterButton(key)
 		icon:SetTexture(Mod.Filters[key].icon or "inv_misc_questionmark")
 		button.Icon = icon
 
+		if NDui and not button.icbg then
+			B.StripTextures(button)
+			button.Icon:SetMask("")
+
+			button.icbg = B.ReskinIcon(button.Icon)
+			B.ReskinHLTex(button, button.icbg)
+			button.Icon:SetTexture(Mod.Filters[key].icon or "inv_misc_questionmark")
+		end
+
 		filterButtons[index] = button
 	end
 	return filterButtons[index]
@@ -976,17 +985,23 @@ local function QuestFrame_Update()
 				filterButton:ClearAllPoints()
 				if prevFilter then
 					filterButton:SetPoint("RIGHT", prevFilter, "LEFT", 5, 0)
-					filterButton:SetPoint("TOP", prevButton, "TOP", 0, 3)
 				else
-					filterButton:SetPoint("RIGHT", prevButton.ButtonText, -3, 0)
-					filterButton:SetPoint("TOP", prevButton, "TOP", 0, 3)
+					filterButton:SetPoint("RIGHT", prevButton.ButtonText, "RIGHT", -4, -1)
 				end
 
 				if optionKey ~= "SORT" then
-					if selectedFilters[optionKey] then
-						filterButton:SetNormalAtlas("worldquest-tracker-ring-selected")
+					if NDui and filterButton.icbg then
+						if selectedFilters[optionKey] then
+							filterButton.icbg:SetBackdropBorderColor(DB.cr, DB.cg, DB.cb)
+						else
+							filterButton.icbg:SetBackdropBorderColor(0, 0, 0)
+						end
 					else
-						filterButton:SetNormalAtlas("worldquest-tracker-ring")
+						if selectedFilters[optionKey] then
+							filterButton:SetNormalAtlas("worldquest-tracker-ring-selected")
+						else
+							filterButton:SetNormalAtlas("worldquest-tracker-ring")
+						end
 					end
 				end
 				prevFilter = filterButton

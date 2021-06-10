@@ -183,3 +183,92 @@ tinsert(C.XMLThemes, function()
 	hooksecurefunc("ChatConfig_CreateColorSwatches", Reskin_CreateColorSwatches)
 	hooksecurefunc(ChatConfigFrameChatTabManager, "UpdateWidth", Reskin_UpdateWidth)
 end)
+
+-- TextToSpeech
+local function Reskin_TextToSpeechFrame(frame)
+	local checkBoxTable = frame.checkBoxTable
+	if checkBoxTable then
+		local checkBoxNameString = frame:GetName().."CheckBox"
+		local checkBoxName, checkBox
+
+		for index, value in ipairs(checkBoxTable) do
+			checkBoxName = checkBoxNameString..index
+			checkBox = _G[checkBoxName]
+			if checkBox and not checkBox.styled then
+				B.ReskinCheck(checkBox)
+
+				checkBox.styled = true
+			end
+		end
+	end
+end
+
+tinsert(C.XMLThemes, function()
+	if DB.isNewPatch then
+		B.StripTextures(TextToSpeechButton, 5)
+
+		B.ReskinDropDown(TextToSpeechFrameTtsVoiceDropdown)
+		B.ReskinDropDown(TextToSpeechFrameTtsVoiceAlternateDropdown)
+		B.ReskinSlider(TextToSpeechFrameAdjustRateSlider)
+		B.ReskinSlider(TextToSpeechFrameAdjustVolumeSlider)
+
+		local buttons = {
+			"TextToSpeechDefaultButton",
+			"TextToSpeechFramePlaySampleAlternateButton",
+			"TextToSpeechFramePlaySampleButton",
+		}
+		for _, button in pairs(buttons) do
+			B.ReskinButton(_G[button])
+		end
+
+		local checkboxes = {
+			"AddCharacterNameToSpeechCheckButton",
+			"PlayActivitySoundWhenNotFocusedCheckButton",
+			"PlaySoundSeparatingChatLinesCheckButton",
+			"NarrateMyMessagesCheckButton",
+			"UseAlternateVoiceForSystemMessagesCheckButton",
+		}
+		for _, checkbox in pairs(checkboxes) do
+			B.ReskinCheck(TextToSpeechFramePanelContainer[checkbox])
+		end
+
+		hooksecurefunc("TextToSpeechFrame_UpdateMessageCheckboxes", Reskin_TextToSpeechFrame)
+	end
+end)
+
+-- VoicePicker
+local function Reskin_PickerOptions(self)
+	local scrollTarget = self.ScrollBox.ScrollTarget
+	if scrollTarget then
+		local children = {scrollTarget:GetChildren()}
+		for _, child in pairs(children) do
+			if child and not child.styled then
+				child.UnCheck:SetTexture(nil)
+				child.Highlight:SetColorTexture(cr, cg, cb, .25)
+
+				local check = child.Check
+				check:SetColorTexture(cr, cg, cb, C.alpha)
+				check:SetSize(10, 10)
+				check:SetPoint("LEFT", 2, 0)
+				B.CreateBDFrame(check)
+
+				child.styled = true
+			end
+		end
+	end
+end
+
+local function Reskin_VoicePicker(self)
+	local customFrame = self:GetChildren()
+	B.ReskinFrame(customFrame)
+	self:HookScript("OnShow", Reskin_PickerOptions)
+end
+
+tinsert(C.XMLThemes, function()
+	if DB.isNewPatch then
+		B.StripTextures(ChatConfigTextToSpeechChannelSettingsLeft)
+
+		Reskin_VoicePicker(TextToSpeechFrameTtsVoicePicker)
+		Reskin_VoicePicker(TextToSpeechFrameTtsVoiceAlternatePicker)
+	end
+end)

@@ -49,7 +49,7 @@ local function Reskin_UpdateAuraHolder(self)
 
 			if not frame.styled then
 				local icbg = B.ReskinIcon(frame.Icon)
-				B.ReskinSpecialBorder(frame.DebuffBorder, icbg)
+				B.ReskinBGBorder(frame.DebuffBorder, icbg)
 
 				frame.styled = true
 			end

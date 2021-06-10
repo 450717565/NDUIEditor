@@ -421,7 +421,7 @@ C.LUAThemes["Blizzard_Collections"] = function()
 
 			local icbg = B.ReskinIcon(spell.icon)
 			B.ReskinHLTex(spell, icbg, false, true)
-			B.ReskinSpecialBorder(spell.selected, icbg)
+			B.ReskinBGBorder(spell.selected, icbg)
 			spell.BlackCover:SetInside(icbg)
 		end
 	end

@@ -508,7 +508,7 @@ function Skins:Rematch()
 
 					bu.Icon = bu.Texture
 					reskinButton(bu)
-					B.ReskinSpecialBorder(bu.Selected, bu.icbg)
+					B.ReskinBGBorder(bu.Selected, bu.icbg)
 
 					bu.styled = true
 				end
