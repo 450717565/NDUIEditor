@@ -133,7 +133,7 @@ local emotes = {
 
 local function ReplaceEmote(value)
 	local emote = value:gsub("[%{%}]", "")
-	for _, v in ipairs(emotes) do
+	for _, v in pairs(emotes) do
 		if emote == v.key or emote == v.zhCN or emote == v.zhTW then
 			return "|T".. (v.texture or patch..v.key) ..":16|t"
 		end

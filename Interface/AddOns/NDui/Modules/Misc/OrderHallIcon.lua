@@ -4,7 +4,7 @@ local Misc = B:GetModule("Misc")
 
 -- 职业大厅图标，取代自带的信息条
 
-local ipairs, format = ipairs, format
+local pairs, format = pairs, format
 local IsShiftKeyDown = IsShiftKeyDown
 local C_CurrencyInfo_GetCurrencyInfo = C_CurrencyInfo.GetCurrencyInfo
 local C_Garrison_GetCurrencyTypes = C_Garrison.GetCurrencyTypes
@@ -55,7 +55,7 @@ function Misc:OrderHall_Refresh()
 	self.texture = info.iconFileID
 
 	local categoryInfo = C_Garrison_GetClassSpecCategoryInfo(LE_FOLLOWER_TYPE_GARRISON_7_0)
-	for index, info in ipairs(categoryInfo) do
+	for index, info in pairs(categoryInfo) do
 		local category = self.Category
 		if not category[index] then category[index] = {} end
 		category[index].name = info.name

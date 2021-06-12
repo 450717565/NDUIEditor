@@ -625,8 +625,6 @@ do
 			self.Tex:SetVertexColor(cr, cg, cb, 1)
 		elseif self.bgTex then
 			self.bgTex:SetBackdropBorderColor(cr, cg, cb, 1)
-		elseif self.SetBackdropBorderColor then
-			self:SetBackdropBorderColor(cr, cg, cb, 1)
 		end
 	end
 
@@ -635,16 +633,12 @@ do
 			self.Tex:SetVertexColor(1, 1, 1, 1)
 		elseif self.bgTex then
 			self.bgTex:SetBackdropBorderColor(0, 0, 0, 1)
-		elseif self.SetBackdropBorderColor then
-			self:SetBackdropBorderColor(0, 0, 0, 1)
 		end
 	end
 
 	function B:Tex_OnMouseDown()
 		if self.bgTex then
 			self.bgTex:SetBackdropColor(cr, cg, cb, .5)
-		elseif self.SetBackdropColor then
-			self:SetBackdropColor(cr, cg, cb, .5)
 		end
 	end
 
@@ -654,8 +648,6 @@ do
 
 		if self.bgTex then
 			self.bgTex:SetBackdropColor(BGColor.r, BGColor.g, BGColor.b, isOutside and BGAlpha or 0)
-		elseif self.SetBackdropColor then
-			self:SetBackdropColor(BGColor.r, BGColor.g, BGColor.b, isOutside and BGAlpha or 0)
 		end
 	end
 
@@ -689,7 +681,7 @@ do
 
 		local bdTex = frame:CreateTexture(nil, "BACKGROUND", nil, 1)
 		bdTex:SetInside(self)
-		bdTex:SetTexture(DB.bdTex, true, true)
+		bdTex:SetTexture(DB.backdropTex, true, true)
 		bdTex:SetHorizTile(true)
 		bdTex:SetVertTile(true)
 		bdTex:SetBlendMode("ADD")
@@ -722,19 +714,22 @@ do
 		self.gdTex = gdTex
 	end
 
+	local bdBackdrop = {bgFile = DB.bgTex, edgeFile = DB.bgTex}
 	function B:CreateBD(alpha)
 		local BGColor = C.db["Skins"]["BGColor"]
 		local BGAlpha = C.db["Skins"]["BGAlpha"]
 
 		if alpha == "none" then alpha = nil end
+		bdBackdrop.edgeSize = C.mult
 
-		self:SetBackdrop({bgFile = DB.bgTex, edgeFile = DB.bgTex, edgeSize = C.mult})
+		self:SetBackdrop(bdBackdrop)
 		self:SetBackdropColor(BGColor.r, BGColor.g, BGColor.b, alpha or BGAlpha)
 		self:SetBackdropBorderColor(0, 0, 0, 1)
 
 		if not alpha then tinsert(C.frames, self) end
 	end
 
+	local sdBackdrop = {edgeFile = DB.shadowTex}
 	function B:CreateSD(isOverride)
 		if not isOverride and not C.db["Skins"]["SkinShadow"] then return end
 		if self.sdTex then return end
@@ -747,11 +742,12 @@ do
 		local CCShadow = C.db["Skins"]["CCShadow"]
 		local r, g, b, a = SDColor.r, SDColor.g, SDColor.b, SDAlpha
 		if CCShadow then r, g, b = cr, cg, cb end
+		sdBackdrop.edgeSize = B.Scale(4)
 
 		local lvl = frame:GetFrameLevel()
 		local sdTex = CreateFrame("Frame", nil, frame, "BackdropTemplate")
 		sdTex:SetOutside(self, 4, 4)
-		sdTex:SetBackdrop({edgeFile = DB.shadowTex, edgeSize = B.Scale(4)})
+		sdTex:SetBackdrop(sdBackdrop)
 		sdTex:SetBackdropBorderColor(r, g, b, a)
 		sdTex:SetFrameLevel(lvl)
 		self.sdTex = sdTex
@@ -832,7 +828,7 @@ do
 	-- Reskin Function
 	-- Handle Affixes
 	function B:ReskinAffixes()
-		for _, frame in ipairs(self.Affixes) do
+		for _, frame in pairs(self.Affixes) do
 			frame.Border:SetTexture("")
 			frame.Portrait:SetTexture("")
 			if not frame.styled then
@@ -1003,7 +999,7 @@ do
 		B.SetupHook(self)
 	end
 
-	-- Handle Highlight and Checked and Pushed
+	-- Handle Highlight
 	function B:ReskinHLTex(relativeTo, classColor, isColorTex)
 		if not self then return end
 
@@ -1035,6 +1031,7 @@ do
 		end
 	end
 
+	-- Handle Checked and Pushed
 	function B:ReskinCPTex(relativeTo)
 		if not self then return end
 
@@ -1228,6 +1225,9 @@ do
 	end
 
 	-- Handle Frame
+	local headers = {"Header", "header"}
+	local portraits = {"Portrait", "portrait"}
+	local closes = {"CloseButton", "Close"}
 	function B:ReskinFrame(killType)
 		if killType == "none" then
 			B.StripTextures(self)
@@ -1237,7 +1237,7 @@ do
 		B.CleanTextures(self)
 
 		local bg = B.CreateBG(self)
-		for _, key in pairs {"Header", "header"} do
+		for _, key in pairs(headers) do
 			local frameHeader = B.GetKeyWord(self, key)
 			if frameHeader then
 				B.StripTextures(frameHeader, 0)
@@ -1246,11 +1246,11 @@ do
 				frameHeader:SetPoint("TOP", bg, "TOP", 0, 5)
 			end
 		end
-		for _, key in pairs {"Portrait", "portrait"} do
+		for _, key in pairs(portraits) do
 			local framePortrait = B.GetKeyWord(self, key)
 			if framePortrait then framePortrait:SetAlpha(0) end
 		end
-		for _, key in pairs {"CloseButton", "Close"} do
+		for _, key in pairs(closes) do
 			local closeButton = B.GetKeyWord(self, key)
 			if closeButton and closeButton:IsObjectType("Button") then
 				B.ReskinClose(closeButton, bg)
@@ -1322,8 +1322,9 @@ do
 		end
 	end
 
+	local covers = {"background", "Cover", "cover"}
 	function B:ReskinRole(role)
-		for _, key in pairs {"background", "Cover", "cover"} do
+		for _, key in pairs(covers) do
 			local tex = B.GetKeyWord(self, key)
 			if tex then tex:SetTexture("") end
 		end
@@ -1400,12 +1401,13 @@ do
 	end
 
 	-- Handle Scroll
+	local thumbs = {"ThumbTexture", "thumbTexture"}
 	local function GetScrollThumb(self)
 		local thumb
 		if self.GetThumbTexture then
 			thumb = self:GetThumbTexture()
 		else
-			for _, key in pairs {"ThumbTexture", "thumbTexture"} do
+			for _, key in pairs(thumbs) do
 				thumb = B.GetKeyWord(self, key)
 			end
 		end

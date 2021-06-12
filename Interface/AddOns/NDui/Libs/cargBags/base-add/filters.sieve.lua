@@ -128,7 +128,7 @@ end
 	@return container <Container>
 ]]
 function Implementation:GetContainerForItem(item)
-	for _, container in ipairs(self.contByID) do
+	for _, container in pairs(self.contByID) do
 		if (not container.filters or container.filters:Check(item)) then
 			return container
 		end
@@ -138,13 +138,14 @@ end
 --[[
 	Simple function shortcuts for Containers
 ]]
-for name, func in pairs{
+local funcs = {
 	["SetFilter"] = "Set",
 	["SetExtendedFilter"] = "SetExtended",
 	["SetMultipleFilters"] = "SetMultiple",
 	["ChainFilters"] = "Chain",
 	["CheckFilters"]= "Check",
-} do
+}
+for name, func in pairs(funcs) do
 	Container[name] = function(self, ...)
 		self.filters = self.filters or FilterSet:New()
 		self.filters[func](self.filters, ...)

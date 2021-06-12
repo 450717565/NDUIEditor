@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local Bags = B:RegisterModule("Bags")
 
 local cargBags = ns.cargBags
-local ipairs, strmatch, unpack, ceil = ipairs, string.match, unpack, math.ceil
+local pairs, strmatch, unpack, ceil = pairs, string.match, unpack, math.ceil
 local LE_ITEM_QUALITY_POOR, LE_ITEM_QUALITY_RARE, LE_ITEM_QUALITY_HEIRLOOM = LE_ITEM_QUALITY_POOR, LE_ITEM_QUALITY_RARE, LE_ITEM_QUALITY_HEIRLOOM
 local LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR, LE_ITEM_CLASS_CONTAINER = LE_ITEM_CLASS_WEAPON, LE_ITEM_CLASS_ARMOR, LE_ITEM_CLASS_CONTAINER
 local SortBankBags, SortReagentBankBags, SortBags = SortBankBags, SortReagentBankBags, SortBags
@@ -40,7 +40,7 @@ function Bags:UpdateAnchors(parent, bags)
 	if not parent:IsShown() then return end
 
 	local anchor = parent
-	for _, bag in ipairs(bags) do
+	for _, bag in pairs(bags) do
 		if bag:GetHeight() > 45 then
 			bag:Show()
 		else
@@ -637,7 +637,7 @@ function Bags:OnLogin()
 		f.reagent:Hide()
 
 		for bagType, groups in pairs(ContainerGroups) do
-			for _, container in ipairs(groups) do
+			for _, container in pairs(groups) do
 				local parent = Backpack.contByName[bagType]
 				container:SetParent(parent)
 				B.CreateMF(container, parent, true)

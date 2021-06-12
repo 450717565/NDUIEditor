@@ -86,7 +86,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 		if sender == trainerName then -- Trainer Ikaros
 			for spell, actionID in pairs (actionMessages) do
 				if strmatch(msg, spell) then
-					C_Timer.After(0.5, function()
+					C_Timer.After(0.1, function()
 						-- wait a split second to get "Perfect"
 						ClearOverrideBindings(self)
 						SetOverrideBindingClick(self, true, 'SPACE', BUTTON:format(actionID))

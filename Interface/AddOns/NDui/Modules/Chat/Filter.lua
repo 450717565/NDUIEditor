@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local Chat = B:GetModule("Chat")
 
 local strfind, strmatch, gsub, strrep = string.find, string.match, string.gsub, string.rep
-local pairs, ipairs, tonumber = pairs, ipairs, tonumber
+local pairs, pairs, tonumber = pairs, pairs, tonumber
 local min, max, tremove = math.min, math.max, table.remove
 local IsGuildMember, C_FriendList_IsFriend, IsGUIDInGroup, C_Timer_After = IsGuildMember, C_FriendList.IsFriend, IsGUIDInGroup, C_Timer.After
 local Ambiguate, UnitIsUnit, GetTime, SetCVar = Ambiguate, UnitIsUnit, GetTime, SetCVar
@@ -65,7 +65,7 @@ function Chat:GetFilterResult(event, msg, name, flag, guid)
 	filterMsg = gsub(filterMsg, "|r", "")
 
 	-- Trash Filter
-	for _, symbol in ipairs(msgSymbols) do
+	for _, symbol in pairs(msgSymbols) do
 		filterMsg = gsub(filterMsg, symbol, "")
 	end
 
@@ -154,7 +154,7 @@ function Chat:UpdateAddOnBlocker(event, msg, author)
 	local name = Ambiguate(author, "none")
 	if UnitIsUnit(name, "player") then return end
 
-	for _, word in ipairs(addonBlockList) do
+	for _, word in pairs(addonBlockList) do
 		if strfind(msg, word) then
 			if event == "CHAT_MSG_SAY" or event == "CHAT_MSG_YELL" then
 				Chat:ToggleChatBubble()

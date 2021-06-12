@@ -4,8 +4,9 @@ local Skins = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
-local function Reskin_Buttons(self, buttons)
-	for _, key in pairs(buttons) do
+local buttons = {"Finished", "Cancel", "ResetAllButton", "CreateList", "DeleteList", "Rename", "Import", "Export", "AddItem", "ManualSearch", "ExportCSV", "Export", "SelectAll", "UnselectAll", "PostButton", "SkipButton", "MaxButton", "ScanButton", "OptionsButton"}
+local function Reskin_Buttons(self, tables)
+	for _, key in pairs(tables) do
 		local button = self[key]
 		if button then
 			B.ReskinButton(button)
@@ -13,14 +14,15 @@ local function Reskin_Buttons(self, buttons)
 	end
 end
 
+local ranges = {"LevelRange", "ItemLevelRange", "PriceRange", "CraftedLevelRange"}
 local function Reskin_ItemDialog(self)
 	B.ReskinFrame(self)
 	B.ReskinInput(self.SearchContainer.SearchString)
 	B.ReskinCheck(self.SearchContainer.IsExact)
 	B.ReskinDropDown(self.FilterKeySelector)
-	Reskin_Buttons(self, {"Finished", "Cancel", "ResetAllButton"})
+	Reskin_Buttons(self, buttons)
 
-	for _, key in pairs({"LevelRange", "ItemLevelRange", "PriceRange", "CraftedLevelRange"}) do
+	for _, key in pairs(ranges) do
 		local minMax = self[key]
 		if minMax then
 			B.ReskinInput(minMax.MaxBox)
@@ -89,7 +91,6 @@ local function Reskin_ListHeader(self)
 	scrollFrame:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 0)
 
 	local bg = B.CreateBDFrame(scrollFrame)
-	bg:ClearAllPoints()
 	bg:SetPoint("TOPLEFT", scrollFrame, 16, 1)
 	bg:SetPoint("BOTTOMRIGHT", scrollFrame, 0, 0)
 
@@ -151,6 +152,8 @@ local function Reskin_BagList(self)
 	end
 end
 
+local links = {"DiscordLink", "BugReportLink", "TechnicalRoadmap"}
+local items = {"Favourites", "WeaponItems", "ArmorItems", "ContainerItems", "GemItems", "EnhancementItems", "ConsumableItems", "GlyphItems", "TradeGoodItems", "RecipeItems", "BattlePetItems", "QuestItems", "MiscItems"}
 function Skins:Auctionator()
 	if not IsAddOnLoaded("Auctionator") then return end
 
@@ -173,11 +176,11 @@ function Skins:Auctionator()
 		if ShoppingList then
 			B.ReskinDropDown(ShoppingList.ListDropdown)
 			Reskin_ListHeader(ShoppingList.ResultsListing)
-			Reskin_Buttons(ShoppingList, {"CreateList", "DeleteList", "Rename", "Import", "Export", "AddItem", "ManualSearch", "ExportCSV"})
+			Reskin_Buttons(ShoppingList, buttons)
 			Reskin_ItemDialog(ShoppingList.addItemDialog)
 			Reskin_ItemDialog(ShoppingList.editItemDialog)
 			Reskin_SimplePanel(ShoppingList.exportDialog)
-			Reskin_Buttons(ShoppingList.exportDialog, {"Export", "SelectAll", "UnselectAll"})
+			Reskin_Buttons(ShoppingList.exportDialog, buttons)
 
 			for _, cb in pairs(ShoppingList.exportDialog.checkBoxPool) do
 				B.ReskinCheck(cb.CheckBox)
@@ -208,7 +211,7 @@ function Skins:Auctionator()
 			Reskin_Input(itemFrame.Quantity.InputBox)
 			Reskin_Input(itemFrame.Price.MoneyInput.GoldBox)
 			Reskin_Input(itemFrame.Price.MoneyInput.SilverBox)
-			Reskin_Buttons(itemFrame, {"PostButton", "SkipButton", "MaxButton"})
+			Reskin_Buttons(itemFrame, buttons)
 
 			for _, bu in pairs(itemFrame.Duration.radioButtons) do
 				B.ReskinRadio(bu.RadioButton)
@@ -226,7 +229,7 @@ function Skins:Auctionator()
 			B.StripTextures(SellingFrame.BagListing.ScrollFrame.Background)
 			B.ReskinScroll(SellingFrame.BagListing.ScrollFrame.ScrollBar)
 
-			for _, key in pairs({"Favourites", "WeaponItems", "ArmorItems", "ContainerItems", "GemItems", "EnhancementItems", "ConsumableItems", "GlyphItems", "TradeGoodItems", "RecipeItems", "BattlePetItems", "QuestItems", "MiscItems"}) do
+			for _, key in pairs(items) do
 				local items = SellingFrame.BagListing.ScrollFrame.ItemListingFrame[key]
 				if items then
 					Reskin_BagList(items)
@@ -268,9 +271,9 @@ function Skins:Auctionator()
 		if ConfigFrame then
 			B.StripTextures(ConfigFrame)
 			B.CreateBDFrame(ConfigFrame)
-			Reskin_Buttons(ConfigFrame, {"ScanButton", "OptionsButton"})
+			Reskin_Buttons(ConfigFrame, buttons)
 
-			for _, key in pairs({"DiscordLink", "BugReportLink", "TechnicalRoadmap"}) do
+			for _, key in pairs(links) do
 				local eb = ConfigFrame[key]
 				if eb then
 					B.ReskinInput(eb.InputBox)

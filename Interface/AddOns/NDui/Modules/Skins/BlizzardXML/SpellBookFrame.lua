@@ -106,6 +106,7 @@ tinsert(C.XMLThemes, function()
 
 		local icon = _G["SpellButton"..i.."IconTexture"]
 		local icbg = B.ReskinIcon(icon)
+		B.ReskinCPTex(button, icbg)
 
 		button.icbg = icbg
 	end

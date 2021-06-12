@@ -495,7 +495,7 @@ function TT:SetupTooltipFonts()
 		GameTooltip_ClearMoney(GameTooltip)
 	end
 
-	for _, tt in ipairs(GameTooltip.shoppingTooltips) do
+	for _, tt in pairs(GameTooltip.shoppingTooltips) do
 		local regions = {tt:GetRegions()}
 		for _, region in pairs(regions) do
 			if region and region:IsObjectType("FontString") then

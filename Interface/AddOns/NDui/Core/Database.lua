@@ -61,7 +61,7 @@ DB.afdianTex = Media.."Logo\\Afdian"
 DB.patreonTex = Media.."Logo\\Patreon"
 
 DB.arrowTex = Media.."Reskin\\arrowTex_"
-DB.bdTex = Media.."Reskin\\backdropTex"
+DB.backdropTex = Media.."Reskin\\backdropTex"
 DB.closeTex = Media.."Reskin\\closeTex"
 DB.rolesTex = Media.."Reskin\\rolesTex"
 DB.shadowTex = Media.."Reskin\\shadowTex"

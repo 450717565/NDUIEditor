@@ -98,12 +98,13 @@ tinsert(C.XMLThemes, function()
 	line:SetWidth(250)
 	line:SetPoint("BOTTOMRIGHT", OpenMailInvoiceAmountReceived, "TOPRIGHT", 7, 7)
 
-	for _, button in pairs {"OpenMailLetterButton", "OpenMailMoneyButton"} do
-		local bu = _G[button]
-		B.CleanTextures(bu)
+	local buttons = {"OpenMailLetterButton", "OpenMailMoneyButton"}
+	for _, name in pairs(buttons) do
+		local button = _G[name]
+		B.CleanTextures(button)
 
-		local icbg = B.ReskinIcon(_G[button.."IconTexture"])
-		B.ReskinHLTex(bu, icbg)
+		local icbg = B.ReskinIcon(_G[name.."IconTexture"])
+		B.ReskinHLTex(button, icbg)
 	end
 
 	for i = 1, INBOXITEMS_TO_DISPLAY do

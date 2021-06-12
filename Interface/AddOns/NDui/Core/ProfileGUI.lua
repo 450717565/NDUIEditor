@@ -400,14 +400,14 @@ function GUI:ExportGUIData()
 							for spellID, k in pairs(value) do
 								text = text..";"..KEY..":"..key..":"..spellID
 								if k[5] == nil then k[5] = false end
-								for _, v in ipairs(k) do
+								for _, v in pairs(k) do
 									text = text..":"..tostring(v)
 								end
 							end
 						end
 					elseif KEY == "Mover" or KEY == "RaidClickSets" or KEY == "InternalCD" or KEY == "AuraWatchMover" then
 						text = text..";"..KEY..":"..key
-						for _, v in ipairs(value) do
+						for _, v in pairs(value) do
 							text = text..":"..tostring(v)
 						end
 					elseif key == "FavouriteItems" then

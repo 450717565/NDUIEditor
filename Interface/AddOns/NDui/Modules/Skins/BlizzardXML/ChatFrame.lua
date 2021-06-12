@@ -11,7 +11,7 @@ local function Reskin_ChatScrollBar(self)
 	thumb:SetAlpha(0)
 	thumb:SetWidth(18)
 
-	self.bdTex = B.CreateBDFrame(thumb)
+	self.bgTex = B.CreateBDFrame(thumb)
 	B.SetupHook(self)
 
 	local down = self.ScrollToBottomButton

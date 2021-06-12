@@ -155,7 +155,8 @@ function Skins:MeetingStone()
 		B.CreateBDFrame(child)
 	end
 
-	for _, key in pairs {"MemberWidget", "MiscWidget"} do
+	local widgets = {"MemberWidget", "MiscWidget"}
+	for _, key in pairs(widgets) do
 		local panel = CreatePanel[key]
 		if panel then
 			B.CreateBDFrame(panel)
@@ -359,7 +360,8 @@ function Skins:MeetingStone()
 
 		local WalkthroughPanel = MS:GetModule("WalkthroughPanel", true)
 		if WalkthroughPanel then
-			for _, key in pairs {"CategoryList", "SummaryHtml"} do
+			local lists = {"CategoryList", "SummaryHtml"}
+			for _, key in pairs(lists) do
 				local widget = WalkthroughPanel[key] and WalkthroughPanel[key]:GetParent()
 				if widget then
 					B.StripTextures(widget)
@@ -402,14 +404,16 @@ function Skins:MeetingStone()
 			ReskinMS_Button(ActivitiesParent.PlayerInfoButton)
 		end
 
-		for _, key in pairs {"QuestPanel", "QuestPanel2"} do
+		local panels = {"QuestPanel", "QuestPanel2"}
+		local buttons = {"Refresh", "Join", "Ranking"}
+		for _, key in pairs(panels) do
 			local QuestPanel = MSEnv[key]
 			if QuestPanel then
 				local Body = QuestPanel.Body
 				if Body then
 					B.StripTextures(Body)
 
-					for _, key in pairs {"Refresh", "Join", "Ranking"} do
+					for _, key in pairs(buttons) do
 						local button = Body[key]
 						if button then
 							B.ReskinButton(button)

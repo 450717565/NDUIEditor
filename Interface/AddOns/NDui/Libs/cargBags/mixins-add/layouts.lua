@@ -33,7 +33,7 @@ function layouts.grid(self, columns, spacing, xOffset, yOffset)
 
 	local width, height = 0, 0
 	local col, row = 0, 0
-	for i, button in ipairs(self.buttons) do
+	for i, button in pairs(self.buttons) do
 
 		if (i == 1) then -- Hackish, I know
 			width, height = button:GetSize()
@@ -65,7 +65,7 @@ function layouts.circle(self, radius, xOffset, yOffset)
 
 	local a = 360/#self.buttons
 
-	for i, button in ipairs(self.buttons) do
+	for i, button in pairs(self.buttons) do
 		local x = radius*cos(a*i)
 		local y = -radius*sin(a*i)
 

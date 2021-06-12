@@ -5,7 +5,7 @@ local oUF = ns.oUF
 -- yClassColors, by yleaf
 -- NDui MOD
 ----------------------------
-local format, ipairs, tinsert = string.format, ipairs, table.insert
+local format, pairs, tinsert = string.format, pairs, table.insert
 local C_FriendList_GetWhoInfo = C_FriendList.GetWhoInfo
 local C_FriendList_GetNumWhoResults = C_FriendList.GetNumWhoResults
 local C_FriendList_GetFriendInfoByIndex = C_FriendList.GetFriendInfoByIndex
@@ -58,7 +58,7 @@ local function updateGuildView()
 	local playerArea = GetRealZoneText()
 	local buttons = GuildRosterContainer.buttons
 
-	for _, button in ipairs(buttons) do
+	for _, button in pairs(buttons) do
 		if button:IsShown() and button.online and button.guildIndex then
 			if currentView == "tradeskill" then
 				local _, _, _, headerName, _, _, _, _, _, _, _, zone = GetGuildTradeSkillInfo(button.guildIndex)

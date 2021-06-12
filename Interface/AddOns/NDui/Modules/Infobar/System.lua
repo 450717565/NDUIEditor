@@ -6,7 +6,7 @@ if not C.Infobar.System then return end
 local Infobar = B:GetModule("Infobar")
 local info = Infobar:RegisterInfobar("System", C.Infobar.SystemPos)
 
-local ipairs, tinsert, wipe, sort = ipairs, tinsert, wipe, sort
+local pairs, tinsert, wipe, sort = pairs, tinsert, wipe, sort
 local format, floor, min, max = format, floor, min, max
 local GetFramerate, GetTime = GetFramerate, GetTime
 local GetNumAddOns, GetAddOnInfo, GetCVarBool, SetCVar = GetNumAddOns, GetAddOnInfo, GetCVarBool, SetCVar
@@ -59,7 +59,7 @@ local function UpdateMemory()
 	UpdateAddOnMemoryUsage()
 
 	local total = 0
-	for _, data in ipairs(infoTable) do
+	for _, data in pairs(infoTable) do
 		if IsAddOnLoaded(data[1]) then
 			local mem = GetAddOnMemoryUsage(data[1])
 			data[3] = mem
@@ -75,7 +75,7 @@ local function UpdateCPU()
 	UpdateAddOnCPUUsage()
 
 	local total = 0
-	for _, data in ipairs(infoTable) do
+	for _, data in pairs(infoTable) do
 		if IsAddOnLoaded(data[1]) then
 			local addonCPU = GetAddOnCPUUsage(data[1])
 			data[4] = addonCPU
@@ -132,7 +132,7 @@ info.onEnter = function(self)
 		GameTooltip:AddLine(" ")
 
 		local numEnabled = 0
-		for _, data in ipairs(infoTable) do
+		for _, data in pairs(infoTable) do
 			if IsAddOnLoaded(data[1]) then
 				numEnabled = numEnabled + 1
 				if numEnabled <= maxShown then
@@ -156,7 +156,7 @@ info.onEnter = function(self)
 		GameTooltip:AddLine(" ")
 
 		local numEnabled = 0
-		for _, data in ipairs(infoTable) do
+		for _, data in pairs(infoTable) do
 			if IsAddOnLoaded(data[1]) then
 				numEnabled = numEnabled + 1
 				if numEnabled <= maxShown then

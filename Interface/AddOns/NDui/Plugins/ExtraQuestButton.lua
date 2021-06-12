@@ -26,6 +26,7 @@ local C_QuestLog_GetQuestIDForWorldQuestWatchIndex = C_QuestLog.GetQuestIDForWor
 local MAX_DISTANCE_YARDS = 1e5
 local onlyCurrentZone = true
 
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
 -- Warlords of Draenor intro quest items which inspired this addon
@@ -214,6 +215,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self:SetAttribute("_onattributechanged", onAttributeChanged)
 	self:SetAttribute("type", "item")
 
+	self:SetPushedTexture(DB.bgTex)
 	self:SetSize(ExtraActionButton1:GetSize())
 	self:SetScale(ExtraActionButton1:GetScale())
 	self:SetScript("OnLeave", B.HideTooltip)
@@ -225,7 +227,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 			self:ClearAllPoints()
 			self:SetPoint("CENTER", _G.NDui_ActionBarExtra)
 		else
-			B.Mover(self, L["ExtraQuestButton"], "Extrabar", {"BOTTOM", UIParent, "BOTTOM", 250, 100})
+			B.Mover(self, L["ExtraQuestButton"], "Extrabar", {"BOTTOMLEFT", UIParent, 420, 30})
 		end
 	end
 
@@ -235,33 +237,21 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	local bubg = B.CreateBDFrame(self)
 	B.ReskinCPTex(self, bubg)
 
-	local Icon = self:CreateTexture("$parentIcon", "ARTWORK")
-	Icon:SetTexCoord(tL, tR, tT, tB)
-	Icon:SetInside(bubg)
-	self.Icon = Icon
-
-	local Highlight = self:CreateTexture(nil, "HIGHLIGHT")
-	Highlight:SetColorTexture(1, 1, 1, .25)
-	Highlight:SetInside(bubg)
-	self.Highlight = Highlight
-
-	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
-	HotKey:ClearAllPoints()
-	HotKey:SetPoint("TOPLEFT", 3, -3)
-	HotKey:SetShadowColor(0, 0, 0, 0)
-	self.HotKey = HotKey
-
-	local Count = self:CreateFontString("$parentCount", nil, "NumberFont_Shadow_Med")
-	Count:ClearAllPoints()
-	Count:SetPoint("BOTTOMRIGHT", -3, 3)
-	Count:SetShadowColor(0, 0, 0, 0)
-	self.Count = Count
-
 	local Cooldown = CreateFrame("Cooldown", "$parentCooldown", self, "CooldownFrameTemplate")
 	Cooldown:SetReverse(false)
 	Cooldown:SetInside(bubg)
 	Cooldown:Hide()
 	self.Cooldown = Cooldown
+
+	local Icon = self:CreateTexture("$parentIcon", "ARTWORK")
+	Icon:SetTexCoord(tL, tR, tT, tB)
+	Icon:SetInside(bubg)
+	self.Icon = Icon
+
+	local Highlight = self:CreateTexture("$parentHighlight", "HIGHLIGHT")
+	Highlight:SetColorTexture(1, 1, 1, .25)
+	Highlight:SetInside(bubg)
+	self.Highlight = Highlight
 
 	local Artwork = self:CreateTexture("$parentArtwork", "OVERLAY")
 	Artwork:ClearAllPoints()
@@ -269,6 +259,20 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	Artwork:SetSize(20, 20)
 	Artwork:SetAtlas(DB.questTex)
 	self.Artwork = Artwork
+
+	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
+	HotKey:ClearAllPoints()
+	HotKey:SetPoint("TOPLEFT", 3, -3)
+	HotKey:SetTextColor(cr, cg, cb)
+	HotKey:SetShadowColor(0, 0, 0, 0)
+	self.HotKey = HotKey
+
+	local Count = self:CreateFontString("$parentCount", nil, "NumberFontNormal")
+	Count:ClearAllPoints()
+	Count:SetPoint("BOTTOMRIGHT", -3, 3)
+	Count:SetTextColor(1, 1, 1)
+	Count:SetShadowColor(0, 0, 0, 0)
+	self.Count = Count
 
 	self:RegisterEvent("UPDATE_BINDINGS")
 	self:RegisterEvent("BAG_UPDATE_COOLDOWN")

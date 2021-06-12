@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local GUI = B:GetModule("GUI")
 
 local _G = _G
-local unpack, pairs, ipairs, tinsert = unpack, pairs, ipairs, tinsert
+local unpack, pairs, pairs, tinsert = unpack, pairs, pairs, tinsert
 local min, max, strmatch, tonumber = min, max, strmatch, tonumber
 local GetSpellInfo, GetSpellTexture = GetSpellInfo, GetSpellTexture
 local GetInstanceInfo, EJ_GetInstanceInfo = GetInstanceInfo, EJ_GetInstanceInfo
@@ -607,7 +607,7 @@ function GUI:SetupNameplateFilter(parent)
 		parent.box:SetText("")
 	end
 
-	for index, value in ipairs(frameData) do
+	for index, value in pairs(frameData) do
 		B.CreateFS(panel, 14, value.text, "system", "TOPLEFT", 20, value.offset)
 		local frame = CreateFrame("Frame", nil, panel)
 		frame:SetSize(280, 250)
@@ -734,7 +734,7 @@ function GUI:SetupAuraIndicator(parent)
 		GameTooltip:Show()
 	end
 
-	for index, value in ipairs(frameData) do
+	for index, value in pairs(frameData) do
 		B.CreateFS(panel, 14, value.text, "system", "TOPLEFT", 20, value.offset)
 
 		local frame = CreateFrame("Frame", nil, panel)
@@ -1085,7 +1085,7 @@ function GUI:SetupBagFilter(parent)
 	end
 
 	local offset = 10
-	for _, value in ipairs(filterOptions) do
+	for _, value in pairs(filterOptions) do
 		local box = createOptionCheck(scroll, offset, L[value])
 		box:SetChecked(C.db["Bags"][value])
 		box.__value = value

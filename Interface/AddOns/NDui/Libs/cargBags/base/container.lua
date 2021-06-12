@@ -80,7 +80,7 @@ end
 	@callback OnButtonRemove(button)
 ]]
 function Container:RemoveButton(button)
-	for i, single in ipairs(self.buttons) do
+	for i, single in pairs(self.buttons) do
 		if (button == single) then
 			self:ScheduleContentCallback()
 			button.container = nil

@@ -4,7 +4,7 @@ local oUF = ns.oUF
 local UF = B:GetModule("UnitFrames")
 
 local strmatch, format, wipe = strmatch, format, wipe
-local pairs, ipairs, next, tonumber, unpack, gsub = pairs, ipairs, next, tonumber, unpack, gsub
+local pairs, pairs, next, tonumber, unpack, gsub = pairs, pairs, next, tonumber, unpack, gsub
 local UnitAura, GetSpellInfo = UnitAura, GetSpellInfo
 local InCombatLockdown = InCombatLockdown
 local GetTime, GetSpellCooldown, IsInRaid, IsInGroup = GetTime, GetSpellCooldown, IsInRaid, IsInGroup
@@ -291,7 +291,7 @@ local function setupClickSets(self)
 		local key, modKey, value = unpack(data)
 		if key == KEY_BUTTON1 and modKey == "SHIFT" then self.focuser = true end
 
-		for _, v in ipairs(keyList) do
+		for _, v in pairs(keyList) do
 			if v[1] == key and v[2] == modKey then
 				if tonumber(value) then
 					local name = GetSpellInfo(value)

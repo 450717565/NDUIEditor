@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local Misc = B:GetModule("Misc")
 
 local _G = getfenv(0)
-local ipairs, tremove = ipairs, table.remove
+local pairs, tremove = pairs, table.remove
 local UIParent = _G.UIParent
 local AlertFrame = _G.AlertFrame
 local GroupLootContainer = _G.GroupLootContainer
@@ -103,7 +103,7 @@ local function MoveTalkingHead()
 	TalkingHeadFrame:ClearAllPoints()
 	TalkingHeadFrame:SetPoint("TOP", talkFrame)
 
-	for index, alertFrameSubSystem in ipairs(AlertFrame.alertFrameSubSystems) do
+	for index, alertFrameSubSystem in pairs(AlertFrame.alertFrameSubSystems) do
 		if alertFrameSubSystem.anchorFrame and alertFrameSubSystem.anchorFrame == TalkingHeadFrame then
 			tremove(AlertFrame.alertFrameSubSystems, index)
 		end
@@ -146,7 +146,7 @@ function Misc:AlertFrame_Setup()
 	GroupLootContainer:EnableMouse(false)
 	GroupLootContainer.ignoreFramePositionManager = true
 
-	for _, alertFrameSubSystem in ipairs(AlertFrame.alertFrameSubSystems) do
+	for _, alertFrameSubSystem in pairs(AlertFrame.alertFrameSubSystems) do
 		Misc.AlertFrame_AdjustPosition(alertFrameSubSystem)
 	end
 

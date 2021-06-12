@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local TT = B:GetModule("Tooltip")
 
 local _G = getfenv(0)
-local format, tinsert, ipairs, select = string.format, table.insert, ipairs, select
+local format, tinsert, pairs, select = string.format, table.insert, pairs, select
 local GetSpellInfo = GetSpellInfo
 local C_AzeriteEmpoweredItem_GetPowerInfo = C_AzeriteEmpoweredItem.GetPowerInfo
 local C_AzeriteEmpoweredItem_IsAzeriteEmpoweredItemByID = C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID
@@ -77,7 +77,7 @@ function TT:Azerite_UpdateItem()
 		if not lineIndex then break end
 
 		local tooltipText = ""
-		for _, id in ipairs(powerIDs) do
+		for _, id in pairs(powerIDs) do
 			local spellID = TT:Azerite_PowerToSpell(id)
 			if not spellID then break end
 

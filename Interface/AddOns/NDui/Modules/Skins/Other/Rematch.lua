@@ -322,7 +322,8 @@ function Skins:Rematch()
 		B.StripTextures(Content)
 		B.CreateBDFrame(Content, 0, 2)
 
-		for _, result in pairs {"Wins", "Losses", "Draws"} do
+		local results = {"Wins", "Losses", "Draws"}
+		for _, result in pairs(results) do
 			reskinInput(Content[result].EditBox)
 			Content[result].Add.IconBorder:Hide()
 		end
@@ -396,7 +397,8 @@ function Skins:Rematch()
 		B.ReskinScroll(Content.ScrollFrame.ScrollBar)
 		B.CreateBGFrame(Content.ScrollFrame, 0, 5, 0, -2)
 
-		for _, icon in pairs {"Left", "Right"} do
+		local icons = {"Left", "Right"}
+		for _, icon in pairs(icons) do
 			local bu = Content[icon.."Icon"]
 			local mask = Content[icon.."CircleMask"]
 
@@ -468,13 +470,15 @@ function Skins:Rematch()
 
 	-- RematchTeamTabs
 	hooksecurefunc(RematchTeamTabs, "Update", function(self)
-		for _, tab in pairs(self.Tabs) do
+		local tabs = self.Tabs
+		for _, tab in pairs(tabs) do
 			reskinButton(tab)
 			tab:SetSize(40, 40)
 			tab.Icon:SetPoint("CENTER")
 		end
 
-		for _, button in pairs {"UpButton", "DownButton"} do
+		local buttons = {"UpButton", "DownButton"}
+		for _, button in pairs(buttons) do
 			reskinButton(self[button])
 			self[button]:SetSize(40, 40)
 			self[button].Icon:SetPoint("CENTER")

@@ -4,7 +4,7 @@ local Chat = B:RegisterModule("Chat")
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 local _G = _G
-local tostring, pairs, ipairs, strsub, strlower = tostring, pairs, ipairs, string.sub, string.lower
+local tostring, pairs, pairs, strsub, strlower = tostring, pairs, pairs, string.sub, string.lower
 local IsInGroup, IsInRaid, IsPartyLFG, IsInGuild, IsShiftKeyDown, IsControlKeyDown = IsInGroup, IsInRaid, IsPartyLFG, IsInGuild, IsShiftKeyDown, IsControlKeyDown
 local ChatEdit_UpdateHeader, GetChannelList, GetCVar, SetCVar, Ambiguate, GetTime = ChatEdit_UpdateHeader, GetChannelList, GetCVar, SetCVar, Ambiguate, GetTime
 local GetNumGuildMembers, GetGuildRosterInfo, IsGuildMember, UnitIsGroupLeader, UnitIsGroupAssistant = GetNumGuildMembers, GetGuildRosterInfo, IsGuildMember, UnitIsGroupLeader, UnitIsGroupAssistant
@@ -124,7 +124,7 @@ function Chat:ToggleChatFrameTextures(frame)
 end
 
 function Chat:ToggleChatBackground()
-	for _, chatFrameName in ipairs(CHAT_FRAMES) do
+	for _, chatFrameName in pairs(CHAT_FRAMES) do
 		local frame = _G[chatFrameName]
 		if frame.__background then
 			frame.__background:SetShown(C.db["Chat"]["ChatBGType"] == 2)
@@ -166,7 +166,7 @@ local cycles = {
 function Chat:UpdateTabChannelSwitch()
 	if strsub(tostring(self:GetText()), 1, 1) == "/" then return end
 	local currChatType = self:GetAttribute("chatType")
-	for i, curr in ipairs(cycles) do
+	for i, curr in pairs(cycles) do
 		if curr.chatType == currChatType then
 			local h, r, step = i+1, #cycles, 1
 			if IsShiftKeyDown() then h, r, step = i-1, 1, -1 end
@@ -330,7 +330,7 @@ function Chat:OnLogin()
 	end
 
 	hooksecurefunc("FCF_OpenTemporaryWindow", function()
-		for _, chatFrameName in ipairs(CHAT_FRAMES) do
+		for _, chatFrameName in pairs(CHAT_FRAMES) do
 			local frame = _G[chatFrameName]
 			if frame.isTemporary then
 				Chat.SkinChat(frame)

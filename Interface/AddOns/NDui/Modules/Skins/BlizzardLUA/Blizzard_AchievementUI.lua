@@ -280,19 +280,22 @@ C.LUAThemes["Blizzard_AchievementUI"] = function()
 		text:SetPoint("RIGHT", bar, "RIGHT", -5, 0)
 	end
 
+	local players = {"Player", "Friend"}
+	local overlays = {"PlayerIconOverlay", "FriendIconOverlay"}
+	local textures = {"PlayerIconTexture", "FriendIconTexture"}
 	for i = 1, 9 do
 		local buttons = "AchievementFrameComparisonContainerButton"..i
 
-		for _, name in pairs {"Player", "Friend"} do
+		for _, name in pairs(players) do
 			B.StripTextures(_G[buttons..name], 0)
 			B.CreateBDFrame(_G[buttons..name], 0, 1)
 		end
 
-		for _, io in pairs {"PlayerIconOverlay", "FriendIconOverlay"} do
+		for _, io in pairs(overlays) do
 			_G[buttons..io]:Hide()
 		end
 
-		for _, ic in pairs {"PlayerIconTexture", "FriendIconTexture"} do
+		for _, ic in pairs(textures) do
 			B.ReskinIcon(_G[buttons..ic])
 		end
 	end

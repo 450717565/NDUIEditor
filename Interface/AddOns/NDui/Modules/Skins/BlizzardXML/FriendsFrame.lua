@@ -306,7 +306,7 @@ tinsert(C.XMLThemes, function()
 	ConvertButton:ClearAllPoints()
 	ConvertButton:SetPoint("BOTTOMRIGHT", -6, 4)
 
-	local labels =  {
+	local labels = {
 		RaidInfoInstanceLabel,
 		RaidInfoIDLabel,
 	}

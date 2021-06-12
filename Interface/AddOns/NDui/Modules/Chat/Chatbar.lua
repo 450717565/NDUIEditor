@@ -50,7 +50,7 @@ function Chat:Chatbar()
 			{str = STAT_BLOCK..":%.2f%% ", disable = DB.Role ~= "Tank" or GetBlockChance() == 0, GetBlockChance()},
 		}
 
-		for _, stat in ipairs(statCollect) do
+		for _, stat in pairs(statCollect) do
 			if not stat.disable then
 				info = info..stat.str:format(unpack(stat))
 			end

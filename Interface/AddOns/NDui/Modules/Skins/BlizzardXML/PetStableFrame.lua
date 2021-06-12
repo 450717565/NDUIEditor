@@ -10,14 +10,14 @@ local function Reskin_Slot(self, index)
 
 		local icbg = B.ReskinIcon(icon)
 		B.ReskinHLTex(button, icbg)
+		B.ReskinCPTex(button, icbg)
 
 		button.icbg = icbg
 	end
 end
 
 tinsert(C.XMLThemes, function()
-	local class = select(2, UnitClass("player"))
-	if class ~= "HUNTER" then return end
+	if DB.MyClass ~= "HUNTER" then return end
 
 	B.ReskinFrame(PetStableFrame)
 	B.ReskinArrow(PetStablePrevPageButton, "left")
@@ -29,8 +29,8 @@ tinsert(C.XMLThemes, function()
 
 	B.CreateBDFrame(PetStableModel)
 
-	PetStableDietTexture:SetTexture("Interface\\Icons\\PetBattle_Health")
 	PetStableModelShadow:Hide()
+	PetStableDietTexture:SetTexture("Interface\\Icons\\PetBattle_Health")
 	PetStableModelRotateLeftButton:ClearAllPoints()
 	PetStableModelRotateLeftButton:SetPoint("BOTTOMRIGHT", PetStableModel, "BOTTOM", -1, 2)
 	PetStableModelRotateRightButton:ClearAllPoints()
@@ -41,6 +41,10 @@ tinsert(C.XMLThemes, function()
 
 		local button = _G["PetStableActivePet"..i]
 		B.ReskinBGBorder(button.Checked, button.icbg)
+
+		local petName = _G["PetStableActivePet"..i.."PetName"]
+		petName:ClearAllPoints()
+		petName:SetPoint("BOTTOM", button, "TOP", 0, 1)
 	end
 
 	for i = 1, NUM_PET_STABLE_SLOTS do

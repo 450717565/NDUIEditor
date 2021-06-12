@@ -516,7 +516,7 @@ function Misc:NVision_Create()
 		}
 	}
 
-	for i, v in ipairs(barData) do
+	for i, v in pairs(barData) do
 		local bar = B.CreateSB(frame, nil, unpack(v.color))
 		bar:SetSize(80, 20)
 		bar:SetPoint(v.anchorF, frame, "CENTER", v.offset, 0)

@@ -213,7 +213,7 @@ tinsert(C.XMLThemes, function()
 	ItemHighlight:HookScript("OnShow", Update_Highlight)
 	ItemHighlight:HookScript("OnHide", Reset_Highlight)
 
-	local frames =  {
+	local frames = {
 		"ArtifactXPFrame",
 		"HonorFrame",
 		"MoneyFrame",
@@ -231,14 +231,4 @@ tinsert(C.XMLThemes, function()
 	end
 
 	hooksecurefunc("QuestInfo_GetRewardButton", Reskin_GetRewardButton)
-
-	-- Quest Progress Item
-	for i = 1, MAX_REQUIRED_ITEMS do
-		local item = "QuestProgressItem"..i
-		B.StripTextures(_G[item])
-
-		local icon = _G[item.."IconTexture"]
-		local icbg = B.ReskinIcon(icon)
-		B.CreateBGFrame(_G[item], 2, 0, -5, 0, icbg)
-	end
 end)

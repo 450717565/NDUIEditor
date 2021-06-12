@@ -763,16 +763,18 @@ function UF.CustomFilter(element, unit, button, name, _, _, _, duration, _, cast
 			return NDuiADB["NameplateFilter"][1][spellID] or C.WhiteList[spellID]
 		elseif NDuiADB["NameplateFilter"][2][spellID] or C.BlackList[spellID] then
 			return false
-		elseif element.showStealableBuffs and isStealable and not UnitIsPlayer(unit) then
-			return true
 		elseif NDuiADB["NameplateFilter"][1][spellID] or C.WhiteList[spellID] then
+			return true
+		elseif element.showStealableBuffs and isStealable and not UnitIsPlayer(unit) then
 			return true
 		else
 			local auraFilter = C.db["Nameplate"]["AuraFilter"]
 			return (auraFilter == 3 and nameplateShowAll) or (auraFilter ~= 1 and isPlayerCast)
 		end
-	elseif (element.onlyShowPlayer and button.isPlayer) or (not element.onlyShowPlayer and name) then
-		return true
+	--[[ elseif style == "focus" then
+		return (not button.isDebuff and isStealable) or (button.isDebuff and name) ]]
+	else
+		return (element.onlyShowPlayer and button.isPlayer) or (not element.onlyShowPlayer and name)
 	end
 end
 

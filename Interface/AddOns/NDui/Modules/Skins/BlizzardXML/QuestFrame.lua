@@ -35,6 +35,23 @@ else
 	end
 end
 
+local function Update_ProgressItemQuality(self)
+	local button = self.__owner
+	local index = button.__id
+	local buttonType = button.type
+	local objectType = button.objectType
+
+	local quality
+	if objectType == "item" then
+		quality = select(4, GetQuestItemInfo(buttonType, index))
+	elseif objectType == "currency" then
+		quality = select(4, GetQuestCurrencyInfo(buttonType, index))
+	end
+
+	local r, g, b = GetItemQualityColor(quality or 1)
+	button.icbg:SetBackdropBorderColor(r, g, b)
+end
+
 tinsert(C.XMLThemes, function()
 	B.ReskinFrame(QuestFrame)
 	B.ReskinText(QuestProgressRequiredItemsText, 1, 0, 0)
@@ -90,4 +107,18 @@ tinsert(C.XMLThemes, function()
 	boss:SetOutside(QuestModelScene, 0, 0, QuestNPCModelTextFrame)
 
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", Fixed_ShowQuestPortrait)
+
+	-- Quest Progress Item
+	for i = 1, MAX_REQUIRED_ITEMS do
+		local button = _G["QuestProgressItem"..i]
+		B.StripTextures(button)
+
+		local icbg = B.ReskinIcon(button.Icon)
+		B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
+
+		button.__id = i
+		button.icbg = icbg
+		button.Icon.__owner = button
+		hooksecurefunc(button.Icon, "SetTexture", Update_ProgressItemQuality)
+	end
 end)

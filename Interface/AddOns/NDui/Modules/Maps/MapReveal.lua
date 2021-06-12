@@ -159,7 +159,7 @@ local function MapExplorationPin_RefreshOverlays(pin, fullUpdate)
 
 	local exploredMapTextures = C_MapExplorationInfo.GetExploredMapTextures(mapID)
 	if exploredMapTextures then
-		for _, exploredTextureInfo in ipairs(exploredMapTextures) do
+		for _, exploredTextureInfo in pairs(exploredMapTextures) do
 			local key = exploredTextureInfo.textureWidth..":"..exploredTextureInfo.textureHeight..":"..exploredTextureInfo.offsetX..":"..exploredTextureInfo.offsetY
 			TileExists[key] = true
 		end

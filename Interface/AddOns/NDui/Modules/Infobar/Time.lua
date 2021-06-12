@@ -7,7 +7,7 @@ local info = Infobar:RegisterInfobar("Time", C.Infobar.TimePos)
 
 local time, date = time, date
 local strfind, format, floor, strmatch = strfind, format, floor, strmatch
-local mod, tonumber, pairs, ipairs = mod, tonumber, pairs, ipairs
+local mod, tonumber, pairs, pairs = mod, tonumber, pairs, pairs
 local IsShiftKeyDown = IsShiftKeyDown
 local C_Map_GetMapInfo = C_Map.GetMapInfo
 local C_DateAndTime_GetCurrentCalendarTime = C_DateAndTime.GetCurrentCalendarTime
@@ -320,7 +320,7 @@ info.onEnter = function(self)
 	end
 	if IsShiftKeyDown() then
 		-- Nzoth relavants
-		for _, v in ipairs(horrificVisions) do
+		for _, v in pairs(horrificVisions) do
 			if IsQuestFlaggedCompleted(v.id) then
 				addTitle(QUESTS_LABEL)
 				GameTooltip:AddDoubleLine(HORRIFIC_VISION, v.desc, 1,1,1, 0,1,0)
@@ -347,7 +347,7 @@ info.onEnter = function(self)
 		end
 
 		-- Invasions
-		for index, value in ipairs(invIndex) do
+		for index, value in pairs(invIndex) do
 			title = false
 			addTitle(value.title)
 			local timeLeft, zoneName = CheckInvasion(index)

@@ -2,7 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local GUI = B:RegisterModule("GUI")
 
-local tonumber, pairs, ipairs, next, type, tinsert = tonumber, pairs, ipairs, next, type, tinsert
+local tonumber, pairs, pairs, next, type, tinsert = tonumber, pairs, pairs, next, type, tinsert
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local guiTab, guiPage, f = {}, {}
 
@@ -1340,7 +1340,7 @@ local function CreateOption(i)
 		-- Dropdown
 		elseif optType == 4 then
 			if value == "TexStyle" then
-				for _, v in ipairs(GUI.TextureList) do
+				for _, v in pairs(GUI.TextureList) do
 					tinsert(data, v.name)
 				end
 			end

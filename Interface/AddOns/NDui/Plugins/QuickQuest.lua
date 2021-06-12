@@ -5,7 +5,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-local next, ipairs, select = next, ipairs, select
+local next, pairs, select = next, pairs, select
 local UnitGUID, IsShiftKeyDown, GetItemInfoFromHyperlink = UnitGUID, IsShiftKeyDown, GetItemInfoFromHyperlink
 local GetNumTrackingTypes, GetTrackingInfo, GetInstanceInfo, GetQuestID = GetNumTrackingTypes, GetTrackingInfo, GetInstanceInfo, GetQuestID
 local GetNumActiveQuests, GetActiveTitle, GetActiveQuestID, SelectActiveQuest = GetNumActiveQuests, GetActiveTitle, GetActiveQuestID, SelectActiveQuest
@@ -230,7 +230,7 @@ QuickQuest:Register("GOSSIP_SHOW", function()
 
 	local active = C_GossipInfo_GetNumActiveQuests()
 	if active > 0 then
-		for index, questInfo in ipairs(C_GossipInfo_GetActiveQuests()) do
+		for index, questInfo in pairs(C_GossipInfo_GetActiveQuests()) do
 			local questID = questInfo.questID
 			local isWorldQuest = questID and C_QuestLog_IsWorldQuest(questID)
 			if questInfo.isComplete and (not questID or not isWorldQuest) then
@@ -241,7 +241,7 @@ QuickQuest:Register("GOSSIP_SHOW", function()
 
 	local available = C_GossipInfo_GetNumAvailableQuests()
 	if available > 0 then
-		for index, questInfo in ipairs(C_GossipInfo_GetAvailableQuests()) do
+		for index, questInfo in pairs(C_GossipInfo_GetAvailableQuests()) do
 			local trivial = questInfo.isTrivial
 			if not trivial or IsTrackingHidden() or (trivial and npcID == 64337) then
 				C_GossipInfo_SelectAvailableQuest(index)

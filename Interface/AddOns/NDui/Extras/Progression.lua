@@ -170,14 +170,14 @@ function EX:UpdateProgression(guid, faction)
 	if C.db["Extras"]["ProgRaids"] then
 		cache[guid].info.raids = {}
 
-		for _, tier in ipairs(tiers) do
+		for _, tier in pairs(tiers) do
 			cache[guid].info.raids[tier] = {}
 			local bosses = raidAchievements[tier]
 			if bosses.separated then
 				bosses = bosses[faction]
 			end
 
-			for _, level in ipairs(levels) do
+			for _, level in pairs(levels) do
 				local alreadyKilled = 0
 				for _, achievementID in pairs(bosses[level]) do
 					if GetBossKillTimes(guid, achievementID) > 0 then
@@ -236,8 +236,8 @@ function EX:SetProgressionInfo(guid)
 			found = false
 
 			if C.db["Extras"]["ProgRaids"] then
-				for _, tier in ipairs(tiers) do
-					for _, level in ipairs(levels) do
+				for _, tier in pairs(tiers) do
+					for _, level in pairs(levels) do
 						if strfind(leftTipText, locales[tier]) and strfind(leftTipText, locales[level]) then
 							local rightTip = _G["GameTooltipTextRight" .. i]
 							leftTip:SetText(format("%s %s：", locales[tier], GetLevelColoredString(level)))
@@ -291,8 +291,8 @@ function EX:SetProgressionInfo(guid)
 	if C.db["Extras"]["ProgRaids"] and cache[guid].info.raids then
 		local title = false
 
-		for _, tier in ipairs(tiers) do
-			for _, level in ipairs(levels) do
+		for _, tier in pairs(tiers) do
+			for _, level in pairs(levels) do
 				if (cache[guid].info.raids[tier][level]) then
 					if not title then
 						GameTooltip:AddLine(" ")

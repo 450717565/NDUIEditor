@@ -1,6 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
+local checboxs = {"viewCB", "depositCB", "infoCB"}
 local function Reskin_BankTabPermissions()
 	for i = 1, GetNumGuildBankTabs() + 1 do
 		local button = _G["GuildControlBankTab"..i]
@@ -24,10 +25,10 @@ local function Reskin_BankTabPermissions()
 			ownedTab.infoCB:ClearAllPoints()
 			ownedTab.infoCB:SetPoint("TOP", ownedTab.depositCB, "BOTTOM", 0, 2)
 
-			local checboxs = {ownedTab.viewCB, ownedTab.depositCB, ownedTab.infoCB}
-			for _, checbox in pairs(checboxs) do
-				checbox:SetSize(24, 24)
-				B.ReskinCheck(checbox)
+			for _, name in pairs(checboxs) do
+				local box = ownedTab[name]
+				box:SetSize(24, 24)
+				B.ReskinCheck(box)
 			end
 
 			button.styled = true
@@ -110,5 +111,4 @@ C.LUAThemes["Blizzard_GuildControlUI"] = function()
 
 	hooksecurefunc("GuildControlUI_BankTabPermissions_Update", Reskin_BankTabPermissions)
 	hooksecurefunc("GuildControlUI_RankOrder_Update", Reskin_RankOrder)
-	GuildControlUIRankOrderFrame:HookScript("OnUpdate", Reskin_RankOrder)
 end

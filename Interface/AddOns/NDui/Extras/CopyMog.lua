@@ -197,7 +197,7 @@ end
 local function CopyTexts()
 	local texts = ""
 
-	for _, info in ipairs(ItemList) do
+	for _, info in pairs(ItemList) do
 		if info.Name and info.Name ~= "" then
 			texts = texts.."|cffFFFF00"..SlotIDtoName[info.SlotID]..":|r "..info.Name
 			if info.Source and info.Source ~= "" then

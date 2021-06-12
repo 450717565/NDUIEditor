@@ -44,7 +44,8 @@ tinsert(C.XMLThemes, function()
 	B.ReskinArrow(MerchantPrevPageButton, "left")
 	B.ReskinArrow(MerchantNextPageButton, "right")
 
-	for _, frame in pairs {"MerchantMoney", "MerchantExtraCurrency"} do
+	local currencys = {"MerchantMoney", "MerchantExtraCurrency"}
+	for _, frame in pairs(currencys) do
 		local inset = _G[frame.."Inset"]
 		B.StripTextures(inset)
 

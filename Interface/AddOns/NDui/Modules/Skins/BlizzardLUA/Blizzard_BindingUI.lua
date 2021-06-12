@@ -17,7 +17,7 @@ C.LUAThemes["Blizzard_BindingUI"] = function()
 
 	KeyBindingFrame.characterSpecificButton:SetSize(24, 24)
 
-	local frames =  {
+	local frames = {
 		"scrollFrame",
 		"bindingsContainer",
 		"categoryList",
@@ -26,7 +26,7 @@ C.LUAThemes["Blizzard_BindingUI"] = function()
 		B.StripTextures(KeyBindingFrame[frame])
 	end
 
-	local buttons =  {
+	local buttons = {
 		"defaultsButton",
 		"unbindButton",
 		"okayButton",
