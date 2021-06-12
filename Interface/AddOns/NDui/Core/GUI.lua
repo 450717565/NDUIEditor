@@ -2,7 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local GUI = B:RegisterModule("GUI")
 
-local tonumber, pairs, pairs, next, type, tinsert = tonumber, pairs, pairs, next, type, tinsert
+local tonumber, pairs, next, type, tinsert = tonumber, pairs, next, type, tinsert
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local guiTab, guiPage, f = {}, {}
 

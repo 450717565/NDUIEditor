@@ -4,7 +4,7 @@ local oUF = ns.oUF
 local UF = B:GetModule("UnitFrames")
 
 local strmatch, format, wipe = strmatch, format, wipe
-local pairs, pairs, next, tonumber, unpack, gsub = pairs, pairs, next, tonumber, unpack, gsub
+local pairs, next, tonumber, unpack, gsub = pairs, next, tonumber, unpack, gsub
 local UnitAura, GetSpellInfo = UnitAura, GetSpellInfo
 local InCombatLockdown = InCombatLockdown
 local GetTime, GetSpellCooldown, IsInRaid, IsInGroup = GetTime, GetSpellCooldown, IsInRaid, IsInGroup

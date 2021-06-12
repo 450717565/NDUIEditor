@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local GUI = B:GetModule("GUI")
 
 local _G = _G
-local unpack, pairs, pairs, tinsert = unpack, pairs, pairs, tinsert
+local unpack, pairs, tinsert = unpack, pairs, tinsert
 local min, max, strmatch, tonumber = min, max, strmatch, tonumber
 local GetSpellInfo, GetSpellTexture = GetSpellInfo, GetSpellTexture
 local GetInstanceInfo, EJ_GetInstanceInfo = GetInstanceInfo, EJ_GetInstanceInfo

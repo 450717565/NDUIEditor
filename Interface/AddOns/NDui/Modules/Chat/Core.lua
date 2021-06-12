@@ -4,7 +4,7 @@ local Chat = B:RegisterModule("Chat")
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 local _G = _G
-local tostring, pairs, pairs, strsub, strlower = tostring, pairs, pairs, string.sub, string.lower
+local tostring, pairs, strsub, strlower = tostring, pairs, string.sub, string.lower
 local IsInGroup, IsInRaid, IsPartyLFG, IsInGuild, IsShiftKeyDown, IsControlKeyDown = IsInGroup, IsInRaid, IsPartyLFG, IsInGuild, IsShiftKeyDown, IsControlKeyDown
 local ChatEdit_UpdateHeader, GetChannelList, GetCVar, SetCVar, Ambiguate, GetTime = ChatEdit_UpdateHeader, GetChannelList, GetCVar, SetCVar, Ambiguate, GetTime
 local GetNumGuildMembers, GetGuildRosterInfo, IsGuildMember, UnitIsGroupLeader, UnitIsGroupAssistant = GetNumGuildMembers, GetGuildRosterInfo, IsGuildMember, UnitIsGroupLeader, UnitIsGroupAssistant

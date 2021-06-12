@@ -7,7 +7,7 @@ local info = Infobar:RegisterInfobar("Time", C.Infobar.TimePos)
 
 local time, date = time, date
 local strfind, format, floor, strmatch = strfind, format, floor, strmatch
-local mod, tonumber, pairs, pairs = mod, tonumber, pairs, pairs
+local mod, tonumber, pairs = mod, tonumber, pairs
 local IsShiftKeyDown = IsShiftKeyDown
 local C_Map_GetMapInfo = C_Map.GetMapInfo
 local C_DateAndTime_GetCurrentCalendarTime = C_DateAndTime.GetCurrentCalendarTime

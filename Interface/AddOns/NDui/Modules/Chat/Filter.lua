@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 local Chat = B:GetModule("Chat")
 
 local strfind, strmatch, gsub, strrep = string.find, string.match, string.gsub, string.rep
-local pairs, pairs, tonumber = pairs, pairs, tonumber
+local pairs, tonumber = pairs, tonumber
 local min, max, tremove = math.min, math.max, table.remove
 local IsGuildMember, C_FriendList_IsFriend, IsGUIDInGroup, C_Timer_After = IsGuildMember, C_FriendList.IsFriend, IsGUIDInGroup, C_Timer.After
 local Ambiguate, UnitIsUnit, GetTime, SetCVar = Ambiguate, UnitIsUnit, GetTime, SetCVar
