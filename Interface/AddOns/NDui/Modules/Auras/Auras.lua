@@ -6,7 +6,7 @@ local _G = getfenv(0)
 local format, floor, strmatch, select, unpack = format, floor, strmatch, select, unpack
 local DebuffTypeColor = _G.DebuffTypeColor
 local UnitAura, GetTime = UnitAura, GetTime
-local GetInventoryItemQuality, GetInventoryItemTexture, GetItemQualityColor, GetWeaponEnchantInfo = GetInventoryItemQuality, GetInventoryItemTexture, GetItemQualityColor, GetWeaponEnchantInfo
+local GetInventoryItemQuality, GetInventoryItemTexture, GetWeaponEnchantInfo = GetInventoryItemQuality, GetInventoryItemTexture, GetWeaponEnchantInfo
 
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
@@ -126,7 +126,7 @@ function Auras:UpdateTempEnchant(button, index)
 	end
 
 	if quality then
-		local r, g, b = GetItemQualityColor(quality or 1)
+		local r, g, b = B.GetQualityColor(quality)
 		button.bubg:SetBackdropBorderColor(r, g, b)
 	end
 

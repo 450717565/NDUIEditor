@@ -364,7 +364,7 @@ local roleAtlas = {
 }
 local function Reskin_SocialQueueUtilTooltip(tooltip)
 	for i = 2, tooltip:NumLines() do
-		local line = _G[tooltip:GetName().."TextLeft"..i]
+		local line = _G[tooltip:GetDebugName().."TextLeft"..i]
 		if not line then return end
 
 		local text = line:GetText()

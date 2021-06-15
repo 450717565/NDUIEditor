@@ -213,7 +213,7 @@ local function BuildICON(iconSize)
 	local parentFrame = B.CreateParentFrame(frame, 6)
 	frame.Spellname = B.CreateFS(parentFrame, B.Round(iconSize*.5))
 	frame.Spellname:ClearAllPoints()
-	frame.Spellname:SetPoint("CENTER", frame, "TOP", 0, 0)
+	frame.Spellname:SetPoint("CENTER", frame, "TOP", 1, 0)
 	frame.Count = B.CreateFS(parentFrame, B.Round(iconSize*.6), "", false, "BOTTOMRIGHT", 4, -4)
 	frame.Count:SetJustifyH("RIGHT")
 
@@ -569,7 +569,7 @@ function Auras:AuraWatch_SetupInt(intID, itemID, duration, unitID, guid, sourceN
 	end
 	if frame.Spellname then frame.Spellname:SetText(name) end
 	if frame.Statusbar then
-		frame.Statusbar:SetStatusBarColor(B.ClassColor(class))
+		frame.Statusbar:SetStatusBarColor(B.GetClassColor(class))
 		frame.Statusbar:SetMinMaxValues(0, duration)
 		frame.elapsed = 0
 		frame.duration = duration

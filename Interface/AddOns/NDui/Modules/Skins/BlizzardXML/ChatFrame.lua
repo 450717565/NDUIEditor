@@ -7,7 +7,7 @@ local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local homeTex = "Interface\\Buttons\\UI-HomeButton"
 
 local function Reskin_ChatScrollBar(self)
-	local thumb = _G[self:GetDebugName().."ThumbTexture"]
+	local thumb = B.GetObject(self, "ThumbTexture")
 	thumb:SetAlpha(0)
 	thumb:SetWidth(18)
 
@@ -17,7 +17,7 @@ local function Reskin_ChatScrollBar(self)
 	local down = self.ScrollToBottomButton
 	B.ReskinArrow(down, "bottom")
 	down:ClearAllPoints()
-	down:SetPoint("BOTTOM", _G[self:GetDebugName().."ResizeButton"], "BOTTOM", -5, 3)
+	down:SetPoint("BOTTOM", B.GetObject(self, "ResizeButton"), "BOTTOM", -5, 3)
 end
 
 tinsert(C.XMLThemes, function()

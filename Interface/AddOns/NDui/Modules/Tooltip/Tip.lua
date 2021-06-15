@@ -98,14 +98,14 @@ function TT:HideLines()
 					tiptext:SetText(nil)
 					tiptext:Hide()
 				else
-					tiptext:SetText("|cffff5040"..linetext.."|r")
+					tiptext:SetText("|cffFF5040"..linetext.."|r")
 				end
 			elseif linetext == FACTION_ALLIANCE then
 				if C.db["Tooltip"]["FactionIcon"] then
 					tiptext:SetText(nil)
 					tiptext:Hide()
 				else
-					tiptext:SetText("|cff4080ff"..linetext.."|r")
+					tiptext:SetText("|cff4080FF"..linetext.."|r")
 				end
 			end
 		end
@@ -126,7 +126,7 @@ function TT:GetTarget(unit)
 	if UnitIsUnit(unit, "player") then
 		return format("|cffFF0000%s|r", ">"..strupper(YOU).."<")
 	else
-		return B.HexRGB(B.UnitColor(unit))..UnitName(unit).."|r"
+		return B.HexRGB(B.GetUnitColor(unit))..UnitName(unit).."|r"
 	end
 end
 
@@ -213,7 +213,7 @@ function TT:OnTooltipSetUnit()
 
 			local status = (UnitIsAFK(unit) and AFK) or (UnitIsDND(unit) and DND) or (not UnitIsConnected(unit) and PLAYER_OFFLINE)
 			if status then
-				status = format(" |cffFFCC00<%s>|r", status)
+				status = format(" |cffFFFF00<%s>|r", status)
 			end
 			GameTooltipTextLeft1:SetFormattedText("%s", name..(status or ""))
 
@@ -263,7 +263,7 @@ function TT:OnTooltipSetUnit()
 			end
 		end
 
-		local r, g, b = B.UnitColor(unit)
+		local r, g, b = B.GetUnitColor(unit)
 		local hexColor = B.HexRGB(r, g, b)
 		local line = GameTooltipTextLeft1:GetText()
 		GameTooltipTextLeft1:SetFormattedText("%s", hexColor..line)
@@ -446,7 +446,7 @@ function TT:ReskinTooltip()
 		TT.ReskinRewardIcon(self)
 		TT.ReskinStatusBar(self)
 
-		local closeButton = B.GetKeyWord(self, "CloseButton")
+		local closeButton = B.GetObject(self, "CloseButton")
 		if closeButton then B.ReskinClose(closeButton) end
 
 		local scrollBar = self.ScrollBar or self.scrollBar
@@ -466,7 +466,7 @@ function TT:ReskinTooltip()
 		local _, item = self:GetItem()
 		if item then
 			local quality = select(3, GetItemInfo(item))
-			local r, g, b = GetItemQualityColor(quality or 1)
+			local r, g, b = B.GetQualityColor(quality)
 			self.bg:SetBackdropBorderColor(r, g, b)
 		end
 	end
@@ -505,21 +505,32 @@ function TT:SetupTooltipFonts()
 	end
 end
 
+function TT:OnTooltipSetItem()
+	for i = 1, self:NumLines() do
+		local line = _G["GameTooltipTextLeft"..i]
+		if line:GetNumLines() > 1 then
+			line:SetWidth(line:GetWidth() + 1)
+		end
+	end
+end
+
 function TT:OnLogin()
 	fontOutline = C.db["Skins"]["FontOutline"] and "OUTLINE" or ""
 
+	TT:SetupTooltipFonts()
+
 	GameTooltip.StatusBar = GameTooltipStatusBar
-	GameTooltip:HookScript("OnTooltipCleared", TT.OnTooltipCleared)
-	GameTooltip:HookScript("OnTooltipSetUnit", TT.OnTooltipSetUnit)
 	GameTooltip.StatusBar:SetScript("OnValueChanged", TT.StatusBar_OnValueChanged)
-	hooksecurefunc("GameTooltip_ShowStatusBar", TT.GameTooltip_ShowStatusBar)
-	hooksecurefunc("GameTooltip_ShowProgressBar", TT.GameTooltip_ShowProgressBar)
-	hooksecurefunc("GameTooltip_SetDefaultAnchor", TT.GameTooltip_SetDefaultAnchor)
-	hooksecurefunc("SharedTooltip_SetBackdropStyle", TT.SharedTooltip_SetBackdropStyle)
+	GameTooltip:HookScript("OnTooltipCleared", TT.OnTooltipCleared)
+	GameTooltip:HookScript("OnTooltipSetItem", TT.OnTooltipSetItem)
+	GameTooltip:HookScript("OnTooltipSetUnit", TT.OnTooltipSetUnit)
 	hooksecurefunc("GameTooltip_AnchorComparisonTooltips", TT.GameTooltip_ComparisonFix)
+	hooksecurefunc("GameTooltip_SetDefaultAnchor", TT.GameTooltip_SetDefaultAnchor)
+	hooksecurefunc("GameTooltip_ShowProgressBar", TT.GameTooltip_ShowProgressBar)
+	hooksecurefunc("GameTooltip_ShowStatusBar", TT.GameTooltip_ShowStatusBar)
+	hooksecurefunc("SharedTooltip_SetBackdropStyle", TT.SharedTooltip_SetBackdropStyle)
 
 	-- Elements
-	TT:SetupTooltipFonts()
 	TT:ReskinTooltipIcons()
 	TT:SetupTooltipID()
 	TT:TargetedInfo()

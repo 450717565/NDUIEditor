@@ -6,43 +6,41 @@ local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 local function Reskin_UpdateButton(self)
 	if SpellBookFrame.bookType == BOOKTYPE_SPELL then
-		local frame = self:GetDebugName()
-
-		local hl = _G[frame.."Highlight"]
+		local hl = B.GetObject(self, "Highlight")
 		hl:SetColorTexture(1, 1, 1, .25)
 
-		local icon = _G[frame.."IconTexture"]
+		local icon = B.GetObject(self, "IconTexture")
 		self.icbg:SetShown(icon:IsShown())
 
-		local name = _G[frame.."SpellName"]
+		local name = B.GetObject(self, "SpellName")
 		name:SetWordWrap(false)
 		name:ClearAllPoints()
 		name:SetPoint("TOPLEFT", self.icbg, "TOPRIGHT", 4, -5)
 
-		local subName = _G[frame.."SubSpellName"]
+		local subName = B.GetObject(self, "SubSpellName")
 		B.ReskinText(subName, 1, 1, 1)
 		subName:ClearAllPoints()
 		subName:SetPoint("BOTTOMLEFT", self.icbg, "BOTTOMRIGHT", 4, 5)
 
-		local lvlName = _G[frame.."RequiredLevelString"]
+		local lvlName = B.GetObject(self, "RequiredLevelString")
 		B.ReskinText(lvlName, 1, 1, 1)
 		lvlName:SetJustifyH("CENTER")
 		lvlName:ClearAllPoints()
 		lvlName:SetPoint("CENTER", self.icbg, "CENTER", 1, 0)
 
-		local shine = self.shine
+		local shine = B.GetObject(self, "shine")
 		if shine then
 			shine:SetInside(self.icbg)
 		end
 
-		local glyph = self.GlyphIcon
+		local glyph = B.GetObject(self, "GlyphIcon")
 		if glyph then
 			glyph:SetAtlas("GlyphIcon-Spellbook")
 			glyph:ClearAllPoints()
 			glyph:SetPoint("TOPRIGHT", self.icbg, 2, 2)
 		end
 
-		local highlight = self.SpellHighlightTexture
+		local highlight = B.GetObject(self, "SpellHighlightTexture")
 		if highlight and highlight:IsShown() then
 			B.ReskinText(name, cr, cg, cb)
 		else
@@ -149,7 +147,7 @@ tinsert(C.XMLThemes, function()
 
 			button.icon:SetAlpha(1)
 			button.icon:SetDesaturated(false)
-			button.icon:SetDrawLayer("OVERLAY")
+			button.icon:SetBlendMode("DISABLE")
 
 			local icbg = B.ReskinIcon(button.icon)
 

@@ -195,12 +195,12 @@ function UF:UpdateColor(_, unit)
 			r, g, b = customColor.r, customColor.g, customColor.b
 		elseif isPlayer and isFriendly then
 			if C.db["Nameplate"]["FriendlyCC"] then
-				r, g, b = B.UnitColor(unit)
+				r, g, b = B.GetUnitColor(unit)
 			else
 				r, g, b = .3, .3, 1
 			end
 		elseif isPlayer and (not isFriendly) and C.db["Nameplate"]["HostileCC"] then
-			r, g, b = B.UnitColor(unit)
+			r, g, b = B.GetUnitColor(unit)
 		elseif UnitIsTapDenied(unit) and not UnitPlayerControlled(unit) then
 			r, g, b = .6, .6, .6
 		else
@@ -647,7 +647,7 @@ function UF:UpdateCastbarInterrupt(...)
 		local name = Ambiguate(sourceName, "short")
 		if nameplate and nameplate.Castbar then
 			local _, class = GetPlayerInfoByGUID(sourceGUID)
-			local r, g, b = B.ClassColor(class)
+			local r, g, b = B.GetClassColor(class)
 			local color = B.HexRGB(r, g, b)
 			nameplate.Castbar.Time:SetText(color..name)
 		end

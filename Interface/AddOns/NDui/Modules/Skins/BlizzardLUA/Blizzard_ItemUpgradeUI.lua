@@ -5,7 +5,7 @@ local tL, tR, tT, tB = unpack(DB.TexCoord)
 
 local function Reskin_ItemUpgradeFrame()
 	local icon, _, quality = GetItemUpgradeItemInfo()
-	local r, g, b = GetItemQualityColor(quality or 1)
+	local r, g, b = B.GetQualityColor(quality)
 	local ItemButton = ItemUpgradeFrame.ItemButton
 
 	if icon then

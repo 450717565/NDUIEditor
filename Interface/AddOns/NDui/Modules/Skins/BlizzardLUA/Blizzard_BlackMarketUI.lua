@@ -27,7 +27,7 @@ local function Reskin_BlackMarketScrollFrame()
 
 		if button:IsShown() and button.itemLink then
 			local _, _, quality = GetItemInfo(button.itemLink)
-			local r, g, b = GetItemQualityColor(quality or 1)
+			local r, g, b = B.GetQualityColor(quality)
 			button.Name:SetTextColor(r, g, b)
 			button.icbg:SetBackdropBorderColor(r, g, b)
 			button.bubg:SetBackdropBorderColor(r, g, b)
@@ -42,7 +42,7 @@ local function Reskin_BlackMarketFrame(self)
 	local hotDeal = self.HotDeal
 	if hotDeal:IsShown() and hotDeal.itemLink then
 		local _, _, quality = GetItemInfo(hotDeal.itemLink)
-		local r, g, b = GetItemQualityColor(quality or 1)
+		local r, g, b = B.GetQualityColor(quality)
 		hotDeal.Name:SetTextColor(r, g, b)
 	end
 end

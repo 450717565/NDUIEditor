@@ -129,7 +129,7 @@ local function Reskin_ToggleHeaders()
 	end
 end
 
-local r, g, b = GetItemQualityColor(5)
+local r, g, b = B.GetQualityColor(5)
 local function Reskin_PowersFrame(self)
 	if not self.elements then return end
 

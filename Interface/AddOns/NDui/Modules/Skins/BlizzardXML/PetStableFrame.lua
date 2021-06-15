@@ -27,14 +27,30 @@ tinsert(C.XMLThemes, function()
 	B.ReskinIcon(PetStableSelectedPetIcon)
 	B.ReskinIcon(PetStableDietTexture)
 
-	B.CreateBDFrame(PetStableModel)
+	B.StripTextures(PetStableModel)
+	B.CreateBDFrame(PetStableModel, 0, -C.mult)
 
 	PetStableModelShadow:Hide()
+
+	PetStableDiet:SetSize(24, 24)
 	PetStableDietTexture:SetTexture("Interface\\Icons\\PetBattle_Health")
+
 	PetStableModelRotateLeftButton:ClearAllPoints()
 	PetStableModelRotateLeftButton:SetPoint("BOTTOMRIGHT", PetStableModel, "BOTTOM", -1, 2)
 	PetStableModelRotateRightButton:ClearAllPoints()
 	PetStableModelRotateRightButton:SetPoint("BOTTOMLEFT", PetStableModel, "BOTTOM", 1, 2)
+
+	PetStableDiet:ClearAllPoints()
+	PetStableDiet:SetPoint("BOTTOMRIGHT", PetStableModel, "TOPRIGHT", 0, 5)
+	PetStableSelectedPetIcon:ClearAllPoints()
+	PetStableSelectedPetIcon:SetPoint("BOTTOMLEFT", PetStableModel, "TOPLEFT", 0, 5)
+
+	PetStableNameText:SetJustifyH("LEFT")
+	PetStableNameText:ClearAllPoints()
+	PetStableNameText:SetPoint("BOTTOMLEFT", PetStableSelectedPetIcon, "RIGHT", 3, 1)
+	PetStableTypeText:SetJustifyH("LEFT")
+	PetStableTypeText:ClearAllPoints()
+	PetStableTypeText:SetPoint("TOPLEFT", PetStableSelectedPetIcon, "RIGHT", 3, -1)
 
 	for i = 1, NUM_PET_ACTIVE_SLOTS do
 		Reskin_Slot("PetStableActivePet", i)

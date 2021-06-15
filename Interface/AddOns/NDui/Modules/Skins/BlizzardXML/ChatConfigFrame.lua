@@ -188,7 +188,7 @@ end)
 local function Reskin_TextToSpeechFrame(frame)
 	local checkBoxTable = frame.checkBoxTable
 	if checkBoxTable then
-		local checkBoxNameString = frame:GetName().."CheckBox"
+		local checkBoxNameString = frame:GetDebugName().."CheckBox"
 		local checkBoxName, checkBox
 
 		for index, value in pairs(checkBoxTable) do

@@ -52,7 +52,7 @@ function Misc:InboxItem_OnEnter()
 			for itemID, count in pairs(inboxItems) do
 				local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = GetItemInfo(itemID)
 				if itemName then
-					local r, g, b = GetItemQualityColor(itemQuality or 1)
+					local r, g, b = B.GetQualityColor(itemQuality)
 					GameTooltip:AddDoubleLine(" |T"..itemTexture..":12:12:0:0:50:50:4:46:4:46|t "..itemName, count, r, g, b)
 				end
 			end
@@ -342,6 +342,43 @@ function Misc:CollectCurrentButton()
 	button:SetScript("OnClick", Misc.MailBox_CollectCurrent)
 end
 
+function Misc:LastMailSaver()
+	local mailSaver = CreateFrame("CheckButton", nil, SendMailFrame, "OptionsCheckButtonTemplate")
+	mailSaver:SetHitRectInsets(0, 0, 0, 0)
+	mailSaver:SetPoint("RIGHT", MailFrame.CloseButton, "LEFT", -3, 0)
+	mailSaver:SetSize(26, 26)
+	B.ReskinCheck(mailSaver)
+
+	mailSaver:SetChecked(C.db["Misc"]["MailSaver"])
+	mailSaver:SetScript("OnClick", function(self)
+		C.db["Misc"]["MailSaver"] = self:GetChecked()
+	end)
+	B.AddTooltip(mailSaver, "ANCHOR_TOP", L["SaveMailTarget"])
+
+	local resetPending
+	hooksecurefunc("SendMailFrame_SendMail", function()
+		if C.db["Misc"]["MailSaver"] then
+			C.db["Misc"]["MailTarget"] = SendMailNameEditBox:GetText()
+			resetPending = true
+		else
+			resetPending = nil
+		end
+	end)
+
+	hooksecurefunc(SendMailNameEditBox, "SetText", function(self, text)
+		if resetPending and text == "" then
+			self:SetText(C.db["Misc"]["MailTarget"])
+			resetPending = nil
+		end
+	end)
+
+	SendMailFrame:HookScript("OnShow", function()
+		if C.db["Misc"]["MailSaver"] then
+			SendMailNameEditBox:SetText(C.db["Misc"]["MailTarget"])
+		end
+	end)
+end
+
 function Misc:MailBox()
 	if not C.db["Misc"]["Mail"] then return end
 	if IsAddOnLoaded("Postal") then return end
@@ -367,5 +404,6 @@ function Misc:MailBox()
 	Misc.GetMoneyString = B:GetModule("Infobar").GetMoneyString
 	Misc:CollectGoldButton()
 	Misc:CollectCurrentButton()
+	Misc:LastMailSaver()
 end
 Misc:RegisterMisc("MailBox", Misc.MailBox)

@@ -63,20 +63,20 @@ oUF.Tags.Events["color"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_FACTION UNIT_CONNECT
 
 oUF.Tags.Methods["flag"] = function(unit)
 	if UnitIsAFK(unit) then
-		return "|cffCFCFCF <"..AFK..">|r"
+		return "|cffCCCCCC <"..AFK..">|r"
 	elseif UnitIsDND(unit) then
-		return "|cffCFCFCF <"..DND..">|r"
+		return "|cffCCCCCC <"..DND..">|r"
 	end
 end
 oUF.Tags.Events["flag"] = "PLAYER_FLAGS_CHANGED"
 
 oUF.Tags.Methods["state"] = function(unit)
 	if not UnitIsConnected(unit) and GetNumArenaOpponentSpecs() <= 0 then
-		return "|cffCFCFCF"..PLAYER_OFFLINE.."|r"
+		return "|cffCCCCCC"..PLAYER_OFFLINE.."|r"
 	elseif UnitIsGhost(unit) then
-		return "|cffCFCFCF"..L["Ghost"].."|r"
+		return "|cffCCCCCC"..L["Ghost"].."|r"
 	elseif UnitIsDead(unit) then
-		return "|cffCFCFCF"..DEAD.."|r"
+		return "|cffCCCCCC"..DEAD.."|r"
 	end
 end
 oUF.Tags.Events["state"] = "UNIT_HEALTH UNIT_MAXHEALTH UNIT_CONNECTION UNIT_NAME_UPDATE"

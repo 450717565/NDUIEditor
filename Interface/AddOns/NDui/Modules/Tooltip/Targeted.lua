@@ -20,7 +20,7 @@ function TT:ScanTargets()
 	for i = 1, GetNumGroupMembers() do
 		local member = (IsInRaid() and "raid"..i or "party"..i)
 		if UnitIsUnit(unit, member.."target") and not UnitIsUnit("player", member) and not UnitIsDeadOrGhost(member) then
-			local color = B.HexRGB(B.UnitColor(member))
+			local color = B.HexRGB(B.GetUnitColor(member))
 			local name = color..UnitName(member).."|r"
 			tinsert(targetTable, name)
 		end

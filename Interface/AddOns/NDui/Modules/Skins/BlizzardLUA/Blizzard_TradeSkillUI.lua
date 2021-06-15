@@ -32,17 +32,21 @@ local function Reskin_OptionalReagentList(self)
 	local buttons = self.ScrollList.ScrollFrame.buttons
 	for i = 1, #buttons do
 		local button = buttons[i]
-		if button and not button.styled then
-			button.NameFrame:Hide()
+		if button then
+			if not button.styled then
+				button.NameFrame:Hide()
 
-			button.Icon:SetSize(36, 36)
-			button.Icon:ClearAllPoints()
-			button.Icon:SetPoint("TOPLEFT", button, "TOPLEFT", 3, -3)
+				button.Icon:SetSize(36, 36)
+				button.Icon:ClearAllPoints()
+				button.Icon:SetPoint("TOPLEFT", button, "TOPLEFT", 3, -3)
 
-			local icbg = B.ReskinIcon(button.Icon)
-			local bubg = B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
+				local icbg = B.ReskinIcon(button.Icon)
+				local bubg = B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
 
-			B.ReskinBorder(button.IconBorder, icbg, bubg)
+				button.styled = true
+			end
+
+			button.IconBorder:SetAlpha(0)
 		end
 	end
 end
@@ -143,7 +147,6 @@ C.LUAThemes["Blizzard_TradeSkillUI"] = function()
 
 	local ScrollList = OptionalReagentList.ScrollList
 	B.StripTextures(ScrollList)
-	B.CreateBGFrame(ScrollList, 1, -2, -25, 5)
 	B.ReskinScroll(ScrollList.ScrollFrame.scrollBar)
 
 	OptionalReagentList:HookScript("OnShow", Reskin_OptionalReagentList)

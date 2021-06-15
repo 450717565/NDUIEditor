@@ -1,76 +1,73 @@
-if GetLocale() ~= "koKR" then return end
+--Mini Dragon <流浪者酒馆-Brilla@金色平原> 20210529
+if GetLocale() ~= "zhCN" then return end
 local L
 
 ---------------------------
---  The Tarragrue --
+--  The Tarragrue 塔拉格鲁--
 ---------------------------
 L= DBM:GetModLocalization(2435)
 
-L:SetOptionLocalization({
-	warnRemnant	= "자신의 잔재 디버프 중첩 알림"
-})
-
 L:SetMiscLocalization({
-	Remnant	= "잔재"
+	Remnant	= "残渣"
 })
 
 ---------------------------
---  The Eye of the Jailer --
+--  The Eye of the Jailer 典狱长之眼--
 ---------------------------
 L= DBM:GetModLocalization(2442)
 
 L:SetOptionLocalization({
-	ContinueRepeating	= "경멸과 분노 디버프에 걸리면 끝날때까지 지정된 공격대 징표 말풍선 알림"
+	ContinueRepeating	= "重复蔑视和愤怒的标记喊话，直到debuff消失"
 })
 
 ---------------------------
---  The Nine --
+--  The Nine 九武神--
 ---------------------------
 L= DBM:GetModLocalization(2439)
 
 L:SetMiscLocalization({
-	AgathaBlade		= "내 칼날 앞에 쓰러져라!",
-	AradneStrike	= "상대조차 안 되는군!",
-	Fragment		= "조각 "--Space is intentional, leave a space to add a number after it
+	AgathaBlade		= "倒在我的剑下吧！",
+	AradneStrike	= "你们绝无胜算！",
+	Fragment		= "残片 "--Space is intentional, leave a space to add a number after it
 })
 
 ---------------------------
---  Remnant of Ner'zhul --
+--  Remnant of Ner'zhul 耐奥祖--
 ---------------------------
 --L= DBM:GetModLocalization(2444)
 
 ---------------------------
---  Soulrender Dormazain --
+--  Soulrender Dormazain 多尔玛赞--
 ---------------------------
 --L= DBM:GetModLocalization(2445)
 
 ---------------------------
---  Painsmith Raznal --
+--  Painsmith Raznal 莱兹纳尔--
 ---------------------------
 --L= DBM:GetModLocalization(2443)
 
 ---------------------------
---  Guardian of the First Ones --
+--  Guardian of the First Ones 初诞者的卫士--
 ---------------------------
 L= DBM:GetModLocalization(2446)
 
 L:SetMiscLocalization({
-	Dissection	= "해부를 시작합니다!",
-	Dismantle	= "분해 실시!"
+	Dissection	= "解剖！",
+	Dismantle	= "分解"
 })
 
 ---------------------------
---  Fatescribe Roh-Kalo --
+--  Fatescribe Roh-Kalo 卡洛--
 ---------------------------
 --L= DBM:GetModLocalization(2447)
 
 ---------------------------
---  Kel'Thuzad --
+--  Kel'Thuzad 克尔苏加德--
 ---------------------------
 --L= DBM:GetModLocalization(2440)
 
 ---------------------------
---  Sylvanas Windrunner --
+--  Sylvanas Windrunner 希尔瓦娜斯--
 ---------------------------
 --L= DBM:GetModLocalization(2441)
 
@@ -80,5 +77,5 @@ L:SetMiscLocalization({
 L = DBM:GetModLocalization("SanctumofDomTrash")
 
 L:SetGeneralLocalization({
-	name =	"지배의 성소 일반몹"
+	name =	"统御圣所小怪"
 })

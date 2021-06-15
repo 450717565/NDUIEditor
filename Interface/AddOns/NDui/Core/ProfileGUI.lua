@@ -103,7 +103,7 @@ StaticPopupDialogs["NDUI_DELETE_UNIT_PROFILE"] = {
 		if class == "NONE" then
 			r, g, b = .5, .5, .5
 		else
-			r, g, b = B.ClassColor(class)
+			r, g, b = B.GetClassColor(class)
 		end
 		self.text:SetText(format(L["Delete unit profile?"], B.HexRGB(r, g, b), self.text.text_arg1))
 	end,
@@ -172,7 +172,7 @@ function GUI:Icon_OnEnter()
 			if class == "NONE" then
 				r, g, b = .5, .5, .5
 			else
-				r, g, b = B.ClassColor(class)
+				r, g, b = B.GetClassColor(class)
 			end
 			GameTooltip:AddLine(name, r, g, b)
 		end
@@ -701,7 +701,7 @@ function GUI:CreateDataFrame()
 		if dataFrame.version then
 			GameTooltip:AddLine(L["Data Info"])
 			GameTooltip:AddDoubleLine(L["Version"], dataFrame.version, .6,.8,1, 1,1,1)
-			GameTooltip:AddDoubleLine(L["Character"], dataFrame.name, .6,.8,1, B.ClassColor(dataFrame.class))
+			GameTooltip:AddDoubleLine(L["Character"], dataFrame.name, .6,.8,1, B.GetClassColor(dataFrame.class))
 		else
 			GameTooltip:AddLine(L["Data Exception"], 1,0,0)
 		end

@@ -8,7 +8,7 @@ local function Update_AddonList()
 		local entry = _G["AddonListEntry"..i]
 		if entry and entry:IsShown() then
 			local checkbox = _G["AddonListEntry"..i.."Enabled"]
-			if checkbox.forceSaturation then
+			if checkbox.force then
 				local tex = checkbox:GetCheckedTexture()
 				if checkbox.state == 2 then
 					tex:SetDesaturated(true)

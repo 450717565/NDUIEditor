@@ -293,7 +293,7 @@ function Misc.ItemLevel_ScrappingSetup(event, addon)
 end
 
 function Misc:ItemLevel_UpdateItemButton(link)
-	local ItemButton = _G[self:GetDebugName().."ItemButton"]
+	local ItemButton = B.GetObject(self, "ItemButton")
 	if not self.iLvl then
 		self.iLvl = B.CreateFS(ItemButton, DB.Font[2]+1, "", false, "TOPLEFT", 1, -2)
 	end

@@ -357,7 +357,7 @@ function Maps:WhoPingsMyMap()
 		if unit == "player" then return end -- ignore player ping
 
 		local class = select(2, UnitClass(unit))
-		local r, g, b = B.ClassColor(class)
+		local r, g, b = B.GetClassColor(class)
 		local name = GetUnitName(unit)
 
 		anim:Stop()

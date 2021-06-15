@@ -10,7 +10,7 @@ do
 		["Adventures-Tank"] = "Soulbinds_Tree_Conduit_Icon_Protect",
 		["Adventures-Healer"] = "ui_adv_health",
 		["Adventures-DPS"] = "ui_adv_atk",
-		["Adventures-DPS-Ranged"] = "Soulbinds_Tree_Conduit_Icon_Attack",
+		["Adventures-DPS-Ranged"] = "ui_adv_atk",
 	}
 
 	local function replaceFollowerRole(roleIcon, atlas)
@@ -20,37 +20,39 @@ do
 		end
 	end
 
+	local textures = {
+		"Empty",
+		"Highlight",
+		"LevelBorder",
+		"LevelCircle",
+		"PortraitRing",
+		"PortraitRingCover",
+		"PortraitRingQuality",
+		"PuckBorder",
+		"TroopStackBorder1",
+		"TroopStackBorder2",
+	}
+
 	function Skins:ReskinFollowerPortrait()
+		local squareBG = B.CreateBDFrame(self.Portrait, 1, -C.mult, true)
+		self.squareBG = squareBG
+
+		for _, name in pairs(textures) do
+			local tex = self[name]
+			if tex then
+				tex:SetAlpha(0)
+				tex:SetTexture("")
+			end
+		end
+
 		local levelFrame = self.Level or self.LevelText or self.LevelDisplayFrame
 		if levelFrame then
 			levelFrame:ClearAllPoints()
 			levelFrame:SetPoint("BOTTOM", self, 0, 15)
 
-			if levelFrame.LevelCircle then levelFrame.LevelCircle:SetAlpha(0) end
-		end
-
-		if self.Highlight then self.Highlight:SetAlpha(0) end
-		if self.PuckBorder then self.PuckBorder:SetAlpha(0) end
-		if self.LevelBorder then self.LevelBorder:SetAlpha(0) end
-		if self.LevelCircle then self.LevelCircle:SetAlpha(0) end
-		if self.TroopStackBorder1 then self.TroopStackBorder1:SetAlpha(0) end
-		if self.TroopStackBorder2 then self.TroopStackBorder2:SetAlpha(0) end
-
-		local squareBG = B.CreateBDFrame(self.Portrait, 1, -C.mult, true)
-		self.squareBG = squareBG
-
-		if self.Empty then
-			self.Empty:SetTexture("")
-			self.Empty:SetInside(squareBG)
-			self.Empty:SetVertexColor(0, 0, 0, 0)
-		end
-
-		if self.PortraitRing then
-			self.PortraitRing:SetAlpha(0)
-			self.PortraitRingQuality:SetTexture("")
-			self.PortraitRingCover:SetTexture("")
-			self.PortraitRingCover:SetInside(squareBG)
-			self.PortraitRingCover:SetVertexColor(0, 0, 0, 0)
+			if levelFrame.LevelCircle then
+				levelFrame.LevelCircle:SetAlpha(0)
+			end
 		end
 
 		if self.HealthBar then
@@ -65,11 +67,11 @@ do
 			replaceFollowerRole(roleIcon, roleIcon:GetAtlas())
 			hooksecurefunc(roleIcon, "SetAtlas", replaceFollowerRole)
 
-			local background = self.HealthBar.Background
-			background:SetAlpha(0)
-			background:ClearAllPoints()
-			background:SetPoint("TOPLEFT", squareBG, "BOTTOMLEFT", C.mult, 6)
-			background:SetPoint("BOTTOMRIGHT", squareBG, "BOTTOMRIGHT", -C.mult, C.mult)
+			local backGround = self.HealthBar.Background
+			backGround:SetAlpha(0)
+			backGround:ClearAllPoints()
+			backGround:SetPoint("TOPLEFT", squareBG, "BOTTOMLEFT", C.mult, 6)
+			backGround:SetPoint("BOTTOMRIGHT", squareBG, "BOTTOMRIGHT", -C.mult, C.mult)
 		end
 	end
 
@@ -81,7 +83,7 @@ do
 		self:SetPoint(point, relativeTo, x, y)
 		self:SetTexCoord(.18, .92, .08, .92)
 
-		local bg = B.CreateBDFrame(self)
+		local bg = B.CreateBDFrame(self, 0, -C.mult)
 		return bg
 	end
 
@@ -91,7 +93,7 @@ do
 		B.CreateBDFrame(self)
 		self:SetHeight(44)
 
-		local button = self.ItemButton
+		local button = B.GetObject(self, "ItemButton")
 		B.StripTextures(button)
 		button:ClearAllPoints()
 		button:SetPoint("LEFT", self, 4, 0)
@@ -101,18 +103,17 @@ do
 		B.ReskinBorder(button.IconBorder, icbg)
 		button.icbg = icbg
 
-		local frameName = self:GetDebugName()
-		local count = _G[frameName.."ItemButtonCount"]
+		local count = B.GetObject(self, "ItemButtonCount")
 		count:SetJustifyH("RIGHT")
 		count:ClearAllPoints()
-		count:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", -1, 1)
+		count:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 0, 1)
 
-		local stock = _G[frameName.."ItemButtonStock"]
+		local stock = B.GetObject(self, "ItemButtonStock")
 		stock:SetJustifyH("RIGHT")
 		stock:ClearAllPoints()
-		stock:SetPoint("TOPRIGHT", icbg, "TOPRIGHT", -1, -1)
+		stock:SetPoint("TOPRIGHT", icbg, "TOPRIGHT", 0, -1)
 
-		local name = _G[frameName.."Name"]
+		local name = B.GetObject(self, "Name")
 		name:SetWidth(105)
 		name:SetFontObject(Game12Font)
 		name:SetWordWrap(true)
@@ -120,7 +121,7 @@ do
 		name:ClearAllPoints()
 		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 3)
 
-		local money = _G[frameName.."MoneyFrame"]
+		local money = B.GetObject(self, "MoneyFrame")
 		money:ClearAllPoints()
 		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 4)
 	end
@@ -148,7 +149,7 @@ do
 		B.CleanTextures(results)
 		local bg = B.CreateBG(results, 0, 0, 5, 0)
 
-		local closeButton = results.closeButton or B.GetKeyWord(self, "SearchResultsCloseButton")
+		local closeButton = results.closeButton or B.GetObject(self, "SearchResultsCloseButton")
 		B.ReskinClose(closeButton, bg)
 
 		local bar = results.scrollFrame.scrollBar
@@ -245,11 +246,10 @@ do
 			if index > numItems then return end
 
 			local item = _G["MerchantItem"..i]
-			local frameName = item:GetDebugName()
-			local name = _G[frameName.."Name"]
-			local button = _G[frameName.."ItemButton"]
-			local money = _G[frameName.."MoneyFrame"]
-			local currency = _G[frameName.."AltCurrencyFrame"]
+			local name = B.GetObject(item, "Name")
+			local money = B.GetObject(item, "MoneyFrame")
+			local button = B.GetObject(item, "ItemButton")
+			local currency = B.GetObject(item, "AltCurrencyFrame")
 
 			if button and button:IsShown() then
 				money:ClearAllPoints()
@@ -282,12 +282,12 @@ do
 	function Skins:UpdateFollowerQuality()
 		if not self.quality or not self.squareBG then return end
 
-		local r, g, b = GetItemQualityColor(quality or 1)
+		local r, g, b = B.GetQualityColor(quality)
 		self.squareBG:SetBackdropBorderColor(r, g, b)
 	end
 
 	function Skins:UpdateTabAnchor()
-		local text = B.GetKeyWord(self, "Text")
+		local text = B.GetObject(self, "Text")
 		if text then
 			text:SetJustifyH("CENTER")
 			text:ClearAllPoints()

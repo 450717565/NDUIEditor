@@ -52,7 +52,7 @@ local function Update_PetList()
 				local petID, _, isOwned = C_PetJournal.GetPetInfoByIndex(index)
 				if petID and isOwned then
 					local _, _, _, _, rarity = C_PetJournal.GetPetStats(petID)
-					local r, g, b = GetItemQualityColor((rarity-1) or 1)
+					local r, g, b = B.GetQualityColor((rarity-1))
 
 					B.ReskinText(button.name, r, g, b)
 				else
@@ -72,7 +72,7 @@ local function Reskin_ToyBoxName(self)
 
 	if PlayerHasToy(itemID) then
 		local quality = select(3, GetItemInfo(itemID))
-		local r, g, b = GetItemQualityColor(quality or 1)
+		local r, g, b = B.GetQualityColor(quality)
 
 		B.ReskinText(self, r, g, b)
 	else
@@ -87,7 +87,7 @@ local function Reskin_ToyBoxBorder()
 		local button = ToyBox.iconsFrame["spellButton"..i]
 		if PlayerHasToy(button.itemID) then
 			local quality = select(3, GetItemInfo(button.itemID))
-			local r, g, b = GetItemQualityColor(quality or 1)
+			local r, g, b = B.GetQualityColor(quality)
 
 			button.icbg:SetBackdropBorderColor(r, g, b)
 		else
@@ -169,7 +169,7 @@ local function Reskin_SetItemFrameQuality(_, itemFrame)
 	if itemFrame.collected then
 		local sourceInfo = C_TransmogCollection.GetSourceInfo(itemFrame.sourceID)
 		local quality = sourceInfo.quality
-		local r, g, b = GetItemQualityColor(quality or 1)
+		local r, g, b = B.GetQualityColor(quality)
 
 		itemFrame.icbg:SetBackdropBorderColor(r, g, b)
 	else
@@ -375,7 +375,7 @@ C.LUAThemes["Blizzard_Collections"] = function()
 
 	local PetCard = PetJournalPetCard
 	B.StripTextures(PetCard)
-	B.CreateBDFrame(PetCard)
+	B.CreateBDFrame(PetCard, 0, -C.mult)
 	B.ReskinStatusBar(PetCard.xpBar, true)
 	B.ReskinStatusBar(PetCard.HealthFrame.healthBar, true)
 

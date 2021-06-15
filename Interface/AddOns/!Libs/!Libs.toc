@@ -1,5 +1,5 @@
 ## Interface: 90005
-## Title: |cff0080ff运行库|r |TInterface\Addons\NDui\Media\Logo\chatLogo:14:28|t
+## Title: |cff0080FF运行库|r |TInterface\Addons\NDui\Media\Logo\chatLogo:14:28|t
 ## Notes: 各插件需要的运行库，请勿禁用！
 ## Author: All Developers
 ## X-Vendor: 七曜·星の痕

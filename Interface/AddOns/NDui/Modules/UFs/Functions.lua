@@ -593,7 +593,7 @@ local function reskinTimerBar(bar)
 	bar:SetSize(280, 18)
 	B.StripTextures(bar)
 
-	local statusbar = _G[bar:GetDebugName().."StatusBar"]
+	local statusbar = B.GetObject(bar, "StatusBar")
 	if statusbar then
 		statusbar:SetAllPoints()
 		statusbar:SetStatusBarTexture(DB.normTex)

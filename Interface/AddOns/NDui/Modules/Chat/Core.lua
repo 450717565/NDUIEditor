@@ -68,7 +68,6 @@ end
 function Chat:SkinChat()
 	if not self or self.styled then return end
 
-	local name = self:GetDebugName()
 	local fontSize = select(2, self:GetFont())
 	self:SetMaxResize(DB.ScreenWidth, DB.ScreenHeight)
 	self:SetMinResize(100, 50)
@@ -83,7 +82,7 @@ function Chat:SkinChat()
 	self.__background = BlackBackground(self)
 	self.__gradient = GradientBackground(self)
 
-	local eb = _G[name.."EditBox"]
+	local eb = B.GetObject(self, "EditBox")
 	eb:SetAltArrowKeyMode(false)
 	eb:ClearAllPoints()
 	eb:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 4, 26)
@@ -91,13 +90,13 @@ function Chat:SkinChat()
 	B.StripTextures(eb, 2)
 	B.CreateBG(eb)
 
-	local lang = _G[name.."EditBoxLanguage"]
+	local lang = B.GetObject(self, "EditBoxLanguage")
 	lang:GetRegions():SetAlpha(0)
 	lang:SetPoint("TOPLEFT", eb, "TOPRIGHT", C.margin, 0)
 	lang:SetPoint("BOTTOMRIGHT", eb, "BOTTOMRIGHT", 24+C.margin, 0)
 	B.CreateBG(lang)
 
-	local tab = _G[name.."Tab"]
+	local tab = B.GetObject(self, "Tab")
 	tab:SetAlpha(1)
 	tab.Text:SetFont(DB.Font[1], DB.Font[2]+2, fontOutline)
 	B.StripTextures(tab, 7)
@@ -295,7 +294,7 @@ function Chat:UpdateTabColors(selected)
 end
 
 function Chat:UpdateTabEventColors(event)
-	local tab = _G[self:GetDebugName().."Tab"]
+	local tab = B.GetObject(self, "Tab")
 	local selected = GeneralDockManager.selected:GetID() == tab:GetID()
 	if event == "CHAT_MSG_WHISPER" then
 		tab.whisperIndex = 1

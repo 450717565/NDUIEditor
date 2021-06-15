@@ -2,7 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local function Reskin_CloseDialog(frame)
-	local dialog = B.GetKeyWord(frame, "CloseDialog")
+	local dialog = B.GetObject(frame, "CloseDialog")
 	dialog:HookScript("OnShow", function(self)
 		self:SetScale(UIParent:GetScale())
 	end)
@@ -10,10 +10,10 @@ local function Reskin_CloseDialog(frame)
 	local bg = B.ReskinFrame(dialog)
 	bg:SetFrameLevel(dialog:GetFrameLevel()+1)
 
-	local confirmButton = B.GetKeyWord(dialog, "ConfirmButton")
+	local confirmButton = B.GetObject(dialog, "ConfirmButton")
 	B.ReskinButton(confirmButton)
 
-	local resumeButton = B.GetKeyWord(dialog, "ResumeButton")
+	local resumeButton = B.GetObject(dialog, "ResumeButton")
 	B.ReskinButton(resumeButton)
 end
 

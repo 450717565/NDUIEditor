@@ -4,7 +4,7 @@ local S = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
-local r, g, b = GetItemQualityColor(4)
+local r, g, b = B.GetQualityColor(4)
 local function Reskin_DisplayedItem(self)
 	if not self.styled then
 		self:DisableDrawLayer("BORDER")

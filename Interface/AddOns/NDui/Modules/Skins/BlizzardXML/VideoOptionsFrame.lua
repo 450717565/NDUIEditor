@@ -11,7 +11,7 @@ local function Reskin_AudioOptionsVoicePanel(self)
 end
 
 local function Reskin_PanelTitle(self)
-	local title = _G[self:GetDebugName().."Title"]
+	local title = B.GetObject(self, "Title")
 
 	title:ClearAllPoints()
 	title:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 5, 2)

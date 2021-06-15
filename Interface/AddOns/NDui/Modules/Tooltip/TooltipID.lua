@@ -87,7 +87,7 @@ function TT:UpdateSpellCaster(...)
 	local unitCaster = select(7, UnitAura(...))
 	if unitCaster then
 		local name = GetUnitName(unitCaster, true)
-		local hexColor = B.HexRGB(B.UnitColor(unitCaster))
+		local hexColor = B.HexRGB(B.GetUnitColor(unitCaster))
 		self:AddDoubleLine(SPELL_TARGET_CENTER_CASTER..":", hexColor..name)
 		self:Show()
 	end

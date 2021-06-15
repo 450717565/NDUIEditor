@@ -268,14 +268,12 @@ C.LUAThemes["Blizzard_AchievementUI"] = function()
 	for _, bar in pairs(bars) do
 		B.ReskinStatusBar(bar)
 
-		local name = bar:GetDebugName()
-
-		local title = _G[name.."Title"]
+		local title = B.GetObject(bar, "Title")
 		B.ReskinText(title, 1, 1, 1)
 		title:ClearAllPoints()
 		title:SetPoint("LEFT", bar, "LEFT", 6, 0)
 
-		local text = _G[name.."Text"]
+		local text = B.GetObject(bar, "Text")
 		text:ClearAllPoints()
 		text:SetPoint("RIGHT", bar, "RIGHT", -5, 0)
 	end

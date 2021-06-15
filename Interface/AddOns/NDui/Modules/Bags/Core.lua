@@ -778,7 +778,7 @@ function Bags:OnLogin()
 			self.IconOverlay:SetAtlas(atlas)
 			self.IconOverlay:Show()
 			if secondAtlas then
-				local r, g, b = GetItemQualityColor(item.rarity or 1)
+				local r, g, b = B.GetQualityColor(item.rarity)
 				self.IconOverlay:SetVertexColor(r, g, b)
 				self.IconOverlay2:SetAtlas(secondAtlas)
 				self.IconOverlay2:Show()
@@ -830,7 +830,7 @@ function Bags:OnLogin()
 		end
 
 		-- Hide empty tooltip
-		if not GetContainerItemInfo(item.bagID, item.slotID) then
+		if GameTooltip:GetOwner() == self and not GetContainerItemInfo(item.bagID, item.slotID) then
 			GameTooltip:Hide()
 		end
 
@@ -851,7 +851,7 @@ function Bags:OnLogin()
 		if item.questID or item.isQuestItem then
 			self.bubg:SetBackdropBorderColor(1, 1, 0)
 		elseif item.rarity then
-			local r, g, b = GetItemQualityColor(item.rarity or 1)
+			local r, g, b = B.GetQualityColor(item.rarity)
 			self.bubg:SetBackdropBorderColor(r, g, b)
 		else
 			self.bubg:SetBackdropBorderColor(0, 0, 0)
@@ -991,7 +991,7 @@ function Bags:OnLogin()
 		if not id then return end
 
 		local _, _, quality, _, _, _, _, _, _, _, _, classID, subClassID = GetItemInfo(id)
-		local r, g, b = GetItemQualityColor(quality or 1)
+		local r, g, b = B.GetQualityColor(quality)
 
 		if not self.hidden and not self.notBought then
 			self.bubg:SetBackdropBorderColor(r, g, b)

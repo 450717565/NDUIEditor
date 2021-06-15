@@ -65,7 +65,7 @@ end
 --設置裝等文字
 local function SetItemLevelString(self, text, quality, link)
 	if (quality and ShowColoredItemLevelString) then
-		local r, g, b, hex = GetItemQualityColor(quality)
+		local r, g, b, hex = B.GetQualityColor(quality)
 		text = format("|c%s%s|r", hex, text)
 	end
 

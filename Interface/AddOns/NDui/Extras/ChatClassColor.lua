@@ -63,7 +63,7 @@ function EX:ClassFilter(message)
 		local wordMatch = classMatch and lowerCaseWord
 
 		if wordMatch then
-			local r, g, b = B.ClassColor(classMatch)
+			local r, g, b = B.GetClassColor(classMatch)
 			word = gsub(word, gsub(tempWord, '%-','%%-'), format('\124cff%.2x%.2x%.2x%s\124r', r*255, g*255, b*255, tempWord))
 		end
 

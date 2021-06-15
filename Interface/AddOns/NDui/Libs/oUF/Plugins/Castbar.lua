@@ -121,7 +121,7 @@ local function UpdateSpellTarget(self, unit)
 	local unitTarget = unit.."target"
 	if UnitExists(unitTarget) then
 		local nameString
-		local r, g, b = B.UnitColor(unitTarget)
+		local r, g, b = B.GetUnitColor(unitTarget)
 		if UnitIsUnit(unitTarget, "player") then
 			nameString = format("|cffff0000%s|r", ">"..strupper(YOU).."<")
 		else

@@ -27,7 +27,7 @@ local LMFrame_Title = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor Title"
 local LMFrame_Info = B.CreateFS(LMFrame, Button_Height-2, L["LootMonitor Info"], true, "BOTTOMRIGHT", -10, 10)
 
 local function UnitClassColor(unit)
-	local r, g, b = B.UnitColor(unit)
+	local r, g, b = B.GetUnitColor(unit)
 	return B.HexRGB(r, g, b, unit)
 end
 

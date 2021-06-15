@@ -4,9 +4,8 @@ local B, C, L, DB = unpack(ns)
 local function Reskin_Button(self)
 	if self and not self.styled then
 		B.StripTextures(self)
-		local frameName = self:GetDebugName()
-		local icon = _G[frameName.."Icon"]
 
+		local icon = B.GetObject(self, "Icon")
 		local icbg = B.ReskinIcon(icon)
 		B.ReskinCPTex(self, icbg)
 		B.ReskinHLTex(self, icbg)

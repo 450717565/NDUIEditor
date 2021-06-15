@@ -21,7 +21,7 @@ end
 
 local function Reskin_CalendarEventFrameBlocker()
 	local eventFrame = CalendarFrame_GetEventFrame()
-	local eventFrameOverlay = _G[eventFrame:GetDebugName().."ModalOverlay"]
+	local eventFrameOverlay = B.GetObject(eventFrame, "ModalOverlay")
 
 	if eventFrameOverlay then
 		eventFrameOverlay:SetAllPoints()
@@ -104,7 +104,7 @@ C.LUAThemes["Blizzard_Calendar"] = function()
 	for _, frame in pairs(frames) do
 		local bg = B.ReskinFrame(frame)
 
-		local overlay = _G[frame:GetDebugName().."ModalOverlay"]
+		local overlay = B.GetObject(frame, "ModalOverlay")
 		if overlay then overlay:SetInside(bg) end
 	end
 

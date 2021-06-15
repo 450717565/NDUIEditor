@@ -130,7 +130,8 @@ local function IsInShadowLands(mapID)
 	return shadowLandsMaps[mapID]
 end
 
-local ANIMA_ITEM_COLOR = { r=.6, g=.8, b=1 }
+local ANIMA_TEXTURE = 3528288
+local ANIMA_ITEMCOLOR = { r=.6, g=.8, b=1 }
 local ANIMA_SPELLID = {[347555] = 3, [345706] = 5, [336327] = 35, [336456] = 250}
 
 local function GetAnimaValue(itemID)
@@ -522,6 +523,7 @@ end
 local titleFramePool
 local headerButton
 local spacerFrame
+local totalButton
 
 local function QuestFrame_AddQuestButton(questInfo)
 	local button = titleFramePool:Acquire()
@@ -543,6 +545,7 @@ local function QuestFrame_AddQuestButton(questInfo)
 	button.numObjectives = questInfo.numObjectives
 	button.infoX = questInfo.x
 	button.infoY = questInfo.y
+	button.anima = 0
 	local difficultyColor = GetQuestDifficultyColor( UnitLevel("player") + TitleButton_RarityColorTable[questTagInfo.quality] )
 
 	button.Text:SetText(title)
@@ -620,7 +623,7 @@ local function QuestFrame_AddQuestButton(questInfo)
 				tagText = numItems
 				tagTexture = texture
 				if currencyID == CURRENCYID_AZERITE then
-					tagColor = BAG_ITEM_QUALITY_COLORS[Enum.ItemQuality.Artifact]
+					tagColor = ITEM_QUALITY_COLORS[Enum.ItemQuality.Artifact]
 				end
 				button.rewardCategory = "CURRENCY"
 				button.rewardValue = currencyID
@@ -637,7 +640,7 @@ local function QuestFrame_AddQuestButton(questInfo)
 			tagTexture = itemTexture
 			if iLevel then
 				tagText = iLevel
-				tagColor = BAG_ITEM_QUALITY_COLORS[quality]
+				tagColor = ITEM_QUALITY_COLORS[quality]
 				button.rewardCategory = "LOOT"
 				button.rewardValue = iLevel
 				button.rewardValue2 = 0
@@ -648,9 +651,10 @@ local function QuestFrame_AddQuestButton(questInfo)
 				button.rewardValue2 = 0
 			end
 			if C_Item.IsAnimaItemByID(itemID) then
-				tagTexture = 3528288 -- Interface/Icons/Spell_AnimaBastion_Orb
-				tagColor = ANIMA_ITEM_COLOR
+				tagTexture = ANIMA_TEXTURE
+				tagColor = ANIMA_ITEMCOLOR
 				tagText = quantity * GetAnimaValue(itemID)
+				button.anima = tagText
 			end
 		end
 	end
@@ -905,6 +909,7 @@ local function QuestFrame_Update()
 	if (Config.onlyCurrentZone) and (not displayLocation or lockedQuestID) and not (tasksOnMap and #tasksOnMap > 0) and (mapID ~= MAPID_ARGUS) then
 		for i = 1, #filterButtons do filterButtons[i]:Hide() end
 		if headerButton then headerButton:Hide() end
+		if totalButton then totalButton:Hide() end
 		QuestScrollFrame.Contents:Layout()
 		return
 	end
@@ -955,14 +960,9 @@ local function QuestFrame_Update()
 	headerButton:Show()
 	prevButton = headerButton
 
-	if NDui and not headerButton.styled then
-		B.ReskinCollapse(headerButton, true)
-
-		headerButton.styled = true
-	end
-
 	local usedButtons = {}
 	local filtersOwnRow = false
+	local totalAnima = 0
 
 	if questsCollapsed then
 		for i = 1, #filterButtons do filterButtons[i]:Hide() end
@@ -1037,6 +1037,10 @@ local function QuestFrame_Update()
 			if hoveredQuestID == button.questID then
 				TitleButton_OnEnter(button)
 			end
+
+			if button.anima > 0 then
+				totalAnima = totalAnima + button.anima
+			end
 		end
 	end
 
@@ -1050,6 +1054,42 @@ local function QuestFrame_Update()
 		layoutIndex = layoutIndex + 0.001
 	else
 		spacerFrame:Hide()
+	end
+
+	if not totalButton then
+		totalButton = CreateFrame("Button", nil, QuestMapFrame.QuestsFrame.Contents, "QuestLogTitleTemplate")
+		TitleButton_Initiliaze(totalButton)
+		totalButton:SetSize(255, 22)
+		totalButton:EnableMouse(false)
+
+		totalButton.Text:SetText("心能总计")
+		totalButton.Text:SetTextColor(ANIMA_ITEMCOLOR.r, ANIMA_ITEMCOLOR.g, ANIMA_ITEMCOLOR.b)
+		totalButton.TagText:Show()
+		totalButton.TagText:SetTextColor(ANIMA_ITEMCOLOR.r, ANIMA_ITEMCOLOR.g, ANIMA_ITEMCOLOR.b)
+		totalButton.TagTexture:Show()
+		totalButton.TagTexture:SetTexture(ANIMA_TEXTURE)
+	end
+
+	if totalAnima > 0 then
+		totalButton:Show()
+		totalButton.TagText:SetText(totalAnima)
+		totalButton.layoutIndex = headerButton.layoutIndex + 0.0001
+	else
+		totalButton:Hide()
+	end
+
+	if NDui then
+		if headerButton and not headerButton.styled then
+			B.ReskinCollapse(headerButton, true)
+
+			headerButton.styled = true
+		end
+
+		if totalButton and not totalButton.styled then
+			B.ReskinIcon(totalButton.TagTexture)
+
+			totalButton.styled = true
+		end
 	end
 
 	QuestScrollFrame.Contents:Layout()

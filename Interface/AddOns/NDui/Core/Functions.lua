@@ -150,19 +150,19 @@ do
 		end
 	end
 
-	function B.ClassColor(class)
+	function B.GetClassColor(class)
 		local color = DB.ClassColors[class]
 		if not color then return .5, .5, .5 end
 
 		return color.r, color.g, color.b
 	end
 
-	function B.UnitColor(unit)
+	function B.GetUnitColor(unit)
 		local r, g, b = 1, 1, 1
 		if UnitIsPlayer(unit) then
 			local class = select(2, UnitClass(unit))
 			if class then
-				r, g, b = B.ClassColor(class)
+				r, g, b = B.GetClassColor(class)
 			end
 		elseif UnitIsTapDenied(unit) then
 			r, g, b = .6, .6, .6
@@ -175,6 +175,12 @@ do
 		end
 
 		return r, g, b
+	end
+
+	function B.GetQualityColor(quality)
+		local color = DB.QualityColors[quality or -1]
+
+		return color.r, color.g, color.b, color.hex, color.colorStr
 	end
 end
 
@@ -401,7 +407,7 @@ end
 -- Kill Function
 do
 	-- Get Function
-	function B:GetKeyWord(key)
+	function B:GetObject(key)
 		local frameName = self:GetDebugName()
 		return self[key] or (frameName and _G[frameName..key])
 	end
@@ -463,7 +469,7 @@ do
 
 	function B:StripTextures(kill)
 		for _, texture in pairs(blizzTextures) do
-			local blizzFrame = B.GetKeyWord(self, texture)
+			local blizzFrame = B.GetObject(self, texture)
 			if blizzFrame then
 				B.StripTextures(blizzFrame, kill)
 			end
@@ -566,7 +572,7 @@ do
 		if self.SetNormalTexture and not isOverride then self:SetNormalTexture("") end
 
 		for _, key in pairs(cleanTextures) do
-			local cleanFrame = B.GetKeyWord(self, key)
+			local cleanFrame = B.GetObject(self, key)
 			if cleanFrame then
 				cleanFrame:SetAlpha(0)
 				cleanFrame:Hide()
@@ -890,7 +896,7 @@ do
 
 	local function updateBorderAtlas(self, atlas)
 		local quality = AtlasToQuality[atlas]
-		local r, g, b = GetItemQualityColor(quality or 1)
+		local r, g, b = B.GetQualityColor(quality)
 
 		self.__owner.icbg:SetBackdropBorderColor(r, g, b)
 		if self.__owner.bubg then
@@ -966,7 +972,7 @@ do
 	end
 
 	-- Handle Check and Radio
-	function B:ReskinCheck(forceSaturation)
+	function B:ReskinCheck(force)
 		B.CleanTextures(self)
 
 		local check = self:GetCheckedTexture()
@@ -980,7 +986,7 @@ do
 		self.bgTex = bgTex
 
 		B.SetupHook(self)
-		self.forceSaturation = forceSaturation
+		self.force = force
 	end
 
 	function B:ReskinRadio()
@@ -997,55 +1003,6 @@ do
 		check:SetInside(bgTex)
 
 		B.SetupHook(self)
-	end
-
-	-- Handle Highlight
-	function B:ReskinHLTex(relativeTo, classColor, isColorTex)
-		if not self then return end
-
-		local r, g, b = 1, 1, 1
-		if classColor then r, g, b = cr, cg, cb end
-
-		local tex
-		if self.SetHighlightTexture then
-			self:SetHighlightTexture(DB.bgTex)
-			tex = self:GetHighlightTexture()
-		elseif self.SetNormalTexture then
-			self:SetNormalTexture(DB.bgTex)
-			tex = self:GetNormalTexture()
-		elseif self.SetTexture then
-			self:SetTexture(DB.bgTex)
-			tex = self
-		end
-
-		if tex then
-			if isColorTex then
-				tex:SetColorTexture(r, g, b, .25)
-			else
-				tex:SetVertexColor(r, g, b, .25)
-			end
-
-			if relativeTo then
-				tex:SetInside(relativeTo)
-			end
-		end
-	end
-
-	-- Handle Checked and Pushed
-	function B:ReskinCPTex(relativeTo)
-		if not self then return end
-
-		local checked = self.GetCheckedTexture and self:GetCheckedTexture()
-		if checked then
-			checked:SetVertexColor(1, 1, 1)
-			B.ReskinBGBorder(checked, relativeTo)
-		end
-
-		local pushed = self.GetPushedTexture and self:GetPushedTexture()
-		if pushed then
-			pushed:SetVertexColor(0, 1, 1)
-			B.ReskinBGBorder(pushed, relativeTo)
-		end
 	end
 
 	-- Handle Close and Decline
@@ -1157,7 +1114,7 @@ do
 
 		icon:SetInside(nil, 2, 2)
 
-		local bg = B.GetKeyWord(self, "SwatchBg")
+		local bg = B.GetObject(self, "SwatchBg")
 		bg:SetColorTexture(0, 0, 0, 1)
 		bg:SetOutside(icon)
 	end
@@ -1167,7 +1124,7 @@ do
 		B.StripTextures(self)
 		B.CleanTextures(self)
 
-		local button = B.GetKeyWord(self, "Button") or B.GetKeyWord(self, "_Button")
+		local button = B.GetObject(self, "Button") or B.GetObject(self, "_Button")
 		button:ClearAllPoints()
 		button:Point("RIGHT", -18, 2)
 		B.ReskinArrow(button, "down", 20)
@@ -1180,7 +1137,7 @@ do
 		bg:Point("BOTTOMRIGHT", button, "BOTTOMLEFT", -2, 0)
 
 		for _, key in pairs(textWords) do
-			local text = B.GetKeyWord(self, key)
+			local text = B.GetObject(self, key)
 			if text then
 				text:SetJustifyH("CENTER")
 				text:ClearAllPoints()
@@ -1215,7 +1172,7 @@ do
 		self.Icon:SetSize(height, height)
 
 		for _, key in pairs(textWords) do
-			local text = B.GetKeyWord(self, key)
+			local text = B.GetObject(self, key)
 			if text then
 				text:SetJustifyH("CENTER")
 				text:ClearAllPoints()
@@ -1238,7 +1195,7 @@ do
 
 		local bg = B.CreateBG(self)
 		for _, key in pairs(headers) do
-			local frameHeader = B.GetKeyWord(self, key)
+			local frameHeader = B.GetObject(self, key)
 			if frameHeader then
 				B.StripTextures(frameHeader, 0)
 
@@ -1247,11 +1204,11 @@ do
 			end
 		end
 		for _, key in pairs(portraits) do
-			local framePortrait = B.GetKeyWord(self, key)
+			local framePortrait = B.GetObject(self, key)
 			if framePortrait then framePortrait:SetAlpha(0) end
 		end
 		for _, key in pairs(closes) do
-			local closeButton = B.GetKeyWord(self, key)
+			local closeButton = B.GetObject(self, key)
 			if closeButton and closeButton:IsObjectType("Button") then
 				B.ReskinClose(closeButton, bg)
 			end
@@ -1325,7 +1282,7 @@ do
 	local covers = {"background", "Cover", "cover"}
 	function B:ReskinRole(role)
 		for _, key in pairs(covers) do
-			local tex = B.GetKeyWord(self, key)
+			local tex = B.GetObject(self, key)
 			if tex then tex:SetTexture("") end
 		end
 
@@ -1408,7 +1365,7 @@ do
 			thumb = self:GetThumbTexture()
 		else
 			for _, key in pairs(thumbs) do
-				thumb = B.GetKeyWord(self, key)
+				thumb = B.GetObject(self, key)
 			end
 		end
 
@@ -1489,7 +1446,7 @@ do
 		end
 
 		for _, key in pairs(barWords) do
-			local text = B.GetKeyWord(self, key)
+			local text = B.GetObject(self, key)
 			if text then
 				text:SetJustifyH("CENTER")
 				text:ClearAllPoints()
@@ -1542,6 +1499,55 @@ do
 					tabs:Point("LEFT", _G[tab..(i-1)], "RIGHT", -(15+C.mult), 0)
 				end
 			end
+		end
+	end
+
+	-- Handle Highlight
+	function B:ReskinHLTex(relativeTo, classColor, isColorTex)
+		if not self then return end
+
+		local r, g, b = 1, 1, 1
+		if classColor then r, g, b = cr, cg, cb end
+
+		local tex
+		if self.SetHighlightTexture then
+			self:SetHighlightTexture(DB.bgTex)
+			tex = self:GetHighlightTexture()
+		elseif self.SetNormalTexture then
+			self:SetNormalTexture(DB.bgTex)
+			tex = self:GetNormalTexture()
+		elseif self.SetTexture then
+			self:SetTexture(DB.bgTex)
+			tex = self
+		end
+
+		if tex then
+			if isColorTex then
+				tex:SetColorTexture(r, g, b, .25)
+			else
+				tex:SetVertexColor(r, g, b, .25)
+			end
+
+			if relativeTo then
+				tex:SetInside(relativeTo)
+			end
+		end
+	end
+
+	-- Handle Checked and Pushed
+	function B:ReskinCPTex(relativeTo)
+		if not self then return end
+
+		local checked = self.GetCheckedTexture and self:GetCheckedTexture()
+		if checked then
+			checked:SetVertexColor(1, 1, 1)
+			B.ReskinBGBorder(checked, relativeTo)
+		end
+
+		local pushed = self.GetPushedTexture and self:GetPushedTexture()
+		if pushed then
+			pushed:SetVertexColor(0, 1, 1)
+			B.ReskinBGBorder(pushed, relativeTo)
 		end
 	end
 end
@@ -1709,6 +1715,8 @@ do
 		fs:SetText(text)
 		fs:SetWordWrap(false)
 		fs:SetShadowColor(0, 0, 0, 0)
+		fs:ClearAllPoints()
+
 		if color and type(color) == "boolean" then
 			fs:SetTextColor(cr, cg, cb)
 		elseif color == "system" then

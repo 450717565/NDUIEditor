@@ -526,7 +526,7 @@ function GUI:SetupPartyWatcher(parent)
 
 	local index = 1
 	for class, value in pairs(C.PartySpellsDB) do
-		local color = B.HexRGB(B.ClassColor(class))
+		local color = B.HexRGB(B.GetClassColor(class))
 		local localClassName = LOCALIZED_CLASS_NAMES_MALE[class]
 		menuList[index] = {text = color..localClassName, notCheckable = true, hasArrow = true, menuList = {}}
 

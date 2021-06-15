@@ -65,7 +65,7 @@ local function Reskin_ConfigureRewardFrame(rewardFrame, honor, experience, itemR
 
 	if rewardTexture then
 		rewardFrame.Icon:SetTexture(rewardTexture)
-		local r, g, b = GetItemQualityColor(rewardQuaility or 1)
+		local r, g, b = B.GetQualityColor(rewardQuaility)
 		rewardFrame.icbg:SetBackdropBorderColor(r, g, b)
 	end
 end

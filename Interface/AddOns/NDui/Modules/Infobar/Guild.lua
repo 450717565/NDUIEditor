@@ -91,7 +91,7 @@ function info:GuildPanel_UpdateButton(button)
 	local c1, c2, c3, c4 = B.GetClassTexCoord(class)
 	button.class:SetTexCoord(c1, c2, c3, c4)
 
-	local namecolor = B.HexRGB(B.ClassColor(class))
+	local namecolor = B.HexRGB(B.GetClassColor(class))
 	button.name:SetText(namecolor..name..status)
 
 	local zonecolor = DB.GreyColor

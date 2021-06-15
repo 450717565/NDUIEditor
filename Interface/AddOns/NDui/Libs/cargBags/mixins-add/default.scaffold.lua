@@ -27,16 +27,16 @@ DEPENDENCIES
 
 local _, ns = ...
 local cargBags = ns.cargBags
+local B, C, L, DB = unpack(ns)
 
 local function ItemButton_Scaffold(self)
 	self:SetSize(37, 37)
 
-	local name = self:GetDebugName()
-	self.Icon = _G[name.."IconTexture"]
-	self.Count = _G[name.."Count"]
-	self.Cooldown = _G[name.."Cooldown"]
-	self.Quest = _G[name.."IconQuestTexture"]
-	self.Border = _G[name.."NormalTexture"]
+	self.Icon = B.GetObject(self, "IconTexture")
+	self.Count = B.GetObject(self, "Count")
+	self.Cooldown = B.GetObject(self, "Cooldown")
+	self.Quest = B.GetObject(self, "IconQuestTexture")
+	self.Border = B.GetObject(self, "NormalTexture")
 end
 
 --[[!

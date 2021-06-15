@@ -19,6 +19,7 @@
 ]]
 local _, ns = ...
 local cargBags = ns.cargBags
+local B, C, L, DB = unpack(ns)
 
 local _G = _G
 local ReagentButtonInventorySlot = _G.ReagentButtonInventorySlot
@@ -109,10 +110,10 @@ function ItemButton:Create(tpl, parent)
 	if (button.Scaffold) then button:Scaffold(tpl) end
 	if (button.OnCreate) then button:OnCreate(tpl) end
 
-	local btnNT = _G[button:GetName().."NormalTexture"]
-	local btnNIT = button.NewItemTexture
-	local btnBIT = button.BattlepayItemTexture
-	local btnICO = button.ItemContextOverlay
+	local btnNT = B.GetObject(button, "NormalTexture")
+	local btnNIT = B.GetObject(button, "NewItemTexture")
+	local btnBIT = B.GetObject(button, "BattlepayItemTexture")
+	local btnICO = B.GetObject(button, "ItemContextOverlay")
 	if btnNT then btnNT:SetTexture("") end
 	if btnNIT then btnNIT:SetTexture("") end
 	if btnBIT then btnBIT:SetTexture("") end

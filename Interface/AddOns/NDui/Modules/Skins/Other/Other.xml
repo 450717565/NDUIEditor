@@ -14,6 +14,7 @@
 	<Script file="FriendGroups.lua"/>
 	<Script file="HandyNotes.lua"/>
 	<Script file="Immersion.lua"/>
+	<Script file="ImprovedStableFrame.lua"/>
 	<Script file="ls_Toasts.lua"/>
 	<Script file="MeetingStone.lua"/>
 	<Script file="MogPartialSets.lua"/>

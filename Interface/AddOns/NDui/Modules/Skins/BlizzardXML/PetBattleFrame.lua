@@ -26,7 +26,7 @@ local function Reskin_UpdateDisplay(self)
 
 	if self.Icon.icbg then
 		local quality = C_PetBattles.GetBreedQuality(self.petOwner, self.petIndex) - 1 or 1
-		local r, g, b = GetItemQualityColor(quality or 1)
+		local r, g, b = B.GetQualityColor(quality)
 		self.Icon.icbg:SetBackdropBorderColor(r, g, b)
 	end
 end

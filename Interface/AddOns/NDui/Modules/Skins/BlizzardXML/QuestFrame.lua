@@ -48,8 +48,9 @@ local function Update_ProgressItemQuality(self)
 		quality = select(4, GetQuestCurrencyInfo(buttonType, index))
 	end
 
-	local r, g, b = GetItemQualityColor(quality or 1)
+	local r, g, b = B.GetQualityColor(quality)
 	button.icbg:SetBackdropBorderColor(r, g, b)
+	button.bubg:SetBackdropBorderColor(r, g, b)
 end
 
 tinsert(C.XMLThemes, function()
@@ -114,10 +115,11 @@ tinsert(C.XMLThemes, function()
 		B.StripTextures(button)
 
 		local icbg = B.ReskinIcon(button.Icon)
-		B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
+		local bubg = B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
 
 		button.__id = i
 		button.icbg = icbg
+		button.bubg = bubg
 		button.Icon.__owner = button
 		hooksecurefunc(button.Icon, "SetTexture", Update_ProgressItemQuality)
 	end

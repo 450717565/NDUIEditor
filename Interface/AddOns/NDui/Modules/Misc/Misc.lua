@@ -16,7 +16,6 @@ local GetItemInfo = GetItemInfo
 local BuyMerchantItem = BuyMerchantItem
 local GetMerchantItemLink = GetMerchantItemLink
 local GetMerchantItemMaxStack = GetMerchantItemMaxStack
-local GetItemQualityColor = GetItemQualityColor
 local Screenshot = Screenshot
 local GetTime, GetCVarBool, SetCVar = GetTime, GetCVarBool, SetCVar
 local GetNumLootItems, LootSlot = GetNumLootItems, LootSlot
@@ -310,7 +309,7 @@ function Misc:TradeTargetInfo()
 	infoText:SetPoint("TOP", TradeFrameRecipientNameText, "BOTTOM", 0, -5)
 
 	local function updateColor()
-		local r, g, b = B.UnitColor("NPC")
+		local r, g, b = B.GetUnitColor("NPC")
 		B.ReskinText(TradeFrameRecipientNameText, r, g, b)
 
 		local guid = UnitGUID("NPC")
@@ -681,7 +680,7 @@ do
 			local name, _, quality, _, _, _, _, maxStack, _, texture = GetItemInfo(itemLink)
 			if maxStack and maxStack > 1 then
 				if not cache[itemLink] then
-					local r, g, b = GetItemQualityColor(quality or 1)
+					local r, g, b = B.GetQualityColor(quality)
 					StaticPopup_Show("BUY_STACK", " ", " ", {["texture"] = texture, ["name"] = name, ["color"] = {r, g, b, 1}, ["link"] = itemLink, ["index"] = id, ["count"] = maxStack})
 				else
 					BuyMerchantItem(id, GetMerchantItemMaxStack(id))

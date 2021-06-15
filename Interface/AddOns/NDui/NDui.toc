@@ -1,9 +1,9 @@
 ## Interface: 90005
-## Title: |cff0080ffNDui|r |TInterface\Addons\NDui\Media\Logo\chatLogo:14:28|t
+## Title: |cff0080FFNDui|r |TInterface\Addons\NDui\Media\Logo\chatLogo:14:28|t
 ## X-Credits: Elv, Freebaser, Haleth, Haste, Leatrix, lightspark, Loshine, Neavo, p3lim, Paopao001, Qulight, Ray, Rubgrsch, Simpy, Tuller, zork.
 ## Author: Siweia
 ## Notes: More than a UI.
-## Version: 6.11.5.1
+## Version: 6.11.6.0
 ## X-Support: SL
 ## X-Website: https://github.com/siweia/NDui
 ## SavedVariables: NDuiADB, NDuiPDB

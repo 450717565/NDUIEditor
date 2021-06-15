@@ -87,7 +87,7 @@ local function CreateSlot(id)
 	local border = CreateFrame("Frame", nil, button, "BackdropTemplate")
 	border:SetSize(iconSize, iconSize)
 	border:SetPoint("LEFT", button)
-	B.CreateBD(border, 1)
+	B.CreateBD(border)
 	button.border = border
 
 	local icon = border:CreateTexture(nil, "ARTWORK")
@@ -190,7 +190,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 				lootName, lootIcon, lootQuantity, lootQuality = CurrencyContainerUtil.GetCurrencyContainerInfo(currencyID, lootQuantity, lootName, lootIcon, lootQuality)
 			end
 
-			local r, g, b = GetItemQualityColor(lootQuality or 1)
+			local r, g, b = B.GetQualityColor(lootQuality)
 
 			if lootIcon and lootName then
 				local slotType = GetLootSlotType(i)
@@ -210,11 +210,14 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 					if questID or isQuestItem then
 						r, g, b = 1, 1, 0
 					end
+
+					slot.name:Show()
 					slot.name:SetTextColor(r, g, b)
+					slot.border:Show()
 					slot.border:SetBackdropBorderColor(r, g, b)
 				else
-					slot.name:SetTextColor(.5, .5, .5)
-					slot.border:SetBackdropBorderColor(.5, .5, .5)
+					slot.name:Hide()
+					slot.border:Hide()
 				end
 
 				slot.lootQuality = lootQuality
@@ -236,7 +239,7 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 		slot:Hide()
 	end
 
-	local r, g, b = GetItemQualityColor(maxQuality or 1)
+	local r, g, b = B.GetQualityColor(maxQuality)
 	self.bg:SetBackdropBorderColor(r, g, b)
 	self.Title:SetTextColor(r, g, b)
 

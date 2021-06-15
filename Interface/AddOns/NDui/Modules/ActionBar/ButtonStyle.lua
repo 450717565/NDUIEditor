@@ -153,7 +153,7 @@ local replaces = {
 }
 
 function Bar:UpdateHotKey()
-	local hotkey = _G[self:GetDebugName().."HotKey"]
+	local hotkey = B.GetObject(self, "HotKey")
 	if hotkey and hotkey:IsShown() and not C.db["ActionBar"]["Hotkeys"] then
 		hotkey:Hide()
 		return
@@ -199,17 +199,16 @@ function Bar:StyleActionButton(button, cfg)
 	if not button then return end
 	if button.__styled then return end
 
-	local buttonName = button:GetDebugName()
-	local icon = _G[buttonName.."Icon"]
-	local name = _G[buttonName.."Name"]
-	local count = _G[buttonName.."Count"]
-	local flash = _G[buttonName.."Flash"]
-	local border = _G[buttonName.."Border"]
-	local hotkey = _G[buttonName.."HotKey"]
-	local cooldown = _G[buttonName.."Cooldown"]
-	local autoCastable = _G[buttonName.."AutoCastable"]
-	local flyoutBorder = _G[buttonName.."FlyoutBorder"]
-	local flyoutBorderShadow = _G[buttonName.."FlyoutBorderShadow"]
+	local icon = B.GetObject(button, "Icon")
+	local name = B.GetObject(button, "Name")
+	local count = B.GetObject(button, "Count")
+	local flash = B.GetObject(button, "Flash")
+	local border = B.GetObject(button, "Border")
+	local hotkey = B.GetObject(button, "HotKey")
+	local cooldown = B.GetObject(button, "Cooldown")
+	local autoCastable = B.GetObject(button, "AutoCastable")
+	local flyoutBorder = B.GetObject(button, "FlyoutBorder")
+	local flyoutBorderShadow = B.GetObject(button, "FlyoutBorderShadow")
 
 	local normalTexture = button:GetNormalTexture()
 	local pushedTexture = button:GetPushedTexture()
@@ -217,13 +216,13 @@ function Bar:StyleActionButton(button, cfg)
 	local highlightTexture = button:GetHighlightTexture()
 
 	--hide stuff
-	local floatingBG = _G[buttonName.."FloatingBG"]
+	local floatingBG = B.GetObject(button, "FloatingBG")
 	if floatingBG then floatingBG:Hide() end
 
-	local newActionTexture = button.NewActionTexture
+	local newActionTexture = B.GetObject(button, "NewActionTexture")
 	if newActionTexture then newActionTexture:SetTexture("") end
 
-	local keybindHighlight = button.QuickKeybindHighlightTexture
+	local keybindHighlight = B.GetObject(button, "QuickKeybindHighlightTexture")
 	if keybindHighlight then keybindHighlight:SetOutside(nil, 4, 4) end
 
 	--backdrop
@@ -293,13 +292,12 @@ function Bar:StyleExtraActionButton(cfg)
 	local button = ExtraActionButton1
 	if button.__styled then return end
 
-	local buttonName = button:GetDebugName()
-	local buttonstyle = button.style --artwork around the button
-	local icon = _G[buttonName.."Icon"]
-	local count = _G[buttonName.."Count"]
-	local hotkey = _G[buttonName.."HotKey"]
-	local cooldown = _G[buttonName.."Cooldown"]
-	--local flash = _G[buttonName.."Flash"] --wierd the template has two textures of the same name
+	local style = B.GetObject(button, "style")
+	local icon = B.GetObject(button, "Icon")
+	local count = B.GetObject(button, "Count")
+	local hotkey = B.GetObject(button, "HotKey")
+	local cooldown = B.GetObject(button, "Cooldown")
+	--local flash = B.GetObject(button, "Flash") --wierd the template has two textures of the same name
 
 	--force it to gain a texture
 	button:SetNormalTexture(DB.blankTex)
@@ -317,7 +315,7 @@ function Bar:StyleExtraActionButton(cfg)
 
 	--textures
 	SetupTexture(icon, cfg.icon, "SetTexture", icon)
-	SetupTexture(buttonstyle, cfg.buttonstyle, "SetTexture", buttonstyle)
+	SetupTexture(style, cfg.style, "SetTexture", style)
 
 	SetupTexture(normalTexture, cfg.normalTexture, "SetNormalTexture", button)
 	SetupTexture(pushedTexture, cfg.pushedTexture, "SetPushedTexture", button)
@@ -409,9 +407,9 @@ end
 
 function Bar:ReskinBars()
 	local cfg = {
+		flash = {file = ""},
 		border = {file = ""},
-		buttonstyle = {file = ""},
-		flash = {file = DB.blankTex},
+		style = {file = ""},
 		flyoutBorder = {file = ""},
 		flyoutBorderShadow = {file = ""},
 		icon = {

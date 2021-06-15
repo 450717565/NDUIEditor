@@ -541,12 +541,12 @@ function UF:OnLogin()
 			end
 
 			local function CreateTeamIndex(header)
-				local parent = _G[header:GetName().."UnitButton1"]
+				local parent = B.GetObject(header, "UnitButton1")
 				if parent and not parent.teamIndex then
 					local point = {"BOTTOM", parent, "TOP", 0, offset}
 					if horizonRaid then point = {"RIGHT", parent, "LEFT", -offset, 0} end
 
-					local teamIndex = B.CreateFS(parent, 12, "T."..i)
+					local teamIndex = B.CreateFS(parent, 12, "T."..header.index)
 					teamIndex:ClearAllPoints()
 					teamIndex:SetPoint(unpack(point))
 					teamIndex:SetTextColor(.6, .8, 1)

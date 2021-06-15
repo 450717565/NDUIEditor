@@ -16,11 +16,10 @@ end
 
 local function Reskin_Reward(self)
 	if self and not self.styled then
-		local iconBorder = self.IconBorder
-		local buttonName = self:GetDebugName()
-		local nameFrame = _G[buttonName.."NameFrame"]
-		local iconTexture = _G[buttonName.."IconTexture"]
-		local shortageBorder = _G[buttonName.."ShortageBorder"]
+		local nameFrame = B.GetObject(self, "NameFrame")
+		local iconBorder = B.GetObject(self, "IconBorder")
+		local iconTexture = B.GetObject(self, "IconTexture")
+		local shortageBorder = B.GetObject(self, "ShortageBorder")
 
 		local icbg = B.ReskinIcon(iconTexture)
 		local bubg = B.CreateBGFrame(self, 2, 0, -5, 0, icbg)
@@ -37,14 +36,14 @@ local function Reskin_DialogReward(self)
 	if not self.styled then
 		B.ReskinIcon(self.texture)
 
-		_G[self:GetDebugName().."Border"]:Hide()
+		B.GetObject(self, "Border"):Hide()
 
 		self.styled = true
 	end
 end
 
 local function Update_LFGRewardsFrame(parentFrame, _, index)
-	local parentName = parentFrame:GetName()
+	local parentName = parentFrame:GetDebugName()
 	local button = _G[parentName.."Item"..index]
 	Reskin_Reward(button)
 

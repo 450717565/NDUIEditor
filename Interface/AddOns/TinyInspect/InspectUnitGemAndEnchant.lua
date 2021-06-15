@@ -104,7 +104,7 @@ local function onExecute(self)
 	if (self.dataType == "item") then
 		local _, itemLink, quality, _, _, _, _, _, _, texture = GetItemInfo(self.data)
 		if (texture) then
-			local r, g, b = GetItemQualityColor(quality or 0)
+			local r, g, b = B.GetQualityColor(quality)
 			self.icon.bg:SetVertexColor(r, g, b)
 			self.icon.texture:SetTexture(texture)
 			if (not self.icon.itemLink) then
@@ -146,7 +146,7 @@ local function ShowGemAndEnchant(frame, ItemLink, anchorFrame, itemframe)
 		icon = GetIconFrame(frame)
 		if (v.link) then
 			_, _, quality, _, _, _, _, _, _, texture = GetItemInfo(v.link)
-			r, g, b = GetItemQualityColor(quality or 0)
+			r, g, b = B.GetQualityColor(quality)
 			icon.bg:SetVertexColor(r, g, b)
 			icon.texture:SetTexture(texture or "Interface\\Cursor\\Quest")
 			UpdateIconTexture(icon, texture, v.link, "item")
@@ -168,7 +168,7 @@ local function ShowGemAndEnchant(frame, ItemLink, anchorFrame, itemframe)
 			num = num + 1
 			icon = GetIconFrame(frame)
 			_, ItemLink, quality, _, _, _, _, _, _, texture = GetItemInfo(enchantItemID)
-			r, g, b = GetItemQualityColor(quality or 0)
+			r, g, b = B.GetQualityColor(quality)
 			icon.bg:SetVertexColor(r, g, b)
 			icon.texture:SetTexture(texture)
 			UpdateIconTexture(icon, texture, enchantItemID, "item")

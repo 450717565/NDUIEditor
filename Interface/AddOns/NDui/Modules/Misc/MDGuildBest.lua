@@ -168,8 +168,8 @@ function Misc:KeystoneInfo_Create()
 		for fullName, info in pairs(NDuiADB["KeystoneInfo"]) do
 			local name = Ambiguate(fullName, "none")
 			local mapID, level, class, faction = strsplit(":", info)
-			local color = B.HexRGB(B.ClassColor(class))
-			local factionColor = faction == "Horde" and "|cffff5040" or "|cff00adf0"
+			local color = B.HexRGB(B.GetClassColor(class))
+			local factionColor = faction == "Horde" and "|cffFF5040" or "|cff4080FF"
 			local dungeon = C_ChallengeMode_GetMapUIInfo(tonumber(mapID))
 			GameTooltip:AddDoubleLine(format(color.."%s|r", name), format("%s%s (%s)|r", factionColor, dungeon, level))
 		end

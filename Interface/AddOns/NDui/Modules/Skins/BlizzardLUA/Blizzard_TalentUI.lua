@@ -131,7 +131,7 @@ C.LUAThemes["Blizzard_TalentUI"] = function()
 		B.ReskinIcon(scrollChild.specIcon)
 		B.ReskinRoleIcon(scrollChild.roleIcon)
 
-		local tutorial = _G[frame:GetDebugName().."TutorialButton"]
+		local tutorial = B.GetObject(frame, "TutorialButton")
 		S.ReskinTutorialButton(tutorial, PlayerTalentFrame)
 
 		for i = 1, 4 do

@@ -328,6 +328,8 @@ GUI.DefaultSettings = {
 	},
 	Misc = {
 		Mail = true,
+		MailSaver = false,
+		MailTarget = "",
 		ItemLevel = true,
 		GemNEnchant = true,
 		AzeriteTraits = true,

@@ -276,7 +276,7 @@ end
 
 local function Update_FollowerQuality(self, followerInfo)
 	if followerInfo and self.squareBG then
-		local r, g, b = GetItemQualityColor(followerInfo.quality or 1)
+		local r, g, b = B.GetQualityColor(followerInfo.quality)
 		self.squareBG:SetBackdropBorderColor(r, g, b)
 	end
 end
@@ -444,7 +444,7 @@ end
 
 local function Update_FollowerQualityOnBorder(self, _, info)
 	if self.squareBG then
-		local r, g, b = GetItemQualityColor(info.quality or 1)
+		local r, g, b = B.GetQualityColor(info.quality)
 		self.squareBG:SetBackdropBorderColor(r, g, b)
 	end
 end
@@ -528,7 +528,7 @@ local function Reskin_MissionPortraitSetFollowerPortrait(portraitFrame, follower
 		portraitFrame.styled = true
 	end
 
-	local r, g, b = GetItemQualityColor(followerInfo.quality or 1)
+	local r, g, b = B.GetQualityColor(followerInfo.quality)
 	portraitFrame.squareBG:SetBackdropBorderColor(r, g, b)
 	portraitFrame.squareBG:Show()
 end
@@ -616,7 +616,7 @@ local function Reskin_MissionCompleteInitialize(self, missionList, index)
 
 			local quality = select(4, C_Garrison.GetFollowerMissionCompleteInfo(mission.followers[i]))
 			if quality then
-				local r, g, b = GetItemQualityColor(quality or 1)
+				local r, g, b = B.GetQualityColor(quality)
 				portrait.squareBG:SetBackdropBorderColor(r, g, b)
 				portrait.squareBG:Show()
 			end
@@ -1140,11 +1140,11 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 								else
 									local ci_1 = C_CurrencyInfo.GetBasicCurrencyInfo(reward.currencyID)
 									local ci_2 = C_CurrencyInfo.GetCurrencyInfo(reward.currencyID)
-									r, g, b = GetItemQualityColor((ci_1 and ci_1.quality) or (ci_2 and ci_2.quality))
+									r, g, b = B.GetQualityColor((ci_1 and ci_1.quality) or (ci_2 and ci_2.quality))
 								end
 							elseif reward.itemID then
 								local itemQuality = select(3,GetItemInfo(reward.itemLink or reward.itemID))
-								r, g, b = GetItemQualityColor(itemQuality or 1)
+								r, g, b = B.GetQualityColor(itemQuality)
 							end
 
 							if reward.Icon then
@@ -1215,7 +1215,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 				else
 					local ci_1 = C_CurrencyInfo.GetCurrencyContainerInfo(rew.currencyID, rew.quantity)	-- 声望奖章
 					local ci_2 = C_CurrencyInfo.GetCurrencyInfo(rew.currencyID)	-- 其他货币
-					r, g, b = GetItemQualityColor((ci_1 and ci_1.quality) or (ci_2 and ci_2.quality))
+					r, g, b = B.GetQualityColor((ci_1 and ci_1.quality) or (ci_2 and ci_2.quality))
 				end
 			elseif rew.itemID then
 				if C_Item.IsAnimaItemByID(rew.itemID) then
@@ -1232,7 +1232,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 				end
 
 				local itemQuality = select(3,GetItemInfo(rew.itemLink or rew.itemID))
-				r, g, b = GetItemQualityColor(itemQuality or 1)
+				r, g, b = B.GetQualityColor(itemQuality)
 			end
 
 			if self.Icon then

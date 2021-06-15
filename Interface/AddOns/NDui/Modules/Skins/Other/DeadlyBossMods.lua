@@ -44,20 +44,18 @@ local function Reskin_Bar(bar, frame)
 end
 
 local function Hide_Spark(self)
-	local spark = _G[self.frame:GetDebugName().."BarSpark"]
-	spark:Hide()
+	B.GetObject(self.frame, "BarSpark"):Hide()
 end
 
 local function Reskin_ApplyStyle(self)
-	local frame		= self.frame
-	local frameName = frame:GetDebugName()
-	local tbar		= _G[frameName.."Bar"]
-	local icon1		= _G[frameName.."BarIcon1"]
-	local icon2		= _G[frameName.."BarIcon2"]
-	local name		= _G[frameName.."BarName"]
-	local spark		= _G[frameName.."BarSpark"]
-	local texture	= _G[frameName.."BarTexture"]
-	local timer		= _G[frameName.."BarTimer"]
+	local frame = self.frame
+	local tbar = B.GetObject(frame, "Bar")
+	local name = B.GetObject(frame, "BarName")
+	local icon1 = B.GetObject(frame, "BarIcon1")
+	local icon2 = B.GetObject(frame, "BarIcon2")
+	local spark = B.GetObject(frame, "BarSpark")
+	local timer = B.GetObject(frame, "BarTimer")
+	local texture = B.GetObject(frame, "BarTexture")
 
 	if self.enlarged then
 		frame:SetWidth(self.owner.options.HugeWidth)

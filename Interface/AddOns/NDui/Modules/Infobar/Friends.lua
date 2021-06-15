@@ -255,7 +255,7 @@ local function buttonOnClick(self, btn)
 						local wowProjectID = gameAccountInfo.wowProjectID
 						if client == BNET_CLIENT_WOW and CanCooperateWithUnit(gameAccountInfo) and wowProjectID == WOW_PROJECT_ID then
 							if not menuList[index] then menuList[index] = {} end
-							menuList[index].text = B.HexRGB(B.ClassColor(DB.ClassList[class]))..charName
+							menuList[index].text = B.HexRGB(B.GetClassColor(DB.ClassList[class]))..charName
 							menuList[index].notCheckable = true
 							menuList[index].arg1 = bnetIDGameAccount
 							menuList[index].arg2 = guid
@@ -323,7 +323,7 @@ local function buttonOnEnter(self)
 					end
 
 					class = DB.ClassList[class]
-					local classColor = B.HexRGB(B.ClassColor(class))
+					local classColor = B.HexRGB(B.GetClassColor(class))
 					if faction == "Horde" then
 						clientString = "|TInterface\\FriendsFrame\\PlusManz-Horde:16:|t"
 					elseif faction == "Alliance" then
@@ -355,7 +355,7 @@ local function buttonOnEnter(self)
 		GameTooltip:AddLine(L["WoW"], 1,.8,0)
 		GameTooltip:AddLine(" ")
 		local name, level, class, area = unpack(self.data)
-		local classColor = B.HexRGB(B.ClassColor(class))
+		local classColor = B.HexRGB(B.GetClassColor(class))
 		GameTooltip:AddLine(format("%s %s%s", level, classColor, name))
 		GameTooltip:AddLine(format("%s%s", inactiveZone, area))
 	end

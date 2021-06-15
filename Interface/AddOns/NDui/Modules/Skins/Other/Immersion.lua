@@ -22,24 +22,19 @@ end
 local function Update_RewardBorder(self)
 	if not self.icbg and not self.bubg then return end
 
+	local quality
 	if self.objectType == "item" then
-		local itemQuality = select(4, GetQuestItemInfo(self.type, self:GetID()))
-		local r, g, b = GetItemQualityColor(itemQuality or 1)
-		self.icbg:SetBackdropBorderColor(r, g, b)
-		self.bubg:SetBackdropBorderColor(r, g, b)
+		quality = select(4, GetQuestItemInfo(self.type, self:GetID()))
 	elseif self.objectType == "currency" then
-		local name, texture, numItems, quality = GetQuestCurrencyInfo(self.type, self:GetID())
-		if name and texture and numItems and quality then
-			local currencyID = GetQuestCurrencyID(self.type, self:GetID())
-			local currencyQuality = select(4, CurrencyContainerUtil.GetCurrencyContainerInfo(currencyID, numItems, name, texture, quality))
-			local r, g, b = GetItemQualityColor(currencyQuality or 1)
-			self.icbg:SetBackdropBorderColor(r, g, b)
-			self.bubg:SetBackdropBorderColor(r, g, b)
-		end
+		quality = select(4, GetQuestCurrencyInfo(self.type, self:GetID()))
 	else
 		self.icbg:SetBackdropBorderColor(0, 0, 0)
 		self.bubg:SetBackdropBorderColor(0, 0, 0)
 	end
+
+	local r, g, b = B.GetQualityColor(quality)
+	self.icbg:SetBackdropBorderColor(r, g, b)
+	self.bubg:SetBackdropBorderColor(r, g, b)
 end
 
 local function Reskin_RewardButton(self)
