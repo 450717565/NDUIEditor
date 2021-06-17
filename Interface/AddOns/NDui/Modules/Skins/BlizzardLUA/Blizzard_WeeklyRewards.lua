@@ -11,8 +11,10 @@ local function Reskin_DisplayedItem(self)
 		self.Icon:SetPoint("LEFT", 6, 0)
 
 		local icbg = B.ReskinIcon(self.Icon)
-		local bubg = B.CreateBGFrame(self, 2, 0, 0, 0, icbg)
 		icbg:SetBackdropBorderColor(r, g, b)
+		icbg:SetFrameLevel(self:GetFrameLevel())
+
+		local bubg = B.CreateBGFrame(self, 2, 0, 0, 0, icbg)
 		bubg:SetBackdropBorderColor(r, g, b)
 
 		self.styled = true

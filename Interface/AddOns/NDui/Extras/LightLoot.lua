@@ -4,7 +4,7 @@ local B, C, L, DB = unpack(ns)
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
-local iconSize = 33
+local iconSize = 34
 local fontsize = select(2, GameFontWhite:GetFont())
 local fontSize = B.Round(fontsize)
 
@@ -29,9 +29,6 @@ LightLoot:SetScript("OnHide", function(self)
 	CloseLoot()
 end)
 
-local Title = B.CreateFS(LightLoot, 18, "", false, "TOPLEFT", 4, 20)
-LightLoot.Title = Title
-
 local function OnEnter(self)
 	local slot = self:GetID()
 	if GetLootSlotType(slot) == LOOT_SLOT_ITEM then
@@ -39,11 +36,9 @@ local function OnEnter(self)
 		GameTooltip:SetLootItem(slot)
 		CursorUpdate(self)
 	end
-	self.glow:Show()
 end
 
 local function OnLeave(self)
-	self.glow:Hide()
 	GameTooltip:Hide()
 	ResetCursor()
 end
@@ -95,11 +90,10 @@ local function CreateSlot(id)
 	icon:SetInside()
 	button.icon = icon
 
-	local glow = button:CreateTexture(nil, "ARTWORK")
+	local glow = button:CreateTexture(nil, "HIGHLIGHT")
 	glow:SetPoint("TOPLEFT", icon, "TOPRIGHT", 3, 0)
 	glow:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT")
 	glow:SetColorTexture(cr, cg, cb, .5)
-	glow:Hide()
 	button.glow = glow
 
 	local count = B.CreateFS(border, 12)
@@ -119,32 +113,31 @@ local function CreateSlot(id)
 	return button
 end
 
-function LightLoot:UpdateWidth()
+
+function LightLoot:UpdateStatus()
 	local maxWidth = 0
+	local shownSlots = 0
+	local maxQuality = -1
+
 	for _, slot in pairs(slots) do
-		if slot:IsShown() then
-			local width = slot.name:GetStringWidth()
-			if width > maxWidth then
-				maxWidth = width
-			end
+		if slot and slot:IsShown() then
+			local nameWidth = slot.name:GetStringWidth()
+			maxWidth = math.max(maxWidth, nameWidth)
+
+			local lootQuality = slot.quality or 0
+			maxQuality = math.max(maxQuality, lootQuality)
+
+			shownSlots = shownSlots + 1
+			slot:SetPoint("TOP", LightLoot, 0, (-5 + iconSize) - (shownSlots * iconSize) - (shownSlots - 1) * 5)
 		end
 	end
 
 	self:SetWidth(math.max(maxWidth + 16 + iconSize, self.Title:GetStringWidth() + 5))
-end
-
-function LightLoot:AnchorSlots()
-	local shownSlots = 0
-
-	for i = 1, #slots do
-		local button = slots[i]
-		if button:IsShown() then
-			shownSlots = shownSlots + 1
-			button:SetPoint("TOP", LightLoot, 0, (-5 + iconSize) - (shownSlots * iconSize) - (shownSlots - 1) * 5)
-		end
-	end
-
 	self:SetHeight(math.max(shownSlots * iconSize + 10 + (shownSlots - 1) * 5 , iconSize))
+
+	local r, g, b = B.GetQualityColor(maxQuality)
+	self.Frame:SetBackdropBorderColor(r, g, b)
+	self.Title:SetTextColor(r, g, b)
 end
 
 function LightLoot:LOOT_OPENED(event, autoloot)
@@ -164,11 +157,13 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 
 	if GetCVar("lootUnderMouse") == "1" then
 		local x, y = GetCursorPosition()
-		x = x / self:GetEffectiveScale()
-		y = y / self:GetEffectiveScale()
+		local scale = self:GetEffectiveScale()
+
+		x = B.Round(x / scale)
+		y = B.Round(y / scale)
 
 		self:ClearAllPoints()
-		self:SetPoint("TOPLEFT", nil, "BOTTOMLEFT", x - 40, y + 20)
+		self:SetPoint("TOPLEFT", nil, "BOTTOMLEFT", x, y)
 		self:GetCenter()
 		self:Raise()
 	else
@@ -179,21 +174,19 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 		self:SetPoint("CENTER", mover)
 	end
 
-	local maxQuality = 0
 	local items = GetNumLootItems()
 	if items > 0 then
 		for i = 1, items do
 			local slot = slots[i] or CreateSlot(i)
-			local lootIcon, lootName, lootQuantity, currencyID, lootQuality, isLocked, isQuestItem, questID, isActive = GetLootSlotInfo(i)
+			local slotType = GetLootSlotType(i)
+			if slotType ~= LOOT_SLOT_NONE then
+				local lootIcon, lootName, lootQuantity, currencyID, lootQuality, isLocked, isQuestItem, questID, isActive = GetLootSlotInfo(i)
 
-			if currencyID then
-				lootName, lootIcon, lootQuantity, lootQuality = CurrencyContainerUtil.GetCurrencyContainerInfo(currencyID, lootQuantity, lootName, lootIcon, lootQuality)
-			end
+				if currencyID then
+					lootName, lootIcon, lootQuantity, lootQuality = CurrencyContainerUtil.GetCurrencyContainerInfo(currencyID, lootQuantity, lootName, lootIcon, lootQuality)
+				end
 
-			local r, g, b = B.GetQualityColor(lootQuality)
-
-			if lootIcon and lootName then
-				local slotType = GetLootSlotType(i)
+				local r, g, b = B.GetQualityColor(lootQuality)
 
 				if slotType == LOOT_SLOT_MONEY then
 					lootName = gsub(lootName, "\n", "，")
@@ -220,31 +213,20 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 					slot.border:Hide()
 				end
 
-				slot.lootQuality = lootQuality
-				slot.isQuestItem = isQuestItem
+				slot.quality = lootQuality
 
 				slot.name:SetText(lootName)
 				slot.icon:SetTexture(lootIcon)
-
-				maxQuality = math.max(maxQuality, lootQuality)
 
 				slot:Enable()
 				slot:Show()
 			end
 		end
 	else
-		local slot = slots[1] or CreateSlot(1)
-
-		slot:Disable()
-		slot:Hide()
+		self:Hide()
 	end
 
-	local r, g, b = B.GetQualityColor(maxQuality)
-	self.bg:SetBackdropBorderColor(r, g, b)
-	self.Title:SetTextColor(r, g, b)
-
-	self:AnchorSlots()
-	self:UpdateWidth()
+	self:UpdateStatus()
 end
 LightLoot:RegisterEvent("LOOT_OPENED")
 
@@ -258,16 +240,25 @@ function LightLoot:LOOT_CLOSED()
 end
 LightLoot:RegisterEvent("LOOT_CLOSED")
 
+function LightLoot:LOOT_SLOT_CHANGED(event, slot)
+	if not self:IsShown() or not slots[slot] then return end
+
+	slots[slot]:Hide()
+	self:UpdateStatus()
+end
+LightLoot:RegisterEvent("LOOT_SLOT_CHANGED")
+
 function LightLoot:LOOT_SLOT_CLEARED(event, slot)
 	if not self:IsShown() or not slots[slot] then return end
 
 	slots[slot]:Hide()
-	self:AnchorSlots()
+	self:UpdateStatus()
 end
 LightLoot:RegisterEvent("LOOT_SLOT_CLEARED")
 
 function LightLoot:PLAYER_LOGIN()
-	LightLoot.bg = B.CreateBG(LightLoot)
+	LightLoot.Frame = B.CreateBG(LightLoot)
+	LightLoot.Title = B.CreateFS(LightLoot, 18, "", false, "TOP", 1, 20)
 end
 LightLoot:RegisterEvent("PLAYER_LOGIN")
 

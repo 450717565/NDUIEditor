@@ -109,18 +109,19 @@ tinsert(C.XMLThemes, function()
 
 	for i = 1, INBOXITEMS_TO_DISPLAY do
 		local items = "MailItem"..i
+		local buttons = items.."Button"
 
 		local item = _G[items]
 		B.StripTextures(item)
 
-		local button = _G[items.."Button"]
+		local button = _G[buttons]
 		B.StripTextures(button)
 
-		local icbg = B.ReskinIcon(_G[items.."Button".."Icon"])
+		local icbg = B.ReskinIcon(_G[buttons.."Icon"])
 		B.ReskinHLTex(button, icbg)
 		B.ReskinCPTex(button, icbg)
 
-		local border = _G[items.."Button".."IconBorder"]
+		local border = _G[buttons.."IconBorder"]
 		B.ReskinBorder(border, icbg)
 
 		local sender = _G[items.."Sender"]
@@ -140,6 +141,7 @@ tinsert(C.XMLThemes, function()
 
 		local icbg = B.ReskinIcon(_G[buttons.."IconTexture"])
 		B.ReskinHLTex(button, icbg)
+		B.ReskinCPTex(button, icbg)
 
 		local border = button.IconBorder
 		B.ReskinBorder(border, icbg)
@@ -151,6 +153,7 @@ tinsert(C.XMLThemes, function()
 
 		local bubg = B.CreateBDFrame(button)
 		B.ReskinHLTex(button, bubg)
+		B.ReskinCPTex(button, icbg)
 
 		local border = button.IconBorder
 		B.ReskinBorder(border, bubg)

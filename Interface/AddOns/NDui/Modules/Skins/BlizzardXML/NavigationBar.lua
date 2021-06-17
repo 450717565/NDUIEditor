@@ -56,7 +56,6 @@ local function Reskin_AddButton(self)
 		end)
 
 		local selected = navButton.selected
-		selected:SetDrawLayer("BACKGROUND")
 		B.ReskinHLTex(selected, navButton.bgTex, true)
 
 		local MenuArrowButton = navButton.MenuArrowButton

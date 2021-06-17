@@ -66,17 +66,13 @@ do
 	local day, hour, minute = 86400, 3600, 60
 	function B.FormatTime(s, auraTime)
 		if s >= day then
-			return format("%.1f"..DB.MyColor..L["Days"], s/day), s%day
+			return format("%d"..DB.MyColor..L["Days"], s/day), s%day
 		elseif s >= 3*hour then
 			return format("%d"..DB.MyColor..L["Hours"], s/hour), s%hour
-		elseif s >= hour then
-			return format("%.1f"..DB.MyColor..L["Hours"], s/hour), s%hour
+		elseif s >= 3*minute then
+			return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
 		elseif s >= minute then
-			if auraTime and s <= 3*minute then
-				return format("%.1d:%.2d", s/minute, s%minute), s%minute
-			else
-				return format("%d"..DB.MyColor..L["Minutes"], s/minute), s%minute
-			end
+			return format("%.1d:%.2d", s/minute, s%minute), s-floor(s)
 		elseif s > 3 then
 			if auraTime then
 				return format("|cffFFFF00%d|r"..DB.MyColor..L["Seconds"], s), s-floor(s)
@@ -1522,6 +1518,12 @@ do
 		end
 
 		if tex then
+			if tex.SetDrawLayer then
+				if tex:GetDrawLayer() ~= "HIGHLIGHT" and tex:GetDrawLayer() ~= "OVERLAY" then
+					tex:SetDrawLayer("OVERLAY")
+				end
+			end
+
 			if isColorTex then
 				tex:SetColorTexture(r, g, b, .25)
 			else

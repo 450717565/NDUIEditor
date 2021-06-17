@@ -31,13 +31,8 @@ function Skins:WhisperPop()
 		local bu = _G[button]
 		B.CleanTextures(bu)
 
-		local icon = _G[button.."Icon"]
-
-		local icbg = B.ReskinIcon(icon)
+		local icbg = B.ReskinIcon(_G[button.."Icon"])
 		B.ReskinHLTex(bu, icbg)
-
-		if bu.SetCheckedTexture then
-			B.ReskinCPTex(bu, icbg)
-		end
+		B.ReskinCPTex(bu, icbg)
 	end
 end

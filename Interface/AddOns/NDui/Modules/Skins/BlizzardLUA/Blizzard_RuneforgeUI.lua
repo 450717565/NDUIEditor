@@ -20,19 +20,11 @@ local function Reskin_RefreshListDisplay(self)
 
 	for i = 1, self:GetNumElementFrames() do
 		local button = self.elements[i]
-		if button then
-			if not button.icbg then
-				button.Border:SetAlpha(0)
-				button.CircleMask:Hide()
-				button.SelectedTexture:SetAlpha(0)
-				button.icbg = B.ReskinIcon(button.Icon)
-			end
+		if button and not button.styled then
+			B.StripTextures(button, 1)
+			B.ReskinIcon(button.Icon)
 
-			if button.SelectedTexture and button.SelectedTexture:IsShown() then
-				button.icbg:SetBackdropBorderColor(cr, cg, cb)
-			else
-				button.icbg:SetBackdropBorderColor(0, 0, 0)
-			end
+			button.styled = true
 		end
 	end
 end
@@ -73,7 +65,8 @@ C.LUAThemes["Blizzard_RuneforgeUI"] = function()
 	end
 
 	local powerFrame = frame.CraftingFrame.PowerFrame
-	B.ReskinFrame(powerFrame)
+	B.StripTextures(powerFrame)
+	B.CreateBG(powerFrame)
 	hooksecurefunc(powerFrame.PowerList, "RefreshListDisplay", Reskin_RefreshListDisplay)
 
 	local pageControl = powerFrame.PageControl
@@ -81,5 +74,6 @@ C.LUAThemes["Blizzard_RuneforgeUI"] = function()
 	B.ReskinArrow(pageControl.ForwardButton, "right")
 
 	local selector = frame.CraftingFrame.ModifierFrame.Selector
-	B.ReskinFrame(selector)
+	B.StripTextures(selector)
+	B.CreateBG(selector)
 end

@@ -149,7 +149,7 @@ do
 		B.CleanTextures(results)
 		local bg = B.CreateBG(results, 0, 0, 5, 0)
 
-		local closeButton = results.closeButton or B.GetObject(self, "SearchResultsCloseButton")
+		local closeButton = B.GetObject(results, "closeButton") or B.GetObject(self, "SearchResultsCloseButton")
 		B.ReskinClose(closeButton, bg)
 
 		local bar = results.scrollFrame.scrollBar

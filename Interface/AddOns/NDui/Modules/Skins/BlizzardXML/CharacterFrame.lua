@@ -162,11 +162,11 @@ tinsert(C.XMLThemes, function()
 		B.ReskinHLTex(tab.Highlight, bg)
 		B.ReskinHLTex(tab.Hider, bg)
 
+		tab.Icon:SetInside(bg)
 		if i == 1 then
 			tab.Icon:SetTexCoord(.16, .86, .16, .86)
 			tab.Icon.SetTexCoord = B.Dummy
 		end
-		tab.Icon:SetInside(bg)
 	end
 
 	B.ReskinScroll(PaperDollTitlesPaneScrollBar)
