@@ -901,7 +901,11 @@ do
 	end
 
 	local function updateBorderColor(self, r, g, b)
-		if (not r) or (r == .65882) then r, g, b = 1, 1, 1 end
+		if not r then
+			r, g, b = 0, 0, 0
+		elseif r == .65882 then
+			r, g, b = 1, 1, 1
+		end
 
 		self.__owner.icbg:SetBackdropBorderColor(r, g, b)
 		if self.__owner.bubg then
@@ -1518,12 +1522,6 @@ do
 		end
 
 		if tex then
-			if tex.SetDrawLayer then
-				if tex:GetDrawLayer() ~= "HIGHLIGHT" and tex:GetDrawLayer() ~= "OVERLAY" then
-					tex:SetDrawLayer("OVERLAY")
-				end
-			end
-
 			if isColorTex then
 				tex:SetColorTexture(r, g, b, .25)
 			else

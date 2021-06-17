@@ -13,10 +13,15 @@ local function Update_OnUnlearnedTabClicked(self)
 	self.Tabs[2].bg:SetBackdropColor(cr, cg, cb, .5)
 end
 
+local function Update_IconBorder(self)
+	self.IconBorder:SetAlpha(0)
+end
+
 local function Reskin_Reagents(self)
 	for i = 1, #self do
 		local reagent = self[i]
-		reagent.NameFrame:Hide()
+		B.StripTextures(reagent, 1)
+
 		reagent.Icon:SetSize(36, 36)
 
 		local icbg = B.ReskinIcon(reagent.Icon)
@@ -32,22 +37,21 @@ local function Reskin_OptionalReagentList(self)
 	local buttons = self.ScrollList.ScrollFrame.buttons
 	for i = 1, #buttons do
 		local button = buttons[i]
-		if button then
-			if not button.styled then
-				button.NameFrame:Hide()
+		if not button.styled then
+			B.StripTextures(button, 3)
 
-				button.Icon:SetSize(36, 36)
-				button.Icon:ClearAllPoints()
-				button.Icon:SetPoint("TOPLEFT", button, "TOPLEFT", 3, -3)
+			button.Icon:SetSize(36, 36)
+			button.Icon:ClearAllPoints()
+			button.Icon:SetPoint("TOPLEFT", button, "TOPLEFT", 3, -3)
 
-				local icbg = B.ReskinIcon(button.Icon)
-				local bubg = B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
+			local icbg = B.ReskinIcon(button.Icon)
+			local bubg = B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
 
-				button.styled = true
-			end
+			hooksecurefunc(button, "SetState", Update_IconBorder)
 
-			button.IconBorder:SetAlpha(0)
+			button.styled = true
 		end
+
 	end
 end
 
@@ -65,9 +69,8 @@ local function Reskin_RecipeList(self)
 		end
 
 		button:SetHighlightTexture("")
-		local selected = button.SelectedTexture
-		selected:SetTexture(DB.bgTex)
-		selected:SetAlpha(.5)
+		button.SelectedTexture:SetTexture(DB.bgTex)
+		button.SelectedTexture:SetAlpha(.5)
 	end
 end
 

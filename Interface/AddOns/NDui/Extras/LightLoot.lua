@@ -124,7 +124,7 @@ function LightLoot:UpdateStatus()
 			local nameWidth = slot.name:GetStringWidth()
 			maxWidth = math.max(maxWidth, nameWidth)
 
-			local lootQuality = slot.quality or 0
+			local lootQuality = slot.quality or -2
 			maxQuality = math.max(maxQuality, lootQuality)
 
 			shownSlots = shownSlots + 1
