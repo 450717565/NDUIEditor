@@ -59,7 +59,7 @@ function TT:Azerite_UpdateTier(link)
 end
 
 function TT:Azerite_UpdateItem()
-	local link = select(2, self:GetItem())
+	local _, link = self:GetItem()
 	if not link then return end
 
 	local allTierInfo = TT:Azerite_UpdateTier(link)

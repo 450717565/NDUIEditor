@@ -198,9 +198,9 @@ local function Reskin_MissionPage(self, isShop)
 			S.ReskinFollowerPortrait(Followers.PortraitFrame)
 
 			Followers.PortraitFrame:ClearAllPoints()
-			Followers.PortraitFrame:SetPoint("TOPLEFT", 3, -3)
+			Followers.PortraitFrame:SetPoint("LEFT", Followers, "LEFT", 3, 0)
 			Followers.Durability:ClearAllPoints()
-			Followers.Durability:SetPoint("BOTTOM", Followers.PortraitFrame, "BOTTOM", 1, 12)
+			Followers.Durability:SetPoint("CENTER", Followers.PortraitFrame.squareBG, "BOTTOM", 1, 0)
 			Followers.DurabilityBackground:SetAlpha(0)
 
 			if Followers.Class then
@@ -300,6 +300,9 @@ local function Reskin_UpdateData(self)
 			button.BusyFrame:SetAllPoints(bubg)
 
 			if portrait then
+				portrait:ClearAllPoints()
+				portrait:SetPoint("LEFT", button, "LEFT", 4, 0)
+
 				S.ReskinFollowerPortrait(portrait)
 				hooksecurefunc(portrait, "SetupPortrait", Update_FollowerQuality)
 			end
@@ -318,6 +321,11 @@ local function Reskin_UpdateData(self)
 			button.styled = true
 		end
 
+		if portrait then
+			portrait:ClearAllPoints()
+			portrait:SetPoint("LEFT", button, "LEFT", 4, 0)
+		end
+
 		if button.Counters then
 			for i = 1, #button.Counters do
 				local counter = button.Counters[i]
@@ -325,15 +333,6 @@ local function Reskin_UpdateData(self)
 					counter.icbg = B.ReskinIcon(counter.Icon)
 				end
 			end
-		end
-
-		if portrait then
-			portrait:ClearAllPoints()
-			portrait:SetPoint("TOPLEFT", 4, 0)
-		end
-
-		if portrait.quality then
-			S.UpdateFollowerQuality(portrait)
 		end
 	end
 end
@@ -731,13 +730,14 @@ local function Update_CurrencyRewardBorder(self)
 end
 
 local function Reskin_OrderHallMissionFrame()
-	local portrait = OrderHallMissionFrameMissions.CombatAllyUI.InProgress.PortraitFrame
+	local CombatAllyUI = OrderHallMissionFrameMissions.CombatAllyUI
+	CombatAllyUI.Available.AddFollowerButton.EmptyPortrait:SetAlpha(0)
+	CombatAllyUI.Available.AddFollowerButton.PortraitHighlight:SetAlpha(0)
+
+	local portrait = CombatAllyUI.InProgress.PortraitFrame
 	if portrait:IsShown() then
 		S.UpdateFollowerQuality(portrait)
 	end
-
-	CombatAllyUI.Available.AddFollowerButton.EmptyPortrait:SetAlpha(0)
-	CombatAllyUI.Available.AddFollowerButton.PortraitHighlight:SetAlpha(0)
 end
 
 local function Update_HealthValueWidth(self, missionPage)
@@ -1101,271 +1101,6 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	end
 
 	B:RegisterEvent("ADDON_LOADED", Reskin_OnEvent)
-
-	-- WarPlan
-	if IsAddOnLoaded("WarPlan") then
-		local function Reskin_WarPlan(self)
-			B.StripTextures(self.TaskBoard.List)
-
-			local Missions = self.TaskBoard.Missions
-			for i = 1, #Missions do
-				local button = Missions[i]
-				if not button.styled then
-					B.ReskinText(button.XPReward, 0, 1, 1)
-					B.ReskinText(button.Description, 1, 1, 1)
-					B.ReskinText(button.CDTDisplay, 1, 1, 0)
-
-					local Groups = button.Groups
-					if Groups then
-						for j = 1, #Groups do
-							local group = Groups[j]
-							B.ReskinButton(group)
-							B.ReskinText(group.Features, 0, 1, 0)
-						end
-					end
-
-					local Rewards = button.Rewards
-					if Rewards then
-						for j = 1, #Rewards do
-							local reward = Rewards[j]
-							reward.RarityBorder:Hide()
-							reward.Quantity:SetJustifyH("RIGHT")
-							reward.Quantity:ClearAllPoints()
-							reward.Quantity:SetPoint("BOTTOMRIGHT", reward, "BOTTOMRIGHT", -1, 1)
-
-							local r, g, b = 1, 1, 1
-							if reward.currencyID then
-								if reward.currencyID == 0 then
-									r, g, b = 1, 1, 0
-								else
-									local ci_1 = C_CurrencyInfo.GetBasicCurrencyInfo(reward.currencyID)
-									local ci_2 = C_CurrencyInfo.GetCurrencyInfo(reward.currencyID)
-									r, g, b = B.GetQualityColor((ci_1 and ci_1.quality) or (ci_2 and ci_2.quality))
-								end
-							elseif reward.itemID then
-								local itemQuality = select(3,GetItemInfo(reward.itemLink or reward.itemID))
-								r, g, b = B.GetQualityColor(itemQuality)
-							end
-
-							if reward.Icon then
-								if not reward.icbg then
-									reward.icbg = B.ReskinIcon(reward.Icon)
-								end
-
-								reward.icbg:SetBackdropBorderColor(r, g, b)
-							end
-						end
-					end
-
-					button.styled = true
-				end
-			end
-		end
-
-		C_Timer.After(.1, function()
-			local WarPlanFrame = _G.WarPlanFrame
-			if not WarPlanFrame then return end
-
-			B.ReskinFrame(WarPlanFrame)
-
-			local ArtFrame = WarPlanFrame.ArtFrame
-			B.StripTextures(ArtFrame)
-			B.ReskinClose(ArtFrame.CloseButton)
-			B.ReskinText(ArtFrame.TitleText, 1, .8, 0)
-
-			Reskin_WarPlan(WarPlanFrame)
-			WarPlanFrame:HookScript("OnShow", Reskin_WarPlan)
-			B.ReskinButton(WarPlanFrame.TaskBoard.AllPurposeButton)
-
-			local Entries = WarPlanFrame.HistoryFrame.Entries
-			for i = 1, #Entries do
-				local entry = Entries[i]
-				entry:DisableDrawLayer("BACKGROUND")
-				entry.Name:SetFontObject("Number12Font")
-				entry.Detail:SetFontObject("Number12Font")
-
-				B.ReskinIcon(entry.Icon)
-			end
-		end)
-	end
-
-	-- VenturePlan
-	if IsAddOnLoaded("VenturePlan") then
-		local function Reskin_RewardFrame(self, rew)
-			if not rew then return end
-
-			if not self.styled then
-				self.RarityBorder:Hide()
-
-				self.Quantity:SetJustifyH("RIGHT")
-				self.Quantity:ClearAllPoints()
-				self.Quantity:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1, 1)
-
-				self.styled = true
-			end
-
-			local r, g, b = 1, 1, 1
-			if rew == "xp" then
-				r, g, b = 1, 0, 1	-- 基础经验
-			elseif rew.followerXP then
-				r, g, b = 0, 1, 0	-- 奖励经验
-			elseif rew.currencyID then
-				if rew.currencyID == 0 then
-					r, g, b = 1, 1, 0	-- 金币奖励
-				else
-					local ci_1 = C_CurrencyInfo.GetCurrencyContainerInfo(rew.currencyID, rew.quantity)	-- 声望奖章
-					local ci_2 = C_CurrencyInfo.GetCurrencyInfo(rew.currencyID)	-- 其他货币
-					r, g, b = B.GetQualityColor((ci_1 and ci_1.quality) or (ci_2 and ci_2.quality))
-				end
-			elseif rew.itemID then
-				if C_Item.IsAnimaItemByID(rew.itemID) then
-					self.Icon:SetTexture(3528288)
-
-					local mult = B.GetAnimaMultiplier(rew.itemID)
-					if mult then
-						local total = rew.quantity * mult
-						self.Quantity:SetText(total)
-					end
-				else
-					local itemSolt = B.GetItemSlot(rew.itemLink or rew.itemID)
-					self.Quantity:SetText(itemSolt or "")
-				end
-
-				local itemQuality = select(3,GetItemInfo(rew.itemLink or rew.itemID))
-				r, g, b = B.GetQualityColor(itemQuality)
-			end
-
-			if self.Icon then
-				if not self.icbg then
-					self.icbg = B.ReskinIcon(self.Icon)
-				end
-
-				self.icbg:SetBackdropBorderColor(r, g, b)
-			end
-		end
-
-		function VPEX_OnUIObjectCreated(otype, widget, peek)
-			if widget:IsObjectType("Frame") then
-				if otype == "CopyBoxUI" then
-					B.ReskinButton(widget.ResetButton)
-					B.ReskinClose(widget.CloseButton2, nil, -12, -12)
-					B.ReskinInput(widget.FirstInputBox)
-					B.ReskinInput(widget.SecondInputBox)
-					B.ReskinText(widget.Intro, 1, 1, 1)
-					B.ReskinText(widget.FirstInputBoxLabel, 1, .8, 0)
-					B.ReskinText(widget.SecondInputBoxLabel, 1, .8, 0)
-					B.ReskinText(widget.VersionText, 1, 1, 1)
-				elseif otype == "FollowerList" then
-					B.StripTextures(widget)
-					B.CreateBDFrame(widget)
-				elseif otype == "FollowerListButton" then
-					peek("TextLabel"):SetFontObject("Game12Font")
-				elseif otype == "IconButton" then
-					local icon = widget:GetNormalTexture()
-					local icbg = B.ReskinIcon(icon)
-					B.ReskinHLTex(widget, icbg)
-					B.ReskinCPTex(widget, icbg)
-					widget.Icon:SetTexCoord(tL, tR, tT, tB)
-				elseif otype == "ILButton" then
-					widget:DisableDrawLayer("BACKGROUND")
-					B.CreateBGFrame(widget, -4, 2, 2, -2)
-					B.ReskinIcon(widget.Icon)
-				elseif otype == "MissionButton" then
-					B.ReskinText(peek("Description"), 1, 1, 1)
-					B.ReskinText(peek("enemyHP"), 0, 1, 0)
-					B.ReskinText(peek("enemyATK"), 0, 1, 0)
-					B.ReskinText(peek("animaCost"), 0, 1, 0)
-					B.ReskinText(peek("duration"), 1, 1, 0)
-					B.ReskinText(widget.CDTDisplay:GetFontString(), 1, 1, 0)
-
-					local ViewButton = peek("ViewButton")
-					B.ReskinButton(ViewButton)
-					local DoomRunButton = peek("DoomRunButton")
-					B.ReskinButton(DoomRunButton)
-					DoomRunButton:SetSize(24, 24)
-					DoomRunButton:ClearAllPoints()
-					DoomRunButton:SetPoint("RIGHT", ViewButton, "LEFT", -1, 0)
-					local TentativeClear = peek("TentativeClear")
-					B.ReskinButton(TentativeClear)
-					TentativeClear:SetSize(24, 24)
-					TentativeClear:ClearAllPoints()
-					TentativeClear:SetPoint("RIGHT", ViewButton, "LEFT", -1, 0)
-				elseif otype == "MissionList" then
-					B.StripTextures(widget)
-					local background = widget:GetChildren()
-					B.StripTextures(background)
-				elseif otype == "MissionPage" then
-					B.StripTextures(widget)
-					B.ReskinButton(peek("UnButton"))
-				elseif otype == "MissionToast" then
-					widget.Background:Hide()
-					widget.Detail:SetFontObject("Game13Font")
-					B.CreateBG(widget)
-				elseif otype == "ProgressBar" then
-					B.StripTextures(widget)
-					B.CreateBDFrame(widget, 0, -C.mult)
-				elseif otype == "RewardFrame" then
-					hooksecurefunc(widget, "SetReward", Reskin_RewardFrame)
-				end
-			end
-		end
-	end
-
-	-- CovenantMissionHelper
-	if IsAddOnLoaded("CovenantMissionHelper") then
-		for i = 1, 2 do
-			local tab = _G["MissionHelperTab"..i]
-			B.StripTextures(tab)
-			tab.bg = B.CreateBGFrame(tab, 3, 0, -3, 0)
-		end
-		MissionHelperTab2:ClearAllPoints()
-		MissionHelperTab2:SetPoint("LEFT", MissionHelperTab1.bg, "RIGHT", 0, 0)
-
-		local frame = MissionHelperFrame
-		frame:ClearAllPoints()
-		frame:SetPoint("LEFT", CovenantMissionFrame, "RIGHT", 3, 0)
-
-		B.ReskinFrame(frame)
-		B.StripTextures(frame.RaisedFrameEdges)
-		B.StripTextures(frame.resultHeader)
-		B.StripTextures(frame.missionHeader)
-		B.CreateBDFrame(frame.missionHeader)
-
-		local resultInfo = frame.resultInfo
-		B.StripTextures(resultInfo)
-		B.StripTextures(resultInfo.RaisedFrameEdges)
-		B.CreateBDFrame(resultInfo)
-
-		local combatLogFrame = frame.combatLogFrame
-		B.StripTextures(combatLogFrame)
-		B.StripTextures(combatLogFrame.RaisedFrameEdges)
-		B.CreateBDFrame(combatLogFrame)
-		B.ReskinScroll(combatLogFrame.scrollBar)
-
-		local buttonsFrame = frame.buttonsFrame
-		B.StripTextures(buttonsFrame)
-		B.ReskinButton(buttonsFrame.BestDispositionButton)
-		B.ReskinButton(buttonsFrame.predictButton)
-	end
-
-	-- MissionReports
-	if IsAddOnLoaded("MissionReports") then
-		for index = 11, 14 do
-			local tab = select(index, GarrisonLandingPage:GetChildren())
-			if tab and not tab.styled then
-				B.ReskinSideTab(tab)
-
-				tab:ClearAllPoints()
-				if index == 11 then
-					tab:SetPoint("TOPLEFT", GarrisonLandingPage, "TOPRIGHT", 2, -25)
-				else
-					tab:SetPoint("TOP", select((index-1), GarrisonLandingPage:GetChildren()), "BOTTOM", 0, -25)
-				end
-
-				tab.styled = true
-			end
-		end
-	end
 end
 
 local function Reskin_OrderHallTalentFrame(self)

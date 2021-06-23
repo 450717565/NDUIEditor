@@ -1,7 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-
-if IsAddOnLoaded("MissionReports") then return end
+local S = B:GetModule("Skins")
 
 local tabs = {}
 local datas = {
@@ -16,33 +15,28 @@ local function Select_LandingPage(self)
 	ShowGarrisonLandingPage(self.pageID)
 end
 
-local function Setup_LandingPage(event, addon)
-	if addon == "Blizzard_GarrisonUI" then
-		for index, data in pairs(datas) do
-			local tab = CreateFrame("CheckButton", nil, GarrisonLandingPage, "SpellBookSkillLineTabTemplate")
-			tab:SetNormalTexture(data[3])
-			tab:SetFrameStrata("LOW")
-			tab:SetScript("OnClick", Select_LandingPage)
-			tab:Show()
+local function Setup_LandingPage()
+	for index, data in pairs(datas) do
+		local tab = CreateFrame("CheckButton", nil, GarrisonLandingPage, "SpellBookSkillLineTabTemplate")
+		tab:SetNormalTexture(data[3])
+		tab:SetFrameStrata("LOW")
+		tab:SetScript("OnClick", Select_LandingPage)
+		tab:Show()
 
-			tab:ClearAllPoints()
-			if index == 1 then
-				tab:SetPoint("TOPLEFT", GarrisonLandingPage, "TOPRIGHT", 2, -25)
-			else
-				tab:SetPoint("TOP", tabs[index-1], "BOTTOM", 0, -25)
-			end
-
-			B.ReskinSideTab(tab)
-
-			tab.pageID = data[1]
-			tab.tooltip = data[2]
-			table.insert(tabs, tab)
+		tab:ClearAllPoints()
+		if index == 1 then
+			tab:SetPoint("TOPLEFT", GarrisonLandingPage, "TOPRIGHT", 2, -25)
+		else
+			tab:SetPoint("TOP", tabs[index-1], "BOTTOM", 0, -25)
 		end
 
-		B:UnregisterEvent(event, Setup_LandingPage)
+		B.ReskinSideTab(tab)
+
+		tab.pageID = data[1]
+		tab.tooltip = data[2]
+		table.insert(tabs, tab)
 	end
 end
-B:RegisterEvent("ADDON_LOADED", Setup_LandingPage)
 
 local function Update_LandingPage(pageID)
 	for _, tab in pairs(tabs) do
@@ -52,4 +46,12 @@ local function Update_LandingPage(pageID)
 		tab:SetChecked(tab.pageID == pageID)
 	end
 end
-hooksecurefunc("ShowGarrisonLandingPage", Update_LandingPage)
+
+local function Setup_LandingPageTab()
+	if IsAddOnLoaded("MissionReports") then return end
+
+	Setup_LandingPage()
+	hooksecurefunc("ShowGarrisonLandingPage", Update_LandingPage)
+end
+
+S.LoadWithAddOn("Blizzard_GarrisonUI", Setup_LandingPageTab)

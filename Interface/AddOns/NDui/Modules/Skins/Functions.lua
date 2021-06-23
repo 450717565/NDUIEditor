@@ -5,7 +5,6 @@ local Skins = B:GetModule("Skins")
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
 do
-	-- Reskin Garrison Portrait
 	local replacedRoleTex = {
 		["Adventures-Tank"] = "Soulbinds_Tree_Conduit_Icon_Protect",
 		["Adventures-Healer"] = "ui_adv_health",
@@ -21,6 +20,7 @@ do
 	end
 
 	local textures = {
+		"CircleMask",
 		"Empty",
 		"Highlight",
 		"LevelBorder",
@@ -34,21 +34,35 @@ do
 	}
 
 	function Skins:ReskinFollowerPortrait()
-		local squareBG = B.CreateBDFrame(self.Portrait, 1, -C.mult, true)
+		local portrait = self.Portrait
+
+		local point, _, _, xOfs, yOfs = portrait:GetPoint()
+		portrait:ClearAllPoints()
+		if point == "CENTER" then
+			portrait:SetPoint("CENTER", self, "CENTER")
+		elseif B.Round(xOfs) == 6 and B.Round(yOfs) == -8 then
+			portrait:SetInside(self, 4, 8)
+		else
+			portrait:SetInside(self, 2, 2)
+		end
+
+		local squareBG = B.CreateBDFrame(portrait, 1, -C.mult, true)
+		squareBG:SetBackdropColor(5/255, 12/255, 30/255, 1)
 		self.squareBG = squareBG
 
 		for _, name in pairs(textures) do
-			local tex = self[name]
+			local tex = B.GetObject(self, name)
 			if tex then
-				tex:SetAlpha(0)
 				tex:SetTexture("")
+				tex:SetAlpha(0)
+				tex:Hide()
 			end
 		end
 
 		local levelFrame = self.Level or self.LevelText or self.LevelDisplayFrame
 		if levelFrame then
 			levelFrame:ClearAllPoints()
-			levelFrame:SetPoint("BOTTOM", self, 0, 15)
+			levelFrame:SetPoint("BOTTOM", squareBG, "BOTTOM", 0, 5)
 
 			if levelFrame.LevelCircle then
 				levelFrame.LevelCircle:SetAlpha(0)
@@ -87,7 +101,6 @@ do
 		return bg
 	end
 
-	-- Reskin MerchantItem
 	function Skins:ReskinMerchantItem()
 		B.StripTextures(self, 0)
 		B.CreateBDFrame(self)
@@ -126,7 +139,6 @@ do
 		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 4)
 	end
 
-	-- Reskin SearchBox
 	function Skins:ReskinSearchBox()
 		B.StripTextures(self)
 		B.CleanTextures(self)
@@ -138,7 +150,6 @@ do
 		if icon then B.ReskinIcon(icon) end
 	end
 
-	-- Reskin SearchResult
 	function Skins:ReskinSearchResult()
 		if not self then return end
 
@@ -205,7 +216,6 @@ do
 		end
 	end
 
-	-- Reskin RequiredMoneyText Color
 	function Skins:ReskinRMTColor(r)
 		if r == 0 then
 			B.ReskinText(self, 1, 0, 0)
@@ -214,14 +224,12 @@ do
 		end
 	end
 
-	-- Reskin Tutorial Button
 	function Skins:ReskinTutorialButton(parent)
 		self.Ring:Hide()
 		self:ClearAllPoints()
 		self:SetPoint("TOPLEFT", parent, "TOPLEFT", -12, 12)
 	end
 
-	-- Replace Icon String
 	function Skins:FormatIconString(text)
 		if not text then text = self:GetText() end
 		if not text or text == "" then return end
@@ -238,7 +246,6 @@ end
 
 -- Update Function
 do
-	-- Update MerchantInfo
 	function Skins.UpdateMerchantInfo()
 		local numItems = GetMerchantNumItems()
 		for i = 1, MERCHANT_ITEMS_PER_PAGE do
@@ -278,7 +285,6 @@ do
 		end
 	end
 
-	-- Update PortraitColor
 	function Skins:UpdateFollowerQuality()
 		if not self.quality or not self.squareBG then return end
 

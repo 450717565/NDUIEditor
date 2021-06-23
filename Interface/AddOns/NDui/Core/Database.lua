@@ -34,7 +34,7 @@ for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do
 end
 
 DB.ClassColors = {}
-local classColors = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
+local classColors = RAID_CLASS_COLORS or CUSTOM_CLASS_COLORS
 for class, value in pairs(classColors) do
 	DB.ClassColors[class] = {}
 	DB.ClassColors[class] = {r = value.r, g = value.g, b = value.b, colorStr = value.colorStr}
@@ -103,10 +103,16 @@ DB.AFKTex = "|T"..FRIENDS_TEXTURE_AFK..":14:14:0:0:16:16:1:15:1:15|t"
 DB.DNDTex = "|T"..FRIENDS_TEXTURE_DND..":14:14:0:0:16:16:1:15:1:15|t"
 
 -- Others
+if DB.isNewPatch then
+	DB.MythicLoot = {0, 213, 216, 220, 220, 223, 226, 226, 226, 229, 229, 233, 233, 233, 236}
+	DB.WeeklyLoot = {0, 226, 229, 233, 236, 236, 239, 242, 242, 246, 246, 249, 249, 252, 252}
+else
+	DB.MythicLoot = {0, 187, 190, 194, 194, 197, 200, 200, 200, 203, 203, 207, 207, 207, 210}
+	DB.WeeklyLoot = {0, 200, 203, 207, 210, 210, 213, 216, 216, 220, 220, 223, 223, 226, 226}
+end
+
 DB.TexCoord = {.08, .92, .08, .92}
 DB.Slots = {"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand", "SecondaryHand", "Tabard"}
-DB.MythicLoot = {0, 187, 190, 194, 194, 197, 200, 200, 200, 203, 203, 207, 207, 207, 210}
-DB.WeeklyLoot = {0, 200, 203, 207, 210, 210, 213, 216, 216, 220, 220, 223, 223, 226, 226}
 DB.ChatEvents = {
 	"CHAT_MSG_BATTLEGROUND",
 	"CHAT_MSG_BATTLEGROUND_LEADER",

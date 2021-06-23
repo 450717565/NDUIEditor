@@ -45,6 +45,8 @@ local function Embed_Window(self, x, y, width, height)
 end
 
 local function Reskin_Details()
+	if not C.db["Skins"]["Details"] then return end
+
 	local Details = _G.Details
 
 	-- instance table can be nil sometimes
@@ -120,4 +122,4 @@ local function Reskin_Details()
 	NDuiADB["ResetDetails"] = false
 end
 
-Skins.LoadWithAddOn("Details", "Details", Reskin_Details)
+Skins.LoadWithAddOn("Details", Reskin_Details)

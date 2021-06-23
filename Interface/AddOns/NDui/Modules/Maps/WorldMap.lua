@@ -81,10 +81,7 @@ function Maps:SetupCoords()
 	cursorText = MOUSE_LABEL.."："
 
 	playerCoords = B.CreateFS(BorderFrame, 14, "", false, "TOPLEFT", 55, -6)
-	playerCoords:SetJustifyH("LEFT")
-
 	cursorCoords = B.CreateFS(BorderFrame, 14, "", false, "TOPLEFT", 175, -6)
-	cursorCoords:SetJustifyH("LEFT")
 
 	hooksecurefunc(WorldMapFrame, "OnFrameSizeChanged", Maps.UpdateMapID)
 	hooksecurefunc(WorldMapFrame, "OnMapChanged", Maps.UpdateMapID)

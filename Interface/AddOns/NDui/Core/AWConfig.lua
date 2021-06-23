@@ -242,7 +242,6 @@ local function CreatePanel()
 
 		local spellName = B.CreateFS(bar, 14, name, false, "LEFT", 30, 0)
 		spellName:SetWidth(180)
-		spellName:SetJustifyH("LEFT")
 		B.CreateFS(bar, 14, text, false, "RIGHT", -30, 0)
 		B.AddTooltip(bar, "ANCHOR_TOP", L["Type*"].." "..typeID, "system")
 
@@ -289,7 +288,6 @@ local function CreatePanel()
 
 		local spellName = B.CreateFS(bar, 14, name, false, "LEFT", 30, 0)
 		spellName:SetWidth(180)
-		spellName:SetJustifyH("LEFT")
 		B.CreateFS(bar, 14, duration, false, "RIGHT", -30, 0)
 		B.AddTooltip(bar, "ANCHOR_TOP", L["Trigger"]..trigger.." - "..unit, "system")
 

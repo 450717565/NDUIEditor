@@ -183,7 +183,6 @@ function UF:CreateHealthText(self)
 	end
 
 	local name = B.CreateFS(textFrame, retVal(self, 13, 12, 12, 12, C.db["Nameplate"]["NameTextSize"]), "", false, "LEFT", 3, 0)
-	name:SetJustifyH("LEFT")
 	if mystyle == "raid" then
 		name:SetWidth(self:GetWidth()*.95)
 		name:SetJustifyH("CENTER")
@@ -222,7 +221,6 @@ function UF:CreateHealthText(self)
 	end
 
 	local hpval = B.CreateFS(textFrame, retVal(self, 14, 13, 13, 13, C.db["Nameplate"]["HealthTextSize"]), "", false, "RIGHT", -3, 0)
-	hpval:SetJustifyH("RIGHT")
 	if mystyle == "raid" then
 		self:Tag(hpval, "[raidhp]")
 		hpval:SetJustifyH("CENTER")
@@ -519,7 +517,6 @@ function UF:CreateCastBar(self)
 	local timer = B.CreateFS(cb, retVal(self, 12, 12, 12, 12, C.db["Nameplate"]["NameTextSize"]), "", false, "RIGHT", -2, 0)
 	local name = B.CreateFS(cb, retVal(self, 12, 12, 12, 12, C.db["Nameplate"]["NameTextSize"]), "", false, "LEFT", 2, 0)
 	name:SetPoint("RIGHT", timer, "LEFT", -5, 0)
-	name:SetJustifyH("LEFT")
 
 	if mystyle ~= "boss" and mystyle ~= "arena" then
 		cb.Icon = cb:CreateTexture(nil, "ARTWORK")
@@ -566,7 +563,6 @@ function UF:CreateCastBar(self)
 
 		local spellTarget = B.CreateFS(cb, C.db["Nameplate"]["NameTextSize"]+3)
 		spellTarget:ClearAllPoints()
-		spellTarget:SetJustifyH("CENTER")
 		spellTarget:SetPoint("TOP", cb, "BOTTOM", 0, -5)
 		cb.spellTarget = spellTarget
 	end
@@ -643,7 +639,6 @@ function UF.PostCreateIcon(element, button)
 	local textFrame = B.CreateParentFrame(button)
 	button.timer = B.CreateFS(textFrame, fontSize)
 	button.count = B.CreateFS(textFrame, fontSize, "", false, "BOTTOMRIGHT", 4, -4)
-	button.count:SetJustifyH("RIGHT")
 
 	button.glowFrame = B.CreateGlowFrame(button, element.size)
 	button.icbg = B.ReskinIcon(button.icon)
@@ -1156,7 +1151,6 @@ function UF:StaggerBar(self)
 	B.SmoothSB(stagger)
 
 	local text = B.CreateFS(stagger, 14)
-	text:SetJustifyH("CENTER")
 	self:Tag(text, "[stagger]")
 
 	stagger.bg:SetAlpha(1)
@@ -1219,7 +1213,6 @@ function UF:CreateAltPower(self)
 	B.SmoothSB(bar)
 
 	local text = B.CreateFS(bar, 14)
-	text:SetJustifyH("CENTER")
 	self:Tag(text, "[altpower]")
 
 	self.AlternativePower = bar

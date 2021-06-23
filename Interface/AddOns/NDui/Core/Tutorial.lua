@@ -369,7 +369,6 @@ local function YesTutor()
 	local body = B.CreateFS(tutor, 14, "", false, "TOPLEFT", 20, -50)
 	body:SetPoint("BOTTOMRIGHT", -20, 50)
 	body:SetJustifyV("TOP")
-	body:SetJustifyH("LEFT")
 	body:SetWordWrap(true)
 	local foot = B.CreateFS(tutor, 14, "", false, "BOTTOM", 0, 10)
 
@@ -441,9 +440,8 @@ local function HelloWorld()
 
 	local intro = B.CreateFS(welcome, 14, "", false, "TOPLEFT", 20, -70)
 	intro:SetPoint("BOTTOMRIGHT", -20, 50)
-	intro:SetWordWrap(true)
 	intro:SetJustifyV("TOP")
-	intro:SetJustifyH("LEFT")
+	intro:SetWordWrap(true)
 
 	local c1, c2 = "|cffFFFF00", "|cff00FF00"
 	local lines = {

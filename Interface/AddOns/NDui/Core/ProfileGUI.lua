@@ -208,9 +208,9 @@ function GUI:CreateProfileBar(parent, index)
 	if index == 1 then
 		B.PixelIcon(icon, nil, true) -- character
 		SetPortraitTexture(icon.Icon, "player")
+		icon.Icon:SetTexCoord(.15, .85, .15, .85)
 	else
-		B.PixelIcon(icon, 235423, true) -- share
-		icon.Icon:SetTexCoord(.6, .9, .1, .4)
+		B.PixelIcon(icon, "Interface\\Icons\\FactionChange", true) -- share
 		icon.index = index
 		GUI:FindProfleUser(icon)
 		icon:SetScript("OnEnter", GUI.Icon_OnEnter)
@@ -243,13 +243,13 @@ function GUI:CreateProfileBar(parent, index)
 	apply:SetScript("OnClick", GUI.Apply_OnClick)
 	bar.apply = apply
 
-	local download = GUI:CreateProfileIcon(bar, 3, "Atlas:streamcinematic-downloadicon", L["DownloadProfile"], L["DownloadProfileTip"])
-	download.Icon:SetTexCoord(.25, .75, .25, .75)
+	local download = GUI:CreateProfileIcon(bar, 3, "Atlas:bags-greenarrow", L["DownloadProfile"], L["DownloadProfileTip"])
+	download.Icon:SetRotation(math.rad(180))
 	download:SetScript("OnClick", GUI.Download_OnClick)
 	bar.download = download
 
 	local upload = GUI:CreateProfileIcon(bar, 4, "Atlas:bags-icon-addslots", L["UploadProfile"], L["UploadProfileTip"])
-	upload.Icon:SetInside(nil, 6, 6)
+	upload.Icon:SetInside()
 	upload:SetScript("OnClick", GUI.Upload_OnClick)
 	bar.upload = upload
 
@@ -339,7 +339,6 @@ function GUI:CreateProfileGUI(parent)
 	local description = B.CreateFS(parent, 14, L["Profile Description"], nil, "TOPLEFT", 10, -35)
 	description:SetPoint("TOPRIGHT", -10, -30)
 	description:SetWordWrap(true)
-	description:SetJustifyH("LEFT")
 
 	local delete = B.CreateEditBox(parent, 245, 24)
 	delete:SetPoint("BOTTOMLEFT", import, "TOPLEFT", 0, 2)

@@ -162,31 +162,6 @@ local function Reskin_FilterButton(button)
 	button.SelectedTexture:SetColorTexture(cr, cg, cb, .25)
 end
 
-local function Update_PriceSelection(self)
-	local item = self:GetItem()
-	if item then
-		local itemID = C_Item.GetItemID(item)
-		local itemLink = C_Item.GetItemLink(item)
-
-		if itemID and itemLink then
-			local sr_1 = C_AuctionHouse.GetCommoditySearchResultInfo(itemID, 1)
-			local sr_2 = C_AuctionHouse.GetCommoditySearchResultInfo(itemID, 2)
-
-			if sr_1 and self:GetUnitPrice() == sr_1.unitPrice then
-				local itemSeller = sr_1.owners[1] or ""
-				local itemPrice = GetMoneyString(sr_1.unitPrice)
-
-				if sr_1.quantity <= 3 then
-					if sr_2 and sr_2.unitPrice > sr_1.unitPrice * 1.1 then
-						self:GetCommoditiesSellList():SetSelectedEntry(sr_2)
-						print(format("%s %s (|cffff0000%s|r) 疑似钓鱼价，已为您避开。", itemLink, itemPrice, itemSeller))
-					end
-				end
-			end
-		end
-	end
-end
-
 C.LUAThemes["Blizzard_AuctionHouseUI"] = function()
 	B.ReskinFrame(AuctionHouseFrame)
 
@@ -251,7 +226,7 @@ C.LUAThemes["Blizzard_AuctionHouseUI"] = function()
 	B.ReskinScroll(WoWTokenResults.DummyScrollBar)
 
 	local Name = WoWTokenResults.TokenDisplay.Name
-	Name:SetJustifyH("Center")
+	Name:SetJustifyH("CENTER")
 	Name:ClearAllPoints()
 	Name:SetPoint("BOTTOM", WoWTokenResults.InvisiblePriceFrame, "TOP", 0, 0)
 
@@ -308,7 +283,4 @@ C.LUAThemes["Blizzard_AuctionHouseUI"] = function()
 	B.ReskinButton(AuctionHouseFrameAuctionsFrame.CancelAuctionButton)
 	B.ReskinButton(AuctionHouseFrameAuctionsFrame.BidFrame.BidButton)
 	B.ReskinButton(AuctionHouseFrameAuctionsFrame.BuyoutFrame.BuyoutButton)
-
-	-- 钓鱼价避开
-	hooksecurefunc(AuctionHouseFrame.CommoditiesSellFrame, "UpdatePriceSelection", Update_PriceSelection)
 end

@@ -91,7 +91,6 @@ hooksecurefunc("ChatEdit_UpdateHeader", function(editBox)
 		level:ClearAllPoints()
 		level:SetPoint("BOTTOM", icon, "TOP", 0, 0)
 		level:SetTextColor(1, .8, 0)
-		level:SetJustifyH("CENTER")
 		editBox.nametip.level = level
 
 		local faction = UnitFactionGroup("player")

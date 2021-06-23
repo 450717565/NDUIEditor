@@ -85,7 +85,6 @@ function Misc:ContactButton_Create(parent, index)
 
 	local name = B.CreateFS(button, 13, "Name", false, "LEFT", 0, 0)
 	name:SetPoint("RIGHT", button, "LEFT", 155, 0)
-	name:SetJustifyH("LEFT")
 	button.name = name
 
 	button:RegisterForClicks("AnyUp")

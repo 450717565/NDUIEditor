@@ -74,7 +74,7 @@ function TT:SetHyperLinkID(link)
 end
 
 function TT:SetItemID()
-	local link = select(2, self:GetItem())
+	local _, link = self:GetItem()
 	if link then
 		local id = GetItemInfoFromHyperlink(link)
 		local keystone = strmatch(link, "|Hkeystone:([0-9]+):")

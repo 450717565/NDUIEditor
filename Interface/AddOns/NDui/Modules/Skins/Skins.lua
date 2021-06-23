@@ -70,9 +70,11 @@ function Skins:OnLogin()
 		self:Rematch()
 		self:TomeOfTeleportation()
 		self:TransmogWishList()
+		self:VenturePlan()
 		self:WhisperPop()
 		self:WorldQuestsList()
 		self:WorldQuestTab()
+		self:WowLua()
 	end
 	-- Register skin
 	local media = LibStub and LibStub("LibSharedMedia-3.0", true)
@@ -159,13 +161,15 @@ function Skins.RefreshToggleDirection()
 	end
 end
 
-function Skins.LoadWithAddOn(addonName, value, func)
+function Skins.LoadWithAddOn(addonName, func, autoReskin)
 	local function loadFunc(event, addon)
-		if not C.db["Skins"][value] then return end
+		if autoReskin and not C.db["Skins"]["BlizzardSkins"] then return end
 
 		if event == "PLAYER_ENTERING_WORLD" then
 			B:UnregisterEvent(event, loadFunc)
-			if IsAddOnLoaded(addonName) then
+
+			local isLoaded, isFinished = IsAddOnLoaded(addonName)
+			if isLoaded and isFinished then
 				func()
 				B:UnregisterEvent("ADDON_LOADED", loadFunc)
 			end

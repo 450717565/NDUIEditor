@@ -55,7 +55,6 @@ function info:GuildPanel_CreateButton(parent, index)
 	button.level = B.CreateFS(button, 13, "Level")
 	button.level:ClearAllPoints()
 	button.level:SetPoint("LEFT", button, 4, 0)
-	button.level:SetJustifyH("CENTER")
 
 	button.class = button:CreateTexture(nil, "ARTWORK")
 	button.class:SetPoint("LEFT", button, 39, 0)

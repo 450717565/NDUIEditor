@@ -479,9 +479,11 @@ do
 						B.HideObject(region)
 					elseif tonumber(kill) then
 						if kill == 0 then
+							region:SetTexture("")
 							region:SetAlpha(0)
 							region:Hide()
 						elseif index ~= kill then
+							region:SetTexture("")
 							region:SetAlpha(0)
 							region:Hide()
 						end
@@ -1659,6 +1661,7 @@ do
 		local Icon = self:CreateTexture(nil, "ARTWORK")
 		Icon:SetTexCoord(tL, tR, tT, tB)
 		Icon:SetInside(icbg)
+
 		if texture then
 			local atlas = strmatch(texture, "Atlas:(.+)$")
 			if atlas then
@@ -1667,9 +1670,8 @@ do
 				Icon:SetTexture(texture)
 			end
 		end
-		if highlight and type(highlight) == "boolean" then
-			self:EnableMouse(true)
 
+		if highlight and type(highlight) == "boolean" then
 			local HL = self:CreateTexture(nil, "HIGHLIGHT")
 			HL:SetColorTexture(1, 1, 1, .25)
 			HL:SetInside(icbg)
@@ -1709,11 +1711,23 @@ do
 		self:SetShadowColor(0, 0, 0, 0)
 	end
 
+	local justifyList = {
+		["LEFT"] = "LEFT",
+		["TOPLEFT"] = "LEFT",
+		["BOTTOMLEFT"] = "LEFT",
+		["RIGHT"] = "RIGHT",
+		["TOPRIGHT"] = "RIGHT",
+		["BOTTOMRIGHT"] = "RIGHT",
+		["TOP"] = "CENTER",
+		["CENTER"] = "CENTER",
+		["BOTTOM"] = "CENTER",
+	}
 	function B:CreateFS(size, text, color, anchor, x, y)
 		local fs = self:CreateFontString(nil, "OVERLAY")
 		fs:SetFont(DB.Font[1], size, DB.Font[3])
 		fs:SetText(text)
 		fs:SetWordWrap(false)
+		fs:SetJustifyV("CENTER")
 		fs:SetShadowColor(0, 0, 0, 0)
 		fs:ClearAllPoints()
 
@@ -1724,8 +1738,10 @@ do
 		end
 		if anchor and x and y then
 			fs:SetPoint(anchor, x, y)
+			fs:SetJustifyH(justifyList[anchor])
 		else
 			fs:SetPoint("CENTER", 1, 0)
+			fs:SetJustifyH("CENTER")
 		end
 
 		return fs
@@ -1844,10 +1860,11 @@ do
 
 	function B:CreateEditBox(width, height)
 		local eb = CreateFrame("EditBox", nil, self)
-		eb:SetSize(width, height)
-		eb:SetAutoFocus(false)
-		eb:SetTextInsets(5, 5, 0, 0)
 		eb:SetFont(DB.Font[1], DB.Font[2]+2, DB.Font[3])
+		eb:SetAutoFocus(false)
+		eb:SetJustifyH("CENTER")
+		eb:SetSize(width, height)
+		eb:SetTextInsets(5, 5, 0, 0)
 		eb:SetShadowColor(0, 0, 0, 0)
 		eb:SetScript("OnEscapePressed", editBoxClearFocus)
 		eb:SetScript("OnEnterPressed", editBoxClearFocus)
@@ -1899,6 +1916,7 @@ do
 		dd:SetSize(width, height)
 		B.CreateBDFrame(dd)
 		dd.Text = B.CreateFS(dd, 14, "", false, "LEFT", 5, 0)
+		dd.Text:SetJustifyH("CENTER")
 		dd.Text:SetPoint("RIGHT", -5, 0)
 		dd.options = {}
 
@@ -1929,6 +1947,7 @@ do
 			B.CreateGT(opt[i])
 
 			local text = B.CreateFS(opt[i], 14, j, false, "LEFT", 5, 0)
+			text:SetJustifyH("CENTER")
 			text:SetPoint("RIGHT", -5, 0)
 			opt[i].text = j
 			opt[i].__owner = dd
@@ -2056,7 +2075,6 @@ do
 		slider.value = B.CreateEditBox(slider, 50, 20)
 		slider.value:ClearAllPoints()
 		slider.value:SetPoint("TOP", slider, "BOTTOM")
-		slider.value:SetJustifyH("CENTER")
 		slider.value.__owner = slider
 		slider.value:SetScript("OnEnterPressed", updateSliderEditBox)
 

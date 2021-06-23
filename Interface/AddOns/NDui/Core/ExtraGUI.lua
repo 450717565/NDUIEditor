@@ -215,7 +215,6 @@ function GUI:SetupRaidDebuffs(parent)
 
 		local spellName = B.CreateFS(bar, 14, "", false, "LEFT", 30, 0)
 		spellName:SetWidth(120)
-		spellName:SetJustifyH("LEFT")
 		bar.spellName = spellName
 
 		local prioBox = B.CreateEditBox(bar, 30, 24)
@@ -460,11 +459,9 @@ function GUI:SetupPartyWatcher(parent)
 
 		local name = B.CreateFS(bar, 14, spellName, false, "LEFT", 30, 0)
 		name:SetWidth(120)
-		name:SetJustifyH("LEFT")
 
 		local timer = B.CreateFS(bar, 14, duration, false, "RIGHT", -30, 0)
 		timer:SetWidth(60)
-		timer:SetJustifyH("RIGHT")
 		timer:SetTextColor(0, 1, 0)
 
 		sortBars(barTable)
@@ -591,7 +588,6 @@ function GUI:SetupNameplateFilter(parent)
 
 		local spellName = B.CreateFS(bar, 14, name, false, "LEFT", 30, 0)
 		spellName:SetWidth(180)
-		spellName:SetJustifyH("LEFT")
 		if index == 2 then spellName:SetTextColor(1, 0, 0) end
 
 		sortBars(frameData[index].barList)
@@ -685,7 +681,6 @@ function GUI:SetupAuraIndicator(parent)
 		name = L[anchor] or name
 		local text = B.CreateFS(bar, 14, name, false, "LEFT", 30, 0)
 		text:SetWidth(180)
-		text:SetJustifyH("LEFT")
 		if anchor then text:SetTextColor(r, g, b) end
 		if showAll then B.CreateFS(bar, 14, "ALL", false, "RIGHT", -30, 0) end
 
@@ -1134,7 +1129,6 @@ function GUI:PlateCastGlow(parent)
 
 		local name = B.CreateFS(bar, 14, spellName, false, "LEFT", 30, 0)
 		name:SetWidth(120)
-		name:SetJustifyH("LEFT")
 
 		sortBars(barTable)
 	end

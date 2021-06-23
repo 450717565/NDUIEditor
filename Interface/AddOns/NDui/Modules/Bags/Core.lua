@@ -123,7 +123,7 @@ function Bags:CreateRestoreButton(f)
 end
 
 function Bags:CreateReagentButton(f)
-	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\INV_MISC_RUNE_08")
+	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\TRADE_ARCHAEOLOGY_CHESTOFTINYGLASSANIMALS")
 	bu:RegisterForClicks("AnyUp")
 	bu:SetScript("OnClick", function(_, btn)
 		if not IsReagentBankUnlocked() then
@@ -144,7 +144,7 @@ function Bags:CreateReagentButton(f)
 end
 
 function Bags:CreateBankButton(f)
-	local bu = B.CreateButton(self, 24, 24, true, "Atlas:Banker")
+	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\ACHIEVEMENT_GUILDPERK_MOBILEBANKING")
 	bu:SetScript("OnClick", function()
 		PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
 		ReagentBankFrame:Hide()
@@ -173,8 +173,7 @@ function Bags:AutoDeposit()
 end
 
 function Bags:CreateDepositButton()
-	local bu = B.CreateButton(self, 24, 24, true, "Atlas:GreenCross")
-	bu.Icon:SetOutside()
+	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\Achievement_Guild_DoctorIsIn")
 	bu:RegisterForClicks("AnyUp")
 	bu:SetScript("OnClick", function(_, btn)
 		if btn == "RightButton" then
@@ -339,7 +338,6 @@ function Bags:CreateSplitButton()
 	splitFrame:Hide()
 	local editbox = B.CreateEditBox(splitFrame, 90, 20)
 	editbox:SetPoint("BOTTOMLEFT", 5, 5)
-	editbox:SetJustifyH("CENTER")
 	editbox:SetScript("OnTextChanged", saveSplitCount)
 
 	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\Ability_Druid_GiftoftheEarthmother")

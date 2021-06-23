@@ -164,8 +164,7 @@ tinsert(C.XMLThemes, function()
 
 		tab.Icon:SetInside(bg)
 		if i == 1 then
-			tab.Icon:SetTexCoord(.16, .86, .16, .86)
-			tab.Icon.SetTexCoord = B.Dummy
+			tab.Icon:SetTexCoord(.15, .85, .15, .85)
 		end
 	end
 
