@@ -7,8 +7,7 @@ local floor = math.floor
 
 function Auras:PostCreateLumos(self)
 	local shield = B.CreateFS(self.Health, 18, "", "system")
-	shield:ClearAllPoints()
-	shield:SetPoint("RIGHT", self.Health, "LEFT", -5, 0)
+	B.UpdatePoint(shield, "RIGHT", self.Health, "LEFT", -5, 0)
 
 	self.shield = shield
 end

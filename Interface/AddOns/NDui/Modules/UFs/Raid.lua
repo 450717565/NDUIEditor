@@ -334,7 +334,7 @@ end
 function UF:DelayClickSets()
 	if not next(pendingFrames) then return end
 
-	for frame in next, pendingFrames do
+	for frame in pairs(pendingFrames) do
 		UF:CreateClickSets(frame)
 	end
 end
@@ -391,7 +391,7 @@ function UF:UpdateAuraIndicator(event, unit)
 	unit = self.unit
 
 	wipe(found)
-	for _, filter in next, auraFilter do
+	for _, filter in pairs(auraFilter) do
 		for i = 1, 32 do
 			local name, texture, count, _, duration, expiration, caster, _, _, spellID = UnitAura(unit, i, filter)
 			if not name then break end
@@ -421,7 +421,7 @@ function UF:UpdateAuraIndicator(event, unit)
 						end
 					end
 
-					if count > 1 then bu.count:SetText(count) end
+					bu.count:SetText(count > 1 and count)
 					bu:Show()
 					found[bu.anchor] = true
 				end
@@ -442,8 +442,9 @@ function UF:RefreshAuraIndicator(bu)
 		bu.timer:Show()
 		bu.count:ClearAllPoints()
 		bu.count:SetPoint(point, bu.timer, anchorPoint, x, y)
-		bu.icon:Hide()
+
 		bu.cd:Hide()
+		bu.icon:Hide()
 		bu.bubg:Hide()
 	else
 		bu:SetScript("OnUpdate", nil)
@@ -455,8 +456,9 @@ function UF:RefreshAuraIndicator(bu)
 		else
 			bu.icon:SetVertexColor(1, 1, 1)
 		end
-		bu.icon:Show()
+
 		bu.cd:Show()
+		bu.icon:Show()
 		bu.bubg:Show()
 	end
 end

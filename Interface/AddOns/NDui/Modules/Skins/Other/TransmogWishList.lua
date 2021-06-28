@@ -27,3 +27,5 @@ function Skins:TransmogWishList()
 		end
 	end
 end
+
+C.OnLoginThemes["TransmogWishList"] = Skins.TransmogWishList

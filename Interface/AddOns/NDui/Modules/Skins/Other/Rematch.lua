@@ -32,13 +32,13 @@ function Skins:Rematch()
 
 	local function reskinInput(self)
 		self:DisableDrawLayer("BACKGROUND")
-		self:SetBackdrop(nil)
+		self:SetBackdrop("")
 
 		B.CreateBGFrame(self, 2, 0, -2, 0)
 	end
 
 	local function reskinDropdown(self)
-		self:SetBackdrop(nil)
+		self:SetBackdrop("")
 
 		B.StripTextures(self)
 		B.CreateBDFrame(self)
@@ -119,7 +119,7 @@ function Skins:Rematch()
 	end
 
 	local function reskinPetCard(self)
-		self:SetBackdrop(nil)
+		self:SetBackdrop("")
 
 		if self.Source then
 			reskinFrame(self.Source)
@@ -228,7 +228,7 @@ function Skins:Rematch()
 		B.StripTextures(RematchToolbar.PetCount)
 
 		if ALPTRematchOptionButton then
-			ALPTRematchOptionButton:SetPushedTexture(nil)
+			ALPTRematchOptionButton:SetPushedTexture("")
 
 			local icon = ALPTRematchOptionButton:GetNormalTexture()
 			local icbg = B.ReskinIcon(icon)
@@ -365,7 +365,7 @@ function Skins:Rematch()
 		local MultiLine = dialog.MultiLine
 		B.ReskinScroll(MultiLine.ScrollBar)
 		B.CreateBDFrame(MultiLine, 0, -5)
-		select(2, MultiLine:GetChildren()):SetBackdrop(nil)
+		select(2, MultiLine:GetChildren()):SetBackdrop("")
 
 		local ShareIncludes = dialog.ShareIncludes
 		B.ReskinCheck(ShareIncludes.IncludePreferences)
@@ -405,7 +405,7 @@ function Skins:Rematch()
 			if mask then
 				mask:Hide()
 			else
-				bu:SetMask(nil)
+				bu:SetMask("")
 			end
 			B.ReskinIcon(bu)
 		end
@@ -550,7 +550,7 @@ function Skins:Rematch()
 					abilities.Arrow:SetTexCoord(0, 1, 0, 1)
 				end
 				for k = 1, 2 do
-					self.Flyout:SetBackdrop(nil)
+					self.Flyout:SetBackdrop("")
 					local abilities = self.Flyout.Abilities[k]
 					reskinButton(abilities)
 
@@ -732,3 +732,5 @@ function Skins:Rematch()
 		styled = true
 	end)
 end
+
+C.OnLoginThemes["Rematch"] = Skins.Rematch

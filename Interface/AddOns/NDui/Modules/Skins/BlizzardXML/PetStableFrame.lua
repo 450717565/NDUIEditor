@@ -16,7 +16,7 @@ local function Reskin_Slot(self, index)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["PetStableFrame"] = function()
 	if DB.MyClass ~= "HUNTER" then return end
 
 	B.ReskinFrame(PetStableFrame)
@@ -66,4 +66,4 @@ tinsert(C.XMLThemes, function()
 	for i = 1, NUM_PET_STABLE_SLOTS do
 		Reskin_Slot("PetStableStabledPet", i)
 	end
-end)
+end

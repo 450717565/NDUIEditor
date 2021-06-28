@@ -72,18 +72,16 @@ function Chat:ChatCopy_CreateMenu()
 	menu:SetPoint("TOPLEFT", _G.ChatFrame1, "TOPRIGHT")
 	menu:SetShown(C.db["Chat"]["ChatMenu"])
 
-	_G.ChatFrameMenuButton:ClearAllPoints()
-	_G.ChatFrameMenuButton:SetPoint("TOP", menu)
-	_G.ChatFrameMenuButton:SetParent(menu)
-	_G.ChatFrameChannelButton:ClearAllPoints()
-	_G.ChatFrameChannelButton:SetPoint("TOP", _G.ChatFrameMenuButton, "BOTTOM", 0, -2)
 	_G.ChatFrameChannelButton:SetParent(menu)
+	_G.ChatFrameMenuButton:SetParent(menu)
 	_G.ChatFrameToggleVoiceDeafenButton:SetParent(menu)
 	_G.ChatFrameToggleVoiceMuteButton:SetParent(menu)
 	_G.QuickJoinToastButton:SetParent(menu)
 
-	_G.ChatAlertFrame:ClearAllPoints()
-	_G.ChatAlertFrame:SetPoint("BOTTOMLEFT", _G.ChatFrame1Tab, "TOPLEFT", 0, 20)
+	B.UpdatePoint(_G.ChatFrameMenuButton, "TOP", menu, "TOP", 0, 0)
+	B.UpdatePoint(_G.ChatFrameChannelButton, "TOP", _G.ChatFrameMenuButton, "BOTTOM", 0, -2)
+	B.UpdatePoint(_G.ChatAlertFrame, "BOTTOMLEFT", _G.ChatFrame1Tab, "TOPLEFT", 0, 20)
+
 	ResetChatAlertJustify(_G.ChatAlertFrame)
 	hooksecurefunc(_G.ChatAlertFrame, "SetChatButtonSide", ResetChatAlertJustify)
 end

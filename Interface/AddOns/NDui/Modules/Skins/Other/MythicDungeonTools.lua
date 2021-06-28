@@ -47,3 +47,5 @@ function Skins:MythicDungeonTools()
 		if amount then return B.FormatNumb(amount) end
 	end
 end
+
+C.OnLoginThemes["MythicDungeonTools"] = Skins.MythicDungeonTools

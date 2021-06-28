@@ -13,7 +13,7 @@ function Skins:ExtVendor()
 
 	for i = 13, 20 do
 		local item = _G["MerchantItem"..i]
-		Skins.ReskinMerchantItem(item)
+		B.ReskinMerchantItem(item)
 
 		for j = 1, 3 do
 			local texture = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"]
@@ -21,7 +21,7 @@ function Skins:ExtVendor()
 		end
 	end
 
-	hooksecurefunc("ExtVendor_UpdateMerchantInfo", Skins.UpdateMerchantInfo)
+	hooksecurefunc("ExtVendor_UpdateMerchantInfo", B.UpdateMerchantInfo)
 
 	local QVConfigFrame = "ExtVendor_QVConfigFrame"
 	B.ReskinFrame(_G[QVConfigFrame])
@@ -89,3 +89,5 @@ function Skins:ExtVendor()
 	B.ReskinStatusBar(_G[SellJunkProgressPopup.."ProgressBar"])
 	B.ReskinButton(_G[SellJunkProgressPopup.."CancelButton"])
 end
+
+C.OnLoginThemes["ExtVendor"] = Skins.ExtVendor

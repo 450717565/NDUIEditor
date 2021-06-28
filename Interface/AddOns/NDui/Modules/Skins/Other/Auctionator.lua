@@ -4,7 +4,56 @@ local Skins = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
-local buttons = {"Finished", "Cancel", "ResetAllButton", "CreateList", "DeleteList", "Rename", "Import", "Export", "AddItem", "ManualSearch", "ExportCSV", "Export", "SelectAll", "UnselectAll", "PostButton", "SkipButton", "MaxButton", "ScanButton", "OptionsButton"}
+local buttons = {
+	"AddItem",
+	"Cancel",
+	"CreateList",
+	"DeleteList",
+	"Export",
+	"ExportCSV",
+	"Finished",
+	"Import",
+	"ManualSearch",
+	"MaxButton",
+	"OptionsButton",
+	"PostButton",
+	"Rename",
+	"ResetAllButton",
+	"ScanButton",
+	"SelectAll",
+	"SkipButton",
+	"UnselectAll",
+}
+
+local ranges = {
+	"CraftedLevelRange",
+	"ItemLevelRange",
+	"LevelRange",
+	"PriceRange",
+}
+
+local links = {
+	"BugReportLink",
+	"DiscordLink",
+	"TechnicalRoadmap",
+}
+
+local items = {
+	"ArmorItems",
+	"BattlePetItems",
+	"ConsumableItems",
+	"ContainerItems",
+	"EnhancementItems",
+	"Favourites",
+	"GemItems",
+	"GlyphItems",
+	"MiscItems",
+	"QuestItems",
+	"RecipeItems",
+	"TradeGoodItems",
+	"WeaponItems",
+}
+
 local function Reskin_Buttons(self, tables)
 	for _, key in pairs(tables) do
 		local button = self[key]
@@ -14,7 +63,6 @@ local function Reskin_Buttons(self, tables)
 	end
 end
 
-local ranges = {"LevelRange", "ItemLevelRange", "PriceRange", "CraftedLevelRange"}
 local function Reskin_ItemDialog(self)
 	B.ReskinFrame(self)
 	B.ReskinInput(self.SearchContainer.SearchString)
@@ -152,8 +200,6 @@ local function Reskin_BagList(self)
 	end
 end
 
-local links = {"DiscordLink", "BugReportLink", "TechnicalRoadmap"}
-local items = {"Favourites", "WeaponItems", "ArmorItems", "ContainerItems", "GemItems", "EnhancementItems", "ConsumableItems", "GlyphItems", "TradeGoodItems", "RecipeItems", "BattlePetItems", "QuestItems", "MiscItems"}
 function Skins:Auctionator()
 	if not IsAddOnLoaded("Auctionator") then return end
 
@@ -284,3 +330,5 @@ function Skins:Auctionator()
 		styled = true
 	end)
 end
+
+C.OnLoginThemes["Auctionator"] = Skins.Auctionator

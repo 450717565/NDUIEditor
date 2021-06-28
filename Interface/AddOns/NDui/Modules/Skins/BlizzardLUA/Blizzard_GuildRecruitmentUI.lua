@@ -17,7 +17,7 @@ local function Reskin_Applicants(self)
 	end
 end
 
-C.LUAThemes["Blizzard_GuildRecruitmentUI"] = function()
+C.OnLoadThemes["Blizzard_GuildRecruitmentUI"] = function()
 	B.ReskinFrame(CommunitiesGuildRecruitmentFrame)
 
 	B.StripTextures(CommunitiesGuildRecruitmentFrameTab1)

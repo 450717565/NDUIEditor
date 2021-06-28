@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local function Reskin_CovenantPreviewFrame(self)
 	B.StripTextures(self.InfoPanel)
@@ -23,7 +22,7 @@ local function Reskin_CovenantPreviewFrame(self)
 	self.CloseButton:SetPoint("TOPRIGHT", self.bg, -6, -6)
 end
 
-C.LUAThemes["Blizzard_CovenantPreviewUI"] = function()
+C.OnLoadThemes["Blizzard_CovenantPreviewUI"] = function()
 	local InfoPanel = CovenantPreviewFrame.InfoPanel
 	B.ReskinText(InfoPanel.Name, 1, .8, 0)
 	B.ReskinText(InfoPanel.Location, 1, 1, 1)
@@ -49,14 +48,14 @@ local function Reskin_CovenantFrame(self)
 	end
 end
 
-C.LUAThemes["Blizzard_CovenantRenown"] = function()
+C.OnLoadThemes["Blizzard_CovenantRenown"] = function()
 	hooksecurefunc(CovenantRenownFrame, "SetUpCovenantData", Reskin_CovenantFrame)
 end
 
 local function Replace_Currencies(self)
 	for frame in self.currencyFramePool:EnumerateActive() do
 		if frame and not frame.styled then
-			S.ReplaceIconString(frame.Text)
+			B.ReplaceIconString(frame.Text)
 
 			frame.styled = true
 		end
@@ -77,7 +76,7 @@ local function Reskin_TalentsList(self)
 			B.ReskinHLTex(frame.Highlight, bubg, true)
 			frame.bubg = bubg
 
-			S.ReplaceIconString(frame.InfoText)
+			B.ReplaceIconString(frame.InfoText)
 
 			frame.styled = true
 		end
@@ -92,7 +91,7 @@ local function Reskin_TalentsList(self)
 	end
 end
 
-C.LUAThemes["Blizzard_CovenantSanctum"] = function()
+C.OnLoadThemes["Blizzard_CovenantSanctum"] = function()
 	CovenantSanctumFrame:HookScript("OnShow", Reskin_CovenantFrame)
 
 	local UpgradesTab = CovenantSanctumFrame.UpgradesTab

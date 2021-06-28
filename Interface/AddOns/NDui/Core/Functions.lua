@@ -9,12 +9,90 @@ local min, max, floor, rad = math.min, math.max, math.floor, math.rad
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
--- Anima Multiplier
+-- Other Function
 do
+	B.EasyMenu = CreateFrame("Frame", "NDui_EasyMenu", UIParent, "UIDropDownMenuTemplate")
+
 	local ANIMA_SPELLID = {[347555] = 3, [345706] = 5, [336327] = 35, [336456] = 250}
 	function B.GetAnimaMultiplier(itemID)
 		local _, spellID = GetItemSpell(itemID)
 		return ANIMA_SPELLID[spellID]
+	end
+
+	function B:CreateLines(direction, noClassColor)
+		if self.Line then return end
+
+		local w, h = self:GetSize()
+		local Line = self:CreateTexture(nil, "ARTWORK")
+		Line:ClearAllPoints()
+
+		if direction == "H" then
+			Line:SetSize(w*.9, C.mult)
+		elseif direction == "V" then
+			Line:SetSize(C.mult, h*.9)
+		end
+
+		if noClassColor then
+			Line:SetColorTexture(1, 1, 1, C.alpha)
+		else
+			Line:SetColorTexture(cr, cg, cb, C.alpha)
+		end
+
+		self.Line = Line
+
+		return Line
+	end
+
+	function B:CreateGlowFrame(size)
+		local frame = CreateFrame("Frame", nil, self)
+		frame:Point("CENTER")
+		frame:SetSize(size + 8, size + 8)
+
+		return frame
+	end
+
+	function B:CreateParentFrame(lvl, frame)
+		local parent = CreateFrame("Frame", nil, self)
+		parent:ClearAllPoints()
+		parent:SetAllPoints(frame or self)
+		parent:SetFrameLevel(self:GetFrameLevel() + (lvl or 1))
+
+		return parent
+	end
+
+	function B:TogglePanel()
+		if self:IsShown() then
+			self:Hide()
+		else
+			self:Show()
+		end
+	end
+
+	function B.UpdatePoint(frame1, point1, frame2, point2, xOfs, yOfs)
+		frame1:ClearAllPoints()
+		frame1:SetPoint(point1, frame2, point2, xOfs or 0, yOfs or 0)
+	end
+
+	function B.LoadWithAddOn(addonName, func, autoReskin)
+		local function loadFunc(event, addon)
+			if autoReskin and not C.db["Skins"]["BlizzardSkins"] then return end
+
+			if event == "PLAYER_ENTERING_WORLD" then
+				B:UnregisterEvent(event, loadFunc)
+
+				local isLoaded, isFinished = IsAddOnLoaded(addonName)
+				if isLoaded and isFinished then
+					func()
+					B:UnregisterEvent("ADDON_LOADED", loadFunc)
+				end
+			elseif event == "ADDON_LOADED" and addon == addonName then
+				func()
+				B:UnregisterEvent(event, loadFunc)
+			end
+		end
+
+		B:RegisterEvent("PLAYER_ENTERING_WORLD", loadFunc)
+		B:RegisterEvent("ADDON_LOADED", loadFunc)
 	end
 end
 
@@ -94,7 +172,7 @@ do
 				self.timer:SetText(text)
 			else
 				self:SetScript("OnUpdate", nil)
-				self.timer:SetText(nil)
+				self.timer:SetText("")
 			end
 
 			self.elapsed = 0
@@ -563,7 +641,7 @@ do
 	}
 
 	function B:CleanTextures(isOverride)
-		if self.SetBackdrop then self:SetBackdrop(nil) end
+		if self.SetBackdrop then self:SetBackdrop("") end
 		if self.SetDisabledTexture then self:SetDisabledTexture("") end
 		if self.SetHighlightTexture then self:SetHighlightTexture("") end
 		if self.SetPushedTexture then self:SetPushedTexture("") end
@@ -1142,8 +1220,7 @@ do
 			local text = B.GetObject(self, key)
 			if text then
 				text:SetJustifyH("CENTER")
-				text:ClearAllPoints()
-				text:SetPoint("CENTER", bg, 1, 0)
+				B.UpdatePoint(text, "CENTER", bg, "CENTER", 1, 0)
 			end
 		end
 	end
@@ -1177,8 +1254,7 @@ do
 			local text = B.GetObject(self, key)
 			if text then
 				text:SetJustifyH("CENTER")
-				text:ClearAllPoints()
-				text:SetPoint("CENTER")
+				B.UpdatePoint(text, "CENTER", self, "CENTER", 1, 0)
 			end
 		end
 	end
@@ -1200,9 +1276,7 @@ do
 			local frameHeader = B.GetObject(self, key)
 			if frameHeader then
 				B.StripTextures(frameHeader, 0)
-
-				frameHeader:ClearAllPoints()
-				frameHeader:SetPoint("TOP", bg, "TOP", 0, 5)
+				B.UpdatePoint(frameHeader, "TOP", bg, "TOP", 0, 5)
 			end
 		end
 		for _, key in pairs(portraits) do
@@ -1242,8 +1316,7 @@ do
 		self.overlay:Hide()
 
 		local homeButton = self.homeButton
-		homeButton.text:ClearAllPoints()
-		homeButton.text:SetPoint("CENTER")
+		B.UpdatePoint(homeButton.text, "CENTER", homeButton, "CENTER", 1, 0)
 		B.ReskinButton(homeButton)
 
 		local overflowButton = self.overflowButton
@@ -1329,34 +1402,31 @@ do
 
 	function B:ReskinRoleCount(role1, role2, role3, xOffset)
 		local Icon_1 = self[role1.."Icon"]
-		Icon_1:ClearAllPoints()
-		Icon_1:SetPoint("RIGHT", self, "RIGHT", xOffset or -10, 0)
+		B.UpdatePoint(Icon_1, "RIGHT", self, "RIGHT", xOffset or -10, 0)
 
 		local Count_1 = self[role1.."Count"]
 		Count_1:SetWidth(24)
 		Count_1:SetJustifyH("CENTER")
 		Count_1:SetFontObject(Game13Font)
-		Count_1:SetPoint("RIGHT", Icon_1, "LEFT", 0, 0)
+		B.UpdatePoint(Count_1, "RIGHT", Icon_1, "LEFT", 0, 0)
 
 		local Icon_2 = self[role2.."Icon"]
-		Icon_2:ClearAllPoints()
-		Icon_2:SetPoint("RIGHT", Count_1, "LEFT", 0, 0)
+		B.UpdatePoint(Icon_2, "RIGHT", Count_1, "LEFT", 0, 0)
 
 		local Count_2 = self[role2.."Count"]
 		Count_2:SetWidth(24)
 		Count_2:SetJustifyH("CENTER")
 		Count_2:SetFontObject(Game13Font)
-		Count_2:SetPoint("RIGHT", Icon_2, "LEFT", 0, 0)
+		B.UpdatePoint(Count_2, "RIGHT", Icon_2, "LEFT", 0, 0)
 
 		local Icon_3 = self[role3.."Icon"]
-		Icon_3:ClearAllPoints()
-		Icon_3:SetPoint("RIGHT", Count_2, "LEFT", 0, 0)
+		B.UpdatePoint(Icon_3, "RIGHT", Count_2, "LEFT", 0, 0)
 
 		local Count_3 = self[role3.."Count"]
 		Count_3:SetWidth(24)
 		Count_3:SetJustifyH("CENTER")
 		Count_3:SetFontObject(Game13Font)
-		Count_3:SetPoint("RIGHT", Icon_3, "LEFT", 0, 0)
+		B.UpdatePoint(Count_3, "RIGHT", Icon_3, "LEFT", 0, 0)
 	end
 
 	-- Handle Scroll
@@ -1402,7 +1472,7 @@ do
 
 	-- Handle Slider
 	function B:ReskinSlider(verticle)
-		self:SetBackdrop(nil)
+		self:SetBackdrop("")
 		B.StripTextures(self)
 
 		B.CreateBGFrame(self, 14, -2, -15, 3)
@@ -1451,8 +1521,7 @@ do
 			local text = B.GetObject(self, key)
 			if text then
 				text:SetJustifyH("CENTER")
-				text:ClearAllPoints()
-				text:SetPoint("CENTER")
+				B.UpdatePoint(text, "CENTER", self, "CENTER", 1, 0)
 			end
 		end
 	end
@@ -1554,60 +1623,6 @@ do
 	end
 end
 
--- Other Function
-do
-	B.EasyMenu = CreateFrame("Frame", "NDui_EasyMenu", UIParent, "UIDropDownMenuTemplate")
-
-	function B:CreateLines(direction, noClassColor)
-		if self.Line then return end
-
-		local w, h = self:GetSize()
-		local Line = self:CreateTexture(nil, "ARTWORK")
-		Line:ClearAllPoints()
-
-		if direction == "H" then
-			Line:SetSize(w*.9, C.mult)
-		elseif direction == "V" then
-			Line:SetSize(C.mult, h*.9)
-		end
-
-		if noClassColor then
-			Line:SetColorTexture(1, 1, 1, C.alpha)
-		else
-			Line:SetColorTexture(cr, cg, cb, C.alpha)
-		end
-
-		self.Line = Line
-
-		return Line
-	end
-
-	function B:CreateGlowFrame(size)
-		local frame = CreateFrame("Frame", nil, self)
-		frame:Point("CENTER")
-		frame:SetSize(size + 8, size + 8)
-
-		return frame
-	end
-
-	function B:CreateParentFrame(lvl, frame)
-		local parent = CreateFrame("Frame", nil, self)
-		parent:ClearAllPoints()
-		parent:SetAllPoints(frame or self)
-		parent:SetFrameLevel(self:GetFrameLevel() + (lvl or 1))
-
-		return parent
-	end
-
-	function B:TogglePanel()
-		if self:IsShown() then
-			self:Hide()
-		else
-			self:Show()
-		end
-	end
-end
-
 -- GUI Function
 do
 	-- GameTooltip
@@ -1702,15 +1717,6 @@ do
 		end
 	end
 
-	function B:ReskinFont(size)
-		local oldSize = select(2, self:GetFont())
-		size = size or oldSize
-
-		local fontSize = size*C.db["Skins"]["FontScale"]
-		self:SetFont(DB.Font[1], fontSize, DB.Font[3])
-		self:SetShadowColor(0, 0, 0, 0)
-	end
-
 	local justifyList = {
 		["LEFT"] = "LEFT",
 		["TOPLEFT"] = "LEFT",
@@ -1729,7 +1735,6 @@ do
 		fs:SetWordWrap(false)
 		fs:SetJustifyV("CENTER")
 		fs:SetShadowColor(0, 0, 0, 0)
-		fs:ClearAllPoints()
 
 		if color and type(color) == "boolean" then
 			fs:SetTextColor(cr, cg, cb)
@@ -1737,11 +1742,11 @@ do
 			fs:SetTextColor(1, .8, 0)
 		end
 		if anchor and x and y then
-			fs:SetPoint(anchor, x, y)
 			fs:SetJustifyH(justifyList[anchor])
+			B.UpdatePoint(fs, anchor, self, anchor, x, y)
 		else
-			fs:SetPoint("CENTER", 1, 0)
 			fs:SetJustifyH("CENTER")
+			B.UpdatePoint(fs, "CENTER", self, "CENTER", 1, 0)
 		end
 
 		return fs
@@ -1921,14 +1926,13 @@ do
 		dd.options = {}
 
 		local bu = CreateFrame("Button", nil, dd)
-		bu:SetPoint("RIGHT", -5, 0)
+		B.UpdatePoint(bu, "RIGHT", dd, "RIGHT", -5, 0)
 		B.ReskinArrow(bu, "down")
 
 		local list = CreateFrame("Frame", nil, dd, "BackdropTemplate")
 		B.CreateBD(list, 1)
 		B.CreateSD(list)
-		list:ClearAllPoints()
-		list:SetPoint("TOP", dd, "BOTTOM", 0, -2)
+		B.UpdatePoint(list, "TOP", dd, "BOTTOM", 0, -3)
 		list:Hide()
 
 		bu.__list = list
@@ -1939,9 +1943,8 @@ do
 		local opt, index = {}, 0
 		for i, j in pairs(data) do
 			opt[i] = CreateFrame("Button", nil, list, "BackdropTemplate")
-			opt[i]:ClearAllPoints()
-			opt[i]:SetPoint("TOPLEFT", 4, -4 - (i-1)*(height+2))
 			opt[i]:SetSize(width - 8, height)
+			B.UpdatePoint(opt[i], "TOPLEFT", list, "TOPLEFT", 4, -4 - (i-1)*(height+2))
 			B.CreateBD(opt[i], 0)
 			B.CreateSD(opt[i])
 			B.CreateGT(opt[i])
@@ -2049,34 +2052,28 @@ do
 
 	function B:CreateSlider(name, minValue, maxValue, step, x, y, width)
 		local slider = CreateFrame("Slider", nil, self, "OptionsSliderTemplate")
-		slider:ClearAllPoints()
-		slider:SetPoint("TOPLEFT", x, y)
 		slider:SetWidth(width or 200)
 		slider:SetMinMaxValues(minValue, maxValue)
 		slider:SetValueStep(step)
 		slider:SetObeyStepOnDrag(true)
 		slider:SetHitRectInsets(0, 0, 0, 0)
+		B.UpdatePoint(slider, "TOPLEFT", self, "TOPLEFT", x, y)
 		B.ReskinSlider(slider)
 
 		slider.Low:SetText(minValue)
-		slider.Low:ClearAllPoints()
-		slider.Low:SetPoint("TOPLEFT", slider, "BOTTOMLEFT", 10, -2)
+		B.UpdatePoint(slider.Low, "TOPLEFT", slider, "BOTTOMLEFT", 10, -2)
 
 		slider.High:SetText(maxValue)
-		slider.High:ClearAllPoints()
-		slider.High:SetPoint("TOPRIGHT", slider, "BOTTOMRIGHT", -10, -2)
+		B.UpdatePoint(slider.High, "TOPRIGHT", slider, "BOTTOMRIGHT", -10, -2)
 
-		slider.Text:ClearAllPoints()
-		slider.Text:SetPoint("CENTER", 0, 25)
 		slider.Text:SetText(name)
-		slider.Text:SetTextColor(1, .8, 0)
-		slider.Text:SetShadowColor(0, 0, 0, 0)
+		B.UpdatePoint(slider.Text, "CENTER", slider, "CENTER", 0, 25)
+		B.ReskinText(slider.Text, 1, .8, 0)
 
 		slider.value = B.CreateEditBox(slider, 50, 20)
-		slider.value:ClearAllPoints()
-		slider.value:SetPoint("TOP", slider, "BOTTOM")
 		slider.value.__owner = slider
 		slider.value:SetScript("OnEnterPressed", updateSliderEditBox)
+		B.UpdatePoint(slider.value, "TOP", slider, "BOTTOM", 0, 0)
 
 		slider.clicker = CreateFrame("Button", nil, slider)
 		slider.clicker:ClearAllPoints()

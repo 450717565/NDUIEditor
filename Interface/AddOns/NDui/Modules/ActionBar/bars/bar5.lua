@@ -50,8 +50,7 @@ function Bar:CreateBar5()
 		if i == 1 then
 			button:SetPoint("TOPRIGHT", frame, -padding, -padding)
 		else
-			local previous = _G["MultiBarLeftButton"..i-1]
-			button:SetPoint("TOP", previous, "BOTTOM", 0, -margin)
+			button:SetPoint("TOP", _G["MultiBarLeftButton"..i-1], "BOTTOM", 0, -margin)
 		end
 	end
 

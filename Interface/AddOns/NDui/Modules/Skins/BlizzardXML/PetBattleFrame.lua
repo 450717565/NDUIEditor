@@ -4,6 +4,9 @@ local B, C, L, DB = unpack(ns)
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
+local LE_BATTLE_PET_ALLY = LE_BATTLE_PET_ALLY or Enum.BattlePetOwner.Ally -- isNewPatch, deprecated in 9.1
+local LE_BATTLE_PET_ENEMY = LE_BATTLE_PET_ENEMY or Enum.BattlePetOwner.Enemy -- isNewPatch, deprecated in 9.1
+
 local function Reskin_UpdatePetType(self)
 	if self.PetType and self.typeIcon then
 		local petType = C_PetBattles.GetPetType(self.petOwner, self.petIndex)
@@ -116,7 +119,7 @@ local function Reskin_UpdatePassButtonAndTimer(self)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["PetBattleFrame"] = function()
 	local color = C.db["Skins"]["LineColor"]
 	if not C.db["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
 
@@ -358,4 +361,4 @@ tinsert(C.XMLThemes, function()
 		unit.HealthText:ClearAllPoints()
 		unit.HealthText:SetPoint("CENTER", healthBg)
 	end
-end)
+end

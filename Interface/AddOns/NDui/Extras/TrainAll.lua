@@ -28,13 +28,12 @@ local function CreateIt()
 	local Button = CreateFrame("Button", "TrainAllButton", ClassTrainerFrame, "MagicButtonTemplate")
 	Button:SetSize(80, 22)
 	Button:SetText(L["Train All"])
-	Button:SetPoint("RIGHT", ClassTrainerTrainButton, "LEFT", -2, 0)
-
-	B.ReskinButton(Button)
-
 	Button:SetScript("OnEnter", Button_OnEnter)
 	Button:SetScript("OnLeave", Button_OnLeave)
 	Button:SetScript("OnClick", Button_OnClick)
+
+	B.ReskinButton(Button)
+	B.UpdatePoint(Button, "RIGHT", ClassTrainerTrainButton, "LEFT", -2, 0)
 
 	hooksecurefunc("ClassTrainerFrame_Update",function()
 		local sum, total = 0, 0;
@@ -51,11 +50,4 @@ local function CreateIt()
 	end)
 end
 
-local function BuildIt(event, addon)
-	if addon == "Blizzard_TrainerUI" then
-		CreateIt()
-		B:UnregisterEvent(event, BuildIt)
-	end
-end
-
-B:RegisterEvent("ADDON_LOADED", BuildIt)
+B.LoadWithAddOn("Blizzard_TrainerUI", CreateIt, true)

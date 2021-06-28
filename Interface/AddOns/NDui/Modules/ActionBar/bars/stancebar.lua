@@ -39,9 +39,9 @@ function Bar:CreateStanceBar()
 	if C.db["ActionBar"]["StanceBar"] then
 		StanceBarFrame:SetParent(frame)
 		StanceBarFrame:EnableMouse(false)
-		StanceBarLeft:SetTexture(nil)
-		StanceBarMiddle:SetTexture(nil)
-		StanceBarRight:SetTexture(nil)
+		StanceBarLeft:SetTexture("")
+		StanceBarMiddle:SetTexture("")
+		StanceBarRight:SetTexture("")
 
 		for i = 1, num do
 			local button = _G["StanceButton"..i]
@@ -51,8 +51,7 @@ function Bar:CreateStanceBar()
 			if i == 1 then
 				button:SetPoint("BOTTOMLEFT", frame, padding, padding)
 			else
-				local previous = _G["StanceButton"..i-1]
-				button:SetPoint("LEFT", previous, "RIGHT", margin, 0)
+				button:SetPoint("LEFT", _G["StanceButton"..i-1], "RIGHT", margin, 0)
 			end
 		end
 	end
@@ -60,8 +59,8 @@ function Bar:CreateStanceBar()
 	-- PossessBar
 	PossessBarFrame:SetParent(frame)
 	PossessBarFrame:EnableMouse(false)
-	PossessBackground1:SetTexture(nil)
-	PossessBackground2:SetTexture(nil)
+	PossessBackground1:SetTexture("")
+	PossessBackground2:SetTexture("")
 
 	for i = 1, NUM_POSSESS_SLOTS do
 		local button = _G["PossessButton"..i]
@@ -70,8 +69,7 @@ function Bar:CreateStanceBar()
 		if i == 1 then
 			button:SetPoint("BOTTOMLEFT", frame, padding, padding)
 		else
-			local previous = _G["PossessButton"..i-1]
-			button:SetPoint("LEFT", previous, "RIGHT", margin, 0)
+			button:SetPoint("LEFT", _G["PossessButton"..i-1], "RIGHT", margin, 0)
 		end
 	end
 

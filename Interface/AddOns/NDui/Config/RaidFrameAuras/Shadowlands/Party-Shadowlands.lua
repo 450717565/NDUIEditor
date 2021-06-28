@@ -8,6 +8,26 @@ local INSTANCE -- 5人本
 if DB.isNewPatch then
 	INSTANCE = 1194 -- 塔扎维什，帷纱集市
 	AT:RegisterSeasonSpells(TIER, INSTANCE)
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 356011) -- 光线切分者
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 347949, 6) -- 审讯
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 345770) -- 扣押违禁品
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 355915) -- 约束雕文
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 346962) -- 现金汇款
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 349627) -- 暴食
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 347481) -- 奥能手里波
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 350804) -- 坍缩能量
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 350885) -- 超光速震荡
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 351101) -- 能量碎片
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 350013) -- 暴食盛宴
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 355641) -- 闪烁
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 355451) -- 逆流
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 351956) -- 高价值目标
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 346297) -- 动荡爆炸
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 347728) -- 群殴
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 356408) -- 大地践踏
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 347744) -- 迅斩
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 350134) -- 永恒吐息
+	AT:RegisterDebuff(TIER, INSTANCE, 0, 355465) -- 投掷巨石
 end
 
 INSTANCE = 1187 -- 伤逝剧场

@@ -119,7 +119,7 @@ B:RegisterEvent("PLAYER_LOGIN", function()
 	C.margin = 3
 	C.alpha = .8
 
-	for _, module in next, initQueue do
+	for _, module in pairs(initQueue) do
 		if module.OnLogin then
 			module:OnLogin()
 		else

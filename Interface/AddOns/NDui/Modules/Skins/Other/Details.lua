@@ -22,7 +22,7 @@ local function Setup_Instance(self)
 	self.baseframe.bg = B.CreateBG(self.baseframe, -1, 18, 0, 0)
 
 	if self:GetId() <= 2 then
-		local open, close = Skins.CreateToggle(self.baseframe)
+		local open, close = B.CreateToggle(self.baseframe)
 		open:HookScript("OnClick", function()
 			self:ShowWindow()
 		end)
@@ -44,8 +44,8 @@ local function Embed_Window(self, x, y, width, height)
 	self:LockInstance(true)
 end
 
-local function Reskin_Details()
-	if not C.db["Skins"]["Details"] then return end
+function Skins:Details()
+	if not C.db["Skins"]["Details"] or not IsAddOnLoaded("Details") then return end
 
 	local Details = _G.Details
 
@@ -122,4 +122,4 @@ local function Reskin_Details()
 	NDuiADB["ResetDetails"] = false
 end
 
-Skins.LoadWithAddOn("Details", Reskin_Details)
+B.LoadWithAddOn("Details", Skins.Details)

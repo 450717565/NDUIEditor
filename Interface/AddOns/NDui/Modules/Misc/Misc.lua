@@ -42,7 +42,7 @@ function Misc:RegisterMisc(name, func)
 end
 
 function Misc:OnLogin()
-	for name, func in next, MISC_LIST do
+	for name, func in pairs(MISC_LIST) do
 		if name and type(func) == "function" then
 			func()
 		end
@@ -81,11 +81,13 @@ function Misc:OnLogin()
 	-- Auto chatBubbles
 	if NDuiADB["AutoBubbles"] then
 		local function updateBubble()
-			if IsInInstance() then
-				SetCVar("chatBubbles", 1)
-			else
-				SetCVar("chatBubbles", 0)
-			end
+			C_Timer.After(.5, function()
+				if IsInInstance() then
+					SetCVar("chatBubbles", 1)
+				else
+					SetCVar("chatBubbles", 0)
+				end
+			end)
 		end
 		B:RegisterEvent("PLAYER_ENTERING_WORLD", updateBubble)
 	end
@@ -162,8 +164,8 @@ end
 -- Extend Instance
 function Misc:ExtendInstance()
 	local bu = CreateFrame("Button", nil, RaidInfoFrame)
-	bu:SetPoint("TOPRIGHT", -35, -5)
 	bu:SetSize(25, 25)
+	bu:SetPoint("TOPRIGHT", -35, -5)
 	B.PixelIcon(bu, GetSpellTexture(80353), true)
 	bu.title = L["Extend Instance"]
 	local tipStr = format(L["Extend Instance Tip"], DB.LeftButton, DB.RightButton)
@@ -197,8 +199,7 @@ function Misc:VehicleSeatMover()
 
 	hooksecurefunc(VehicleSeatIndicator, "SetPoint", function(self, _, parent)
 		if parent == "MinimapCluster" or parent == MinimapCluster then
-			self:ClearAllPoints()
-			self:SetPoint("BOTTOM", frame)
+			B.UpdatePoint(self, "BOTTOM", frame, "BOTTOM", 0, 0)
 		end
 	end)
 end
@@ -211,8 +212,7 @@ function Misc:UIWidgetFrameMover()
 
 	hooksecurefunc(UIWidgetBelowMinimapContainerFrame, "SetPoint", function(self, _, parent)
 		if parent == "MinimapCluster" or parent == MinimapCluster then
-			self:ClearAllPoints()
-			self:SetPoint("TOPRIGHT", frame)
+			B.UpdatePoint(self, "TOPRIGHT", frame, "TOPRIGHT", 0, 0)
 		end
 	end)
 end
@@ -221,8 +221,7 @@ end
 function Misc:MoveDurabilityFrame()
 	hooksecurefunc(DurabilityFrame, "SetPoint", function(self, _, parent)
 		if parent == "MinimapCluster" or parent == MinimapCluster then
-			self:ClearAllPoints()
-			self:SetPoint("TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -30)
+			B.UpdatePoint(self, "TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -30)
 		end
 	end)
 end
@@ -231,8 +230,7 @@ end
 function Misc:MoveTicketStatusFrame()
 	hooksecurefunc(TicketStatusFrame, "SetPoint", function(self, relF)
 		if relF == "TOPRIGHT" then
-			self:ClearAllPoints()
-			self:SetPoint("TOP", UIParent, "TOP", -400, -20)
+			B.UpdatePoint(self, "TOP", UIParent, "TOP", -400, -20)
 		end
 	end)
 end
@@ -305,8 +303,7 @@ end
 -- TradeFrame hook
 function Misc:TradeTargetInfo()
 	local infoText = B.CreateFS(TradeFrame, 16)
-	infoText:ClearAllPoints()
-	infoText:SetPoint("TOP", TradeFrameRecipientNameText, "BOTTOM", 0, -5)
+	B.UpdatePoint(infoText, "TOP", TradeFrameRecipientNameText, "BOTTOM", 0, -5)
 
 	local function updateColor()
 		local r, g, b = B.GetUnitColor("NPC")
@@ -314,11 +311,11 @@ function Misc:TradeTargetInfo()
 
 		local guid = UnitGUID("NPC")
 		if not guid then return end
-		local text = "|cffff0000"..L["Stranger"]
+		local text = "|cffFF0000"..L["Stranger"]
 		if C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) then
-			text = "|cffffff00"..FRIEND
+			text = "|cffFFFF00"..FRIEND
 		elseif IsGuildMember(guid) then
-			text = "|cff00ff00"..GUILD
+			text = "|cff00FF00"..GUILD
 		end
 		infoText:SetText(text)
 	end
@@ -583,27 +580,22 @@ do
 
 	local function AddCalculateIcon()
 		local bu = CreateFrame("Button", nil, ArchaeologyFrameCompletedPage)
-		bu:SetPoint("TOPRIGHT", -45, -45)
+		bu:SetPoint("TOPRIGHT", -47, -47)
 		bu:SetSize(35, 35)
 		B.PixelIcon(bu, "Interface\\ICONS\\Ability_Iyyokuk_Calculate", true)
 		bu:SetScript("OnEnter", CalculateArches)
 		bu:SetScript("OnLeave", B.HideTooltip)
 	end
 
-	local function setupMisc(event, addon)
-		if addon == "Blizzard_ArchaeologyUI" then
-			AddCalculateIcon()
-			-- Repoint Bar
-			ArcheologyDigsiteProgressBar.ignoreFramePositionManager = true
-			ArcheologyDigsiteProgressBar:ClearAllPoints()
-			ArcheologyDigsiteProgressBar:SetPoint("BOTTOM", 0, 175)
-			B.CreateMF(ArcheologyDigsiteProgressBar)
+	local function updateArcBar()
+		AddCalculateIcon()
 
-			B:UnregisterEvent(event, setupMisc)
-		end
+		ArcheologyDigsiteProgressBar.ignoreFramePositionManager = true
+		ArcheologyDigsiteProgressBar:SetAttribute("ignoreFramePositionManager", true)
+		B.CreateMF(ArcheologyDigsiteProgressBar)
+		B.UpdatePoint(ArcheologyDigsiteProgressBar, "BOTTOM", UIParent, "BOTTOM", 0, 175)
 	end
-
-	B:RegisterEvent("ADDON_LOADED", setupMisc)
+	B.LoadWithAddOn("Blizzard_ArchaeologyUI", updateArcBar)
 
 	local newTitleString = ARCHAEOLOGY_DIGSITE_PROGRESS_BAR_TITLE.."：%s / %s"
 	local function updateArcTitle(_, ...)

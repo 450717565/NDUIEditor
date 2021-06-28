@@ -93,6 +93,16 @@ function TT:UpdateSpellCaster(...)
 	end
 end
 
+local tipList = {
+	GameTooltip,
+	GameTooltipTooltip,
+	ItemRefTooltip,
+	ShoppingTooltip1,
+	ShoppingTooltip2,
+	ItemRefShoppingTooltip1,
+	ItemRefShoppingTooltip2,
+}
+
 function TT:SetupTooltipID()
 	if C.db["Tooltip"]["HideAllID"] then return end
 
@@ -115,12 +125,17 @@ function TT:SetupTooltipID()
 	end)
 
 	-- Items
-	GameTooltip:HookScript("OnTooltipSetItem", TT.SetItemID)
+	--[[ GameTooltip:HookScript("OnTooltipSetItem", TT.SetItemID)
+	GameTooltipTooltip:HookScript("OnTooltipSetItem", TT.SetItemID)
 	ItemRefTooltip:HookScript("OnTooltipSetItem", TT.SetItemID)
 	ShoppingTooltip1:HookScript("OnTooltipSetItem", TT.SetItemID)
 	ShoppingTooltip2:HookScript("OnTooltipSetItem", TT.SetItemID)
 	ItemRefShoppingTooltip1:HookScript("OnTooltipSetItem", TT.SetItemID)
-	ItemRefShoppingTooltip2:HookScript("OnTooltipSetItem", TT.SetItemID)
+	ItemRefShoppingTooltip2:HookScript("OnTooltipSetItem", TT.SetItemID) ]]
+	for _, tip in pairs(tipList) do
+		tip:HookScript("OnTooltipSetItem", TT.SetItemID)
+	end
+
 	hooksecurefunc(GameTooltip, "SetToyByItemID", function(self, id)
 		if id then TT.AddLineForID(self, id, types.item) end
 	end)

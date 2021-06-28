@@ -108,7 +108,7 @@ local function Reskin_SetupRewards(self)
 end
 
 -- Note: isNewPatch, PlayerChoiceUI rename to PlayerChoice
-C.LUAThemes["Blizzard_PlayerChoiceUI"] = function()
+C.OnLoadThemes["Blizzard_PlayerChoiceUI"] = function()
 	hooksecurefunc(PlayerChoiceFrame, "Update", Reskin_Update)
 	hooksecurefunc(PlayerChoiceFrame, "SetupRewards", Reskin_SetupRewards)
 end

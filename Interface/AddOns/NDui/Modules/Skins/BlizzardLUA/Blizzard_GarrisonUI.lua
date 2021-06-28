@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local tL, tR, tT, tB = unpack(DB.TexCoord)
@@ -41,9 +40,9 @@ local function Reskin_FollowerTooltipTemplate(tooltipFrame)
 	tooltipFrame.numTraitsStyled = numTraitsStyled
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["GarrisonFollowerTooltipTemplate"] = function()
 	hooksecurefunc("GarrisonFollowerTooltipTemplate_SetGarrisonFollower", Reskin_FollowerTooltipTemplate)
-end)
+end
 
 local function Reskin_MaterialFrame(self)
 	self:GetRegions():Hide()
@@ -195,7 +194,7 @@ local function Reskin_MissionPage(self, isShop)
 			local Followers = self.Followers[i]
 			B.StripTextures(Followers)
 			B.CreateBDFrame(Followers)
-			S.ReskinFollowerPortrait(Followers.PortraitFrame)
+			B.ReskinFollowerPortrait(Followers.PortraitFrame)
 
 			Followers.PortraitFrame:ClearAllPoints()
 			Followers.PortraitFrame:SetPoint("LEFT", Followers, "LEFT", 3, 0)
@@ -204,7 +203,7 @@ local function Reskin_MissionPage(self, isShop)
 			Followers.DurabilityBackground:SetAlpha(0)
 
 			if Followers.Class then
-				S.ReskinFollowerClass(Followers.Class, 40, "RIGHT", -10, 0)
+				B.ReskinFollowerClass(Followers.Class, 40, "RIGHT", -10, 0)
 			end
 		end
 	end
@@ -303,12 +302,12 @@ local function Reskin_UpdateData(self)
 				portrait:ClearAllPoints()
 				portrait:SetPoint("LEFT", button, "LEFT", 4, 0)
 
-				S.ReskinFollowerPortrait(portrait)
+				B.ReskinFollowerPortrait(portrait)
 				hooksecurefunc(portrait, "SetupPortrait", Update_FollowerQuality)
 			end
 
 			if button.Class then
-				S.ReskinFollowerClass(button.Class, 40, "RIGHT", -9, 0)
+				B.ReskinFollowerClass(button.Class, 40, "RIGHT", -9, 0)
 			end
 
 			if button.XPBar then
@@ -460,7 +459,7 @@ local function Reskin_FollowerBoard(self, group)
 	end
 	for frame in self[group.."FramePool"]:EnumerateActive() do
 		if not frame.styled then
-			S.ReskinFollowerPortrait(frame)
+			B.ReskinFollowerPortrait(frame)
 			frame.PuckShadow:SetAlpha(0)
 			Reskin_AbilityIcon(frame.AbilityOne, "BOTTOMRIGHT", 1)
 			Reskin_AbilityIcon(frame.AbilityTwo, "TOPRIGHT", -1)
@@ -522,7 +521,7 @@ end
 
 local function Reskin_MissionPortraitSetFollowerPortrait(portraitFrame, followerInfo)
 	if not portraitFrame.styled then
-		S.ReskinFollowerPortrait(portraitFrame)
+		B.ReskinFollowerPortrait(portraitFrame)
 
 		portraitFrame.styled = true
 	end
@@ -602,7 +601,7 @@ local function Reskin_MissionCompleteInitialize(self, missionList, index)
 			if not follower.bg then
 				portrait:ClearAllPoints()
 				portrait:SetPoint("TOPLEFT", 0, -10)
-				S.ReskinFollowerPortrait(portrait)
+				B.ReskinFollowerPortrait(portrait)
 
 				local oldBg = follower:GetRegions()
 				oldBg:Hide()
@@ -736,7 +735,7 @@ local function Reskin_OrderHallMissionFrame()
 
 	local portrait = CombatAllyUI.InProgress.PortraitFrame
 	if portrait:IsShown() then
-		S.UpdateFollowerQuality(portrait)
+		B.UpdateFollowerQuality(portrait)
 	end
 end
 
@@ -745,7 +744,7 @@ local function Update_HealthValueWidth(self, missionPage)
 	missionPage.Stage.EnemyHealthValue:SetWidth(70)
 end
 
-C.LUAThemes["Blizzard_GarrisonUI"] = function()
+C.OnLoadThemes["Blizzard_GarrisonUI"] = function()
 	GARRISON_FOLLOWER_ITEM_LEVEL = "iLvl %d"
 
 	hooksecurefunc("GarrisonFollowerButton_AddAbility", Reskin_FollowerButtonAddAbility)
@@ -834,7 +833,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	B.ReskinIcon(CombatAllyUI.InProgress.CombatAllySpell.iconTexture)
 
 	local PortraitFrame = CombatAllyUI.InProgress.PortraitFrame
-	S.ReskinFollowerPortrait(PortraitFrame)
+	B.ReskinFollowerPortrait(PortraitFrame)
 	OrderHallMissionFrame:HookScript("OnShow", Reskin_OrderHallMissionFrame)
 
 	-- ZoneSupportMissionPage
@@ -849,8 +848,8 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	local Follower1 = ZoneSupportMissionPage.Follower1
 	B.StripTextures(Follower1)
 	B.CreateBDFrame(Follower1)
-	S.ReskinFollowerPortrait(Follower1.PortraitFrame)
-	S.ReskinFollowerClass(Follower1.Class, 40, "RIGHT", -10, 0)
+	B.ReskinFollowerPortrait(Follower1.PortraitFrame)
+	B.ReskinFollowerClass(Follower1.Class, 40, "RIGHT", -10, 0)
 	Follower1.PortraitFrame:ClearAllPoints()
 	Follower1.PortraitFrame:SetPoint("TOPLEFT", 3, -3)
 
@@ -930,7 +929,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	InfoBox.AddFollowerButton.PortraitHighlight:SetAlpha(0)
 
 	local FollowerPortrait = InfoBox.FollowerPortrait
-	S.ReskinFollowerPortrait(FollowerPortrait)
+	B.ReskinFollowerPortrait(FollowerPortrait)
 
 	FollowerPortrait:ClearAllPoints()
 	FollowerPortrait:SetPoint("BOTTOMLEFT", InfoBox.DragArea, "BOTTOMRIGHT", 10, 0)
@@ -993,9 +992,9 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 		local Recruit = FollowerSelection["Recruit"..i]
 		local bg = B.CreateBDFrame(Recruit, 0, 1)
 
-		S.ReskinFollowerPortrait(Recruit.PortraitFrame)
+		B.ReskinFollowerPortrait(Recruit.PortraitFrame)
 		B.ReskinButton(Recruit.HireRecruits)
-		S.ReskinFollowerClass(Recruit.Class, 40, "TOPRIGHT", -8, -8, bg)
+		B.ReskinFollowerClass(Recruit.Class, 40, "TOPRIGHT", -8, -8, bg)
 
 		Recruit.PortraitFrame:ClearAllPoints()
 		Recruit.PortraitFrame:SetPoint("TOPLEFT", bg, 4, -4)
@@ -1024,7 +1023,7 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	B.CreateBGFrame(CapacitiveDisplay.IconBG, 2, 0, 0, 0, icbg)
 
 	local Follower = CapacitiveDisplay.ShipmentIconFrame.Follower
-	S.ReskinFollowerPortrait(Follower)
+	B.ReskinFollowerPortrait(Follower)
 	Follower:ClearAllPoints()
 	Follower:SetPoint("CENTER", icbg, 0, -3.5)
 
@@ -1087,20 +1086,16 @@ C.LUAThemes["Blizzard_GarrisonUI"] = function()
 	end
 
 	local frames = {GarrisonMissionFrame, OrderHallMissionFrame, BFAMissionFrame}
-	local function Reskin_OnEvent(event, addon)
-		if addon == "GarrisonMissionManager" then
-			for _, frame in pairs(frames) do
-				if frame then
-					hooksecurefunc(frame.MissionTab.MissionList, "Update", Reskin_OnUpdate)
-					frame.MissionTab.MissionPage:HookScript("OnShow", Reskin_OnShow)
-				end
+	local function Reskin_OnEvent()
+		for _, frame in pairs(frames) do
+			if frame then
+				hooksecurefunc(frame.MissionTab.MissionList, "Update", Reskin_OnUpdate)
+				frame.MissionTab.MissionPage:HookScript("OnShow", Reskin_OnShow)
 			end
-
-			B:UnregisterEvent(event)
 		end
 	end
 
-	B:RegisterEvent("ADDON_LOADED", Reskin_OnEvent)
+	B.LoadWithAddOn("GarrisonMissionManager", Reskin_OnEvent)
 end
 
 local function Reskin_OrderHallTalentFrame(self)
@@ -1127,7 +1122,7 @@ local function Reskin_OrderHallTalentFrame(self)
 	end
 end
 
-C.LUAThemes["Blizzard_OrderHallUI"] = function()
+C.OnLoadThemes["Blizzard_OrderHallUI"] = function()
 	OrderHallTalentFrame.OverlayElements:Hide()
 
 	B.ReskinFrame(OrderHallTalentFrame)

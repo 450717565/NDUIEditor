@@ -1,7 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-C.LUAThemes["Blizzard_GMChatUI"] = function()
+C.OnLoadThemes["Blizzard_GMChatUI"] = function()
 	local frame = GMChatFrame
 	frame:SetClampRectInsets(0, 0, 0, 0)
 

@@ -133,7 +133,7 @@ local function Fixed_LevelString(self)
 	end
 end
 
-C.LUAThemes["Blizzard_GuildUI"] = function()
+C.OnLoadThemes["Blizzard_GuildUI"] = function()
 	B.ReskinFrame(GuildFrame)
 	B.ReskinFrameTab(GuildFrame, 5)
 

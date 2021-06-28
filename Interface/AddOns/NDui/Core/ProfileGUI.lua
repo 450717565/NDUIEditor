@@ -534,7 +534,7 @@ function GUI:ImportGUIData()
 				C.db[key][value][tonumber(index)] = toBoolean(state)
 			elseif value == "IgnoreSpells" then
 				local spells = {select(3, strsplit(":", option))}
-				for _, spellID in next, spells do
+				for _, spellID in pairs(spells) do
 					C.db[key][value][tonumber(spellID)] = true
 				end
 			else
@@ -552,7 +552,7 @@ function GUI:ImportGUIData()
 			end
 		elseif value == "FavouriteItems" then
 			local items = {select(3, strsplit(":", option))}
-			for _, itemID in next, items do
+			for _, itemID in pairs(items) do
 				C.db[key][value][tonumber(itemID)] = true
 			end
 		elseif key == "Mover" or key == "AuraWatchMover" then
@@ -574,7 +574,7 @@ function GUI:ImportGUIData()
 		elseif key == "ACCOUNT" then
 			if value == "RaidAuraWatch" then
 				local spells = {select(3, strsplit(":", option))}
-				for _, spellID in next, spells do
+				for _, spellID in pairs(spells) do
 					NDuiADB[value][tonumber(spellID)] = true
 				end
 			elseif value == "RaidDebuffs" then
@@ -583,7 +583,7 @@ function GUI:ImportGUIData()
 				NDuiADB[value][instName][tonumber(spellID)] = tonumber(priority)
 			elseif value == "NameplateFilter" then
 				local spells = {select(4, strsplit(":", option))}
-				for _, spellID in next, spells do
+				for _, spellID in pairs(spells) do
 					NDuiADB[value][tonumber(arg1)][tonumber(spellID)] = true
 				end
 			elseif value == "CornerSpells" then

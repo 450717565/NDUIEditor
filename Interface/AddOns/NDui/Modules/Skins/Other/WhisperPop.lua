@@ -36,3 +36,5 @@ function Skins:WhisperPop()
 		B.ReskinCPTex(bu, icbg)
 	end
 end
+
+C.OnLoginThemes["WhisperPop"] = Skins.WhisperPop

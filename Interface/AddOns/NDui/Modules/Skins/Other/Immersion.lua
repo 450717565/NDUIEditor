@@ -92,21 +92,21 @@ local function Reskin_AddQuestInfo(self)
 			if not followerReward.styled then
 				followerReward.BG:Hide()
 
-				Skins.ReskinFollowerPortrait(portrait)
+				B.ReskinFollowerPortrait(portrait)
 
 				local bubg = B.CreateBGFrame(followerReward, 0, -3, 2, 7)
 				portrait:ClearAllPoints()
-				portrait:SetPoint("LEFT", bubg, "LEFT", 3, -4)
+				portrait:SetPoint("LEFT", bubg, "LEFT", 4, 0)
 
 				if class then
-					Skins.ReskinFollowerClass(class, 36, "RIGHT", -4, 0, bubg)
+					B.ReskinFollowerClass(class, 36, "RIGHT", -4, 0, bubg)
 				end
 
 				followerReward.styled = true
 			end
 
 			if portrait then
-				Skins.UpdateFollowerQuality(portrait)
+				B.UpdateFollowerQuality(portrait)
 			end
 		end
 	end
@@ -187,3 +187,5 @@ function Skins:Immersion()
 	hooksecurefunc(ImmersionFrame, "QUEST_PROGRESS", Reskin_QuestProgres)
 	hooksecurefunc(ImmersionFrame.TitleButtons, "GetButton", Reskin_TitleButton)
 end
+
+C.OnLoginThemes["Immersion"] = Skins.Immersion

@@ -96,10 +96,9 @@ function Maps:ReskinRegions()
 	end)
 
 	-- QueueStatus Button
-	QueueStatusMinimapButton:ClearAllPoints()
-	QueueStatusMinimapButton:SetPoint("BOTTOMLEFT", Minimap, "BOTTOMLEFT", -5, -5)
 	QueueStatusMinimapButtonBorder:Hide()
 	QueueStatusMinimapButtonIconTexture:SetTexture("")
+	B.UpdatePoint(QueueStatusMinimapButton, "BOTTOMLEFT", Minimap, "BOTTOMLEFT", -5, -5)
 
 	local queueIcon = Minimap:CreateTexture(nil, "ARTWORK")
 	queueIcon:SetPoint("CENTER", QueueStatusMinimapButton)
@@ -126,16 +125,14 @@ function Maps:ReskinRegions()
 	end
 
 	-- Mail icon
-	MiniMapMailFrame:ClearAllPoints()
-	MiniMapMailFrame:SetPoint("TOPLEFT", Minimap, "TOPLEFT", -3, 3)
 	MiniMapMailIcon:SetTexture(DB.mailTex)
 	MiniMapMailIcon:SetSize(21, 21)
 	MiniMapMailIcon:SetVertexColor(1, 1, 0)
+	B.UpdatePoint(MiniMapMailFrame, "TOPLEFT", Minimap, "TOPLEFT", -3, 3)
 
 	-- Invites Icon
-	GameTimeCalendarInvitesTexture:ClearAllPoints()
 	GameTimeCalendarInvitesTexture:SetParent("Minimap")
-	GameTimeCalendarInvitesTexture:SetPoint("TOPRIGHT")
+	B.UpdatePoint(GameTimeCalendarInvitesTexture, "TOPRIGHT", Minimap, "TOPRIGHT", 0, 0)
 
 	local Invt = CreateFrame("Button", nil, UIParent)
 	Invt:SetPoint("TOPRIGHT", Minimap, "BOTTOMLEFT", -20, -20)
@@ -238,7 +235,7 @@ function Maps:RecycleBin()
 			if region:IsObjectType("Texture") then
 				local texture = region:GetTexture() or ""
 				if removedTextures[texture] or strfind(texture, "Interface\\CharacterFrame") or strfind(texture, "Interface\\Minimap") then
-					region:SetTexture(nil)
+					region:SetTexture("")
 				end
 				region:ClearAllPoints()
 				region:SetAllPoints()
@@ -394,14 +391,11 @@ end
 function Maps:ShowCalendar()
 	if C.db["Map"]["Calendar"] then
 		if not GameTimeFrame.styled then
-			GameTimeFrame:SetNormalTexture(nil)
-			GameTimeFrame:SetPushedTexture(nil)
-			GameTimeFrame:SetHighlightTexture(nil)
 			GameTimeFrame:SetSize(18, 18)
 			GameTimeFrame:SetParent(Minimap)
-			GameTimeFrame:ClearAllPoints()
-			GameTimeFrame:SetPoint("BOTTOMRIGHT", Minimap, 1, 18)
 			GameTimeFrame:SetHitRectInsets(0, 0, 0, 0)
+			B.CleanTextures(GameTimeFrame)
+			B.UpdatePoint(GameTimeFrame, "BOTTOMRIGHT", Minimap, "BOTTOMRIGHT", 1, 18)
 
 			local regions = {GameTimeFrame:GetRegions()}
 			for _, region in pairs(regions) do

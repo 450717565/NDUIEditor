@@ -20,7 +20,7 @@ local function Reskin_ChatScrollBar(self)
 	down:SetPoint("BOTTOM", B.GetObject(self, "ResizeButton"), "BOTTOM", -5, 3)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["ChatFrame"] = function()
 	local ChannelButton = ChatFrameChannelButton
 	B.ReskinButton(ChannelButton)
 	ChannelButton:SetSize(20, 20)
@@ -50,7 +50,7 @@ tinsert(C.XMLThemes, function()
 		Reskin_ChatScrollBar(_G[frame])
 		B.StripTextures(_G[frame.."Tab"])
 	end
-end)
+end
 
 -- QuickJoinToastButton
 local friendTex = "Interface\\HELPFRAME\\ReportLagIcon-Chat"
@@ -74,7 +74,7 @@ local function Update_QuickJoinToastButton(self)
 	self.FriendsButton:SetTexture(friendTex)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["QuickJoinToastButton"] = function()
 	QuickJoinToastButton.FriendsButton:SetTexture(friendTex)
 	QuickJoinToastButton.QueueButton:SetTexture(queueTex)
 	QuickJoinToastButton:SetHighlightTexture("")
@@ -91,7 +91,7 @@ tinsert(C.XMLThemes, function()
 
 	hooksecurefunc(QuickJoinToastButton, "ShowToast", function() bg:Show() end)
 	hooksecurefunc(QuickJoinToastButton, "HideToast", function() bg:Hide() end)
-end)
+end
 
 -- BNToastFrame
 local function Update_FrameAnchor(self)
@@ -99,7 +99,7 @@ local function Update_FrameAnchor(self)
 	self:SetPoint("BOTTOMLEFT", QuickJoinToastButton, "TOPRIGHT", 0, 0)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["BNToastFrame"] = function()
 	B.ReskinFrame(BNToastFrame)
 	B.ReskinFrame(BNToastFrame.TooltipFrame)
 
@@ -109,7 +109,7 @@ tinsert(C.XMLThemes, function()
 	B.ReskinFrame(frame)
 	B.ReskinButton(send)
 	B.ReskinButton(cancel)
-end)
+end
 
 -- ChatBubbles
 local events = {
@@ -157,7 +157,7 @@ local function Update_OnUpdate(self, elapsed)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["ChatBubbles"] = function()
 	local bubbleHook = CreateFrame("Frame")
 	for event in pairs(events) do
 		bubbleHook:RegisterEvent(event)
@@ -167,7 +167,7 @@ tinsert(C.XMLThemes, function()
 	bubbleHook:SetScript("OnUpdate", Update_OnUpdate)
 
 	bubbleHook:Hide()
-end)
+end
 
 -- ChannelFrame
 local function Reskin_ChannelList(self)
@@ -195,7 +195,7 @@ local function Reskin_VoiceActivityManager(_, _, notification, guid)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["ChannelFrame"] = function()
 	B.ReskinFrame(ChannelFrame)
 	B.ReskinButton(ChannelFrame.NewButton)
 	B.ReskinButton(ChannelFrame.SettingsButton)
@@ -220,4 +220,4 @@ tinsert(C.XMLThemes, function()
 
 	hooksecurefunc(ChannelFrame.ChannelList, "Update", Reskin_ChannelList)
 	hooksecurefunc(VoiceActivityManager, "LinkFrameNotificationAndGuid", Reskin_VoiceActivityManager)
-end)
+end

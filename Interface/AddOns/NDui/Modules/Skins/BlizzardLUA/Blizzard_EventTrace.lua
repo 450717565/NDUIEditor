@@ -48,7 +48,7 @@ local function Reskin_EventTraceFrame(self)
 	Reskin_EventTraceScrollBar(self.ScrollBar)
 end
 
-C.LUAThemes["Blizzard_EventTrace"] = function()
+C.OnLoadThemes["Blizzard_EventTrace"] = function()
 	B.ReskinFrame(EventTrace)
 
 	local logBar = EventTrace.Log.Bar

@@ -84,3 +84,5 @@ function Skins:ls_Toasts()
 		},
 	}
 end
+
+C.OnLoginThemes["ls_Toasts"] = Skins.ls_Toasts

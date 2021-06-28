@@ -25,9 +25,9 @@ function Bar:CreateExtrabar()
 
 	ExtraActionBarFrame:EnableMouse(false)
 	ExtraAbilityContainer:SetParent(frame)
-	ExtraAbilityContainer:ClearAllPoints()
-	ExtraAbilityContainer:SetPoint("CENTER", frame, 0, 2*padding)
 	ExtraAbilityContainer.ignoreFramePositionManager = true
+	ExtraAbilityContainer:SetAttribute("ignoreFramePositionManager", true)
+	B.UpdatePoint(ExtraAbilityContainer, "CENTER", frame, "CENTER", 0, 2*padding)
 
 	local button = ExtraActionButton1
 	tinsert(buttonList, button)
@@ -52,11 +52,11 @@ function Bar:CreateExtrabar()
 	end
 	zoneFrame.mover = B.Mover(zoneFrame, L["Zone Ability"], "ZoneAbility", zoneFrame.Pos)
 
-	ZoneAbilityFrame:SetParent(zoneFrame)
-	ZoneAbilityFrame:ClearAllPoints()
-	ZoneAbilityFrame:SetPoint("CENTER", zoneFrame)
-	ZoneAbilityFrame.ignoreFramePositionManager = true
 	ZoneAbilityFrame.Style:SetAlpha(0)
+	ZoneAbilityFrame:SetParent(zoneFrame)
+	ZoneAbilityFrame.ignoreFramePositionManager = true
+	ZoneAbilityFrame:SetAttribute("ignoreFramePositionManager", true)
+	B.UpdatePoint(ZoneAbilityFrame, "CENTER", zoneFrame, "CENTER")
 
 	hooksecurefunc(ZoneAbilityFrame, "UpdateDisplayedZoneAbilities", function(self)
 		for spellButton in self.SpellButtonContainer:EnumerateActive() do

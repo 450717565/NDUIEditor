@@ -10,7 +10,7 @@ local function Reskin_BindingButtonTemplate(_, button)
 	end
 end
 
-C.LUAThemes["Blizzard_BindingUI"] = function()
+C.OnLoadThemes["Blizzard_BindingUI"] = function()
 	B.ReskinFrame(KeyBindingFrame)
 	B.ReskinCheck(KeyBindingFrame.characterSpecificButton)
 	B.ReskinScroll(KeyBindingFrameScrollFrameScrollBar)

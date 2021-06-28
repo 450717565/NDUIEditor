@@ -22,7 +22,7 @@ local function Reskin_AlliedRacesFrame()
 	end
 end
 
-C.LUAThemes["Blizzard_AlliedRacesUI"] = function()
+C.OnLoadThemes["Blizzard_AlliedRacesUI"] = function()
 	B.ReskinFrame(AlliedRacesFrame)
 	B.StripTextures(AlliedRacesFrame.ModelFrame, 0)
 

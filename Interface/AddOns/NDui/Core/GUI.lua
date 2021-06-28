@@ -187,7 +187,7 @@ GUI.DefaultSettings = {
 		FocusCBHeight = 20,
 	},
 	Chat = {
-		AllowFriends = true,
+		BlockSpammer = true,
 		BlockAddonAlert = true,
 		BlockStranger = false,
 		Chatbar = true,
@@ -637,7 +637,7 @@ local function toggleChatBackground()
 end
 
 local function updateToggleDirection()
-	B:GetModule("Skins"):RefreshToggleDirection()
+	B.RefreshToggleDirection()
 end
 
 local function updatePlateInsideView()
@@ -1058,7 +1058,7 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{},--blank
 		{1, "Chat", "EnableFilter", DB.MyColor..L["Enable Chatfilter"]},
 		{1, "Chat", "BlockAddonAlert", L["Block AddonAlert"], true},
-		{1, "Chat", "AllowFriends", L["Allow FriendsSpam"].."*", nil, nil, nil, L["AllowFriendsSpamTip"]},
+		{1, "Chat", "BlockSpammer", L["BlockSpammer"].."*", nil, nil, nil, L["BlockSpammerTip"]},
 		{1, "Chat", "BlockStranger", DB.MyColor..L["Block Stranger"].."*", nil, nil, nil, L["BlockStrangerTip"]},
 		{2, "ACCOUNT", "ChatFilterWhiteList", DB.MyColor..L["Filter WhiteList"].."*", true, nil, updateFilterWhiteList, L["ChatFilterWhiteListTip"]},
 		{3, "Chat", "Matches", L["Keyword Match"].."*", false, {1, 3, 1}},
@@ -1293,6 +1293,7 @@ local function CreateOption(i)
 		-- Editbox
 		elseif optType == 2 then
 			local eb = B.CreateEditBox(parent, 200, 28)
+			eb:SetJustifyH("LEFT")
 			eb:SetMaxLetters(999)
 			if horizon then
 				eb:SetPoint("TOPLEFT", 345, -offset + 45)
@@ -1314,7 +1315,6 @@ local function CreateOption(i)
 			local tip = L["EditBox Tip"]
 			if tooltip then tip = tooltip.."|n"..tip end
 			B.AddTooltip(eb, "ANCHOR_RIGHT", tip, "info")
-
 		-- Slider
 		elseif optType == 3 then
 			local min, max, step = unpack(data)

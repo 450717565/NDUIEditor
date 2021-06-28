@@ -2,6 +2,14 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local EX = B:RegisterModule("Extras")
 
+local EX_LIST = {}
+
+function EX:RegisterExtras(name, func)
+	if not EX_LIST[name] then
+		EX_LIST[name] = func
+	end
+end
+
 -- 频道选择
 local function msgChannel()
 	if IsInGroup() then
@@ -14,6 +22,12 @@ local function msgChannel()
 end
 
 function EX:OnLogin()
+	for name, func in pairs(EX_LIST) do
+		if name and type(func) == "function" then
+			func()
+		end
+	end
+
 	self:AutoCollapse()
 	self:FriendlyNameAutoSet()
 	self:GuildWelcome()

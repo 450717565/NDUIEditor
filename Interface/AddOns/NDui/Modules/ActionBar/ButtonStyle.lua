@@ -40,7 +40,7 @@ end
 local function ApplyPoints(self, points)
 	if not points then return end
 	self:ClearAllPoints()
-	for _, point in next, points do
+	for _, point in pairs(points) do
 		self:SetPoint(unpack(point))
 	end
 end

@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
@@ -181,7 +180,7 @@ local function Reskin_AlertFrame(_, frame)
 		end
 
 		frame:GetRegions():SetTexture("")
-		frame.Icon:SetMask(nil)
+		frame.Icon:SetMask("")
 		frame.Icon:SetTexCoord(tL, tR, tT, tB)
 	elseif frame.queue == WorldQuestCompleteAlertSystem then
 		if not frame.bg then
@@ -201,7 +200,7 @@ local function Reskin_AlertFrame(_, frame)
 	elseif frame.queue == GarrisonFollowerAlertSystem then
 		if not frame.bg then
 			frame.bg = B.CreateBG(frame, 16, -3, -16, 16)
-			S.ReskinFollowerPortrait(frame.PortraitFrame)
+			B.ReskinFollowerPortrait(frame.PortraitFrame)
 
 			frame:GetRegions():Hide()
 			select(5, frame:GetRegions()):Hide()
@@ -338,7 +337,7 @@ local function Reskin_MoneyWonAlertFrame(frame)
 	Strip_Textures(frame)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["AlertFrames"] = function()
 	if IsAddOnLoaded("ls_Toasts") then return end
 
 	-- Fix Animation
@@ -355,4 +354,4 @@ tinsert(C.XMLThemes, function()
 
 	-- Money Won
 	hooksecurefunc("MoneyWonAlertFrame_SetUp", Reskin_MoneyWonAlertFrame)
-end)
+end

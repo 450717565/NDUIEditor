@@ -85,8 +85,8 @@ local function Reskin_ToggleDropDownMenu(level)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["UIDropDownMenu"] = function()
 	hooksecurefunc("UIDropDownMenu_CreateFrames", Reskin_CreateFrames)
 	hooksecurefunc("UIDropDownMenu_SetIconImage", Reskin_SetIconImage)
 	hooksecurefunc("ToggleDropDownMenu", Reskin_ToggleDropDownMenu)
-end)
+end

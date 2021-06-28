@@ -214,8 +214,7 @@ local function BuildICON(iconSize)
 	frame.Count = B.CreateFS(parentFrame, B.Round(iconSize*.6), "", false, "BOTTOMRIGHT", 4, -4)
 
 	frame.Spellname = B.CreateFS(parentFrame, B.Round(iconSize*.5))
-	frame.Spellname:ClearAllPoints()
-	frame.Spellname:SetPoint("CENTER", frame, "TOP", 1, 0)
+	B.UpdatePoint(frame.Spellname, "CENTER", frame, "TOP", 1, 0)
 
 	if not C.db["AuraWatch"]["ClickThrough"] then enableTooltip(frame) end
 
@@ -410,7 +409,7 @@ function Auras:AuraWatch_SetupAura(index, UnitID, name, icon, count, duration, e
 	local frame = frames[frames.Index]
 	if frame then frame:Show() end
 	if frame.Icon then frame.Icon:SetTexture(icon) end
-	if frame.Count then frame.Count:SetText(count > 1 and count or nil) end
+	if frame.Count then frame.Count:SetText(count > 1 and count) end
 	if frame.Cooldown then
 		frame.Cooldown:SetReverse(true)
 		frame.Cooldown:SetCooldown(expires-duration, duration)
@@ -558,7 +557,7 @@ function Auras:AuraWatch_SetupInt(intID, itemID, duration, unitID, guid, sourceN
 		class = DB.MyClass
 	end
 	if frame.Icon then frame.Icon:SetTexture(icon) end
-	if frame.Count then frame.Count:SetText(nil) end
+	if frame.Count then frame.Count:SetText("") end
 	if frame.Cooldown then
 		frame.Cooldown:SetReverse(true)
 		frame.Cooldown:SetCooldown(GetTime(), duration)
@@ -653,9 +652,9 @@ function Auras:AuraWatch_Cleanup()	-- FIXME: there should be a better way to do 
 				frame:Hide()
 				frame:SetScript("OnUpdate", nil)
 			end
-			if frame.Icon then frame.Icon:SetTexture(nil) end
-			if frame.Count then frame.Count:SetText(nil) end
-			if frame.Spellname then frame.Spellname:SetText(nil) end
+			if frame.Icon then frame.Icon:SetTexture("") end
+			if frame.Count then frame.Count:SetText("") end
+			if frame.Spellname then frame.Spellname:SetText("") end
 		end
 		value.Index = 1
 	end

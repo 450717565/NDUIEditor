@@ -23,7 +23,7 @@ local function Reskin_GuildBankPopupFrame(self)
 	end
 end
 
-C.LUAThemes["Blizzard_GuildBankUI"] = function()
+C.OnLoadThemes["Blizzard_GuildBankUI"] = function()
 	B.ReskinFrame(GuildBankFrame)
 	B.ReskinInput(GuildItemSearchBox)
 

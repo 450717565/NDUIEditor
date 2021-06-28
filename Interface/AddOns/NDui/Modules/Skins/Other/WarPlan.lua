@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
+local Skins = B:GetModule("Skins")
 
 local function Reskin_Frame(self)
 	B.StripTextures(self.TaskBoard.List)
@@ -60,7 +60,7 @@ local function Reskin_Frame(self)
 	end
 end
 
-local function Reskin_WarPlan()
+function Skins:WarPlan()
 	if not IsAddOnLoaded("WarPlan") then return end
 
 	C_Timer.After(.1, function()
@@ -90,4 +90,4 @@ local function Reskin_WarPlan()
 	end)
 end
 
-S.LoadWithAddOn("Blizzard_GarrisonUI", Reskin_WarPlan, true)
+C.OnLoginThemes["Blizzard_GarrisonUI"] = Skins.WarPlan

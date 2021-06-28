@@ -86,10 +86,10 @@ local function Reskin_UIWidgetStatusBar(self)
 	Reskin_StatusBar(self.Bar)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["UIWidgetTemplate"] = function()
 	hooksecurefunc(_G.UIWidgetTemplateSpellDisplayMixin, "Setup", Reskin_SpellDisplay)
 	hooksecurefunc(_G.UIWidgetTemplateStatusBarMixin, "Setup", Reskin_UIWidgetStatusBar)
 	hooksecurefunc(_G.UIWidgetPowerBarContainerFrame, "UpdateWidgetLayout", Reskin_UIWidgetLayout)
 	hooksecurefunc(_G.UIWidgetTopCenterContainerFrame, "UpdateWidgetLayout", Reskin_UIWidgetLayout)
 	hooksecurefunc(_G.UIWidgetBelowMinimapContainerFrame, "UpdateWidgetLayout", Reskin_UIWidgetLayout)
-end)
+end

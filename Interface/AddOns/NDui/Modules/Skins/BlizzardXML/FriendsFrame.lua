@@ -73,7 +73,7 @@ local function Reskin_RecruitAFriendRewardsFrame(self)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["FriendsFrame"] = function()
 	-- FriendsFrame
 	B.ReskinFrame(FriendsFrame)
 	B.ReskinFrameTab(FriendsFrame, 4)
@@ -228,10 +228,10 @@ tinsert(C.XMLThemes, function()
 
 	B.ReskinFrame(RecruitAFriendRewardsFrame)
 	RecruitAFriendRewardsFrame:HookScript("OnShow", Reskin_RecruitAFriendRewardsFrame)
-end)
+end
 
 -- 查询
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["WhoFrame"] = function()
 	B.StripTextures(WhoFrameListInset)
 	B.StripTextures(WhoFrameEditBoxInset)
 
@@ -270,10 +270,10 @@ tinsert(C.XMLThemes, function()
 			B.ReskinHLTex(ColumnHeader, ColumnHeader, true)
 		end
 	end
-end)
+end
 
 -- 团队
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["RaidInfoFrame"] = function()
 	-- RaidInfo
 	B.ReskinFrame(RaidInfoFrame)
 
@@ -314,9 +314,9 @@ tinsert(C.XMLThemes, function()
 		B.StripTextures(label)
 		B.CreateBDFrame(label, 0, 1)
 	end
-end)
+end
 
-C.LUAThemes["Blizzard_RaidUI"] = function()
+C.OnLoadThemes["Blizzard_RaidUI"] = function()
 	for i = 1, NUM_RAID_GROUPS do
 		local buttons = "RaidGroup"..i
 
@@ -382,7 +382,7 @@ local function Reskin_SocialQueueUtilTooltip(tooltip)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["QuickJoinFrame"] = function()
 	B.ReskinScroll(QuickJoinScrollFrame.scrollBar)
 
 	local JoinQueueButton = QuickJoinFrame.JoinQueueButton
@@ -400,4 +400,4 @@ tinsert(C.XMLThemes, function()
 	B.ReskinRole(frame.RoleButtonDPS, "DPS")
 
 	hooksecurefunc("SocialQueueUtil_SetTooltip", Reskin_SocialQueueUtilTooltip)
-end)
+end

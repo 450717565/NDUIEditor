@@ -150,9 +150,9 @@ function Misc:ReplaceGroupRoles(numPlayers, _, disabled)
 	end
 
 	for i = 1, iconIndex do
-		self.Icons[i]:SetTexture(nil)
+		self.Icons[i]:SetTexture("")
 		self.Icons[i].icbg:SetAlpha(0)
-		self.Icons[i].role:SetAtlas(nil)
+		self.Icons[i].role:SetAtlas("")
 	end
 end
 

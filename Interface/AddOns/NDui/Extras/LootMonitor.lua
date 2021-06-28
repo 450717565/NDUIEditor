@@ -85,9 +85,8 @@ local function CreateLMButton(index)
 
 	local text = B.CreateFS(button, Button_Height-2)
 	text:SetJustifyH("LEFT")
-	text:ClearAllPoints()
-	text:SetPoint("LEFT", 0, 0)
 	text:SetNonSpaceWrap(true)
+	B.UpdatePoint(text, "LEFT", button, "LEFT", 0, 0)
 	button.text = text
 
 	if index == 1 then

@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 
 local function Reskin_Button(self, index)
 	local button = _G[self..index]
-	button:SetBackdrop(nil)
+	button:SetBackdrop("")
 
 	local bg = B.CreateBDFrame(button, 0, 1)
 	B.ReskinHLTex(button, bg, true)
@@ -93,7 +93,7 @@ local function Reskin_LookingForGuildFrame()
 	styled = true
 end
 
-C.LUAThemes["Blizzard_LookingForGuildUI"] = function()
+C.OnLoadThemes["Blizzard_LookingForGuildUI"] = function()
 	local styled = false
 	hooksecurefunc("LookingForGuildFrame_CreateUIElements", Reskin_LookingForGuildFrame)
 end

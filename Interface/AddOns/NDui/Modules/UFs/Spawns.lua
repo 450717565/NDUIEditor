@@ -567,28 +567,26 @@ function UF:OnLogin()
 					if horizonRaid then
 						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, xOffset, yOffset}, (raidWidth+offset)*5-offset, (raidFrameHeight+offset)*numGroups - offset)
 						if reverseRaid then
-							groups[i]:ClearAllPoints()
-							groups[i]:SetPoint("BOTTOMLEFT", raidMover)
+							B.UpdatePoint(groups[i], "BOTTOMLEFT", raidMover, "BOTTOMLEFT")
 						end
 					else
 						raidMover = B.Mover(groups[i], L["RaidFrame"], "RaidFrame", {"TOPLEFT", UIParent, xOffset, yOffset}, (raidWidth+offset)*numGroups-offset, (raidFrameHeight+offset)*5-offset)
 						if reverseRaid then
-							groups[i]:ClearAllPoints()
-							groups[i]:SetPoint("TOPRIGHT", raidMover)
+							B.UpdatePoint(groups[i], "TOPRIGHT", raidMover, "TOPRIGHT")
 						end
 					end
 				else
 					if horizonRaid then
 						if reverseRaid then
-							groups[i]:SetPoint("BOTTOMLEFT", groups[i-1], "TOPLEFT", 0, offset)
+							B.UpdatePoint(groups[i], "BOTTOMLEFT", groups[i-1], "TOPLEFT", 0, offset)
 						else
-							groups[i]:SetPoint("TOPLEFT", groups[i-1], "BOTTOMLEFT", 0, -offset)
+							B.UpdatePoint(groups[i], "TOPLEFT", groups[i-1], "BOTTOMLEFT", 0, -offset)
 						end
 					else
 						if reverseRaid then
-							groups[i]:SetPoint("TOPRIGHT", groups[i-1], "TOPLEFT", -offset, 0)
+							B.UpdatePoint(groups[i], "TOPRIGHT", groups[i-1], "TOPLEFT", -offset, 0)
 						else
-							groups[i]:SetPoint("TOPLEFT", groups[i-1], "TOPRIGHT", offset, 0)
+							B.UpdatePoint(groups[i], "TOPLEFT", groups[i-1], "TOPRIGHT", offset, 0)
 						end
 					end
 				end

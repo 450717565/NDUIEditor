@@ -16,3 +16,5 @@ function Skins:DungeonWatchDog()
 
 	button:HookScript("OnShow", Update_FrameAnchor)
 end
+
+C.OnLoginThemes["DungeonWatchDog"] = Skins.DungeonWatchDog

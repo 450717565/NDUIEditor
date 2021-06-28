@@ -47,9 +47,9 @@ function Bar:MicroButton_Create(parent, data)
 
 		button:SetHitRectInsets(0, 0, 0, 0)
 		button:UnregisterAllEvents()
-		button:SetNormalTexture(nil)
-		button:SetPushedTexture(nil)
-		button:SetDisabledTexture(nil)
+		button:SetNormalTexture("")
+		button:SetPushedTexture("")
+		button:SetDisabledTexture("")
 		if tooltip then B.AddTooltip(button, "ANCHOR_TOP", tooltip) end
 
 		local hl = button:GetHighlightTexture()

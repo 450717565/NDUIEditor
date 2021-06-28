@@ -1058,20 +1058,20 @@ function UF:OnUpdateRunes(elapsed)
 		if remain > 0 then
 			self.timer:SetText(B.FormatTime(remain))
 		else
-			self.timer:SetText(nil)
+			self.timer:SetText("")
 		end
 	end
 end
 
 function UF.PostUpdateRunes(element, runemap)
-	for index, runeID in next, runemap do
+	for index, runeID in pairs(runemap) do
 		local rune = element[index]
 		local start, duration, runeReady = GetRuneCooldown(runeID)
 		if rune:IsShown() then
 			if runeReady then
 				rune:SetAlpha(1)
 				rune:SetScript("OnUpdate", nil)
-				if rune.timer then rune.timer:SetText(nil) end
+				if rune.timer then rune.timer:SetText("") end
 			elseif start then
 				rune:SetAlpha(.6)
 				rune.runeDuration = duration

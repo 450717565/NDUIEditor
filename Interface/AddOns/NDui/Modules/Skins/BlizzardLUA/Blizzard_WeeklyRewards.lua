@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
@@ -90,7 +89,7 @@ local function Replace_IconString(self, text)
 	if count > 0 then self:SetFormattedText("%s", newText) end
 end
 
-C.LUAThemes["Blizzard_WeeklyRewards"] = function()
+C.OnLoadThemes["Blizzard_WeeklyRewards"] = function()
 	B.ReskinFrame(WeeklyRewardsFrame)
 
 	local HeaderFrame = WeeklyRewardsFrame.HeaderFrame

@@ -29,8 +29,7 @@ local function Embed_Window(window, width, barheight, height, ofsx, ofsy)
 end
 
 function Skins:Skada()
-	if not C.db["Skins"]["Skada"] then return end
-	if not IsAddOnLoaded("Skada") then return end
+	if not C.db["Skins"]["Skada"] or not IsAddOnLoaded("Skada") then return end
 
 	local Skada = Skada
 	local barSpacing = 0
@@ -53,18 +52,18 @@ function Skins:Skada()
 		barmod.ApplySettings_(self, win)
 		local window = win.bargroup
 		if win.db.enabletitle then
-			window.button:SetBackdrop(nil)
+			window.button:SetBackdrop("")
 		end
 		window:SetSpacing(barSpacing)
 		window:SetFrameLevel(5)
 		window.SetFrameLevel = B.Dummy
-		window:SetBackdrop(nil)
+		window:SetBackdrop("")
 		B.StripTextures(window.borderFrame)
 
 		if not window.bg then
 			window.bg = B.CreateBG(window)
 
-			local open, close = Skins.CreateToggle(window)
+			local open, close = B.CreateToggle(window)
 			open:HookScript("OnClick", function()
 				window:Show()
 			end)

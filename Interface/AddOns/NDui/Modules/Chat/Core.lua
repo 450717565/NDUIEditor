@@ -35,10 +35,10 @@ function Chat:UpdateChatSize()
 	if ChatFrame1.FontStringContainer then
 		ChatFrame1.FontStringContainer:SetOutside(ChatFrame1)
 	end
-	ChatFrame1:ClearAllPoints()
-	ChatFrame1:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 30)
+
 	ChatFrame1:SetWidth(C.db["Chat"]["ChatWidth"])
 	ChatFrame1:SetHeight(C.db["Chat"]["ChatHeight"])
+	B.UpdatePoint(ChatFrame1, "BOTTOMLEFT", UIParent, "BOTTOMLEFT", 0, 30)
 
 	isScaling = false
 end
@@ -311,6 +311,11 @@ local whisperEvents = {
 }
 function Chat:PlayWhisperSound(event)
 	if whisperEvents[event] then
+		if Chat.MuteThisTime then
+			Chat.MuteThisTime = nil
+			return
+		end
+
 		local currentTime = GetTime()
 		if not self.soundTimer or currentTime > self.soundTimer then
 			PlaySound(messageSoundID, "master")
@@ -339,7 +344,7 @@ function Chat:OnLogin()
 
 	hooksecurefunc("FCFTab_UpdateColors", Chat.UpdateTabColors)
 	hooksecurefunc("FloatingChatFrame_OnEvent", Chat.UpdateTabEventColors)
-	hooksecurefunc("ChatFrame_ConfigEventHandler", Chat.PlayWhisperSound)
+	hooksecurefunc("ChatFrame_MessageEventHandler", Chat.PlayWhisperSound)
 
 	-- Font size
 	for i = 1, 15 do
@@ -351,7 +356,7 @@ function Chat:OnLogin()
 	SetCVar("chatStyle", "classic")
 	SetCVar("whisperMode", "inline") -- blizz reset this on NPE
 	B.HideOption(InterfaceOptionsSocialPanelChatStyle)
-	CombatLogQuickButtonFrame_CustomTexture:SetTexture(nil)
+	CombatLogQuickButtonFrame_CustomTexture:SetTexture("")
 
 	-- Add Elements
 	Chat:ChatWhisperSticky()

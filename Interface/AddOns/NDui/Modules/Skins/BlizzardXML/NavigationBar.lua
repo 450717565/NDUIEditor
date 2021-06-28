@@ -69,7 +69,7 @@ local function Reskin_AddButton(self)
 	Move_NavButtons(self)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["NavigationBar"] = function()
 	hooksecurefunc("NavBar_Initialize", B.ReskinNavBar)
 	hooksecurefunc("NavBar_AddButton", Reskin_AddButton)
-end)
+end

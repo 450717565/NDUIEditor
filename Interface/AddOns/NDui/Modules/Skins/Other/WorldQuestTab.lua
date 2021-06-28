@@ -180,3 +180,5 @@ function Skins:WorldQuestTab()
 	end
 	B:RegisterEvent("PLAYER_ENTERING_WORLD", Reskin_Settings)
 end
+
+C.OnLoginThemes["WorldQuestTab"] = Skins.WorldQuestTab

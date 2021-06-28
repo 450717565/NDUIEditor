@@ -70,7 +70,7 @@ local function Reskin_ConfigureRewardFrame(rewardFrame, honor, experience, itemR
 	end
 end
 
-C.LUAThemes["Blizzard_PVPUI"] = function()
+C.OnLoadThemes["Blizzard_PVPUI"] = function()
 	-- CategoryButton
 	for i = 1, 3 do
 		local button = PVPQueueFrame["CategoryButton"..i]

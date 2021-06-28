@@ -46,7 +46,7 @@ local function Update_ConduitList(self)
 	end
 end
 
-C.LUAThemes["Blizzard_Soulbinds"] = function()
+C.OnLoadThemes["Blizzard_Soulbinds"] = function()
 	B.ReskinFrame(SoulbindViewer)
 	B.ReskinButton(SoulbindViewer.CommitConduitsButton)
 	B.ReskinButton(SoulbindViewer.ActivateSoulbindButton)

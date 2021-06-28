@@ -1,9 +1,9 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
 
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
+-- Reskin Function
 do
 	local replacedRoleTex = {
 		["Adventures-Tank"] = "Soulbinds_Tree_Conduit_Icon_Protect",
@@ -33,7 +33,7 @@ do
 		"TroopStackBorder2",
 	}
 
-	function Skins:ReskinFollowerPortrait()
+	function B:ReskinFollowerPortrait()
 		local portrait = self.Portrait
 
 		local point, _, _, xOfs, yOfs = portrait:GetPoint()
@@ -89,7 +89,7 @@ do
 		end
 	end
 
-	function Skins:ReskinFollowerClass(size, point, x, y, relativeTo)
+	function B:ReskinFollowerClass(size, point, x, y, relativeTo)
 		relativeTo = relativeTo or self:GetParent()
 
 		self:SetSize(size, size)
@@ -101,7 +101,7 @@ do
 		return bg
 	end
 
-	function Skins:ReskinMerchantItem()
+	function B:ReskinMerchantItem()
 		B.StripTextures(self, 0)
 		B.CreateBDFrame(self)
 		self:SetHeight(44)
@@ -139,7 +139,7 @@ do
 		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 4)
 	end
 
-	function Skins:ReskinSearchBox()
+	function B:ReskinSearchBox()
 		B.StripTextures(self)
 		B.CleanTextures(self)
 
@@ -150,7 +150,7 @@ do
 		if icon then B.ReskinIcon(icon) end
 	end
 
-	function Skins:ReskinSearchResult()
+	function B:ReskinSearchResult()
 		if not self then return end
 
 		local results = self.searchResults
@@ -194,7 +194,7 @@ do
 		end
 	end
 
-	function Skins:ReskinOptions()
+	function B:ReskinOptions()
 		for _, name in pairs(self) do
 			local panel = _G[name]
 			if panel then
@@ -216,7 +216,7 @@ do
 		end
 	end
 
-	function Skins:ReskinRMTColor(r)
+	function B:ReskinRMTColor(r)
 		if r == 0 then
 			B.ReskinText(self, 1, 0, 0)
 		elseif r == .2 then
@@ -224,13 +224,12 @@ do
 		end
 	end
 
-	function Skins:ReskinTutorialButton(parent)
+	function B:ReskinTutorialButton(parent)
 		self.Ring:Hide()
-		self:ClearAllPoints()
-		self:SetPoint("TOPLEFT", parent, "TOPLEFT", -12, 12)
+		B.UpdatePoint(self, "TOPLEFT", parent, "TOPLEFT", -12, 12)
 	end
 
-	function Skins:FormatIconString(text)
+	function B:FormatIconString(text)
 		if not text then text = self:GetText() end
 		if not text or text == "" then return end
 
@@ -238,15 +237,24 @@ do
 		if count > 0 then self:SetFormattedText("%s", newText) end
 	end
 
-	function Skins:ReplaceIconString()
-		Skins.FormatIconString(self)
-		hooksecurefunc(self, "SetText", Skins.FormatIconString)
+	function B:ReplaceIconString()
+		B.FormatIconString(self)
+		hooksecurefunc(self, "SetText", B.FormatIconString)
+	end
+
+	function B:ReskinFont(size)
+		local oldSize = select(2, self:GetFont())
+		size = size or oldSize
+
+		local fontSize = size*C.db["Skins"]["FontScale"]
+		self:SetFont(DB.Font[1], fontSize, DB.Font[3])
+		self:SetShadowColor(0, 0, 0, 0)
 	end
 end
 
 -- Update Function
 do
-	function Skins.UpdateMerchantInfo()
+	function B.UpdateMerchantInfo()
 		local numItems = GetMerchantNumItems()
 		for i = 1, MERCHANT_ITEMS_PER_PAGE do
 			local index = (MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE + i
@@ -285,14 +293,14 @@ do
 		end
 	end
 
-	function Skins:UpdateFollowerQuality()
+	function B:UpdateFollowerQuality()
 		if not self.quality or not self.squareBG then return end
 
 		local r, g, b = B.GetQualityColor(quality)
 		self.squareBG:SetBackdropBorderColor(r, g, b)
 	end
 
-	function Skins:UpdateTabAnchor()
+	function B:UpdateTabAnchor()
 		local text = B.GetObject(self, "Text")
 		if text then
 			text:SetJustifyH("CENTER")
@@ -301,6 +309,87 @@ do
 		end
 	end
 
-	hooksecurefunc("PanelTemplates_SelectTab", Skins.UpdateTabAnchor)
-	hooksecurefunc("PanelTemplates_DeselectTab", Skins.UpdateTabAnchor)
+	hooksecurefunc("PanelTemplates_SelectTab", B.UpdateTabAnchor)
+	hooksecurefunc("PanelTemplates_DeselectTab", B.UpdateTabAnchor)
+end
+
+-- Skin Function
+do
+	function B.GetToggleDirection()
+		local direc = C.db["Skins"]["ToggleDirection"]
+		if direc == 1 then
+			return "|", "|", "RIGHT", "LEFT", -2, 0, 20, 80
+		elseif direc == 2 then
+			return "|", "|", "LEFT", "RIGHT", 2, 0, 20, 80
+		elseif direc == 3 then
+			return "—", "—", "BOTTOM", "TOP", 0, 2, 80, 20
+		else
+			return "—", "—", "TOP", "BOTTOM", 0, -2, 80, 20
+		end
+	end
+
+	local toggleFrames = {}
+
+	local function CreateToggleButton(parent)
+		local bu = CreateFrame("Button", nil, parent)
+		bu:SetSize(20, 80)
+		bu.text = B.CreateFS(bu, 18, nil, true)
+		B.ReskinButton(bu, true)
+
+		return bu
+	end
+
+	function B:CreateToggle()
+		local close = CreateToggleButton(self)
+		self.closeButton = close
+
+		local open = CreateToggleButton(UIParent)
+		open:Hide()
+		self.openButton = open
+
+		open:SetScript("OnClick", function()
+			open:Hide()
+		end)
+		close:SetScript("OnClick", function()
+			open:Show()
+		end)
+
+		B.SetToggleDirection(self)
+		tinsert(toggleFrames, self)
+
+		return open, close
+	end
+
+	function B:SetToggleDirection()
+		local str1, str2, rel1, rel2, x, y, width, height = B.GetToggleDirection()
+		local parent = self.bg
+		local close = self.closeButton
+		local open = self.openButton
+		close:ClearAllPoints()
+		close:SetPoint(rel1, parent, rel2, x, y)
+		close:SetSize(width, height)
+		close.text:SetText(str1)
+		open:ClearAllPoints()
+		open:SetPoint(rel1, parent, rel1, -x, -y)
+		open:SetSize(width, height)
+		open.text:SetText(str2)
+
+		if C.db["Skins"]["ToggleDirection"] == 5 then
+			close:SetAlpha(0)
+			close:EnableMouse(false)
+			open:SetAlpha(0)
+			open:EnableMouse(false)
+		else
+			close:SetAlpha(1)
+			close:EnableMouse(true)
+			open:SetAlpha(1)
+			open:EnableMouse(true)
+		end
+	end
+
+	function B.RefreshToggleDirection()
+		for _, frame in pairs(toggleFrames) do
+			B.SetToggleDirection(frame)
+		end
+	end
 end

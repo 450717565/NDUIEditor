@@ -21,7 +21,7 @@ local function Update_AddonList()
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["AddonList"] = function()
 	B.ReskinFrame(AddonList)
 
 	B.ReskinCheck(AddonListForceLoad)
@@ -51,4 +51,4 @@ tinsert(C.XMLThemes, function()
 	end
 
 	hooksecurefunc("AddonList_Update", Update_AddonList)
-end)
+end

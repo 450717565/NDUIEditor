@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local function Reskin_AudioOptionsVoicePanel(self)
 	if not self.styled then
@@ -94,12 +93,12 @@ local function Reskin_VideoOptionsFrame(self)
 		"InterfaceOptionsLanguagesPanel",
 		"NetworkOptionsPanel",
 	}
-	S.ReskinOptions(panels)
+	B.ReskinOptions(panels)
 
 	self.styled = true
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["VideoOptionsFrame"] = function()
 	VideoOptionsFrame:HookScript("OnShow", Reskin_VideoOptionsFrame)
 	hooksecurefunc("AudioOptionsVoicePanel_InitializeCommunicationModeUI", Reskin_AudioOptionsVoicePanel)
-end)
+end

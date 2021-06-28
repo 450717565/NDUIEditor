@@ -11,3 +11,5 @@ function Skins:CompactVendorFilter()
 	button:ClearAllPoints()
 	button:SetPoint("RIGHT", MerchantFrameCloseButton, "LEFT", -3, 0)
 end
+
+C.OnLoginThemes["CompactVendorFilter"] = Skins.CompactVendorFilter

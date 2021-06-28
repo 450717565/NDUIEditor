@@ -47,7 +47,7 @@ local function Reskin_BlackMarketFrame(self)
 	end
 end
 
-C.LUAThemes["Blizzard_BlackMarketUI"] = function()
+C.OnLoadThemes["Blizzard_BlackMarketUI"] = function()
 	B.ReskinFrame(BlackMarketFrame)
 
 	B.ReskinButton(BlackMarketFrame.BidButton)

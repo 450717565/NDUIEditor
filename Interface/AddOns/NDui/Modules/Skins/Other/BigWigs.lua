@@ -24,49 +24,52 @@ local function Reskin_Countdown()
 	hooksecurefunc(plugin, "BigWigs_StopCountdown", Update_StopCountdown)
 end
 
+local function Reskin_QueueTimer(_, frame, name)
+	if name == "QueueTimer" and not frame.styled then
+		B.ReskinStatusBar(frame, true)
+
+		frame.styled = true
+	end
+end
+
 local function Remove_Style(self)
 	B.StripTextures(self)
+	B.StripTextures(self.candyBarBar)
 
 	local height = self:Get("bigwigs:restoreheight")
 	if height then self:SetHeight(height) end
 
 	local tex = self:Get("bigwigs:restoreicon")
-	if tex then
-		self:SetIcon(tex)
-		self:Set("bigwigs:restoreicon", nil)
-	end
+	if tex then self:SetIcon(tex) end
 
 	local timer = self.candyBarDuration
 	timer:SetJustifyH("RIGHT")
-	timer:ClearAllPoints()
-	timer:SetPoint("TOPLEFT", self.candyBarBar, "TOPLEFT", 2, 8)
-	timer:SetPoint("BOTTOMRIGHT", self.candyBarBar, "BOTTOMRIGHT", -2, 8)
+	B.UpdatePoint(timer, "RIGHT", self.candyBarBar, "RIGHT", -C.margin, 0)
 
 	local label = self.candyBarLabel
 	label:SetJustifyH("LEFT")
-	label:ClearAllPoints()
-	label:SetPoint("TOPLEFT", self.candyBarBar, "TOPLEFT", 2, 8)
-	label:SetPoint("BOTTOMRIGHT", self.candyBarBar, "BOTTOMRIGHT", -2, 8)
+	B.UpdatePoint(label, "LEFT", self.candyBarBar, "LEFT", C.margin, 0)
 end
 
 local function Reskin_Style(self)
 	B.StripTextures(self)
+	B.StripTextures(self.candyBarBar)
 
 	local height = self:GetHeight()
-	self:Set("bigwigs:restoreheight", height)
+	self:Set("bigwigs:restoreheight", height/2)
 	self:SetHeight(height/2)
 	self:SetTexture(DB.normTex)
 
 	if not self.styled then
-		B.CreateBDFrame(self, 0, -C.mult)
+		B.CreateBDFrame(self.candyBarBar, 0, -C.mult)
 
 		self.styled = true
 	end
 
 	local tex = self:GetIcon()
 	if tex then
-		self:SetIcon(nil)
 		self:Set("bigwigs:restoreicon", tex)
+		self:SetIcon(tex)
 
 		local icon = self.candyBarIconFrame
 		icon:Show()
@@ -89,21 +92,17 @@ local function Reskin_Style(self)
 
 	local timer = self.candyBarDuration
 	timer:SetJustifyH("RIGHT")
-	timer:ClearAllPoints()
-	timer:SetPoint("TOPLEFT", self.candyBarBar, "TOPLEFT", 2, 8)
-	timer:SetPoint("BOTTOMRIGHT", self.candyBarBar, "BOTTOMRIGHT", -2, 8)
+	B.UpdatePoint(timer, "RIGHT", self.candyBarBar, "RIGHT", -C.margin, 0)
 
 	local label = self.candyBarLabel
 	label:SetJustifyH("LEFT")
-	label:ClearAllPoints()
-	label:SetPoint("TOPLEFT", self.candyBarBar, "TOPLEFT", 2, 8)
-	label:SetPoint("BOTTOMRIGHT", self.candyBarBar, "BOTTOMRIGHT", -2, 8)
+	B.UpdatePoint(label, "LEFT", self.candyBarBar, "LEFT", C.margin, 0)
 end
 
 local styleData = {
 	apiVersion = 1,
 	version = 3,
-	GetSpacing = function(bar) return bar:GetHeight()+5 end,
+	GetSpacing = function(bar) return bar:GetHeight()+C.margin end,
 	ApplyStyle = Reskin_Style,
 	BarStopped = Remove_Style,
 	fontSizeNormal = 13,
@@ -112,7 +111,7 @@ local styleData = {
 	GetStyleName = function() return "NDui" end,
 }
 
-local function registerStyle()
+local function Register_Style()
 	if not BigWigsAPI then return end
 
 	BigWigsAPI:RegisterBarStyle("NDui", styleData)
@@ -127,21 +126,13 @@ local function registerStyle()
 end
 
 function Skins:BigWigs()
-	if not C.db["Skins"]["Bigwigs"] then return end
-	if not IsAddOnLoaded("BigWigs") then return end
+	if not C.db["Skins"]["Bigwigs"] or not IsAddOnLoaded("BigWigs") then return end
 	if not BigWigs3DB then return end
 
-	if IsAddOnLoaded("BigWigs_Plugins") then
-		Register_Style()
-		Reskin_Countdown()
-	else
-		local function loadStyle(event, addon)
-			if addon == "BigWigs_Plugins" then
-				Register_Style()
-				Reskin_Countdown()
-				B:UnregisterEvent(event, loadStyle)
-			end
-		end
-		B:RegisterEvent("ADDON_LOADED", loadStyle)
+	if BigWigsLoader and BigWigsLoader.RegisterMessage then
+		BigWigsLoader.RegisterMessage(_, "BigWigs_FrameCreated", Reskin_QueueTimer)
 	end
+
+	B.LoadWithAddOn("BigWigs_Plugins", Register_Style)
+	B.LoadWithAddOn("BigWigs_Plugins", Reskin_Countdown)
 end

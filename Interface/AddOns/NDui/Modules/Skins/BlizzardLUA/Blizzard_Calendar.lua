@@ -33,7 +33,7 @@ local function Update_FrameAnchor(self)
 	self:SetPoint("BOTTOMLEFT", bg, "BOTTOMRIGHT", 3, 0)
 end
 
-C.LUAThemes["Blizzard_Calendar"] = function()
+C.OnLoadThemes["Blizzard_Calendar"] = function()
 	B.StripTextures(CalendarFrame)
 
 	local bg = B.CreateBG(CalendarFrame)

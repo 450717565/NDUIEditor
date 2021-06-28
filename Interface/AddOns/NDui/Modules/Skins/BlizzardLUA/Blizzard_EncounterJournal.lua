@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
@@ -33,7 +32,7 @@ local function Reskin_RefreshDisplay()
 
 		local data = self.suggestions[i]
 		if data.iconPath then
-			suggestion.icon:SetMask(nil)
+			suggestion.icon:SetMask("")
 			suggestion.icon:SetTexCoord(tL, tR, tT, tB)
 		end
 	end
@@ -42,7 +41,7 @@ end
 local function Reskin_UpdateRewards(suggestion)
 	local rewardData = suggestion.reward.data
 	if rewardData then
-		suggestion.reward.icon:SetMask(nil)
+		suggestion.reward.icon:SetMask("")
 		suggestion.reward.icon:SetTexCoord(tL, tR, tT, tB)
 	end
 end
@@ -148,7 +147,7 @@ local function Reskin_PowersFrame(self)
 	end
 end
 
-C.LUAThemes["Blizzard_EncounterJournal"] = function()
+C.OnLoadThemes["Blizzard_EncounterJournal"] = function()
 	B.ReskinFrame(EncounterJournal)
 
 	-- Search Box
@@ -156,10 +155,10 @@ C.LUAThemes["Blizzard_EncounterJournal"] = function()
 	B.StripTextures(EncounterJournalSearchBox.searchPreviewContainer)
 
 	for i = 1, 5 do
-		S.ReskinSearchBox(EncounterJournalSearchBox["sbutton"..i])
+		B.ReskinSearchBox(EncounterJournalSearchBox["sbutton"..i])
 	end
-	S.ReskinSearchBox(EncounterJournalSearchBox.showAllResults)
-	S.ReskinSearchResult(EncounterJournal)
+	B.ReskinSearchBox(EncounterJournalSearchBox.showAllResults)
+	B.ReskinSearchResult(EncounterJournal)
 
 	-- Instance Select
 	local instanceSelect = EncounterJournal.instanceSelect

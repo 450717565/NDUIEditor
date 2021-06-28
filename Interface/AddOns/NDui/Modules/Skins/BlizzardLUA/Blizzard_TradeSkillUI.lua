@@ -95,7 +95,7 @@ local function Reskin_DetailsFrame(self)
 	end
 end
 
-C.LUAThemes["Blizzard_TradeSkillUI"] = function()
+C.OnLoadThemes["Blizzard_TradeSkillUI"] = function()
 	B.ReskinFrame(TradeSkillFrame)
 	B.ReskinStatusBar(TradeSkillFrame.RankFrame)
 	B.ReskinInput(TradeSkillFrame.SearchBox, 20, 200)

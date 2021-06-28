@@ -97,7 +97,7 @@ local function Reskin_LFGListInviteDialog(self, resultID)
 	self.RoleIcon:SetTexCoord(B.GetRoleTexCoord(role))
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["LFGListFrame"] = function()
 	--NothingAvailable
 	local NothingAvailable = LFGListFrame.NothingAvailable
 	B.StripTextures(NothingAvailable)
@@ -237,4 +237,4 @@ tinsert(C.XMLThemes, function()
 	for _, scroll in pairs(scrolls) do
 		B.ReskinScroll(scroll)
 	end
-end)
+end

@@ -22,3 +22,5 @@ function Skins:HandyNotes()
 		B.ReskinSlider(HandyNotes_ShadowlandsScaleMenuSliderOption.Slider)
 	end
 end
+
+C.OnLoginThemes["HandyNotes"] = Skins.HandyNotes

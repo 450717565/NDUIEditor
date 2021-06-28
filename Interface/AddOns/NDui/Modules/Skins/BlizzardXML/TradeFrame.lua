@@ -15,7 +15,7 @@ local function Reskin_ItemButton(self)
 	B.ReskinBorder(button.IconBorder, icbg, bubg)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["TradeFrame"] = function()
 	B.ReskinFrame(TradeFrame)
 
 	B.ReskinButton(TradeFrameTradeButton)
@@ -78,4 +78,4 @@ tinsert(C.XMLThemes, function()
 		Reskin_ItemButton("TradePlayerItem"..i)
 		Reskin_ItemButton("TradeRecipientItem"..i)
 	end
-end)
+end

@@ -98,15 +98,13 @@ local function CreateSlot(id)
 
 	local count = B.CreateFS(border, 12)
 	count:SetJustifyH("RIGHT")
-	count:ClearAllPoints()
-	count:SetPoint("BOTTOMRIGHT", border, "BOTTOMRIGHT", -1, 2)
+	B.UpdatePoint(count, "BOTTOMRIGHT", border, "BOTTOMRIGHT", -1, 2)
 	button.count = count
 
 	local name = B.CreateFS(border, 14)
 	name:SetJustifyH("LEFT")
 	name:SetNonSpaceWrap(true)
-	name:ClearAllPoints()
-	name:SetPoint("LEFT", border, "RIGHT", 5, 0)
+	B.UpdatePoint(name, "LEFT", border, "RIGHT", 5, 0)
 	button.name = name
 
 	slots[id] = button

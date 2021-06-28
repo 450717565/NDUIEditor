@@ -58,7 +58,7 @@ local function Reskin_QuestLogQuests()
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["QuestMapFrame"] = function()
 	-- QuestScrollFrame
 	B.ReskinScroll(QuestScrollFrame.ScrollBar)
 	B.StripTextures(QuestScrollFrame.DetailFrame, 0)
@@ -133,4 +133,4 @@ tinsert(C.XMLThemes, function()
 			B.ReskinButton(button2)
 		end
 	end
-end)
+end

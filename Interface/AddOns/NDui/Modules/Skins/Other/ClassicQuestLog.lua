@@ -75,3 +75,5 @@ function Skins:ClassicQuestLog()
 		B.ReskinCheck(content[check].check)
 	end
 end
+
+C.OnLoginThemes["ClassicQuestLog"] = Skins.ClassicQuestLog

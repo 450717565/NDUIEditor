@@ -197,8 +197,8 @@ local function Reskin_WAOptions()
 	frame.styled = true
 end
 
-local function Reskin_WeakAuras()
-	if not C.db["Skins"]["WeakAuras"] then return end
+function Skins:WeakAuras()
+	if not C.db["Skins"]["WeakAuras"] or not IsAddOnLoaded("WeakAuras") then return end
 
 	local regionTypes = WeakAuras.regionTypes
 	local Create_Icon, Modify_Icon = regionTypes.icon.create, regionTypes.icon.modify
@@ -304,4 +304,4 @@ local function Reskin_WeakAuras()
 	B:RegisterEvent("ADDON_LOADED", loadFunc)
 end
 
-Skins.LoadWithAddOn("WeakAuras", Reskin_WeakAuras)
+B.LoadWithAddOn("WeakAuras", Skins.WeakAuras)

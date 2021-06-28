@@ -47,7 +47,6 @@ local function Fixed_WhoListUpdate()
 end
 
 function Skins:Fonts()
-	if not C.db["Skins"]["BlizzardSkins"] then return end
 	if not C.db["Skins"]["FontOutline"] then return end
 
 	local fontList = {
@@ -208,3 +207,5 @@ function Skins:Fonts()
 	-- WhoFrame LevelText
 	hooksecurefunc("WhoList_Update", Fixed_WhoListUpdate)
 end
+
+C.OnLoginThemes["Fonts"] = Skins.Fonts

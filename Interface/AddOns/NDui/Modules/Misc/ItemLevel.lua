@@ -16,27 +16,27 @@ function Misc:GetSlotAnchor(index, isIcon)
 
 	if index <= 5 or index == 9 or index == 15 or index == 18 then
 		if isIcon then
-			return "BOTTOMLEFT", "BOTTOMRIGHT", 4, 2
+			return "BOTTOMLEFT", "BOTTOMRIGHT", 4, 2, "LEFT"
 		else
-			return "TOPLEFT", "TOPRIGHT", 4, -2
+			return "TOPLEFT", "TOPRIGHT", 4, -2, "LEFT"
 		end
 	elseif index == 16 then
 		if isIcon then
-			return "TOPRIGHT", "TOPLEFT", -4, -2
+			return "TOPRIGHT", "TOPLEFT", -4, -2, "RIGHT"
 		else
-			return "BOTTOMRIGHT", "BOTTOMLEFT", -4, 2
+			return "BOTTOMRIGHT", "BOTTOMLEFT", -4, 2, "RIGHT"
 		end
 	elseif index == 17 then
 		if isIcon then
-			return "TOPLEFT", "TOPRIGHT", 4, -2
+			return "TOPLEFT", "TOPRIGHT", 4, -2, "LEFT"
 		else
-			return "BOTTOMLEFT", "BOTTOMRIGHT", 4, 2
+			return "BOTTOMLEFT", "BOTTOMRIGHT", 4, 2, "LEFT"
 		end
 	else
 		if isIcon then
-			return "BOTTOMRIGHT", "BOTTOMLEFT", -4, 2
+			return "BOTTOMRIGHT", "BOTTOMLEFT", -4, 2, "RIGHT"
 		else
-			return "TOPRIGHT", "TOPLEFT", -4, -2
+			return "TOPRIGHT", "TOPLEFT", -4, -2, "RIGHT"
 		end
 	end
 end
@@ -59,14 +59,13 @@ function Misc:CreateItemString(frame, strType)
 		if index ~= 4 or index ~= 18 then
 			local slotFrame = _G[strType..slot.."Slot"]
 			slotFrame.iLvlText = B.CreateFS(slotFrame, DB.Font[2]+1)
-			slotFrame.iLvlText:ClearAllPoints()
-			slotFrame.iLvlText:SetPoint("BOTTOM", slotFrame, 1, 1)
+			B.UpdatePoint(slotFrame.iLvlText, "BOTTOM", slotFrame, "BOTTOM", 1, 1)
 
-			local tp1, tp2, tx, ty = Misc:GetSlotAnchor(index)
+			local tp1, tp2, tx, ty, jh = Misc:GetSlotAnchor(index)
 			slotFrame.enchantText = B.CreateFS(slotFrame, DB.Font[2]+1)
-			slotFrame.enchantText:ClearAllPoints()
-			slotFrame.enchantText:SetPoint(tp1, slotFrame, tp2, tx, ty)
-			slotFrame.enchantText:SetTextColor(0, 1, 0)
+			slotFrame.enchantText:SetJustifyH(jh)
+			B.UpdatePoint(slotFrame.enchantText, tp1, slotFrame, tp2, tx, ty)
+			B.ReskinText(slotFrame.enchantText, 0, 1, 0)
 
 			local ip1, ip2, ix, iy = Misc:GetSlotAnchor(index, true)
 			for i = 1, 10 do

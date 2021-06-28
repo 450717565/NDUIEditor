@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
@@ -53,7 +52,7 @@ local function Update_ProgressItemQuality(self)
 	button.bubg:SetBackdropBorderColor(r, g, b)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["QuestFrame"] = function()
 	B.ReskinFrame(QuestFrame)
 	B.ReskinText(QuestProgressRequiredItemsText, 1, 0, 0)
 
@@ -97,7 +96,7 @@ tinsert(C.XMLThemes, function()
 
 	hooksecurefunc("QuestFrame_SetTextColor", Reskin_TextColor)
 	hooksecurefunc("QuestFrame_SetTitleTextColor", Reskin_TitleTextColor)
-	hooksecurefunc(QuestProgressRequiredMoneyText, "SetTextColor", S.ReskinRMTColor)
+	hooksecurefunc(QuestProgressRequiredMoneyText, "SetTextColor", B.ReskinRMTColor)
 
 	-- QuestModelScene
 	B.StripTextures(QuestNPCModelTextFrame)
@@ -123,4 +122,4 @@ tinsert(C.XMLThemes, function()
 		button.Icon.__owner = button
 		hooksecurefunc(button.Icon, "SetTexture", Update_ProgressItemQuality)
 	end
-end)
+end

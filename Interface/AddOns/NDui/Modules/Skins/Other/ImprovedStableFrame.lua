@@ -20,3 +20,5 @@ function Skins:ImprovedStableFrame()
 		button:SetSize(24, 24)
 	end
 end
+
+C.OnLoginThemes["ImprovedStableFrame"] = Skins.ImprovedStableFrame

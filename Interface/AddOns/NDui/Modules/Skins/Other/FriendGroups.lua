@@ -34,3 +34,5 @@ function Skins:FriendGroups()
 		hooksecurefunc("FriendGroups_UpdateFriendButton", Update_FriendButton)
 	end
 end
+
+C.OnLoginThemes["FriendGroups"] = Skins.FriendGroups

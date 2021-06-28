@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
@@ -154,7 +153,7 @@ local function Reskin_SpecialReward()
 			if not followerReward.styled then
 				followerReward.BG:Hide()
 
-				S.ReskinFollowerPortrait(portrait)
+				B.ReskinFollowerPortrait(portrait)
 
 				local bubg = B.CreateBGFrame(followerReward, 0, -3, 2, 7)
 				followerReward.bubg = bubg
@@ -163,7 +162,7 @@ local function Reskin_SpecialReward()
 				portrait:SetPoint("LEFT", bubg, "LEFT", .5, .5)
 
 				if class then
-					S.ReskinFollowerClass(class, 36, "RIGHT", -4, 0, bubg)
+					B.ReskinFollowerClass(class, 36, "RIGHT", -4, 0, bubg)
 				end
 
 				followerReward.styled = true
@@ -176,7 +175,7 @@ local function Reskin_SpecialReward()
 			end
 
 			if portrait then
-				S.UpdateFollowerQuality(portrait)
+				B.UpdateFollowerQuality(portrait)
 			end
 		end
 	end
@@ -197,14 +196,14 @@ local function Reskin_SealFrameText(self, text)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["QuestInfoFrame"] = function()
 	-- Text Color
 	B.ReskinText(QuestProgressRequiredItemsText, 1, .8, 0)
 	hooksecurefunc("QuestInfo_Display", Reskin_GeneralsText)
 	hooksecurefunc("QuestInfo_Display", Reskin_ObjectivesText)
 	hooksecurefunc("QuestInfo_Display", Reskin_SpecialReward)
 	hooksecurefunc(QuestInfoSealFrame.Text, "SetText", Reskin_SealFrameText)
-	hooksecurefunc(QuestInfoRequiredMoneyText, "SetTextColor", S.ReskinRMTColor)
+	hooksecurefunc(QuestInfoRequiredMoneyText, "SetTextColor", B.ReskinRMTColor)
 
 	-- Quest Info Item
 	local ItemHighlight = QuestInfoItemHighlight
@@ -231,4 +230,4 @@ tinsert(C.XMLThemes, function()
 	end
 
 	hooksecurefunc("QuestInfo_GetRewardButton", Reskin_GetRewardButton)
-end)
+end

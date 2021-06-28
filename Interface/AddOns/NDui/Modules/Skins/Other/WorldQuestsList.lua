@@ -39,3 +39,5 @@ function Skins:WorldQuestsList()
 	check:ClearAllPoints()
 	check:SetPoint("BOTTOMRIGHT", WorldMapFrame, "TOPRIGHT", 4, -4)
 end
+
+C.OnLoginThemes["WorldQuestsList"] = Skins.WorldQuestsList

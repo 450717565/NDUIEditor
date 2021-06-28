@@ -14,7 +14,7 @@ local function Reskin_TeleporterOpenFrame()
 		B.ReskinClose(close)
 
 		local titleBG = TeleporterTitleFrame:GetRegions()
-		titleBG:SetTexture(nil)
+		titleBG:SetTexture("")
 		titleBG.SetTexture = B.Dummy
 
 		frame.styled = true
@@ -42,3 +42,5 @@ function Skins:TomeOfTeleportation()
 
 	hooksecurefunc("TeleporterOpenFrame", Reskin_TeleporterOpenFrame)
 end
+
+C.OnLoginThemes["TomeOfTeleportation"] = Skins.TomeOfTeleportation

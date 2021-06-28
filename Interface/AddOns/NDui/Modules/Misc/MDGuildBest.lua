@@ -39,8 +39,8 @@ end
 
 function Misc:GuildBest_Create()
 	frame = CreateFrame("Frame", nil, ChallengesFrame)
-	frame:SetPoint("BOTTOMRIGHT", -8, 75)
-	frame:SetSize(170, 105)
+	frame:SetPoint("BOTTOMRIGHT", -5, 75)
+	frame:SetSize(246, 105)
 	B.CreateBDFrame(frame)
 	B.CreateFS(frame, 16, CHALLENGE_MODE_WEEKLY_BEST , "system", "TOPLEFT", 16, -6)
 
@@ -96,17 +96,26 @@ function Misc:GuildBest_Update()
 	end
 
 	if not resize and hasAngryKeystones then
-		local AffixFrame = AngryKeystones.Modules.Schedule.AffixFrame
-		frame:SetWidth(246)
-		frame:ClearAllPoints()
-		frame:SetPoint("BOTTOMLEFT", AffixFrame, "TOPLEFT", 0, 10)
+		local Child = self.WeeklyInfo.Child
+		B.UpdatePoint(Child.ThisWeekLabel, "TOP", Child, "TOP", -135, -25)
 
-		self.WeeklyInfo.Child.ThisWeekLabel:SetPoint("TOP", -135, -25)
-		local affix = self.WeeklyInfo.Child.Affixes[1]
-		if affix then
-			affix:ClearAllPoints()
-			affix:SetPoint("TOPLEFT", 20, -55)
+		if DB.isNewPatch then
+			B.UpdatePoint(Child.DungeonScoreInfo, "TOP", Child, "TOP", -140, -210)
 		end
+
+		local affix = Child.Affixes[1]
+		if affix then
+			B.UpdatePoint(affix, "TOPLEFT", Child, "TOPLEFT", 20, -55)
+		end
+
+		local AffixFrame = AngryKeystones.Modules.Schedule.AffixFrame
+		B.UpdatePoint(frame, "BOTTOMLEFT", AffixFrame, "TOPLEFT", 0, 10)
+
+		local KeystoneText = AngryKeystones.Modules.Schedule.KeystoneText
+		B.UpdatePoint(KeystoneText, "TOP", Child.WeeklyChest, "BOTTOM", 0, -30)
+
+		local RunStatus = Child.WeeklyChest.RunStatus
+		B.UpdatePoint(RunStatus, "BOTTOM", Child.WeeklyChest, "TOP", 0, 30)
 
 		resize = true
 	end

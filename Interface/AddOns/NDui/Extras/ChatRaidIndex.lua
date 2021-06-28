@@ -45,7 +45,7 @@ function EX:ChatRaidIndex()
 		"PLAYER_ENTERING_WORLD",
 	}
 
-	for _, event in next, eventList do
+	for _, event in pairs(eventList) do
 		B:RegisterEvent(event, EX.UpdateGroupNames)
 	end
 

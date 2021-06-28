@@ -118,6 +118,7 @@ function Misc:RaidTool_RoleCount(parent)
 		role[i]:SetSize(15, 15)
 		role[i]:SetTexture("Interface\\LFGFrame\\LFGROLE")
 		role[i]:SetTexCoord(unpack(roleTexCoord[i]))
+
 		role[i].text = B.CreateFS(frame, 13, "0")
 		role[i].text:ClearAllPoints()
 		role[i].text:SetPoint("CENTER", role[i], "RIGHT", 12, 0)
@@ -154,7 +155,7 @@ function Misc:RaidTool_RoleCount(parent)
 		"PLAYER_FLAGS_CHANGED",
 		"PLAYER_ENTERING_WORLD",
 	}
-	for _, event in next, eventList do
+	for _, event in pairs(eventList) do
 		B:RegisterEvent(event, updateRoleCount)
 	end
 
@@ -201,6 +202,7 @@ function Misc:RaidTool_CombatRes(parent)
 	res.Count = B.CreateFS(res, 16, "0")
 	res.Count:ClearAllPoints()
 	res.Count:SetPoint("LEFT", res, "RIGHT", 10, 0)
+
 	res.Timer = B.CreateFS(frame, 16, "00:00", false, "RIGHT", -5, 0)
 	res:SetScript("OnUpdate", Misc.RaidTool_UpdateRes)
 
@@ -271,7 +273,7 @@ end
 function Misc:RaidTool_Marker(parent)
 	local markerButton = CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
 	if not markerButton then
-		for _, addon in next, {"Blizzard_CUFProfiles", "Blizzard_CompactRaidFrames"} do
+		for _, addon in pairs({"Blizzard_CUFProfiles", "Blizzard_CompactRaidFrames"}) do
 			EnableAddOn(addon)
 			LoadAddOn(addon)
 		end
@@ -674,12 +676,10 @@ end
 function Misc:RaidTool_Misc()
 	-- UIWidget reanchor
 	if not UIWidgetTopCenterContainerFrame:IsMovable() then
-		UIWidgetTopCenterContainerFrame:ClearAllPoints()
-		UIWidgetTopCenterContainerFrame:SetPoint("TOP", 0, -40)
+		B.UpdatePoint(UIWidgetTopCenterContainerFrame, "TOP", UIParent, "TOP", 0, -40)
 	end
 	if not UIWidgetBelowMinimapContainerFrame:IsMovable() then
-		UIWidgetBelowMinimapContainerFrame:ClearAllPoints()
-		UIWidgetBelowMinimapContainerFrame:SetPoint("TOP", 0, -50)
+		B.UpdatePoint(UIWidgetBelowMinimapContainerFrame, "TOP", UIParent, "TOP", 0, -50)
 	end
 end
 

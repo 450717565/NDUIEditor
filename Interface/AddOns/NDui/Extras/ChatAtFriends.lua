@@ -71,8 +71,8 @@ end
 hooksecurefunc("ChatEdit_UpdateHeader", function(editBox)
 	if not editBox.nametip then
 		local nametip = CreateFrame("Frame", nil, editBox)
-		nametip:SetPoint("BOTTOMLEFT", editBox, "TOPLEFT", 30, 2)
 		nametip:SetSize(150, 20)
+		nametip:SetPoint("BOTTOMLEFT", editBox, "TOPLEFT", 30, 2)
 		editBox.nametip = nametip
 
 		local icon = editBox.nametip:CreateTexture(nil, "BORDER")
@@ -82,15 +82,13 @@ hooksecurefunc("ChatEdit_UpdateHeader", function(editBox)
 		editBox.nametip.icon = icon
 
 		local name = B.CreateFS(editBox.nametip, 16)
-		name:ClearAllPoints()
-		name:SetPoint("LEFT", icon, "RIGHT", 0, 0)
 		name:SetJustifyH("LEFT")
+		B.UpdatePoint(name, "LEFT", icon, "RIGHT", 0, 0)
 		editBox.nametip.name = name
 
 		local level = B.CreateFS(editBox.nametip, 12)
-		level:ClearAllPoints()
-		level:SetPoint("BOTTOM", icon, "TOP", 0, 0)
-		level:SetTextColor(1, .8, 0)
+		B.ReskinText(level, 1, .8, 0)
+		B.UpdatePoint(level, "BOTTOM", icon, "TOP", 0, 0)
 		editBox.nametip.level = level
 
 		local faction = UnitFactionGroup("player")

@@ -45,8 +45,7 @@ function Bar:CreateBar2()
 		if i == 1 then
 			button:SetPoint("BOTTOMLEFT", frame, padding, padding)
 		else
-			local previous = _G["MultiBarBottomLeftButton"..i-1]
-			button:SetPoint("LEFT", previous, "RIGHT", margin, 0)
+			button:SetPoint("LEFT", _G["MultiBarBottomLeftButton"..i-1], "RIGHT", margin, 0)
 		end
 	end
 

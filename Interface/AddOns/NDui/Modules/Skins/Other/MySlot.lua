@@ -18,8 +18,8 @@ function Skins:Myslot()
 		elseif child:IsObjectType("CheckButton") then
 			B.ReskinCheck(child)
 		elseif child:IsObjectType("Frame") then
-			if floor(child:GetWidth() - 600) == 0 and floor(child:GetHeight() - 400) == 0 then
-				child:SetBackdrop(nil)
+			if B.Round(child:GetWidth() - 600) == 0 and B.Round(child:GetHeight() - 400) == 0 then
+				child:SetBackdrop("")
 				B.CreateBDFrame(child)
 
 				local subChildren = {child:GetChildren()}
@@ -36,3 +36,5 @@ function Skins:Myslot()
 		end
 	end
 end
+
+C.OnLoginThemes["Myslot"] = Skins.Myslot

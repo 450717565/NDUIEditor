@@ -61,7 +61,7 @@ local function Reskin_SetFullDisplay(entry, _, _, _, isTank, isHealer, isDPS)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["QueueStatus"] = function()
 	hooksecurefunc("QueueStatusEntry_SetMinimalDisplay", Reskin_SetMinimalDisplay)
 	hooksecurefunc("QueueStatusEntry_SetFullDisplay", Reskin_SetFullDisplay)
-end)
+end

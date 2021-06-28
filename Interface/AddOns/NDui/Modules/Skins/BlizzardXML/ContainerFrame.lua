@@ -108,7 +108,7 @@ local function Update_BankFrameItemButton(button)
 end
 
 -- Bag
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["ContainerFrame"] = function()
 	if C.db["Bags"]["Enable"] then return end
 
 	-- Bag
@@ -186,4 +186,4 @@ tinsert(C.XMLThemes, function()
 	ReagentBankFrame:DisableDrawLayer("BACKGROUND")
 	ReagentBankFrame:DisableDrawLayer("BORDER")
 	ReagentBankFrame:HookScript("OnShow", Reskin_ReagentBankFrame)
-end)
+end

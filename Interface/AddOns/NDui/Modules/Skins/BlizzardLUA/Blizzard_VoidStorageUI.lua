@@ -14,7 +14,7 @@ local function Reskin_ItemButton(self)
 	search:SetAllPoints(icbg)
 end
 
-C.LUAThemes["Blizzard_VoidStorageUI"] = function()
+C.OnLoadThemes["Blizzard_VoidStorageUI"] = function()
 	local bg = B.ReskinFrame(VoidStorageBorderFrame)
 	bg:SetFrameLevel(0)
 

@@ -71,7 +71,7 @@ local function Update_EquipmentFlyoutDisplayButton(button)
 	border:SetShown(location < EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["CharacterFrame"] = function()
 	-- CharacterFrame
 	B.ReskinFrame(CharacterFrame)
 	B.ReskinFrameTab(CharacterFrame, 3)
@@ -233,7 +233,7 @@ tinsert(C.XMLThemes, function()
 
 	hooksecurefunc("EquipmentFlyout_CreateButton", Reskin_EquipmentFlyoutCreateButton)
 	hooksecurefunc("EquipmentFlyout_DisplayButton", Update_EquipmentFlyoutDisplayButton)
-end)
+end
 
 -- 声望
 local function Reskin_ReputationFrameBars()
@@ -269,7 +269,7 @@ local function Reskin_ReputationFrameBars()
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["ReputationFrame"] = function()
 	B.ReskinFrame(ReputationDetailFrame)
 	B.ReskinClose(ReputationDetailCloseButton)
 	B.ReskinScroll(ReputationListScrollFrameScrollBar)
@@ -292,7 +292,7 @@ tinsert(C.XMLThemes, function()
 	end
 
 	hooksecurefunc("ReputationFrame_Update", Reskin_ReputationFrameBars)
-end)
+end
 
 -- 货币
 local function Reskin_TokenFrameButtons()
@@ -328,7 +328,7 @@ local function Reskin_TokenFrameButtons()
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["TokenFrame"] = function()
 	B.ReskinFrame(TokenFramePopup)
 	B.ReskinCheck(TokenFramePopupInactiveCheckBox)
 	B.ReskinCheck(TokenFramePopupBackpackCheckBox)
@@ -337,4 +337,4 @@ tinsert(C.XMLThemes, function()
 	TokenFrame:HookScript("OnShow", Reskin_TokenFrameButtons)
 	hooksecurefunc("TokenFrame_Update", Reskin_TokenFrameButtons)
 	hooksecurefunc(TokenFrameContainer, "update", Reskin_TokenFrameButtons)
-end)
+end

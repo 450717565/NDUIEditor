@@ -98,7 +98,6 @@ local questlist = {
 	{name = L["Timewarped"], id = 40786, texture = 1304688},	-- CTM
 	{name = L["Timewarped"], id = 45563, texture = 1530590},	-- MOP
 	{name = L["Timewarped"], id = 55499, texture = 1129683},	-- WOD
-	{name = "The Grand Executor", id = 57688},	-- 大执行官
 }
 
 local lesserVisions = {58151, 58155, 58156, 58167, 58168}

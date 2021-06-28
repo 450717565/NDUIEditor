@@ -50,7 +50,7 @@ local function Reskin_TitleButton(self)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["GossipFrame"] = function()
 	B.ReskinFrame(GossipFrame)
 	B.ReskinButton(GossipFrameGreetingGoodbyeButton)
 	B.ReskinScroll(GossipGreetingScrollFrameScrollBar)
@@ -68,4 +68,4 @@ tinsert(C.XMLThemes, function()
 	QuestFrameGreetingPanel:HookScript("OnShow", function(self)
 		Reskin_TitleButton(self)
 	end)
-end)
+end

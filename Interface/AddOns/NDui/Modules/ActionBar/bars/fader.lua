@@ -112,7 +112,7 @@ end
 
 function Bar:CreateButtonFrameFader(buttonList, faderConfig)
 	CreateFrameFader(self, faderConfig)
-	for _, button in next, buttonList do
+	for _, button in pairs(buttonList) do
 		if not button.__faderParent then
 			button.__faderParent = self
 			button:HookScript("OnEnter", OffFrameHandler)

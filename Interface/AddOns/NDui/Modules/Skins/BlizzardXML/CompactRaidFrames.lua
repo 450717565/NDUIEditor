@@ -9,7 +9,7 @@ local function Update_Expand(self)
 	self.toggleButton:GetNormalTexture():SetTexCoord(.86, 1, 0, 1)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["CompactRaidFrameManager"] = function()
 	if not CompactRaidFrameManager then return end
 
 	B.ReskinFrame(CompactRaidFrameManager)
@@ -55,4 +55,4 @@ tinsert(C.XMLThemes, function()
 		B.ReskinButton(WorldMarkerButton)
 		WorldMarkerButton:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
 	end
-end)
+end

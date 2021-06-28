@@ -33,7 +33,7 @@ local function Reskin_SetServiceButton(skillButton, skillIndex)
 	end
 end
 
-C.LUAThemes["Blizzard_TrainerUI"] = function()
+C.OnLoadThemes["Blizzard_TrainerUI"] = function()
 	B.ReskinFrame(ClassTrainerFrame)
 	B.ReskinButton(ClassTrainerTrainButton)
 	B.ReskinScroll(ClassTrainerScrollFrameScrollBar)

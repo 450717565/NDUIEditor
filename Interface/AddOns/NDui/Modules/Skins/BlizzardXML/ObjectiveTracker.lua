@@ -34,7 +34,7 @@ local function Reskin_Progressbar(_, _, line)
 		bar:SetPoint("LEFT", 22, 0)
 
 		if icon then
-			icon:SetMask(nil)
+			icon:SetMask("")
 			icon:ClearAllPoints()
 			icon:SetPoint("TOPLEFT", bar, "TOPRIGHT", C.margin, 0)
 			icon:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", bar:GetHeight()+C.margin, 0)
@@ -199,7 +199,7 @@ local function Reskin_MinimizeButton(button)
 	hooksecurefunc(button, "SetCollapsed", Update_MinimizeButton)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["ObjectiveTrackerFrame"] = function()
 	if IsAddOnLoaded("!KalielsTracker") then return end
 
 	local MinimizeButton = ObjectiveTrackerFrame.HeaderMenu.MinimizeButton
@@ -271,4 +271,4 @@ tinsert(C.XMLThemes, function()
 
 	-- Dummy
 	BonusObjectiveTrackerProgressBar_PlayFlareAnim = B.Dummy
-end)
+end

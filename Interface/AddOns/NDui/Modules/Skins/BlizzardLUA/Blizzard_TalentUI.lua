@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
@@ -101,7 +100,7 @@ local function Reskin_TalentFrame()
 	end
 end
 
-C.LUAThemes["Blizzard_TalentUI"] = function()
+C.OnLoadThemes["Blizzard_TalentUI"] = function()
 	B.ReskinFrame(PlayerTalentFrame)
 	B.ReskinButton(PlayerTalentFrameSpecializationLearnButton)
 	B.ReskinButton(PlayerTalentFrameActivateButton)
@@ -132,7 +131,7 @@ C.LUAThemes["Blizzard_TalentUI"] = function()
 		B.ReskinRoleIcon(scrollChild.roleIcon)
 
 		local tutorial = B.GetObject(frame, "TutorialButton")
-		S.ReskinTutorialButton(tutorial, PlayerTalentFrame)
+		B.ReskinTutorialButton(tutorial, PlayerTalentFrame)
 
 		for i = 1, 4 do
 			local button = frame["specButton"..i]
@@ -161,7 +160,7 @@ C.LUAThemes["Blizzard_TalentUI"] = function()
 
 	-- Talents
 	B.StripTextures(PlayerTalentFrameTalents)
-	S.ReskinTutorialButton(PlayerTalentFrameTalentsTutorialButton, PlayerTalentFrame)
+	B.ReskinTutorialButton(PlayerTalentFrameTalentsTutorialButton, PlayerTalentFrame)
 
 	for i = 1, MAX_TALENT_TIERS do
 		local buttons = "PlayerTalentFrameTalentsTalentRow"..i

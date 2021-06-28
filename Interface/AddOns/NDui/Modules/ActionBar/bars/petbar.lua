@@ -36,8 +36,8 @@ function Bar:CreatePetBar()
 
 	PetActionBarFrame:SetParent(frame)
 	PetActionBarFrame:EnableMouse(false)
-	SlidingActionBarTexture0:SetTexture(nil)
-	SlidingActionBarTexture1:SetTexture(nil)
+	SlidingActionBarTexture0:SetTexture("")
+	SlidingActionBarTexture1:SetTexture("")
 
 	for i = 1, num do
 		local button = _G["PetActionButton"..i]
@@ -47,8 +47,7 @@ function Bar:CreatePetBar()
 		if i == 1 then
 			button:SetPoint("LEFT", frame, padding, 0)
 		else
-			local previous = _G["PetActionButton"..i-1]
-			button:SetPoint("LEFT", previous, "RIGHT", margin, 0)
+			button:SetPoint("LEFT", _G["PetActionButton"..i-1], "RIGHT", margin, 0)
 		end
 	end
 

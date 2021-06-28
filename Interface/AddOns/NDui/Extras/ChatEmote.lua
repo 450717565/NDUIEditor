@@ -186,7 +186,7 @@ local events = {
 }
 
 local bubbleHook = CreateFrame("Frame")
-for event in next, events do
+for event in pairs(events) do
 	bubbleHook:RegisterEvent(event)
 end
 
@@ -240,7 +240,7 @@ do
 	frame:SetWidth(column*(size+space) + 24)
 	frame:SetClampedToScreen(true)
 	frame:SetFrameStrata("DIALOG")
-	frame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 20, 20)  --這裡調整位置
+	B.UpdatePoint(frame, "BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 20, 20)
 	B.CreateFS(frame, 15, L["Chat Emote"], true, "TOPLEFT", 12, -12)
 
 	for _, v in pairs(emotes) do

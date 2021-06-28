@@ -7,7 +7,16 @@ local next, tonumber = next, tonumber
 local ACTION_BUTTON_SHOW_GRID_REASON_CVAR = ACTION_BUTTON_SHOW_GRID_REASON_CVAR
 
 local scripts = {
-	"OnShow", "OnHide", "OnEvent", "OnEnter", "OnLeave", "OnUpdate", "OnValueChanged", "OnClick", "OnMouseDown", "OnMouseUp",
+	"OnClick",
+	"OnEnter",
+	"OnEvent",
+	"OnHide",
+	"OnLeave",
+	"OnMouseDown",
+	"OnMouseUp",
+	"OnShow",
+	"OnUpdate",
+	"OnValueChanged",
 }
 
 local framesToHide = {
@@ -23,7 +32,7 @@ local framesToDisable = {
 }
 
 local function DisableAllScripts(frame)
-	for _, script in next, scripts do
+	for _, script in pairs(scripts) do
 		if frame:HasScript(script) then
 			frame:SetScript(script, nil)
 		end
@@ -76,11 +85,11 @@ function Bar:HideBlizz()
 	MainMenuBar.ignoreFramePositionManager = true
 	MainMenuBar:SetAttribute("ignoreFramePositionManager", true)
 
-	for _, frame in next, framesToHide do
+	for _, frame in pairs(framesToHide) do
 		frame:SetParent(B.HiddenFrame)
 	end
 
-	for _, frame in next, framesToDisable do
+	for _, frame in pairs(framesToDisable) do
 		frame:UnregisterAllEvents()
 		DisableAllScripts(frame)
 	end

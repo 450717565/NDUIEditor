@@ -35,18 +35,7 @@ local function Reskin_StaticPopup(which, _, _, data)
 	end
 end
 
-local function Reskin_PlayerReport(self)
-	if not self.styled then
-		B.ReskinFrame(self)
-		B.ReskinInput(self.Comment)
-		B.ReskinButton(self.ReportButton)
-		B.ReskinButton(self.CancelButton)
-
-		self.styled = true
-	end
-end
-
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["StaticPopup"] = function()
 	for i = 1, 4 do
 		local main = "StaticPopup"..i
 
@@ -87,13 +76,4 @@ tinsert(C.XMLThemes, function()
 	end
 
 	hooksecurefunc("StaticPopup_Show", Reskin_StaticPopup)
-
-	-- Pet battle queue popup
-	B.ReskinFrame(PetBattleQueueReadyFrame)
-	B.CreateBDFrame(PetBattleQueueReadyFrame.Art)
-	B.ReskinButton(PetBattleQueueReadyFrame.AcceptButton)
-	B.ReskinButton(PetBattleQueueReadyFrame.DeclineButton)
-
-	-- PlayerReportFrame
-	PlayerReportFrame:HookScript("OnShow", Reskin_PlayerReport)
-end)
+end

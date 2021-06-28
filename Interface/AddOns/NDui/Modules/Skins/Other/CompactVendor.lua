@@ -79,3 +79,5 @@ function Skins:CompactVendor()
 	hooksecurefunc(splitFrame, "Show", Update_FrameAnchor)
 	hooksecurefunc(List, "RefreshListDisplay", Reskin_RefreshListDisplay)
 end
+
+C.OnLoginThemes["CompactVendor"] = Skins.CompactVendor

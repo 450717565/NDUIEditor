@@ -7,14 +7,14 @@ local tL, tR, tT, tB = unpack(DB.TexCoord)
 local function Reskin_RewardFrame(self, rew)
 	if not rew then return end
 
-	if not self.styled then
+	if not self.icbg then
+		self.icbg = B.ReskinIcon(self.Icon)
+
 		self.RarityBorder:Hide()
 
 		self.Quantity:SetJustifyH("RIGHT")
 		self.Quantity:ClearAllPoints()
-		self.Quantity:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1, 1)
-
-		self.styled = true
+		self.Quantity:SetPoint("BOTTOMRIGHT", self.icbg, "BOTTOMRIGHT", 1, 0)
 	end
 
 	local r, g, b = 1, 1, 1
@@ -48,11 +48,7 @@ local function Reskin_RewardFrame(self, rew)
 		r, g, b = B.GetQualityColor(itemQuality)
 	end
 
-	if self.Icon then
-		if not self.icbg then
-			self.icbg = B.ReskinIcon(self.Icon)
-		end
-
+	if self.icbg then
 		self.icbg:SetBackdropBorderColor(r, g, b)
 	end
 end
@@ -138,3 +134,5 @@ function Skins:VenturePlan()
 		end
 	end
 end
+
+C.OnLoginThemes["VenturePlan"] = Skins.VenturePlan

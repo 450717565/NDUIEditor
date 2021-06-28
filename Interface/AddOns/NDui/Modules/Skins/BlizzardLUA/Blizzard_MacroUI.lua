@@ -23,7 +23,7 @@ local function Reskin_MacroPopupFrame(self)
 	self:SetPoint("TOPLEFT", MacroFrame, "TOPRIGHT", 3, 0)
 end
 
-C.LUAThemes["Blizzard_MacroUI"] = function()
+C.OnLoadThemes["Blizzard_MacroUI"] = function()
 	B.ReskinFrame(MacroFrame)
 	B.ReskinFrame(MacroPopupFrame)
 

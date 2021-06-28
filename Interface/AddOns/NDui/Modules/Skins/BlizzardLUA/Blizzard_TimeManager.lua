@@ -1,7 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-C.LUAThemes["Blizzard_TimeManager"] = function()
+C.OnLoadThemes["Blizzard_TimeManager"] = function()
 	-- TimeManagerFrame
 	B.ReskinFrame(TimeManagerFrame)
 	B.ReskinInput(TimeManagerAlarmMessageEditBox)

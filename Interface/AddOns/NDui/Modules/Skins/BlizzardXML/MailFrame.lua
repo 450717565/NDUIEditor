@@ -20,7 +20,7 @@ local function Update_OpenAllMail(self)
 	self:SetPoint("BOTTOMRIGHT", MailFrameInset, "TOP", -2, 5)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["MailFrame"] = function()
 	B.ReskinFrame(MailFrame)
 	B.ReskinFrameTab(MailFrame, 2)
 
@@ -39,34 +39,21 @@ tinsert(C.XMLThemes, function()
 	SendMailMoneyBg:Hide()
 	OpenMailArithmeticLine:Hide()
 
-	InboxTitleText:ClearAllPoints()
-	InboxTitleText:SetPoint("TOP", MailFrame, 0, -5)
-	SendMailTitleText:ClearAllPoints()
-	SendMailTitleText:SetPoint("TOP", MailFrame, 0, -5)
-	OpenMailTitleText:ClearAllPoints()
-	OpenMailTitleText:SetPoint("TOP", OpenMailFrame, 0, -5)
-
-	SendMailMailButton:ClearAllPoints()
-	SendMailMailButton:SetPoint("RIGHT", SendMailCancelButton, "LEFT", -1, 0)
-	OpenMailDeleteButton:ClearAllPoints()
-	OpenMailDeleteButton:SetPoint("RIGHT", OpenMailCancelButton, "LEFT", -1, 0)
-	OpenMailReplyButton:ClearAllPoints()
-	OpenMailReplyButton:SetPoint("RIGHT", OpenMailDeleteButton, "LEFT", -1, 0)
-
-	SendMailMoneySilver:ClearAllPoints()
-	SendMailMoneySilver:SetPoint("LEFT", SendMailMoneyGold, "RIGHT", 1, 0)
-	SendMailMoneyCopper:ClearAllPoints()
-	SendMailMoneyCopper:SetPoint("LEFT", SendMailMoneySilver, "RIGHT", 1, 0)
-
 	SendMailNameEditBox:SetWidth(160)
-	SendMailNameEditBox:ClearAllPoints()
-	SendMailNameEditBox:SetPoint("TOPLEFT", SendMailFrame, "TOPLEFT", 80, -30)
 	SendMailSubjectEditBox:SetWidth(160)
-	SendMailSubjectEditBox:ClearAllPoints()
-	SendMailSubjectEditBox:SetPoint("TOPLEFT", SendMailNameEditBox, "BOTTOMLEFT", 0, -1)
+	SendMailCostMoneyFrame:DisableDrawLayer("BACKGROUND")
 
-	SendMailCostMoneyFrame:ClearAllPoints()
-	SendMailCostMoneyFrame:SetPoint("LEFT", SendMailSubjectEditBox, "RIGHT", 50, 0)
+	B.UpdatePoint(InboxTitleText, "TOP", MailFrame, "TOP", 0, -5)
+	B.UpdatePoint(SendMailTitleText, "TOP", MailFrame, "TOP", 0, -5)
+	B.UpdatePoint(OpenMailTitleText, "TOP", OpenMailFrame, "TOP", 0, -5)
+	B.UpdatePoint(SendMailMailButton, "RIGHT", SendMailCancelButton, "LEFT", -1, 0)
+	B.UpdatePoint(OpenMailDeleteButton, "RIGHT", OpenMailCancelButton, "LEFT", -1, 0)
+	B.UpdatePoint(OpenMailReplyButton, "RIGHT", OpenMailDeleteButton, "LEFT", -1, 0)
+	B.UpdatePoint(SendMailMoneySilver, "LEFT", SendMailMoneyGold, "RIGHT", 1, 0)
+	B.UpdatePoint(SendMailMoneyCopper, "LEFT", SendMailMoneySilver, "RIGHT", 1, 0)
+	B.UpdatePoint(SendMailNameEditBox, "TOPLEFT", SendMailFrame, "TOPLEFT", 80, -30)
+	B.UpdatePoint(SendMailSubjectEditBox, "TOPLEFT", SendMailNameEditBox, "BOTTOMLEFT", 0, -1)
+	B.UpdatePoint(SendMailCostMoneyFrame, "LEFT", SendMailSubjectEditBox, "RIGHT", 4, 0)
 
 	local buttons = {
 		OpenAllMail,
@@ -160,4 +147,4 @@ tinsert(C.XMLThemes, function()
 	end
 
 	hooksecurefunc("SendMailFrame_Update", Update_SendMailFrame)
-end)
+end

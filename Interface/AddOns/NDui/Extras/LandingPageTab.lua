@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local tabs = {}
 local datas = {
@@ -54,4 +53,4 @@ local function Setup_LandingPageTab()
 	hooksecurefunc("ShowGarrisonLandingPage", Update_LandingPage)
 end
 
-S.LoadWithAddOn("Blizzard_GarrisonUI", Setup_LandingPageTab)
+B.LoadWithAddOn("Blizzard_GarrisonUI", Setup_LandingPageTab)

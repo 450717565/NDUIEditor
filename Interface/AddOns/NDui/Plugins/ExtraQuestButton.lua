@@ -224,8 +224,7 @@ function ExtraQuestButton:PLAYER_LOGIN()
 
 	if not self:GetPoint() then
 		if _G.NDui_ActionBarExtra then
-			self:ClearAllPoints()
-			self:SetPoint("CENTER", _G.NDui_ActionBarExtra)
+			B.UpdatePoint(self, "CENTER", _G.NDui_ActionBarExtra, "CENTER")
 		else
 			B.Mover(self, L["ExtraQuestButton"], "Extrabar", {"BOTTOMLEFT", UIParent, 420, 30})
 		end
@@ -428,7 +427,7 @@ local function GetQuestDistanceWithItem(questID)
 				return MAX_DISTANCE_YARDS-2, itemLink
 			end
 		elseif type(questMapID) == "table" then
-			for _, mapID in next, questMapID do
+			for _, mapID in pairs(questMapID) do
 				if mapID == currentMapID then
 					return MAX_DISTANCE_YARDS-2, itemLink
 				end

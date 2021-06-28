@@ -15,7 +15,7 @@ local GemTypeInfo = {
 }
 
 local function Reskin_ItemSocketingFrame()
-	ItemSocketingDescription:SetBackdrop(nil)
+	ItemSocketingDescription:SetBackdrop("")
 
 	for i = 1, MAX_NUM_SOCKETS do
 		local types = GetSocketTypes(i)
@@ -25,7 +25,7 @@ local function Reskin_ItemSocketingFrame()
 	end
 end
 
-C.LUAThemes["Blizzard_ItemSocketingUI"] = function()
+C.OnLoadThemes["Blizzard_ItemSocketingUI"] = function()
 	B.ReskinFrame(ItemSocketingFrame)
 
 	B.ReskinButton(ItemSocketingSocketButton)

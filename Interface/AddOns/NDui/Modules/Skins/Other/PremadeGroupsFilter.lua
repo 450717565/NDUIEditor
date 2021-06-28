@@ -89,3 +89,5 @@ function Skins:PremadeGroupsFilter()
 	hooksecurefunc(PremadeGroupsFilterDialog, "SetPoint", Update_FrameAnchor)
 	hooksecurefunc(PremadeGroupsFilter.Debug, "PopupMenu_Initialize", Reskin_PopupMenu)
 end
+
+C.OnLoginThemes["PremadeGroupsFilter"] = Skins.PremadeGroupsFilter

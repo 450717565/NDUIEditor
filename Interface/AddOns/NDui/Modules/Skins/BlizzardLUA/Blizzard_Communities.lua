@@ -260,7 +260,7 @@ local function Update_FrameAnchor(self)
 	self:SetPoint("TOPLEFT", CommunitiesFrame.ChatTab, "TOPRIGHT", 2, -2)
 end
 
-C.LUAThemes["Blizzard_Communities"] = function()
+C.OnLoadThemes["Blizzard_Communities"] = function()
 	CommunitiesFrame.PortraitOverlay:SetAlpha(0)
 	B.ReskinFrame(CommunitiesFrame)
 	B.ReskinMinMax(CommunitiesFrame.MaximizeMinimizeFrame)

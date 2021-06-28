@@ -1,10 +1,9 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
-C.LUAThemes["Blizzard_IslandsQueueUI"] = function()
+C.OnLoadThemes["Blizzard_IslandsQueueUI"] = function()
 	B.ReskinFrame(IslandsQueueFrame)
 
 	local DifficultySelectorFrame = IslandsQueueFrame.DifficultySelectorFrame
@@ -12,7 +11,7 @@ C.LUAThemes["Blizzard_IslandsQueueUI"] = function()
 	DifficultySelectorFrame.Background:Hide()
 
 	local HelpButton = IslandsQueueFrame.HelpButton
-	S.ReskinTutorialButton(HelpButton, IslandsQueueFrame)
+	B.ReskinTutorialButton(HelpButton, IslandsQueueFrame)
 
 	local TutorialFrame = IslandsQueueFrame.TutorialFrame
 	B.CreateBDFrame(TutorialFrame)

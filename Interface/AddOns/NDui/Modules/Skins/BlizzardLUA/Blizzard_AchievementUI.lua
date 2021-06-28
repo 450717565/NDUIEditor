@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
@@ -114,17 +113,12 @@ local function Fixed_DisplayProgressiveAchievement()
 	end
 end
 
-C.LUAThemes["Blizzard_AchievementUI"] = function()
+C.OnLoadThemes["Blizzard_AchievementUI"] = function()
 	B.ReskinFrame(AchievementFrame)
 
-	AchievementFrameHeaderPoints:ClearAllPoints()
-	AchievementFrameHeaderPoints:SetPoint("BOTTOM", AchievementFrameSummaryAchievementsHeaderTitle, "TOP", 0, 8)
-
-	AchievementFrameComparisonHeader:ClearAllPoints()
-	AchievementFrameComparisonHeader:SetPoint("BOTTOMRIGHT", AchievementFrame, "TOPRIGHT", -10, 8)
-
-	AchievementFrameTab1:ClearAllPoints()
-	AchievementFrameTab1:SetPoint("TOPLEFT", AchievementFrame, "BOTTOMLEFT", 10, 2)
+	B.UpdatePoint(AchievementFrameHeaderPoints, "BOTTOM", AchievementFrameSummaryAchievementsHeaderTitle, "TOP", 0, 8)
+	B.UpdatePoint(AchievementFrameComparisonHeader, "BOTTOMRIGHT", AchievementFrame, "TOPRIGHT", -10, 8)
+	B.UpdatePoint(AchievementFrameTab1, "TOPLEFT", AchievementFrame, "BOTTOMLEFT", 10, 2)
 
 	AchievementFrameHeaderTitle:Hide()
 	AchievementFrameSummaryAchievementsEmptyText:SetText("")
@@ -164,46 +158,39 @@ C.LUAThemes["Blizzard_AchievementUI"] = function()
 	B.ReskinStatusBar(statusBar)
 	local barTitle = AchievementFrameSummaryCategoriesStatusBarTitle
 	B.ReskinText(barTitle, 1, 1, 1)
-	barTitle:ClearAllPoints()
-	barTitle:SetPoint("LEFT", statusBar, "LEFT", 6, 0)
+	B.UpdatePoint(barTitle, "LEFT", statusBar, "LEFT", 6, 0)
 	local barText = AchievementFrameSummaryCategoriesStatusBarText
-	barText:ClearAllPoints()
-	barText:SetPoint("RIGHT", statusBar, "RIGHT", -5, 0)
+	B.ReskinText(barText, 1, 1, 1)
+	B.UpdatePoint(barText, "RIGHT", statusBar, "RIGHT", -5, 0)
 
 	local searchBox = AchievementFrame.searchBox
-	searchBox:ClearAllPoints()
-	searchBox:SetPoint("RIGHT", AchievementFrameCloseButton, "LEFT", -5, 0)
 	B.ReskinInput(searchBox, 18, 100)
+	B.UpdatePoint(searchBox, "RIGHT", AchievementFrameCloseButton, "LEFT", -5, 0)
 
 	local searchPreviewContainer = AchievementFrame.searchPreviewContainer
-	searchPreviewContainer:ClearAllPoints()
-	searchPreviewContainer:SetPoint("TOPLEFT", AchievementFrame, "TOPRIGHT", 10, -C.mult)
+	B.UpdatePoint(searchPreviewContainer, "TOPLEFT", AchievementFrame, "TOPRIGHT", 10, -C.mult)
 	B.StripTextures(searchPreviewContainer)
 	local bg = B.CreateBG(searchPreviewContainer)
 	bg:SetOutside(searchPreviewContainer.searchPreview1, 1, 1, searchPreviewContainer.showAllSearchResults)
 
 	for i = 1, 5 do
-		S.ReskinSearchBox(searchPreviewContainer["searchPreview"..i])
+		B.ReskinSearchBox(searchPreviewContainer["searchPreview"..i])
 	end
-	S.ReskinSearchBox(searchPreviewContainer.showAllSearchResults)
-	S.ReskinSearchResult(AchievementFrame)
+	B.ReskinSearchBox(searchPreviewContainer.showAllSearchResults)
+	B.ReskinSearchResult(AchievementFrame)
 
 	local dropDown = AchievementFrameFilterDropDown
 	B.ReskinDropDown(dropDown)
-	dropDown:ClearAllPoints()
-	dropDown:SetPoint("RIGHT", searchBox, "LEFT", 0, 0)
+	B.UpdatePoint(dropDown, "RIGHT", searchBox, "LEFT", 0, 0)
 
 	for i = 1, 12 do
 		local bars = "AchievementFrameSummaryCategoriesCategory"..i
 
 		local bar = _G[bars]
 		B.ReskinStatusBar(bar)
-
 		B.ReskinText(bar.label, 1, 1, 1)
-		bar.label:ClearAllPoints()
-		bar.label:SetPoint("LEFT", bar, "LEFT", 6, 0)
-		bar.text:ClearAllPoints()
-		bar.text:SetPoint("RIGHT", bar, "RIGHT", -5, 0)
+		B.UpdatePoint(bar.label, "LEFT", bar, "LEFT", 6, 0)
+		B.UpdatePoint(bar.text, "RIGHT", bar, "RIGHT", -5, 0)
 
 		local highlight = _G[bars.."ButtonHighlight"]
 		highlight:SetAlpha(0)
@@ -222,14 +209,12 @@ C.LUAThemes["Blizzard_AchievementUI"] = function()
 		local io = _G[buttons.."IconOverlay"]
 		io:Hide()
 
-		local icon = _G[buttons.."IconTexture"]
-		local icbg = B.ReskinIcon(icon)
+		local icbg = B.ReskinIcon(_G[buttons.."IconTexture"])
 
 		local track = _G[buttons.."Tracked"]
 		track:SetSize(22, 22)
-		track:ClearAllPoints()
-		track:SetPoint("TOPLEFT", icbg, "BOTTOMLEFT", -3.5, 0)
 		B.ReskinCheck(track)
+		B.UpdatePoint(track, "TOPLEFT", icbg, "BOTTOMLEFT", -3.5, 0)
 	end
 
 	for i = 1, 20 do
@@ -270,12 +255,11 @@ C.LUAThemes["Blizzard_AchievementUI"] = function()
 
 		local title = B.GetObject(bar, "Title")
 		B.ReskinText(title, 1, 1, 1)
-		title:ClearAllPoints()
-		title:SetPoint("LEFT", bar, "LEFT", 6, 0)
+		B.UpdatePoint(title, "LEFT", bar, "LEFT", 6, 0)
 
 		local text = B.GetObject(bar, "Text")
-		text:ClearAllPoints()
-		text:SetPoint("RIGHT", bar, "RIGHT", -5, 0)
+		B.ReskinText(text, 1, 1, 1)
+		B.UpdatePoint(text, "RIGHT", bar, "RIGHT", -5, 0)
 	end
 
 	local players = {"Player", "Friend"}

@@ -29,3 +29,5 @@ function Skins:BuyEmAll()
 
 	hooksecurefunc(BuyEmAllFrame, "Show", Update_FrameAnchor)
 end
+
+C.OnLoginThemes["BuyEmAll"] = Skins.BuyEmAll

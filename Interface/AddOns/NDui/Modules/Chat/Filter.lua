@@ -52,13 +52,16 @@ local chatLines, prevLineID, filterResult = {}, 0, false
 function Chat:GetFilterResult(event, msg, name, flag, guid)
 	if name == DB.MyName or (event == "CHAT_MSG_WHISPER" and flag == "GM") or flag == "DEV" then
 		return
-	elseif guid and C.db["Chat"]["AllowFriends"] and (IsGuildMember(guid) or C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) or IsGUIDInGroup(guid)) then
+	elseif guid and (IsGuildMember(guid) or C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) or IsGUIDInGroup(guid)) then
 		return
 	end
 
-	if C.db["Chat"]["BlockStranger"] and event == "CHAT_MSG_WHISPER" then return true end -- Block strangers
+	if C.db["Chat"]["BlockStranger"] and event == "CHAT_MSG_WHISPER" then -- Block strangers
+		Chat.MuteThisTime = true
+		return true
+	end
 
-	if C.BadBoys[name] and C.BadBoys[name] >= 5 then return true end
+	if C.db["Chat"]["BlockSpammer"] and C.BadBoys[name] and C.BadBoys[name] >= 5 then return true end
 
 	local filterMsg = gsub(msg, "|H.-|h(.-)|h", "%1")
 	filterMsg = gsub(filterMsg, "|c%x%x%x%x%x%x%x%x", "")
@@ -110,7 +113,7 @@ function Chat:GetFilterResult(event, msg, name, flag, guid)
 	chatLines[chatLinesSize+1] = msgTable
 	for i = 1, chatLinesSize do
 		local line = chatLines[i]
-		if line[1] == msgTable[1] and ((msgTable[3] - line[3] < .6) or Chat:CompareStrDiff(line[2], msgTable[2]) <= .1) then
+		if line[1] == msgTable[1] and ((event == "CHAT_MSG_CHANNEL" and msgTable[3] - line[3] < .6) or Chat:CompareStrDiff(line[2], msgTable[2]) <= .1) then
 			tremove(chatLines, i)
 
 			return true
@@ -125,7 +128,10 @@ function Chat:UpdateChatFilter(event, msg, author, _, _, _, flag, _, _, _, _, li
 
 		local name = Ambiguate(author, "none")
 		filterResult = Chat:GetFilterResult(event, msg, name, flag, guid)
-		if filterResult then C.BadBoys[name] = (C.BadBoys[name] or 0) + 1 end
+		if filterResult and filterResult ~= 0 then
+			C.BadBoys[name] = (C.BadBoys[name] or 0) + 1
+		end
+		if filterResult == 0 then filterResult = true end
 	end
 
 	return filterResult
@@ -160,6 +166,8 @@ function Chat:UpdateAddOnBlocker(event, msg, author)
 				Chat:ToggleChatBubble()
 			elseif event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
 				Chat:ToggleChatBubble(true)
+			elseif event == "CHAT_MSG_WHISPER" then
+				Chat.MuteThisTime = true
 			end
 
 			return true

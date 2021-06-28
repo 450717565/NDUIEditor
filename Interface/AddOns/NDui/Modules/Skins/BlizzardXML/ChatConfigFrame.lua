@@ -1,6 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
+
 local function Reskin_UpdateWidth(self)
 	for tab in self.tabPool:EnumerateActive() do
 		if not tab.styled then
@@ -78,7 +80,7 @@ local function Reskin_CreateColorSwatches(frame, swatchTable)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["ChatConfigFrame"] = function()
 	B.ReskinFrame(ChatConfigFrame)
 
 	B.ReskinArrow(ChatConfigMoveFilterUpButton, "up")
@@ -182,7 +184,7 @@ tinsert(C.XMLThemes, function()
 	hooksecurefunc("ChatConfig_CreateTieredCheckboxes", Reskin_CreateTieredCheckboxes)
 	hooksecurefunc("ChatConfig_CreateColorSwatches", Reskin_CreateColorSwatches)
 	hooksecurefunc(ChatConfigFrameChatTabManager, "UpdateWidth", Reskin_UpdateWidth)
-end)
+end
 
 -- TextToSpeech
 local function Reskin_TextToSpeechFrame(frame)
@@ -203,7 +205,7 @@ local function Reskin_TextToSpeechFrame(frame)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["TextToSpeechFrame"] = function()
 	if DB.isNewPatch then
 		B.StripTextures(TextToSpeechButton, 5)
 
@@ -234,7 +236,7 @@ tinsert(C.XMLThemes, function()
 
 		hooksecurefunc("TextToSpeechFrame_UpdateMessageCheckboxes", Reskin_TextToSpeechFrame)
 	end
-end)
+end
 
 -- VoicePicker
 local function Reskin_PickerOptions(self)
@@ -243,7 +245,7 @@ local function Reskin_PickerOptions(self)
 		local children = {scrollTarget:GetChildren()}
 		for _, child in pairs(children) do
 			if child and not child.styled then
-				child.UnCheck:SetTexture(nil)
+				child.UnCheck:SetTexture("")
 				child.Highlight:SetColorTexture(cr, cg, cb, .25)
 
 				local check = child.Check
@@ -264,11 +266,11 @@ local function Reskin_VoicePicker(self)
 	self:HookScript("OnShow", Reskin_PickerOptions)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["VoicePicker"] = function()
 	if DB.isNewPatch then
 		B.StripTextures(ChatConfigTextToSpeechChannelSettingsLeft)
 
 		Reskin_VoicePicker(TextToSpeechFrameTtsVoicePicker)
 		Reskin_VoicePicker(TextToSpeechFrameTtsVoiceAlternatePicker)
 	end
-end)
+end

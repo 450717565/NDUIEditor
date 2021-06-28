@@ -19,8 +19,8 @@ local function Reskin_PlayerChoiceFrame(self)
 		self.bg = B.ReskinFrame(self)
 	end
 
-	self.bg:SetShown(not IsInJailersTower())
-	self.CloseButton:SetPoint("TOPRIGHT", self.bg, -6, -6)
+	self.bg:SetShown(not IsInInstance())
+	B.UpdatePoint(self.CloseButton, "TOPRIGHT", self.bg, "TOPRIGHT", -6, -6)
 
 	for optionFrame in self.optionPools:EnumerateActiveByTemplate(self.optionFrameTemplate) do
 		local header = optionFrame.Header
@@ -67,6 +67,6 @@ local function Reskin_PlayerChoiceFrame(self)
 	end
 end
 
-C.LUAThemes["Blizzard_PlayerChoice"] = function()
+C.OnLoadThemes["Blizzard_PlayerChoice"] = function()
 	hooksecurefunc(PlayerChoiceFrame, "TryShow", Reskin_PlayerChoiceFrame)
 end

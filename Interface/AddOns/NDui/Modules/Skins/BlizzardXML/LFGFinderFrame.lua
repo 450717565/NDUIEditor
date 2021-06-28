@@ -136,7 +136,7 @@ local function Reskin_LFGDungeonReadyStatusGrouped(button, role)
 	button.texture:SetTexCoord(B.GetRoleTexCoord(role))
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["LFGFinderFrame"] = function()
 	B.StripTextures(LFDParentFrame)
 	B.StripTextures(LFDQueueFrame, 0)
 	B.StripTextures(RaidFinderFrame)
@@ -254,4 +254,4 @@ tinsert(C.XMLThemes, function()
 	hooksecurefunc("LFGDungeonReadyStatusIndividual_UpdateIcon", Reskin_LFGDungeonReadyStatusIndividual)
 	hooksecurefunc("LFGRewardsFrame_SetItemButton", Update_LFGRewardsFrame)
 	hooksecurefunc("SetCheckButtonIsRadio", Reskin_SetCheckButtonIsRadio)
-end)
+end

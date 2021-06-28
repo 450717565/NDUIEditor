@@ -19,7 +19,7 @@ local function Reskin_ItemUpgradeFrame()
 	end
 end
 
-C.LUAThemes["Blizzard_ItemUpgradeUI"] = function()
+C.OnLoadThemes["Blizzard_ItemUpgradeUI"] = function()
 	B.ReskinFrame(ItemUpgradeFrame)
 
 	B.StripTextures(ItemUpgradeFrameMoneyFrame)

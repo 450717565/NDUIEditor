@@ -52,3 +52,5 @@ function Skins:MogPartialSets()
 	MogPartialSetsFilterOkButton:SetText(OKAY)
 	MogPartialSetsFilterRefreshButton:SetText(REFRESH)
 end
+
+C.OnLoginThemes["MogPartialSets"] = Skins.MogPartialSets

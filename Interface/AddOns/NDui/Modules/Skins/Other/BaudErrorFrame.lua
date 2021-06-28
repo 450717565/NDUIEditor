@@ -28,3 +28,5 @@ function Skins:BaudErrorFrame()
 		B.ReskinText(button.Text, cr, cg, cb)
 	end
 end
+
+C.OnLoginThemes["BaudErrorFrame"] = Skins.BaudErrorFrame

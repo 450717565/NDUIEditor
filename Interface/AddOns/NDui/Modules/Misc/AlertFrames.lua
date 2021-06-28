@@ -26,10 +26,8 @@ function Misc:AlertFrame_UpdateAnchor()
 		YOFFSET = 10
 	end
 
-	self:ClearAllPoints()
-	self:SetPoint(POSITION, parentFrame)
-	GroupLootContainer:ClearAllPoints()
-	GroupLootContainer:SetPoint(POSITION, parentFrame)
+	B.UpdatePoint(self, POSITION, parentFrame, POSITION)
+	B.UpdatePoint(GroupLootContainer, POSITION, parentFrame, POSITION)
 end
 
 function Misc:UpdatGroupLootContainer()
@@ -38,8 +36,8 @@ function Misc:UpdatGroupLootContainer()
 	for i = 1, self.maxIndex do
 		local frame = self.rollFrames[i]
 		if frame then
-			frame:ClearAllPoints()
-			frame:SetPoint("CENTER", self, POSITION, 0, self.reservedSize * (i-1 + 0.5) * YOFFSET/10)
+			B.UpdatePoint(frame, "CENTER", self, POSITION, 0, self.reservedSize * (i-1 + 0.5) * YOFFSET/10)
+
 			lastIdx = i
 		end
 	end
@@ -53,8 +51,7 @@ function Misc:UpdatGroupLootContainer()
 end
 
 function Misc:AlertFrame_SetPoint(relativeAlert)
-	self:ClearAllPoints()
-	self:SetPoint(POSITION, relativeAlert, ANCHOR_POINT, 0, YOFFSET)
+	B.UpdatePoint(self, POSITION, relativeAlert, ANCHOR_POINT, 0, YOFFSET)
 end
 
 function Misc:AlertFrame_AdjustQueuedAnchors(relativeAlert)
@@ -98,10 +95,9 @@ local function MoveTalkingHead()
 	if not talkFrame then return end
 
 	local TalkingHeadFrame = _G.TalkingHeadFrame
-
 	TalkingHeadFrame.ignoreFramePositionManager = true
-	TalkingHeadFrame:ClearAllPoints()
-	TalkingHeadFrame:SetPoint("TOP", talkFrame)
+	TalkingHeadFrame:SetAttribute("ignoreFramePositionManager", true)
+	B.UpdatePoint(TalkingHeadFrame, "TOP", talkFrame, "TOP")
 
 	for index, alertFrameSubSystem in pairs(AlertFrame.alertFrameSubSystems) do
 		if alertFrameSubSystem.anchorFrame and alertFrameSubSystem.anchorFrame == TalkingHeadFrame then
@@ -145,6 +141,7 @@ function Misc:AlertFrame_Setup()
 
 	GroupLootContainer:EnableMouse(false)
 	GroupLootContainer.ignoreFramePositionManager = true
+	GroupLootContainer:SetAttribute("ignoreFramePositionManager", true)
 
 	for _, alertFrameSubSystem in pairs(AlertFrame.alertFrameSubSystems) do
 		Misc.AlertFrame_AdjustPosition(alertFrameSubSystem)

@@ -162,7 +162,7 @@ local function Reskin_FilterButton(button)
 	button.SelectedTexture:SetColorTexture(cr, cg, cb, .25)
 end
 
-C.LUAThemes["Blizzard_AuctionHouseUI"] = function()
+C.OnLoadThemes["Blizzard_AuctionHouseUI"] = function()
 	B.ReskinFrame(AuctionHouseFrame)
 
 	B.StripTextures(AuctionHouseFrame.MoneyFrameInset)

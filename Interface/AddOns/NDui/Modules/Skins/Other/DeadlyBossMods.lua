@@ -29,14 +29,6 @@ local function Reskin_Bar(bar, frame)
 		B.CreateBDFrame(bar, 0, -C.mult, true)
 		bar:SetStatusBarTexture(DB.normTex)
 
-		bar.Spark = bar:CreateTexture(nil, "OVERLAY")
-		bar.Spark:SetTexture(DB.sparkTex)
-		bar.Spark:SetBlendMode("ADD")
-		bar.Spark:SetAlpha(C.alpha)
-		bar.Spark:ClearAllPoints()
-		bar.Spark:SetPoint("TOPLEFT", bar:GetStatusBarTexture(), "TOPRIGHT", -10, 10)
-		bar.Spark:SetPoint("BOTTOMRIGHT", bar:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -10)
-
 		bar.styled = true
 	end
 
@@ -79,17 +71,16 @@ local function Reskin_ApplyStyle(self)
 	frame:SetHeight(iconSize/2)
 	if texture then texture:SetTexture(DB.normTex) end
 
-	name:ClearAllPoints()
-	name:SetPoint("LEFT", tbar, "LEFT", 2, 6)
-	name:SetPoint("RIGHT", tbar, "RIGHT", -30, 6)
-	name:SetFont(DB.Font[1], 14, DB.Font[3])
-	name:SetJustifyH("LEFT")
 	name:SetWordWrap(false)
+	name:SetJustifyH("LEFT")
+	name:SetWidth(tbar:GetWidth()*.8)
+	name:SetFont(DB.Font[1], 14, DB.Font[3])
+	B.UpdatePoint(name, "LEFT", tbar, "TOPLEFT", C.margin, 0)
 
-	timer:ClearAllPoints()
-	timer:SetPoint("RIGHT", tbar, "RIGHT", -2, 6)
-	timer:SetFont(DB.Font[1], 14, DB.Font[3])
 	timer:SetJustifyH("RIGHT")
+	timer:SetWidth(tbar:GetWidth()*.2)
+	timer:SetFont(DB.Font[1], 14, DB.Font[3])
+	B.UpdatePoint(timer, "RIGHT", tbar, "TOPRIGHT", -C.margin, 0)
 end
 
 local function Reskin_CreateBar(self)
@@ -137,8 +128,7 @@ function Skins:DeadlyBossMods()
 		return RaidNotice_AddMessage_(noticeFrame, textString, colorInfo)
 	end
 
-	if not C.db["Skins"]["DeadlyBossMods"] then return end
-	if not IsAddOnLoaded("DBM-Core") then return end
+	if not C.db["Skins"]["DeadlyBossMods"] or not IsAddOnLoaded("DBM-Core") then return end
 
 	hooksecurefunc(DBT, "CreateBar", Reskin_CreateBar)
 	hooksecurefunc(DBM.RangeCheck, "Show", Reskin_RangeCheck)

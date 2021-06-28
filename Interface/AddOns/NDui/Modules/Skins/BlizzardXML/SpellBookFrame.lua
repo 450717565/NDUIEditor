@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
@@ -85,10 +84,10 @@ local function Update_UpdateProfessionButton(self)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["SpellBookFrame"] = function()
 	B.ReskinFrame(SpellBookFrame)
 	B.ReskinFrameTab(SpellBookFrame, 3, "TabButton")
-	S.ReskinTutorialButton(SpellBookFrameTutorialButton, SpellBookFrame)
+	B.ReskinTutorialButton(SpellBookFrameTutorialButton, SpellBookFrame)
 
 	-- Spell
 	B.ReskinText(SpellBookPageText, 1, 1, 1)
@@ -194,4 +193,4 @@ tinsert(C.XMLThemes, function()
 	end
 
 	hooksecurefunc("UpdateProfessionButton", Update_UpdateProfessionButton)
-end)
+end

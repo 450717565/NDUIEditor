@@ -90,9 +90,10 @@ function Auras:Reminder_Create(cfg)
 		end
 	end
 	frame.Icon:SetTexture(texture)
+
 	frame.text = B.CreateFS(frame, 14, ADDON_MISSING)
-	frame.text:ClearAllPoints()
-	frame.text:SetPoint("CENTER", frame, "TOP", 0, 0)
+	B.UpdatePoint(frame.text, "CENTER", frame, "TOP", 1, 0)
+
 	frame:Hide()
 	cfg.frame = frame
 
@@ -102,7 +103,7 @@ end
 function Auras:Reminder_UpdateAnchor()
 	local index = 0
 	local offset = iconSize + 5
-	for _, frame in next, frames do
+	for _, frame in pairs(frames) do
 		if frame:IsShown() then
 			frame:SetPoint("LEFT", offset * index, 0)
 			index = index + 1

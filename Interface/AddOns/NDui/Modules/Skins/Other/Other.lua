@@ -8,3 +8,5 @@ function Skins:Other()
 		EasyScrapParentFrame:SetPoint("LEFT", ScrappingMachineFrame, "RIGHT", 3, 0)
 	end
 end
+
+C.OnLoginThemes["Other"] = Skins.Other

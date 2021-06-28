@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local tL, tR, tT, tB = unpack(DB.TexCoord)
@@ -177,7 +176,7 @@ local function Reskin_SetItemFrameQuality(_, itemFrame)
 	end
 end
 
-C.LUAThemes["Blizzard_Collections"] = function()
+C.OnLoadThemes["Blizzard_Collections"] = function()
 	-- [[ General ]]
 	CollectionsJournal.bg = B.ReskinFrame(CollectionsJournal)
 	B.ReskinFrameTab(CollectionsJournal, 5)
@@ -371,7 +370,7 @@ C.LUAThemes["Blizzard_Collections"] = function()
 	hooksecurefunc(MountJournalListScrollFrame, "update", Update_MountList)
 
 	-- PetJournal
-	S.ReskinTutorialButton(PetJournalTutorialButton, PetJournal)
+	B.ReskinTutorialButton(PetJournalTutorialButton, PetJournal)
 
 	local PetCard = PetJournalPetCard
 	B.StripTextures(PetCard)

@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
+local Skins = B:GetModule("Skins")
 
-local function Reskin_CovenantMissionHelper()
+function Skins:CovenantMissionHelper()
 	if not IsAddOnLoaded("CovenantMissionHelper") then return end
 
 	for i = 1, 2 do
@@ -40,4 +40,4 @@ local function Reskin_CovenantMissionHelper()
 	B.ReskinButton(buttonsFrame.predictButton)
 end
 
-S.LoadWithAddOn("Blizzard_GarrisonUI", Reskin_CovenantMissionHelper, true)
+C.OnLoginThemes["Blizzard_GarrisonUI"] = Skins.CovenantMissionHelper

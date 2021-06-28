@@ -8,7 +8,7 @@ local function Update_FrameAnchor(self)
 	self:SetPoint("LEFT", self:GetParent(), "RIGHT", 3, 0)
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["DressUpFrame"] = function()
 	-- DressupFrame
 	B.ReskinFrame(DressUpFrame)
 
@@ -46,7 +46,7 @@ tinsert(C.XMLThemes, function()
 
 	-- TransmogAndMountDressupFrame
 	B.ReskinCheck(TransmogAndMountDressupFrame.ShowMountCheckButton)
-end)
+end
 
 -- WardrobeOutfitFrame
 local function Reskin_WardrobeOutfitFrame(self)
@@ -65,7 +65,7 @@ local function Reskin_WardrobeOutfitFrame(self)
 	end
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["WardrobeOutfitFrame"] = function()
 	B.ReskinFrame(WardrobeOutfitFrame)
 	B.ReskinFrame(WardrobeOutfitEditFrame)
 
@@ -75,4 +75,4 @@ tinsert(C.XMLThemes, function()
 	B.ReskinInput(WardrobeOutfitEditFrame.EditBox)
 
 	hooksecurefunc(WardrobeOutfitFrame, "Update", Reskin_WardrobeOutfitFrame)
-end)
+end

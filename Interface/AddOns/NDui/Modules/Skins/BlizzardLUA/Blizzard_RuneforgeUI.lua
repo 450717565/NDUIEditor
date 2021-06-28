@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 local TT = B:GetModule("Tooltip")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
@@ -10,7 +9,7 @@ local function Reskin_RefreshCurrencyDisplay(self)
 
 	for currencyFrame in self.CurrencyDisplay.currencyFramePool:EnumerateActive() do
 		if currencyFrame and not currencyFrame.hooked then
-			S.ReplaceIconString(currencyFrame.Text)
+			B.ReplaceIconString(currencyFrame.Text)
 
 			currencyFrame.hooked = true
 		end
@@ -75,7 +74,7 @@ local function Updat_SetCurrencies(self)
 	end
 end
 
-C.LUAThemes["Blizzard_RuneforgeUI"] = function()
+C.OnLoadThemes["Blizzard_RuneforgeUI"] = function()
 	local frame = RuneforgeFrame
 	B.ReskinClose(frame.CloseButton, frame, -70, -70)
 	TT.ReskinTooltip(frame.ResultTooltip)
@@ -84,7 +83,7 @@ C.LUAThemes["Blizzard_RuneforgeUI"] = function()
 	B.ReskinButton(createFrame.CraftItemButton)
 
 	if not DB.isNewPatch then
-		S.ReplaceIconString(createFrame.Cost.Text)
+		B.ReplaceIconString(createFrame.Cost.Text)
 	else
 		hooksecurefunc(frame.CurrencyDisplay, "SetCurrencies", Updat_SetCurrencies)
 		hooksecurefunc(createFrame.Cost.Currencies, "SetCurrencies", Updat_SetCurrencies)

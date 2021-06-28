@@ -2,7 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local TT = B:GetModule("Tooltip")
 
-C.LUAThemes["Blizzard_BarbershopUI"] = function()
+C.OnLoadThemes["Blizzard_BarbershopUI"] = function()
 	local frame = BarberShopFrame
 
 	B.StripTextures(frame)
@@ -55,7 +55,7 @@ local function Reskin_CharCustomizeFrame(self)
 	Reskin_CustomizeTooltip(CharCustomizeNoHeaderTooltip)
 end
 
-C.LUAThemes["Blizzard_CharacterCustomize"] = function()
+C.OnLoadThemes["Blizzard_CharacterCustomize"] = function()
 	local frame = CharCustomizeFrame
 
 	Reskin_CustomizeButton(frame.SmallButtons.ResetCameraButton)

@@ -68,16 +68,13 @@ function Bar:CreateBar3()
 		if i == 1 then
 			button:SetPoint("TOPLEFT", frame, padding, -padding)
 		elseif (i == 4 and layout < 4) or (i == 7 and layout == 5) then
-			local previous = _G["MultiBarBottomRightButton1"]
-			button:SetPoint("TOP", previous, "BOTTOM", 0, -margin)
+			button:SetPoint("TOP", _G["MultiBarBottomRightButton1"], "BOTTOM", 0, -margin)
 		elseif i == 7 and layout < 4 then
 			button:SetPoint("TOPRIGHT", frame, -2*(cfg.size+margin) - padding, -padding)
 		elseif i == 10 and layout < 4 then
-			local previous = _G["MultiBarBottomRightButton7"]
-			button:SetPoint("TOP", previous, "BOTTOM", 0, -margin)
+			button:SetPoint("TOP", _G["MultiBarBottomRightButton7"], "BOTTOM", 0, -margin)
 		else
-			local previous = _G["MultiBarBottomRightButton"..i-1]
-			button:SetPoint("LEFT", previous, "RIGHT", margin, 0)
+			button:SetPoint("LEFT", _G["MultiBarBottomRightButton"..i-1], "RIGHT", margin, 0)
 		end
 	end
 

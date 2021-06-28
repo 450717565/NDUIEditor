@@ -76,8 +76,7 @@ function Bar:CreateBar1()
 		if i == 1 then
 			button:SetPoint("BOTTOMLEFT", frame, padding, padding)
 		else
-			local previous = _G["ActionButton"..i-1]
-			button:SetPoint("LEFT", previous, "RIGHT", margin, 0)
+			button:SetPoint("LEFT", _G["ActionButton"..i-1], "RIGHT", margin, 0)
 		end
 	end
 
@@ -93,7 +92,7 @@ function Bar:CreateBar1()
 
 	local actionPage = "[bar:6]6;[bar:5]5;[bar:4]4;[bar:3]3;[bar:2]2;[overridebar]14;[shapeshift]13;[vehicleui]12;[possessbar]12;[bonusbar:5]11;[bonusbar:4]10;[bonusbar:3]9;[bonusbar:2]8;[bonusbar:1]7;1"
 	local buttonName = "ActionButton"
-	for i, button in next, buttonList do
+	for i, button in pairs(buttonList) do
 		frame:SetFrameRef(buttonName..i, button)
 	end
 
@@ -105,7 +104,7 @@ function Bar:CreateBar1()
 	]]):format(num, buttonName))
 
 	frame:SetAttribute("_onstate-page", [[
-		for _, button in next, buttons do
+		for _, button in pairs(buttons) do
 			button:SetAttribute("actionpage", newstate)
 		end
 	]])
@@ -113,7 +112,7 @@ function Bar:CreateBar1()
 
 	-- Fix button texture
 	local function FixActionBarTexture()
-		for _, button in next, buttonList do
+		for _, button in pairs(buttonList) do
 			local action = button.action
 			if action < 120 then break end
 

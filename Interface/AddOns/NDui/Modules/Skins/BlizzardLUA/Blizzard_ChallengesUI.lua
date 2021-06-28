@@ -66,7 +66,7 @@ local function Reskin_AffixsSetUp(_, affixID)
 	end
 end
 
-C.LUAThemes["Blizzard_ChallengesUI"] = function()
+C.OnLoadThemes["Blizzard_ChallengesUI"] = function()
 	B.StripTextures(ChallengesFrame)
 
 	ChallengesFrame.WeeklyInfo:SetInside()

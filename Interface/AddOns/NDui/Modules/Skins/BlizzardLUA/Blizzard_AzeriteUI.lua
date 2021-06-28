@@ -1,8 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
-C.LUAThemes["Blizzard_AzeriteUI"] = function()
+C.OnLoadThemes["Blizzard_AzeriteUI"] = function()
 	B.ReskinFrame(AzeriteEmpoweredItemUI)
 	AzeriteEmpoweredItemUI.ClipFrame.BackgroundFrame.Bg:Hide()
 end
@@ -22,7 +21,7 @@ local function Reskin_EssenceList(self)
 	end
 end
 
-C.LUAThemes["Blizzard_AzeriteEssenceUI"] = function()
+C.OnLoadThemes["Blizzard_AzeriteEssenceUI"] = function()
 	B.ReskinFrame(AzeriteEssenceUI)
 
 	for _, milestoneFrame in pairs(AzeriteEssenceUI.Milestones) do
@@ -79,10 +78,10 @@ local function Reskin_ReforgeUI(self, index)
 	if ButtonFrame.AzeriteRespecButton then B.ReskinButton(ButtonFrame.AzeriteRespecButton) end
 end
 
-C.LUAThemes["Blizzard_AzeriteRespecUI"] = function()
+C.OnLoadThemes["Blizzard_AzeriteRespecUI"] = function()
 	Reskin_ReforgeUI(AzeriteRespecFrame, 15)
 end
 
-C.LUAThemes["Blizzard_ItemInteractionUI"] = function()
+C.OnLoadThemes["Blizzard_ItemInteractionUI"] = function()
 	Reskin_ReforgeUI(ItemInteractionFrame)
 end

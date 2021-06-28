@@ -572,3 +572,5 @@ function Skins:MeetingStone()
 		origSetActivity(self, activity)
 	end
 end
+
+C.OnLoginThemes["MeetingStone"] = Skins.MeetingStone

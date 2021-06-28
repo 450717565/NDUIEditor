@@ -18,6 +18,28 @@ local GetItemInfo, GetContainerItemID, SplitContainerItem = GetItemInfo, GetCont
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
+-- 心能统计
+local function GetBagAnimaAmount()
+	local amount = 0
+	for bagID = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
+		for slot = 1, GetContainerNumSlots(bagID) do
+			local count, _, _, _, _, _, _, _, itemID = select(2, GetContainerItemInfo(bagID, slot))
+			if itemID and C_Item.IsAnimaItemByID(itemID) then
+				amount = amount + (B.GetAnimaMultiplier(itemID) * count)
+			end
+		end
+	end
+
+	return amount
+end
+
+function Bags:UpdateAnimaAmount()
+	if not C.db["Bags"]["ItemFilter"] then return end
+	if not C.db["Bags"]["FilterAnima"] then return end
+
+	_G.NDui_BackpackBagAnima.label:SetFormattedText(POWER_TYPE_ANIMA.."：%d", GetBagAnimaAmount())
+end
+
 local sortCache = {}
 function Bags:ReverseSort()
 	for bag = 0, 4 do
@@ -108,12 +130,11 @@ function Bags:CreateRestoreButton(f)
 		C.db["TempAnchor"][f.main:GetDebugName()] = nil
 		C.db["TempAnchor"][f.bank:GetDebugName()] = nil
 		C.db["TempAnchor"][f.reagent:GetDebugName()] = nil
-		f.main:ClearAllPoints()
-		f.main:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -100, 200)
-		f.bank:ClearAllPoints()
-		f.bank:SetPoint("TOPRIGHT", f.main, "TOPLEFT", -25, 0)
-		f.reagent:ClearAllPoints()
-		f.reagent:SetPoint("BOTTOMLEFT", f.bank)
+
+		B.UpdatePoint(f.main, "BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -100, 200)
+		B.UpdatePoint(f.bank, "TOPRIGHT", f.main, "TOPLEFT", -25, 0)
+		B.UpdatePoint(f.reagent, "TOPRIGHT", f.bank, "TOPRIGHT", 0, 0)
+
 		PlaySound(SOUNDKIT.IG_MINIMAP_OPEN)
 	end)
 	bu.title = RESET
@@ -631,7 +652,7 @@ function Bags:OnLogin()
 
 		f.reagent = MyContainer:New("Reagent", {Columns = bankWidth, Bags = "bankreagent"})
 		f.reagent:SetFilter(filters.onlyReagent, true)
-		f.reagent:SetPoint("BOTTOMLEFT", f.bank)
+		f.reagent:SetPoint("TOPRIGHT", f.bank)
 		f.reagent:Hide()
 
 		for bagType, groups in pairs(ContainerGroups) do
@@ -925,7 +946,7 @@ function Bags:OnLogin()
 		elseif strmatch(name, "Quest") then
 			label = QUESTS_LABEL
 		elseif strmatch(name, "Anima") then
-			label = ANIMA
+			label = POWER_TYPE_ANIMA
 		end
 		if label then
 			self.label = B.CreateFS(self, 14, label, true, "TOPLEFT", 5, -8)
@@ -1031,4 +1052,8 @@ function Bags:OnLogin()
 	end
 	local shiftUpdater = CreateFrame("Frame", nil, f.main)
 	shiftUpdater:SetScript("OnUpdate", onUpdate)
+
+	-- 心能统计
+	Bags:UpdateAnimaAmount()
+	B:RegisterEvent("BAG_UPDATE_DELAYED", Bags.UpdateAnimaAmount)
 end

@@ -40,20 +40,7 @@ local function Reskin_LootFrame()
 	end
 end
 
-local function Reskin_BossBanner(lootFrame)
-	local IconHitBox = lootFrame.IconHitBox
-	if not IconHitBox.icbg then
-		IconHitBox.icbg = B.CreateBDFrame(IconHitBox)
-		IconHitBox.icbg:SetOutside(lootFrame.Icon)
-		lootFrame.Icon:SetTexCoord(tL, tR, tT, tB)
-		B.ReskinBorder(IconHitBox.IconBorder, IconHitBox.icbg, nil, true)
-	end
-
-	IconHitBox.IconBorder:SetTexture(nil)
-end
-
-tinsert(C.XMLThemes, function()
-	-- LootFrame
+C.OnLoginThemes["LootFrame"] = function()
 	B.ReskinFrame(LootFrame)
 	B.ReskinArrow(LootFrameUpButton, "up")
 	B.ReskinArrow(LootFrameDownButton, "down")
@@ -66,8 +53,9 @@ tinsert(C.XMLThemes, function()
 	LootFramePrev:SetPoint("LEFT", LootFrameUpButton, "RIGHT", 4, 0)
 	LootFrameNext:ClearAllPoints()
 	LootFrameNext:SetPoint("RIGHT", LootFrameDownButton, "LEFT", -4, 0)
+end
 
-	-- BonusRollFrame
+C.OnLoginThemes["BonusRollFrame"] = function()
 	B.ReskinFrame(BonusRollFrame, "none")
 	BonusRollFrame.BlackBackgroundHoist:Hide()
 
@@ -91,7 +79,20 @@ tinsert(C.XMLThemes, function()
 	local from, to = "|T.+|t", "|T%%s:14:14:0:0:64:64:5:59:5:59|t"
 	BONUS_ROLL_COST = gsub(BONUS_ROLL_COST, from, to)
 	BONUS_ROLL_CURRENT_COUNT = gsub(BONUS_ROLL_CURRENT_COUNT, from, to)
+end
 
-	-- Bossbanner
+local function Reskin_BossBanner(lootFrame)
+	local IconHitBox = lootFrame.IconHitBox
+	if not IconHitBox.icbg then
+		IconHitBox.icbg = B.CreateBDFrame(IconHitBox)
+		IconHitBox.icbg:SetOutside(lootFrame.Icon)
+		lootFrame.Icon:SetTexCoord(tL, tR, tT, tB)
+		B.ReskinBorder(IconHitBox.IconBorder, IconHitBox.icbg, nil, true)
+	end
+
+	IconHitBox.IconBorder:SetTexture("")
+end
+
+C.OnLoginThemes["BossBanner"] = function()
 	hooksecurefunc("BossBanner_ConfigureLootFrame", Reskin_BossBanner)
-end)
+end

@@ -7,16 +7,16 @@ local function Reskin_PVPReadyDialog(self, _, _, _, _, _, role)
 	end
 end
 
-tinsert(C.XMLThemes, function()
-	-- PVPReadyDialog
+C.OnLoginThemes["PVPReadyDialog"] = function()
 	B.ReskinFrame(PVPReadyDialog)
 	B.ReskinButton(PVPReadyDialog.enterButton)
 	B.ReskinButton(PVPReadyDialog.leaveButton)
 	B.ReskinRoleIcon(PVPReadyDialogRoleIconTexture)
 
 	hooksecurefunc("PVPReadyDialog_Display", Reskin_PVPReadyDialog)
+end
 
-	-- PVPMatchScoreboard
+C.OnLoginThemes["PVPMatchScoreboard"] = function()
 	B.ReskinFrame(PVPMatchScoreboard)
 	PVPMatchScoreboard:HookScript("OnShow", B.StripTextures)
 
@@ -34,8 +34,9 @@ tinsert(C.XMLThemes, function()
 
 	local bg = B.CreateBDFrame(Content)
 	bg:SetPoint("BOTTOMRIGHT", TabContainer.InsetBorderTop, 4, -1)
+end
 
-	-- PVPMatchResults
+C.OnLoginThemes["PVPMatchResults"] = function()
 	B.ReskinFrame(PVPMatchResults)
 	PVPMatchResults:HookScript("OnShow", B.StripTextures)
 	B.StripTextures(PVPMatchResults.overlay)
@@ -59,4 +60,4 @@ tinsert(C.XMLThemes, function()
 
 	local bg = B.CreateBDFrame(content)
 	bg:SetPoint("BOTTOMRIGHT", tabContainer.InsetBorderTop, 4, -1)
-end)
+end

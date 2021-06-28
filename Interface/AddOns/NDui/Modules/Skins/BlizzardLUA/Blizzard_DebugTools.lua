@@ -30,7 +30,7 @@ local function Reskin_TableAttribute(self)
 	self.styled = true
 end
 
-C.LUAThemes["Blizzard_DebugTools"] = function()
+C.OnLoadThemes["Blizzard_DebugTools"] = function()
 	-- TableAttribute
 	Reskin_TableAttribute(TableAttributeDisplay)
 	hooksecurefunc(TableInspectorMixin, "InspectTable", Reskin_TableAttribute)

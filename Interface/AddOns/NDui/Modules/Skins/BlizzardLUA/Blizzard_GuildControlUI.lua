@@ -60,7 +60,7 @@ local function Reskin_RankOrder()
 	end
 end
 
-C.LUAThemes["Blizzard_GuildControlUI"] = function()
+C.OnLoadThemes["Blizzard_GuildControlUI"] = function()
 	B.ReskinFrame(GuildControlUI)
 
 	B.StripTextures(GuildControlUIRankBankFrameInset)

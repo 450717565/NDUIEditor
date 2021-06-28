@@ -91,18 +91,18 @@ function TT:HideLines()
 		local linetext = tiptext:GetText()
 		if linetext then
 			if linetext == PVP then
-				tiptext:SetText(nil)
+				tiptext:SetText("")
 				tiptext:Hide()
 			elseif linetext == FACTION_HORDE then
 				if C.db["Tooltip"]["FactionIcon"] then
-					tiptext:SetText(nil)
+					tiptext:SetText("")
 					tiptext:Hide()
 				else
 					tiptext:SetText("|cffFF5040"..linetext.."|r")
 				end
 			elseif linetext == FACTION_ALLIANCE then
 				if C.db["Tooltip"]["FactionIcon"] then
-					tiptext:SetText(nil)
+					tiptext:SetText("")
 					tiptext:Hide()
 				else
 					tiptext:SetText("|cff4080FF"..linetext.."|r")
@@ -297,12 +297,12 @@ function TT:OnTooltipSetUnit()
 			self:AddLine(TARGET.."："..tar)
 		end
 
+		TT.InspectUnitSpecAndLevel(self, unit)
+
 		self.StatusBar:SetStatusBarColor(r, g, b)
 	else
 		self.StatusBar:SetStatusBarColor(0, .9, 0)
 	end
-
-	TT.InspectUnitSpecAndLevel(self)
 end
 
 function TT:StatusBar_OnValueChanged(value)
@@ -348,7 +348,7 @@ end
 
 function TT:SharedTooltip_SetBackdropStyle()
 	if not self.tipStyled then return end
-	self:SetBackdrop(nil)
+	self:SetBackdrop("")
 end
 
 -- Anchor and mover
@@ -374,23 +374,17 @@ function TT:GameTooltip_ComparisonFix(anchorFrame, shoppingTooltip1, shoppingToo
 	local point = shoppingTooltip1:GetPoint(2)
 	if secondaryItemShown then
 		if point == "TOP" then
-			shoppingTooltip1:ClearAllPoints()
-			shoppingTooltip1:SetPoint("TOPLEFT", anchorFrame, "TOPRIGHT", 3, 0)
-			shoppingTooltip2:ClearAllPoints()
-			shoppingTooltip2:SetPoint("TOPLEFT", shoppingTooltip1, "TOPRIGHT", 3, 0)
+			B.UpdatePoint(shoppingTooltip1, "TOPLEFT", anchorFrame, "TOPRIGHT", 3, 0)
+			B.UpdatePoint(shoppingTooltip2, "TOPLEFT", shoppingTooltip1, "TOPRIGHT", 3, 0)
 		elseif point == "RIGHT" then
-			shoppingTooltip1:ClearAllPoints()
-			shoppingTooltip1:SetPoint("TOPRIGHT", anchorFrame, "TOPLEFT", -3, 0)
-			shoppingTooltip2:ClearAllPoints()
-			shoppingTooltip2:SetPoint("TOPRIGHT", shoppingTooltip1, "TOPLEFT", -3, 0)
+			B.UpdatePoint(shoppingTooltip1, "TOPRIGHT", anchorFrame, "TOPLEFT", -3, 0)
+			B.UpdatePoint(shoppingTooltip2, "TOPRIGHT", shoppingTooltip1, "TOPLEFT", -3, 0)
 		end
 	else
 		if point == "LEFT" then
-			shoppingTooltip1:ClearAllPoints()
-			shoppingTooltip1:SetPoint("TOPLEFT", anchorFrame, "TOPRIGHT", 3, 0)
+			B.UpdatePoint(shoppingTooltip1, "TOPLEFT", anchorFrame, "TOPRIGHT", 3, 0)
 		elseif point == "RIGHT" then
-			shoppingTooltip1:ClearAllPoints()
-			shoppingTooltip1:SetPoint("TOPRIGHT", anchorFrame, "TOPLEFT", -3, 0)
+			B.UpdatePoint(shoppingTooltip1, "TOPRIGHT", anchorFrame, "TOPLEFT", -3, 0)
 		end
 	end
 end
@@ -438,7 +432,7 @@ function TT:ReskinTooltip()
 	self:SetScale(C.db["Tooltip"]["TTScale"])
 
 	if not self.tipStyled then
-		if self.SetBackdrop then self:SetBackdrop(nil) end
+		if self.SetBackdrop then self:SetBackdrop("") end
 		self:DisableDrawLayer("BACKGROUND")
 
 		self.bg = B.CreateBG(self)

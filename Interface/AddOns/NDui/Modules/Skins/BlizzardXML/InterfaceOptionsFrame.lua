@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
@@ -102,12 +101,12 @@ local function Reskin_InterfaceOptionsFrame(self)
 	if DB.isNewPatch then
 		tinsert(panels, "InterfaceOptionsColorblindPanel")
 	end
-	S.ReskinOptions(panels)
+	B.ReskinOptions(panels)
 
 	self.styled = true
 end
 
-tinsert(C.XMLThemes, function()
+C.OnLoginThemes["InterfaceOptionsFrame"] = function()
 	InterfaceOptionsFrame:HookScript("OnShow", Reskin_InterfaceOptionsFrame)
 	hooksecurefunc("InterfaceAddOnsList_Update", Reskin_InterfaceAddOnsList)
-end)
+end

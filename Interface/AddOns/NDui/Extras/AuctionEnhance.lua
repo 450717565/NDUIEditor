@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local S = B:GetModule("Skins")
 
 -- 显示附加词缀, by 雨夜独行客
 local BonusIDs = {
@@ -12,9 +11,9 @@ local BonusIDs = {
 
 local function CreateBonus(self, r, g, b)
 	local fs = B.CreateFS(self, 12)
-	fs:ClearAllPoints()
-	fs:SetPoint("LEFT", self.cells[5], "LEFT", 5, 0)
-	fs:SetTextColor(0, 1, 0)
+	fs:SetJustifyH("LEFT")
+	B.ReskinText(fs, 0, 1, 0)
+	B.UpdatePoint(fs, "LEFT", self.cells[5], "LEFT", 5, 0)
 	fs:Hide()
 
 	return fs
@@ -78,23 +77,23 @@ end
 -- 钓鱼价避开
 local function Update_PriceSelection(self)
 	local name = self:GetItem()
-	if name then
-		local itemID = C_Item.GetItemID(name)
-		local itemLink = C_Item.GetItemLink(name)
+	if not name then return end
 
-		if itemID and itemLink then
-			local sr_1 = C_AuctionHouse.GetCommoditySearchResultInfo(itemID, 1)
-			local sr_2 = C_AuctionHouse.GetCommoditySearchResultInfo(itemID, 2)
+	local itemID = C_Item.GetItemID(name)
+	local itemLink = C_Item.GetItemLink(name)
 
-			if sr_1 and self:GetUnitPrice() == sr_1.unitPrice then
-				local itemSeller = sr_1.owners[1] or ""
-				local itemPrice = GetMoneyString(sr_1.unitPrice)
+	if itemID and itemLink then
+		local sr_1 = C_AuctionHouse.GetCommoditySearchResultInfo(itemID, 1)
+		local sr_2 = C_AuctionHouse.GetCommoditySearchResultInfo(itemID, 2)
 
-				if sr_1.quantity <= 3 then
-					if sr_2 and sr_2.unitPrice > sr_1.unitPrice * 1.1 then
-						self:GetCommoditiesSellList():SetSelectedEntry(sr_2)
-						print(format("%s %s (|cffff0000%s|r) 疑似钓鱼价，已为您避开。", itemLink, itemPrice, itemSeller))
-					end
+		if sr_1 and self:GetUnitPrice() == sr_1.unitPrice then
+			local itemSeller = sr_1.owners[1] or ""
+			local itemPrice = GetMoneyString(sr_1.unitPrice)
+
+			if sr_1.quantity <= 3 then
+				if sr_2 and sr_2.unitPrice > sr_1.unitPrice * 1.1 then
+					self:GetCommoditiesSellList():SetSelectedEntry(sr_2)
+					print(format("%s %s (|cffff0000%s|r) 疑似钓鱼价，已为您避开。", itemLink, itemPrice, itemSeller))
 				end
 			end
 		end
@@ -105,4 +104,4 @@ local function OptimizePriceSelection()
 	hooksecurefunc(AuctionHouseFrame.CommoditiesSellFrame, "UpdatePriceSelection", Update_PriceSelection)
 end
 
-S.LoadWithAddOn("Blizzard_AuctionHouseUI", OptimizePriceSelection)
+B.LoadWithAddOn("Blizzard_AuctionHouseUI", OptimizePriceSelection)

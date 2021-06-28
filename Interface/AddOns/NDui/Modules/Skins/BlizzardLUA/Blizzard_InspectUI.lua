@@ -36,7 +36,7 @@ local function Update_InspectTalentFrame(self, event, unit)
 	end
 end
 
-C.LUAThemes["Blizzard_InspectUI"] = function()
+C.OnLoadThemes["Blizzard_InspectUI"] = function()
 	B.ReskinFrame(InspectFrame)
 	B.ReskinFrameTab(InspectFrame, 4)
 

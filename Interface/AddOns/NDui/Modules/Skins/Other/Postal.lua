@@ -23,3 +23,5 @@ function Skins:Postal()
 	Postal_BlackBookButton:ClearAllPoints()
 	Postal_BlackBookButton:SetPoint("LEFT", SendMailNameEditBox, "RIGHT", 2, 0)
 end
+
+C.OnLoginThemes["Postal"] = Skins.Postal
