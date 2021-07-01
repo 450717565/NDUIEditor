@@ -67,7 +67,7 @@ local schoolColors = {
 
 local function removeString(self, i, strings)
 	tremove(self.FeedbackToAnimate, i)
-	strings:SetText(nil)
+	strings:SetText("")
 	strings:SetAlpha(0)
 	strings:Hide()
 
@@ -151,7 +151,7 @@ local function flush(self)
 	wipe(self.FeedbackToAnimate)
 
 	for i = 1, #self do
-		self[i]:SetText(nil)
+		self[i]:SetText("")
 		self[i]:SetAlpha(0)
 		self[i]:Hide()
 	end

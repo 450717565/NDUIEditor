@@ -303,5 +303,3 @@ function Skins:WeakAuras()
 	end
 	B:RegisterEvent("ADDON_LOADED", loadFunc)
 end
-
-B.LoadWithAddOn("WeakAuras", Skins.WeakAuras)

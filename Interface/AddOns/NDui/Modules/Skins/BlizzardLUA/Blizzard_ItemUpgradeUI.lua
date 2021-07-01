@@ -40,7 +40,5 @@ C.OnLoadThemes["Blizzard_ItemUpgradeUI"] = function()
 
 	hooksecurefunc("ItemUpgradeFrame_Update", Reskin_ItemUpgradeFrame)
 
-	if DB.isNewPatch then
-		B.ReskinDropDown(ItemUpgradeFrame.UpgradeLevelDropDown.DropDownMenu)
-	end
+	B.ReskinDropDown(ItemUpgradeFrame.UpgradeLevelDropDown.DropDownMenu)
 end

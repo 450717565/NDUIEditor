@@ -95,16 +95,10 @@ function Bar:HideBlizz()
 	end
 
 	-- Fix maw block anchor
-	if DB.isNewPatch then
-		MainMenuBarVehicleLeaveButton:RegisterEvent("PLAYER_ENTERING_WORLD")
-	end
+	MainMenuBarVehicleLeaveButton:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 	-- Update button grid
 	hooksecurefunc("MultiActionBar_UpdateGridVisibility", toggleButtonGrid)
 	-- Update token panel
 	B:RegisterEvent("CURRENCY_DISPLAY_UPDATE", updateTokenVisibility)
-	-- Fake ExtraActionButton
-	if not DB.isNewPatch then
-		B:RegisterEvent("ADDON_LOADED", hideFakeExtraBar)
-	end
 end

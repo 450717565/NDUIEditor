@@ -642,9 +642,10 @@ do
 
 	function B:CleanTextures(isOverride)
 		if self.SetBackdrop then self:SetBackdrop("") end
+		if self.SetPushedTexture then self:SetPushedTexture("") end
+		if self.SetCheckedTexture then self:SetCheckedTexture("") end
 		if self.SetDisabledTexture then self:SetDisabledTexture("") end
 		if self.SetHighlightTexture then self:SetHighlightTexture("") end
-		if self.SetPushedTexture then self:SetPushedTexture("") end
 		if self.SetNormalTexture and not isOverride then self:SetNormalTexture("") end
 
 		for _, key in pairs(cleanTextures) do

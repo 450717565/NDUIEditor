@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Title: Details!|Skada Covenants
 ## Notes: Show covenant icon
 ## Author: Toenak

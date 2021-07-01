@@ -720,14 +720,6 @@ local function Reskin_LandingPageReport(self)
 	self.selectedTex:Show()
 end
 
--- Blizzard didn't set color for currency reward, incorrect color presents after scroll
-local function Update_CurrencyRewardBorder(self)
-	local reward = self:GetParent()
-	if reward and not reward.itemID then
-		reward.icbg:SetBackdropBorderColor(0, 0, 0)
-	end
-end
-
 local function Reskin_OrderHallMissionFrame()
 	local CombatAllyUI = OrderHallMissionFrameMissions.CombatAllyUI
 	CombatAllyUI.Available.AddFollowerButton.EmptyPortrait:SetAlpha(0)
@@ -811,9 +803,6 @@ C.OnLoadThemes["Blizzard_GarrisonUI"] = function()
 
 			reward.icbg = B.ReskinIcon(reward.Icon)
 			B.ReskinBorder(reward.IconBorder, reward.icbg)
-			if not DB.isNewPatch then
-				hooksecurefunc(reward.Icon, "SetTexture", Update_CurrencyRewardBorder)
-			end
 		end
 	end
 

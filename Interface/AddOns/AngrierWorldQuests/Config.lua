@@ -89,7 +89,7 @@ function Config:Set(key, newValue, silent)
 			AngrierWorldQuests_Config[key] = newValue
 		end
 	end
-	if key == 'selectedFilters' then 
+	if key == 'selectedFilters' then
 		__filterTable = nil
 	end
 	if callbacks[key] and not silent then
@@ -348,11 +348,11 @@ local DropDown_Index = 0
 local function DropDown_Create(self)
 	DropDown_Index = DropDown_Index + 1
 	local dropdown = CreateFrame("Frame", ADDON.."ConfigDropDown"..DropDown_Index, self, My_UIDropDownMenuTemplate)
-	
+
 	local label = dropdown:CreateFontString(ADDON.."ConfigDropLabel"..DropDown_Index, "BACKGROUND", "GameFontNormal")
 	label:SetPoint("BOTTOMLEFT", dropdown, "TOPLEFT", 16, 3)
 	dropdown.Label = label
-	
+
 	return dropdown
 end
 
@@ -399,7 +399,7 @@ Panel_OnRefresh = function(self)
 		for i,key in ipairs(dropdowns_order) do
 			dropdowns[i] = DropDown_Create(self)
 			dropdowns[i].Label:SetText( Addon.Locale['config_'..key] )
-			dropdowns[i].configKey = key		
+			dropdowns[i].configKey = key
 			if i == 1 then
 				dropdowns[i]:SetPoint("TOPLEFT", checkboxes[#checkboxes], "BOTTOMLEFT", -13, -24)
 			else
@@ -432,7 +432,7 @@ Panel_OnRefresh = function(self)
 	end
 
 	charConfigCheckbox:SetChecked( Config:CharacterConfig() )
-	
+
 	for _, check in ipairs(checkboxes) do
 		CheckBox_Update(check)
 	end

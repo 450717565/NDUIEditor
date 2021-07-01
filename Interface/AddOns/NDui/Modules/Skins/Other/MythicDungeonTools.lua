@@ -14,6 +14,7 @@ local Buttons = {
 	"sidePanelRenameButton",
 }
 
+local styled
 local function Reskin_ShowInterface(self)
 	if not styled then
 		local frame = self.main_frame
@@ -39,7 +40,6 @@ function Skins:MythicDungeonTools()
 	if not IsAddOnLoaded("MythicDungeonTools") then return end
 
 	local MDT = _G.MDT
-	local styled
 	hooksecurefunc(MDT, "ShowInterface", Reskin_ShowInterface)
 
 	function MDT:FormatEnemyHealth(amount)

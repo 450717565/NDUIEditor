@@ -97,10 +97,8 @@ local function Reskin_InterfaceOptionsFrame(self)
 		"InterfaceOptionsNamesPanelFriendly",
 		"InterfaceOptionsNamesPanelUnitNameplates",
 		"InterfaceOptionsSocialPanel",
+		"InterfaceOptionsColorblindPanel",
 	}
-	if DB.isNewPatch then
-		tinsert(panels, "InterfaceOptionsColorblindPanel")
-	end
 	B.ReskinOptions(panels)
 
 	self.styled = true

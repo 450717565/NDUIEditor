@@ -13,5 +13,3 @@ function Skins:TellMeWhen()
 		end
 	end)
 end
-
-B.LoadWithAddOn("TellMeWhen", Skins.TellMeWhen)

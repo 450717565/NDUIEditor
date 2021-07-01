@@ -11,6 +11,7 @@ local function Update_FrameAnchor(self, _, parent)
 	end
 end
 
+local styled
 local function Reskin_PopupMenu(self)
 	if not styled then
 		local children = {PremadeGroupsFilterDialog:GetChildren()}
@@ -85,7 +86,6 @@ function Skins:PremadeGroupsFilter()
 		end
 	end
 
-	local styled
 	hooksecurefunc(PremadeGroupsFilterDialog, "SetPoint", Update_FrameAnchor)
 	hooksecurefunc(PremadeGroupsFilter.Debug, "PopupMenu_Initialize", Reskin_PopupMenu)
 end

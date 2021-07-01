@@ -102,11 +102,6 @@ local function Reskin_AlertFrame(_, frame)
 			frame.bg = B.CreateBG(frame, 0, -7, 0, 8)
 			frame.icbg = B.ReskinIcon(frame.Icon.Texture)
 
-			if not DB.isNewPatch then
-				frame.bg:SetPoint("TOPLEFT", 0, -7)
-				frame.bg:SetPoint("BOTTOMRIGHT", 0, 8)
-			end
-
 			frame.Unlocked:SetTextColor(1, .8, 0)
 			frame.Unlocked:SetFontObject(NumberFont_GameNormal)
 			frame.GuildName:ClearAllPoints()
@@ -114,32 +109,20 @@ local function Reskin_AlertFrame(_, frame)
 			frame.GuildName:SetPoint("TOPRIGHT", -50, -14)
 		end
 
-		if not DB.isNewPatch then
-			frame.Shield.Points:Show()
-			frame.Shield.Icon:Show()
+		if frame.GuildBanner:IsShown() then
+			frame.bg:SetPoint("TOPLEFT", 2, -29)
+			frame.bg:SetPoint("BOTTOMRIGHT", -2, 4)
 		else
-			if frame.GuildBanner:IsShown() then
-				frame.bg:SetPoint("TOPLEFT", 2, -29)
-				frame.bg:SetPoint("BOTTOMRIGHT", -2, 4)
-			else
-				frame.bg:SetPoint("TOPLEFT", frame, -2, -17)
-				frame.bg:SetPoint("BOTTOMRIGHT", 2, 12)
-			end
+			frame.bg:SetPoint("TOPLEFT", frame, -2, -17)
+			frame.bg:SetPoint("BOTTOMRIGHT", 2, 12)
 		end
 	elseif frame.queue == CriteriaAlertSystem then
 		if not frame.bg then
 			frame.bg = B.CreateBG(frame, -18, 5, 18, -1)
 			frame.icbg = B.ReskinIcon(frame.Icon.Texture)
 
-			if DB.isNewPatch then
-				frame.bg:SetPoint("TOPLEFT", frame, 28, -7)
-				frame.bg:SetPoint("BOTTOMRIGHT", frame, 18, 10)
-			else
-				frame.bg:SetPoint("TOPLEFT", frame, -18, 5)
-				frame.bg:SetPoint("BOTTOMRIGHT", frame, 18, -1)
-				frame.Icon:SetScale(.8)
-			end
-
+			frame.bg:SetPoint("TOPLEFT", frame, 28, -7)
+			frame.bg:SetPoint("BOTTOMRIGHT", frame, 18, 10)
 			frame.Unlocked:SetTextColor(1, .8, 0)
 			frame.Unlocked:SetFontObject(NumberFont_GameNormal)
 		end

@@ -99,10 +99,6 @@ function Misc:GuildBest_Update()
 		local Child = self.WeeklyInfo.Child
 		B.UpdatePoint(Child.ThisWeekLabel, "TOP", Child, "TOP", -135, -25)
 
-		if DB.isNewPatch then
-			B.UpdatePoint(Child.DungeonScoreInfo, "TOP", Child, "TOP", -140, -210)
-		end
-
 		local affix = Child.Affixes[1]
 		if affix then
 			B.UpdatePoint(affix, "TOPLEFT", Child, "TOPLEFT", 20, -55)
@@ -113,6 +109,7 @@ function Misc:GuildBest_Update()
 
 		local KeystoneText = AngryKeystones.Modules.Schedule.KeystoneText
 		B.UpdatePoint(KeystoneText, "TOP", Child.WeeklyChest, "BOTTOM", 0, -30)
+		B.UpdatePoint(Child.DungeonScoreInfo, "CENTER", Child.WeeklyChest, "BOTTOM", 0, 0)
 
 		local RunStatus = Child.WeeklyChest.RunStatus
 		B.UpdatePoint(RunStatus, "BOTTOM", Child.WeeklyChest, "TOP", 0, 30)

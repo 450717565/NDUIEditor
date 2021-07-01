@@ -100,8 +100,9 @@ function GUI:SetupRaidDebuffs(parent)
 	end
 
 	local dungeons = {}
-	for dungeonID = 1182, 1189 do
-		local name = EJ_GetInstanceInfo(dungeonID)
+	local dungeonsID = {1182, 1183, 1184, 1185, 1186, 1187, 1188, 1189, 1194}
+	for _, id in pairs(dungeonsID) do
+		local name = EJ_GetInstanceInfo(id)
 		if name then
 			tinsert(dungeons, name)
 		end
@@ -109,12 +110,8 @@ function GUI:SetupRaidDebuffs(parent)
 
 	local raids = {
 		[1] = EJ_GetInstanceInfo(1190),
+		[2] = EJ_GetInstanceInfo(1193),
 	}
-	if DB.isNewPatch then
-		raids[2] = EJ_GetInstanceInfo(1193)
-		local newInst = EJ_GetInstanceInfo(1194)
-		tinsert(dungeons, newInst)
-	end
 
 	options[1] = GUI:CreateDropdown(frame, DUNGEONS.."*", 120, -30, dungeons, L["Dungeons Intro"], 130, 30)
 	options[1]:Hide()

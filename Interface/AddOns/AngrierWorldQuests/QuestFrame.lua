@@ -946,6 +946,7 @@ local function QuestFrame_Update()
 		headerButton:SetText(TRACKER_HEADER_WORLD_QUESTS)
 		headerButton:SetHitRectInsets(0, -headerButton.ButtonText:GetWidth(), 0, 0)
 		headerButton:SetHighlightTexture("Interface\\Buttons\\UI-PlusButton-Hilight")
+		headerButton.titleFramePool = titleFramePool
 	end
 	headerButton:SetNormalAtlas(questsCollapsed and "Campaign_HeaderIcon_Closed" or "Campaign_HeaderIcon_Open" );
 	headerButton:SetPushedAtlas(questsCollapsed and "Campaign_HeaderIcon_ClosedPressed" or "Campaign_HeaderIcon_OpenPressed");
@@ -1204,7 +1205,7 @@ function Mod:BeforeStartup()
 	-- self:AddCurrencyFilter("NETHERSHARD", CURRENCYID_NETHERSHARD)
 	-- self:AddCurrencyFilter("VEILED_ARGUNITE", CURRENCYID_VEILED_ARGUNITE)
 
-	self:AddFilter("ANIMA", ANIMA, "Spell_AnimaBastion_Orb", true)
+	self:AddFilter("ANIMA", POWER_TYPE_ANIMA, "Spell_AnimaBastion_Orb", true)
 	self:AddFilter("CONDUIT", Addon.Locale.CODUIT_ITEMS, "Ability_NightFae_SoulShape", true)
 	self:AddFilter("DUNGEON", GROUP_FINDER, "INV_Misc_Summonable_Boss_Token")
 	self:AddFilter("EMISSARY", BOUNTY_BOARD_LOCKED_TITLE, "Achievement_Reputation_ArgentCrusader")

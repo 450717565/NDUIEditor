@@ -206,36 +206,34 @@ local function Reskin_TextToSpeechFrame(frame)
 end
 
 C.OnLoginThemes["TextToSpeechFrame"] = function()
-	if DB.isNewPatch then
-		B.StripTextures(TextToSpeechButton, 5)
+	B.StripTextures(TextToSpeechButton, 5)
 
-		B.ReskinDropDown(TextToSpeechFrameTtsVoiceDropdown)
-		B.ReskinDropDown(TextToSpeechFrameTtsVoiceAlternateDropdown)
-		B.ReskinSlider(TextToSpeechFrameAdjustRateSlider)
-		B.ReskinSlider(TextToSpeechFrameAdjustVolumeSlider)
+	B.ReskinDropDown(TextToSpeechFrameTtsVoiceDropdown)
+	B.ReskinDropDown(TextToSpeechFrameTtsVoiceAlternateDropdown)
+	B.ReskinSlider(TextToSpeechFrameAdjustRateSlider)
+	B.ReskinSlider(TextToSpeechFrameAdjustVolumeSlider)
 
-		local buttons = {
-			"TextToSpeechDefaultButton",
-			"TextToSpeechFramePlaySampleAlternateButton",
-			"TextToSpeechFramePlaySampleButton",
-		}
-		for _, button in pairs(buttons) do
-			B.ReskinButton(_G[button])
-		end
-
-		local checkboxes = {
-			"AddCharacterNameToSpeechCheckButton",
-			"PlayActivitySoundWhenNotFocusedCheckButton",
-			"PlaySoundSeparatingChatLinesCheckButton",
-			"NarrateMyMessagesCheckButton",
-			"UseAlternateVoiceForSystemMessagesCheckButton",
-		}
-		for _, checkbox in pairs(checkboxes) do
-			B.ReskinCheck(TextToSpeechFramePanelContainer[checkbox])
-		end
-
-		hooksecurefunc("TextToSpeechFrame_UpdateMessageCheckboxes", Reskin_TextToSpeechFrame)
+	local buttons = {
+		"TextToSpeechDefaultButton",
+		"TextToSpeechFramePlaySampleAlternateButton",
+		"TextToSpeechFramePlaySampleButton",
+	}
+	for _, button in pairs(buttons) do
+		B.ReskinButton(_G[button])
 	end
+
+	local checkboxes = {
+		"AddCharacterNameToSpeechCheckButton",
+		"PlayActivitySoundWhenNotFocusedCheckButton",
+		"PlaySoundSeparatingChatLinesCheckButton",
+		"NarrateMyMessagesCheckButton",
+		"UseAlternateVoiceForSystemMessagesCheckButton",
+	}
+	for _, checkbox in pairs(checkboxes) do
+		B.ReskinCheck(TextToSpeechFramePanelContainer[checkbox])
+	end
+
+	hooksecurefunc("TextToSpeechFrame_UpdateMessageCheckboxes", Reskin_TextToSpeechFrame)
 end
 
 -- VoicePicker
@@ -267,10 +265,8 @@ local function Reskin_VoicePicker(self)
 end
 
 C.OnLoginThemes["VoicePicker"] = function()
-	if DB.isNewPatch then
-		B.StripTextures(ChatConfigTextToSpeechChannelSettingsLeft)
+	B.StripTextures(ChatConfigTextToSpeechChannelSettingsLeft)
 
-		Reskin_VoicePicker(TextToSpeechFrameTtsVoicePicker)
-		Reskin_VoicePicker(TextToSpeechFrameTtsVoiceAlternatePicker)
-	end
+	Reskin_VoicePicker(TextToSpeechFrameTtsVoicePicker)
+	Reskin_VoicePicker(TextToSpeechFrameTtsVoiceAlternatePicker)
 end

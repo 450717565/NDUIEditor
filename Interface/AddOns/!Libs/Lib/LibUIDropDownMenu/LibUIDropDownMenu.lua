@@ -1,4 +1,4 @@
--- $Id: LibUIDropDownMenu.lua 78 2021-06-14 08:29:17Z arithmandar $
+-- $Id: LibUIDropDownMenu.lua 80 2021-06-30 13:26:48Z arithmandar $
 -- ----------------------------------------------------------------------------
 -- Localized Lua globals.
 -- ----------------------------------------------------------------------------
@@ -18,7 +18,7 @@ local GameTooltip_SetTitle, GameTooltip_AddInstructionLine, GameTooltip_AddNorma
 
 -- ----------------------------------------------------------------------------
 local MAJOR_VERSION = "LibUIDropDownMenu-4.0"
-local MINOR_VERSION = 90000 + tonumber(("$Rev: 78 $"):match("%d+"))
+local MINOR_VERSION = 90000 + tonumber(("$Rev: 80 $"):match("%d+"))
 
 
 local LibStub = _G.LibStub
@@ -372,10 +372,10 @@ local function creatre_DropDownList(name, parent)
 	f:EnableMouse(true)
 	
 	--local fbd = _G[name.."Border"] or CreateFrame("Frame", name.."Border", f, BackdropTemplateMixin and "DialogBorderDarkTemplate" or nil)
-	local fbd = _G[name.."Border"] or CreateFrame("Frame", name.."Border", f, BackdropTemplateMixin and "BackdropTemplate" or nil)
+	local fbd = _G[name.."Backdrop"] or CreateFrame("Frame", name.."Backdrop", f, BackdropTemplateMixin and "BackdropTemplate" or nil)
 	fbd:SetAllPoints()
 	fbd:SetBackdrop(BACKDROP_DIALOG_DARK)
-	f.Border = fbd
+	f.Backdrop = fbd
 	
 	--local fmb = _G[name.."MenuBackdrop"] or CreateFrame("Frame", name.."MenuBackdrop", f, BackdropTemplateMixin and "TooltipBackdropTemplate" or nil)
 	local fmb = _G[name.."MenuBackdrop"] or CreateFrame("Frame", name.."MenuBackdrop", f, BackdropTemplateMixin and "BackdropTemplate" or nil)
@@ -455,20 +455,7 @@ local function creatre_DropDownList(name, parent)
 			L_UIDROPDOWNMENU_OPEN_MENU = nil;
 		end
 
-		if self.customFrames then
-			for index, frame in ipairs(self.customFrames) do
-				frame:Hide();
-			end
-
-			self.customFrames = nil;
-		end
---[[
-		-- codes by DahkCeles
-		if (self.hideTimer) then
-			self.hideTimer:Cancel();
-			self.hideTimer = nil;
-		end
-]]
+		lib:UIDropDownMenu_ClearCustomFrames(self);
 	end)
 	
 	return f
@@ -1146,8 +1133,15 @@ function lib:UIDropDownMenu_AddButton(info, level)
 		listFrame.maxWidth = width;
 	end
 
+	local customFrameCount = listFrame.customFrames and #listFrame.customFrames or 0;
+	local height = ((index - customFrameCount) * L_UIDROPDOWNMENU_BUTTON_HEIGHT) + (L_UIDROPDOWNMENU_BORDER_HEIGHT * 2);
+	for frameIndex = 1, customFrameCount do
+		local frame = listFrame.customFrames[frameIndex];
+		height = height + frame:GetPreferredEntryHeight();
+	end
+
 	-- Set the height of the listframe
-	listFrame:SetHeight((index * L_UIDROPDOWNMENU_BUTTON_HEIGHT) + (L_UIDROPDOWNMENU_BORDER_HEIGHT * 2));
+	listFrame:SetHeight(height);
 end
 
 function lib:UIDropDownMenu_CheckAddCustomFrame(self, button, info)
@@ -1404,6 +1398,7 @@ function lib:ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset
 	L_UIDROPDOWNMENU_MENU_VALUE = value;
 	local listFrameName = "L_DropDownList"..level;
 	local listFrame = _G[listFrameName];
+	lib:UIDropDownMenu_ClearCustomFrames(listFrame);
 	local tempFrame;
 	local point, relativePoint, relativeTo;
 	if ( not dropDownFrame ) then
@@ -1519,15 +1514,20 @@ function lib:ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset
 			listFrame:SetPoint(point, anchorFrame, relativePoint, 0, 0);
 		end
 
-		-- Change list box appearance depending on display mode
-		if ( dropDownFrame and dropDownFrame.displayMode == "MENU" ) then
-			_G[listFrameName.."Border"]:Hide();
-			_G[listFrameName.."MenuBackdrop"]:Show();
-		else
-			_G[listFrameName.."Border"]:Show();
+		if dropDownFrame.hideBackdrops then
+			_G[listFrameName.."Backdrop"]:Hide();
 			_G[listFrameName.."MenuBackdrop"]:Hide();
+		else
+			-- Change list box appearance depending on display mode
+			if ( dropDownFrame and dropDownFrame.displayMode == "MENU" ) then
+				_G[listFrameName.."Backdrop"]:Hide();
+				_G[listFrameName.."MenuBackdrop"]:Show();
+			else
+				_G[listFrameName.."Backdrop"]:Show();
+				_G[listFrameName.."MenuBackdrop"]:Hide();
+			end
 		end
-		dropDownFrame.menuList = menuList;
+
 		lib:UIDropDownMenu_Initialize(dropDownFrame, dropDownFrame.initialize, nil, level, menuList);
 		-- If no items in the drop down don't show it
 		if ( listFrame.numButtons == 0 ) then
@@ -1672,6 +1672,16 @@ do
 			lib:UIDropDownMenu_HandleGlobalMouseEvent(button, event) 
 		end)
 
+	end
+end
+
+function lib:UIDropDownMenu_ClearCustomFrames(self)
+	if self.customFrames then
+		for index, frame in ipairs(self.customFrames) do
+			frame:Hide();
+		end
+
+		self.customFrames = nil;
 	end
 end
 
@@ -1829,6 +1839,14 @@ function lib:UIDropDownMenu_EnableDropDown(dropDown)
 	dropDown.isDisabled = nil;
 end
 
+function lib:UIDropDownMenu_SetDropDownEnabled(dropDown, enabled)
+	if enabled then
+		return UIDropDownMenu_EnableDropDown(dropDown);
+	else
+		return UIDropDownMenu_DisableDropDown(dropDown);
+	end
+end
+
 function lib:UIDropDownMenu_IsEnabled(dropDown)
 	return not dropDown.isDisabled;
 end
@@ -1922,8 +1940,11 @@ end
 lib.UIDropDownCustomMenuEntryMixin = {};
 
 function lib.UIDropDownCustomMenuEntryMixin:GetPreferredEntryWidth()
-	-- NOTE: Only width is currently supported, dropdown menus size vertically based on how many buttons are present.
 	return self:GetWidth();
+end
+
+function lib.UIDropDownCustomMenuEntryMixin:GetPreferredEntryHeight()
+	return self:GetHeight();
 end
 
 function lib.UIDropDownCustomMenuEntryMixin:OnSetOwningButton()

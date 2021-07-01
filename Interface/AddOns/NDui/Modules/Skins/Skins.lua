@@ -30,7 +30,10 @@ function Skins:OnLogin()
 	-- Add Skins
 	self:BigWigs()
 	self:DeadlyBossMods()
+	self:Details()
 	self:Skada()
+	self:TellMeWhen()
+	self:WeakAuras()
 
 	-- Register skin
 	local media = LibStub and LibStub("LibSharedMedia-3.0", true)

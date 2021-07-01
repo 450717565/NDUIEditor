@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Title: TransmogWishList
 ## Notes: A lightweight wish list for transmog appearances.
 ## Author: LanceDH

@@ -121,5 +121,3 @@ function Skins:Details()
 
 	NDuiADB["ResetDetails"] = false
 end
-
-B.LoadWithAddOn("Details", Skins.Details)

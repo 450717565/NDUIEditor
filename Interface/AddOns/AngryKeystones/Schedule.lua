@@ -2,26 +2,25 @@ local ADDON, Addon = ...
 local Mod = Addon:NewModule('Schedule')
 
 local rowCount = 3
-
 local requestPartyKeystones
 
--- 1:Overflowing, 2:Skittish, 3:Volcanic, 4:Necrotic, 5:Teeming, 6:Raging, 7:Bolstering, 8:Sanguine, 9:Tyrannical, 10:Fortified, 11:Bursting, 12:Grievous, 13:Explosive, 14:Quaking, 16:Infested, 117: Reaping, 119:Beguiling 120:Awakened, 121:Prideful, 122:Inspiring, 123:Spiteful, 124:Storming
+local SEASON_AFFIX_ID = 121
 local affixSchedule = {
-	[1] =  {[1]=11, [2]=3,  [3]=10}, --1 Bursting Volcanic Fortified
-	[2] =  {[1]=7,  [2]=124,[3]=9}, --2 Bolstering Storming Tyrannical
-	[3] =  {[1]=123,[2]=12, [3]=10}, --3 Spiteful Grievous Fortified
-	[4] =  {[1]=122,[2]=4,  [3]=9}, --4 Inspiring Necrotic Tyrannical
-	[5] =  {[1]=8,  [2]=14, [3]=10}, --5 Sanguine Quaking Fortified
-	[6] =  {[1]=6,  [2]=13, [3]=9}, --6 Raging Explosive Tyrannical
-	[7] =  {[1]=123,[2]=3,  [3]=10}, --7 Spiteful Volcanic Fortified
-	[8] =  {[1]=7,  [2]=4,  [3]=9}, --8 Bolstering Necrotic Tyrannical
-	[9] =  {[1]=122,[2]=124,[3]=10}, --9 Inspiring Storming Fortified
-	[10] = {[1]=11, [2]=13, [3]=9}, --10 Bursting Explosive Tyrannical
-	[11] = {[1]=8,  [2]=12, [3]=10}, --11 Sanguine Grievous Fortified
-	[12] = {[1]=6,  [2]=14, [3]=9}, --12 Raging Quaking Tyrannical
+	[1]  = {[1]=10, [2]=11,  [3]=3},
+	[2]  = {[1]=9,  [2]=7,   [3]=124},
+	[3]  = {[1]=10, [2]=123, [3]=12},
+	[4]  = {[1]=9,  [2]=122, [3]=4},
+	[5]  = {[1]=10, [2]=8,   [3]=14},
+	[6]  = {[1]=9,  [2]=6,   [3]=13},
+	[7]  = {[1]=10, [2]=123, [3]=3},
+	[8]  = {[1]=9,  [2]=7,   [3]=4},
+	[9]  = {[1]=10, [2]=122, [3]=124},
+	[10] = {[1]=9,  [2]=11,  [3]=13},
+	[11] = {[1]=10, [2]=8,   [3]=12},
+	[12] = {[1]=9,  [2]=6,   [3]=14},
 }
 
-local affixScheduleUnknown = false
+local affixScheduleUnknown = not next(affixSchedule)
 local currentWeek
 local currentKeystoneMapID
 local currentKeystoneLevel
@@ -42,7 +41,7 @@ local function UpdatePartyKeystones()
 
 	if not IsAddOnLoaded("Blizzard_ChallengesUI") then return end
 
-	local playerRealm = select(2, UnitFullName("player"))
+	local playerRealm = GetRealmName()
 
 	local e = 1
 	for i = 1, 4 do
@@ -84,11 +83,11 @@ local function UpdatePartyKeystones()
 	end
 	if e == 1 then
 		Mod.AffixFrame:ClearAllPoints()
-		Mod.AffixFrame:SetPoint("LEFT", ChallengesFrame.WeeklyInfo.Child.WeeklyChest, "RIGHT", 130, 0)
+		Mod.AffixFrame:SetPoint("LEFT", ChallengesFrame.WeeklyInfo.Child.WeeklyChest, "RIGHT", 130, -25)
 		Mod.PartyFrame:Hide()
 	else
 		Mod.AffixFrame:ClearAllPoints()
-		Mod.AffixFrame:SetPoint("TOPLEFT", ChallengesFrame.WeeklyInfo.Child.WeeklyChest, "TOPRIGHT", 130, 55)
+		Mod.AffixFrame:SetPoint("TOPLEFT", ChallengesFrame.WeeklyInfo.Child.WeeklyChest, "TOPRIGHT", 130, 40)
 		Mod.PartyFrame:Show()
 	end
 	while e <= 4 do
@@ -105,7 +104,7 @@ local function UpdateFrame()
 
 	local weeklyChest = ChallengesFrame.WeeklyInfo.Child.WeeklyChest
 	weeklyChest:ClearAllPoints()
-	weeklyChest:SetPoint("LEFT", 100, -30)
+	weeklyChest:SetPoint("LEFT", 105, -5)
 
 	local description = ChallengesFrame.WeeklyInfo.Child.Description
 	description:SetWidth(240)
@@ -131,6 +130,8 @@ local function UpdateFrame()
 				local affix = entry.Affixes[j]
 				affix:SetUp(affixes[j])
 			end
+			-- Update season affix
+			entry.Affixes[4]:SetUp(SEASON_AFFIX_ID)
 		end
 		Mod.AffixFrame.Label:Hide()
 	else
@@ -166,7 +167,7 @@ end
 function Mod:Blizzard_ChallengesUI()
 	local frame = CreateFrame("Frame", nil, ChallengesFrame)
 	frame:SetSize(246, 92)
-	frame:SetPoint("TOPLEFT", ChallengesFrame.WeeklyInfo.Child.WeeklyChest, "TOPRIGHT", -20, 30)
+	frame:SetPoint("TOPLEFT", ChallengesFrame.WeeklyInfo.Child.WeeklyChest, "TOPRIGHT", 30, 30)
 	Mod.AffixFrame = frame
 
 	local bg = frame:CreateTexture(nil, "BACKGROUND")
@@ -198,7 +199,7 @@ function Mod:Blizzard_ChallengesUI()
 
 		local affixes = {}
 		local prevAffix
-		for j = 3, 1, -1 do
+		for j = 4, 1, -1 do
 			local affix = makeAffix(entry)
 			if prevAffix then
 				affix:SetPoint("RIGHT", prevAffix, "LEFT", -4, 0)
@@ -227,11 +228,7 @@ function Mod:Blizzard_ChallengesUI()
 	label:SetJustifyV("MIDDLE")
 	label:SetHeight(72)
 	label:SetWordWrap(true)
-	if affixScheduleUnknown then
-		label:SetText(Addon.Locale.scheduleUnknown)
-	else
-		label:SetText(Addon.Locale.scheduleMissingKeystone)
-	end
+	label:SetText(Addon.Locale.scheduleUnknown)
 	frame.Label = label
 
 	local frame2 = CreateFrame("Frame", nil, ChallengesFrame)
@@ -308,6 +305,9 @@ end
 function Mod:CheckAffixes()
 	currentWeek = nil
 	local currentAffixes = C_MythicPlus.GetCurrentAffixes()
+	if currentAffixes and currentAffixes[4] then
+		SEASON_AFFIX_ID = currentAffixes[4].id
+	end
 
 	if currentAffixes then
 		for index, affixes in ipairs(affixSchedule) do
@@ -383,7 +383,7 @@ end
 function Mod:SendCurrentKeystone()
 	local keystoneMapID = C_MythicPlus.GetOwnedKeystoneChallengeMapID()
 	local keystoneLevel = C_MythicPlus.GetOwnedKeystoneLevel()
-	
+
 	local message = "0"
 	if keystoneLevel and keystoneMapID then
 		message = string.format("%d:%d", keystoneMapID, keystoneLevel)
@@ -448,6 +448,6 @@ function Mod:Startup()
 	end)
 
 	C_Timer.NewTicker(60, function() self:CheckCurrentKeystone() end)
-	
+
 	requestPartyKeystones = true
 end

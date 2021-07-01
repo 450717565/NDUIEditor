@@ -125,11 +125,11 @@ function Misc:ReplaceGroupRoles(numPlayers, _, disabled)
 		end
 
 		if i > numPlayers then
+			icon.icbg:Hide()
 			icon.role:Hide()
-			icon.icbg:SetAlpha(0)
 		else
+			icon.icbg:Show()
 			icon.role:Show()
-			icon.icbg:SetAlpha(1)
 		end
 
 		icon.role:SetDesaturated(disabled)
@@ -150,9 +150,9 @@ function Misc:ReplaceGroupRoles(numPlayers, _, disabled)
 	end
 
 	for i = 1, iconIndex do
-		self.Icons[i]:SetTexture("")
-		self.Icons[i].icbg:SetAlpha(0)
-		self.Icons[i].role:SetAtlas("")
+		self.Icons[i]:Hide()
+		self.Icons[i].icbg:Hide()
+		self.Icons[i].role:Hide()
 	end
 end
 

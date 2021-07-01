@@ -34,22 +34,4 @@ C.OnLoadThemes["Blizzard_DebugTools"] = function()
 	-- TableAttribute
 	Reskin_TableAttribute(TableAttributeDisplay)
 	hooksecurefunc(TableInspectorMixin, "InspectTable", Reskin_TableAttribute)
-
-	if DB.isNewPatch then return end
-	-- EventTraceFrame
-	B.ReskinFrame(EventTraceFrame)
-
-	local bg, bu = EventTraceFrameScroll:GetRegions()
-	bg:Hide()
-	bu:SetAlpha(0)
-	bu:SetWidth(18)
-	B.CreateBDFrame(bu)
-
-	for i = 1, 29 do
-		local button = _G["EventTraceFrameButton"..i]
-		local hide = _G["EventTraceFrameButton"..i.."HideButton"]
-		B.ReskinClose(hide)
-		hide:ClearAllPoints()
-		hide:SetPoint("LEFT", button, "LEFT", 0, 0)
-	end
 end

@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Title: |cff0080FFBaudErrorFrame|r 报错收集 |TInterface\Addons\NDui\Media\Logo\chatLogo:14:28|t
 ## Notes: Improved error reporting
 ## Author: Baudzilla, wolftankk, Siweia

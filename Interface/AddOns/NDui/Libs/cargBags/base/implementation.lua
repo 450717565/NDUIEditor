@@ -46,7 +46,7 @@ function Implementation:New(name)
 	impl.name = name
 
 	impl:SetAllPoints()
-	impl:EnableMouse(nil)
+	impl:EnableMouse(false)
 	impl:Hide()
 
 	cargBags.SetScriptHandlers(impl, "OnEvent", "OnShow", "OnHide")

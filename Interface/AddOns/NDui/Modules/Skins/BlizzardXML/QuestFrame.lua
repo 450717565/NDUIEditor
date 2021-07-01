@@ -11,27 +11,13 @@ local function Reskin_TextColor(fontString)
 	B.ReskinText(fontString, 1, 1, 1)
 end
 
-local Fixed_ShowQuestPortrait
-if DB.isNewPatch then
-	Fixed_ShowQuestPortrait = function(parentFrame, _, _, _, _, _, x, y)
-		if parentFrame == WorldMapFrame then
-			x = 2
-		else
-			x = 3
-		end
-		QuestModelScene:ClearAllPoints()
-		QuestModelScene:SetPoint("TOPLEFT", parentFrame, "TOPRIGHT", x, -25)
+local function Fixed_ShowQuestPortrait(parentFrame, _, _, _, _, _, x, y)
+	if parentFrame == WorldMapFrame then
+		x = 2
+	else
+		x = 1
 	end
-else
-	Fixed_ShowQuestPortrait = function(parentFrame, _, _, _, _, x, y)
-		if parentFrame == WorldMapFrame then
-			x = 2
-		else
-			x = 3
-		end
-		QuestModelScene:ClearAllPoints()
-		QuestModelScene:SetPoint("TOPLEFT", parentFrame, "TOPRIGHT", x, -25)
-	end
+	B.UpdatePoint(QuestModelScene, "TOPLEFT", parentFrame, "TOPRIGHT", x, -25)
 end
 
 local function Update_ProgressItemQuality(self)

@@ -21,12 +21,12 @@ local function Reskin_RefreshListDisplay(self)
 
 	for i = 1, self:GetNumElementFrames() do
 		local button = self.elements[i]
-		if button and not button.styled then
+		if button and not button.icbg then
 			B.StripTextures(button, 1)
-			B.ReskinIcon(button.Icon)
-
-			button.styled = true
+			button.icbg = B.ReskinIcon(button.Icon)
 		end
+
+		button.icbg:SetShown(button.Icon:IsShown())
 	end
 end
 
@@ -78,16 +78,11 @@ C.OnLoadThemes["Blizzard_RuneforgeUI"] = function()
 	local frame = RuneforgeFrame
 	B.ReskinClose(frame.CloseButton, frame, -70, -70)
 	TT.ReskinTooltip(frame.ResultTooltip)
+	hooksecurefunc(frame.CurrencyDisplay, "SetCurrencies", Updat_SetCurrencies)
 
 	local createFrame = frame.CreateFrame
 	B.ReskinButton(createFrame.CraftItemButton)
-
-	if not DB.isNewPatch then
-		B.ReplaceIconString(createFrame.Cost.Text)
-	else
-		hooksecurefunc(frame.CurrencyDisplay, "SetCurrencies", Updat_SetCurrencies)
-		hooksecurefunc(createFrame.Cost.Currencies, "SetCurrencies", Updat_SetCurrencies)
-	end
+	hooksecurefunc(createFrame.Cost.Currencies, "SetCurrencies", Updat_SetCurrencies)
 
 	local powerFrame = frame.CraftingFrame.PowerFrame
 	B.StripTextures(powerFrame)

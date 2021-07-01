@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Title: War Plan
 ## Notes: Interface replacement for War Campaign missions.
 ## Author: foxlit
