@@ -107,15 +107,13 @@ function Misc:ReplaceGroupRoles(numPlayers, _, disabled)
 	for i = 1, 5 do
 		local icon = self.Icons[i]
 		if not icon.icbg then
-			icon.icbg = B.CreateBDFrame(icon, 0, -C.mult)
-
 			icon:SetSize(18, 18)
-			icon:ClearAllPoints()
 			if i == 1 then
-				icon:SetPoint("RIGHT", self, "RIGHT", -10, 0)
+				B.UpdatePoint(icon, "RIGHT", self, "RIGHT", -10, 0)
 			else
-				icon:SetPoint("RIGHT", self.Icons[i-1], "LEFT", -4, 0)
+				B.UpdatePoint(icon, "RIGHT", self.Icons[i-1], "LEFT", -4, 0)
 			end
+			icon.icbg = B.CreateBDFrame(icon, 0, -C.mult)
 		end
 
 		if not icon.role then

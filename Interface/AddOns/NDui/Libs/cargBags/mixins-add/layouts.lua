@@ -25,6 +25,7 @@ DEPENDENCIES
 ]]
 local _, ns = ...
 local layouts = ns.cargBags.classes.Container.layouts
+local B, C, L, DB = unpack(ns)
 
 function layouts.grid(self, columns, spacing, xOffset, yOffset)
 	columns, spacing = columns or 8, spacing or 5
@@ -46,8 +47,7 @@ function layouts.grid(self, columns, spacing, xOffset, yOffset)
 		local xPos = (col-1) * (width + spacing)
 		local yPos = -1 * (row-1) * (height + spacing)
 
-		button:ClearAllPoints()
-		button:SetPoint("TOPLEFT", self, "TOPLEFT", xPos+xOffset, yPos+yOffset)
+		B.UpdatePoint(button, "TOPLEFT", self, "TOPLEFT", xPos+xOffset, yPos+yOffset)
 	end
 
 	return columns * (width+spacing)-spacing, row * (height+spacing)-spacing
@@ -69,8 +69,7 @@ function layouts.circle(self, radius, xOffset, yOffset)
 		local x = radius*cos(a*i)
 		local y = -radius*sin(a*i)
 
-		button:ClearAllPoints()
-		button:SetPoint("TOPLEFT", self, "TOPLEFT", radius+x+xOffset, y-radius+yOffset)
+		B.UpdatePoint(button, "TOPLEFT", self, "TOPLEFT", radius+x+xOffset, y-radius+yOffset)
 	end
 	return radius*2, radius*2
 end

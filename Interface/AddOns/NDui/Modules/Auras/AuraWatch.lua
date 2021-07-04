@@ -143,8 +143,7 @@ end
 
 local function MakeMoveHandle(frame, text, value, anchor)
 	local mover = B.Mover(frame, DB.InfoColor..text, value, anchor, nil, nil, true)
-	frame:ClearAllPoints()
-	frame:SetPoint("CENTER", mover)
+	B.UpdatePoint(frame, "CENTER", mover, "CENTER")
 
 	return mover
 end
@@ -495,18 +494,18 @@ function Auras:AuraWatch_SortBars()
 	end
 
 	for i = 1, #IntTable do
-		IntTable[i]:ClearAllPoints()
 		if i == 1 then
-			IntTable[i]:SetPoint("CENTER", IntCD.MoveHandle)
+			B.UpdatePoint(IntTable[i], "CENTER", IntCD.MoveHandle, "CENTER")
 		elseif IntCD.Direction:lower() == "right" then
-			IntTable[i]:SetPoint("LEFT", IntTable[i-1], "RIGHT", IntCD.Interval, 0)
+			B.UpdatePoint(IntTable[i], "LEFT", IntTable[i-1], "RIGHT", IntCD.Interval, 0)
 		elseif IntCD.Direction:lower() == "left" then
-			IntTable[i]:SetPoint("RIGHT", IntTable[i-1], "LEFT", -IntCD.Interval, 0)
+			B.UpdatePoint(IntTable[i], "RIGHT", IntTable[i-1], "LEFT", -IntCD.Interval, 0)
 		elseif IntCD.Direction:lower() == "up" then
-			IntTable[i]:SetPoint("BOTTOM", IntTable[i-1], "TOP", 0, IntCD.Interval)
+			B.UpdatePoint(IntTable[i], "BOTTOM", IntTable[i-1], "TOP", 0, IntCD.Interval)
 		elseif IntCD.Direction:lower() == "down" then
-			IntTable[i]:SetPoint("TOP", IntTable[i-1], "BOTTOM", 0, -IntCD.Interval)
+			B.UpdatePoint(IntTable[i], "TOP", IntTable[i-1], "BOTTOM", 0, -IntCD.Interval)
 		end
+
 		IntTable[i].ID = i
 	end
 end

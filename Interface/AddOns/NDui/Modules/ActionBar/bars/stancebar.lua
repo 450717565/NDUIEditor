@@ -47,11 +47,11 @@ function Bar:CreateStanceBar()
 			local button = _G["StanceButton"..i]
 			tinsert(buttonList, button)
 			tinsert(Bar.buttons, button)
-			button:ClearAllPoints()
+
 			if i == 1 then
-				button:SetPoint("BOTTOMLEFT", frame, padding, padding)
+				B.UpdatePoint(button, "BOTTOMLEFT", frame, "BOTTOMLEFT", padding, padding)
 			else
-				button:SetPoint("LEFT", _G["StanceButton"..i-1], "RIGHT", margin, 0)
+				B.UpdatePoint(button, "LEFT", _G["StanceButton"..i-1], "RIGHT", margin, 0)
 			end
 		end
 	end
@@ -65,11 +65,11 @@ function Bar:CreateStanceBar()
 	for i = 1, NUM_POSSESS_SLOTS do
 		local button = _G["PossessButton"..i]
 		tinsert(buttonList, button)
-		button:ClearAllPoints()
+
 		if i == 1 then
-			button:SetPoint("BOTTOMLEFT", frame, padding, padding)
+			B.UpdatePoint(button, "BOTTOMLEFT", frame, "BOTTOMLEFT", padding, padding)
 		else
-			button:SetPoint("LEFT", _G["PossessButton"..i-1], "RIGHT", margin, 0)
+			B.UpdatePoint(button, "LEFT", _G["PossessButton"..i-1], "RIGHT", margin, 0)
 		end
 	end
 

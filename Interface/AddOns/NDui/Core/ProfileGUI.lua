@@ -196,8 +196,7 @@ end
 
 function GUI:CreateProfileBar(parent, index)
 	local bar = B.CreateBDFrame(parent)
-	bar:ClearAllPoints()
-	bar:SetPoint("TOPLEFT", 10, -10 - 45*(index-1))
+	B.UpdatePoint(bar, "TOPLEFT", parent, "TOPLEFT", 10, -10 - 45*(index-1))
 	bar:SetSize(570, 40)
 	bar:SetFrameLevel(parent:GetFrameLevel()+1)
 	bar.index = index
@@ -351,8 +350,7 @@ function GUI:CreateProfileGUI(parent)
 
 	local numBars = 6
 	local panel = B.CreateBDFrame(parent)
-	panel:ClearAllPoints()
-	panel:SetPoint("BOTTOMLEFT", delete, "TOPLEFT", 0, 10)
+	B.UpdatePoint(panel, "BOTTOMLEFT", delete, "TOPLEFT", 0, 10)
 	panel:SetWidth(parent:GetWidth() - 20)
 	panel:SetHeight(15 + numBars*45)
 	panel:SetFrameLevel(11)

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Chat = B:RegisterModule("Chat")
+local CHAT = B:RegisterModule("Chat")
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 local _G = _G
@@ -17,14 +17,14 @@ local messageSoundID = SOUNDKIT.TELL_MESSAGE
 local maxLines = 1024
 local fontOutline
 
-function Chat:TabSetAlpha(alpha)
+function CHAT:TabSetAlpha(alpha)
 	if self.glow:IsShown() and alpha ~= 1 then
 		self:SetAlpha(1)
 	end
 end
 
 local isScaling = false
-function Chat:UpdateChatSize()
+function CHAT:UpdateChatSize()
 	if not C.db["Chat"]["Lock"] then return end
 	if isScaling then return end
 	isScaling = true
@@ -65,7 +65,7 @@ local function GradientBackground(self)
 	return frame
 end
 
-function Chat:SkinChat()
+function CHAT:SkinChat()
 	if not self or self.styled then return end
 
 	local fontSize = select(2, self:GetFont())
@@ -100,19 +100,19 @@ function Chat:SkinChat()
 	tab:SetAlpha(1)
 	tab.Text:SetFont(DB.Font[1], DB.Font[2]+2, fontOutline)
 	B.StripTextures(tab, 7)
-	hooksecurefunc(tab, "SetAlpha", Chat.TabSetAlpha)
+	hooksecurefunc(tab, "SetAlpha", CHAT.TabSetAlpha)
 
 	B.HideObject(self.buttonFrame)
 	B.HideObject(self.ScrollBar)
 	B.HideObject(self.ScrollToBottomButton)
-	Chat:ToggleChatFrameTextures(self)
+	CHAT:ToggleChatFrameTextures(self)
 
 	self.oldAlpha = self.oldAlpha or 0 -- fix blizz error
 
 	self.styled = true
 end
 
-function Chat:ToggleChatFrameTextures(frame)
+function CHAT:ToggleChatFrameTextures(frame)
 	if C.db["Chat"]["ChatBGType"] == 1 then
 		frame:EnableDrawLayer("BORDER")
 		frame:EnableDrawLayer("BACKGROUND")
@@ -122,7 +122,7 @@ function Chat:ToggleChatFrameTextures(frame)
 	end
 end
 
-function Chat:ToggleChatBackground()
+function CHAT:ToggleChatBackground()
 	for _, chatFrameName in pairs(CHAT_FRAMES) do
 		local frame = _G[chatFrameName]
 		if frame.__background then
@@ -131,7 +131,7 @@ function Chat:ToggleChatBackground()
 		if frame.__gradient then
 			frame.__gradient:SetShown(C.db["Chat"]["ChatBGType"] == 3)
 		end
-		Chat:ToggleChatFrameTextures(frame)
+		CHAT:ToggleChatFrameTextures(frame)
 	end
 end
 
@@ -162,7 +162,7 @@ local cycles = {
 	{ chatType = "SAY", use = function() return 1 end },
 }
 
-function Chat:UpdateTabChannelSwitch()
+function CHAT:UpdateTabChannelSwitch()
 	if strsub(tostring(self:GetText()), 1, 1) == "/" then return end
 	local currChatType = self:GetAttribute("chatType")
 	for i, curr in pairs(cycles) do
@@ -179,7 +179,7 @@ function Chat:UpdateTabChannelSwitch()
 		end
 	end
 end
-hooksecurefunc("ChatEdit_CustomTabPressed", Chat.UpdateTabChannelSwitch)
+hooksecurefunc("ChatEdit_CustomTabPressed", CHAT.UpdateTabChannelSwitch)
 
 -- Quick Scroll
 local chatScrollInfo = {
@@ -190,7 +190,7 @@ local chatScrollInfo = {
 	callbackArg = "ChatScroll",
 }
 
-function Chat:QuickMouseScroll(dir)
+function CHAT:QuickMouseScroll(dir)
 	if not NDuiADB["Help"]["ChatScroll"] then
 		HelpTip:Show(ChatFrame1, chatScrollInfo)
 	end
@@ -211,15 +211,15 @@ function Chat:QuickMouseScroll(dir)
 		end
 	end
 end
-hooksecurefunc("FloatingChatFrame_OnMouseScroll", Chat.QuickMouseScroll)
+hooksecurefunc("FloatingChatFrame_OnMouseScroll", CHAT.QuickMouseScroll)
 
 -- Autoinvite by whisper
 local whisperList = {}
-function Chat:UpdateWhisperList()
+function CHAT:UpdateWhisperList()
 	B.SplitList(whisperList, C.db["Chat"]["Keyword"], true)
 end
 
-function Chat:IsUnitInGuild(unitName)
+function CHAT:IsUnitInGuild(unitName)
 	if not unitName then return end
 	for i = 1, GetNumGuildMembers() do
 		local name = GetGuildRosterInfo(i)
@@ -231,7 +231,7 @@ function Chat:IsUnitInGuild(unitName)
 	return false
 end
 
-function Chat.OnChatWhisper(event, ...)
+function CHAT.OnChatWhisper(event, ...)
 	local msg, author, _, _, _, _, _, _, _, _, _, guid, presenceID = ...
 	for word in pairs(whisperList) do
 		if (not IsInGroup() or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player")) and strlower(msg) == strlower(word) then
@@ -243,7 +243,7 @@ function Chat.OnChatWhisper(event, ...)
 					if gameID then
 						local charName = gameAccountInfo.characterName
 						local realmName = gameAccountInfo.realmName
-						if CanCooperateWithGameAccount(accountInfo) and (not C.db["Chat"]["GuildInvite"] or Chat:IsUnitInGuild(charName.."-"..realmName)) then
+						if CanCooperateWithGameAccount(accountInfo) and (not C.db["Chat"]["GuildInvite"] or CHAT:IsUnitInGuild(charName.."-"..realmName)) then
 							BNInviteFriend(gameID)
 						end
 					end
@@ -257,15 +257,15 @@ function Chat.OnChatWhisper(event, ...)
 	end
 end
 
-function Chat:WhisperInvite()
+function CHAT:WhisperInvite()
 	if not C.db["Chat"]["Invite"] then return end
-	Chat:UpdateWhisperList()
-	B:RegisterEvent("CHAT_MSG_WHISPER", Chat.OnChatWhisper)
-	B:RegisterEvent("CHAT_MSG_BN_WHISPER", Chat.OnChatWhisper)
+	CHAT:UpdateWhisperList()
+	B:RegisterEvent("CHAT_MSG_WHISPER", CHAT.OnChatWhisper)
+	B:RegisterEvent("CHAT_MSG_BN_WHISPER", CHAT.OnChatWhisper)
 end
 
 -- Sticky whisper
-function Chat:ChatWhisperSticky()
+function CHAT:ChatWhisperSticky()
 	if C.db["Chat"]["Sticky"] then
 		ChatTypeInfo["WHISPER"].sticky = 1
 		ChatTypeInfo["BN_WHISPER"].sticky = 1
@@ -276,7 +276,7 @@ function Chat:ChatWhisperSticky()
 end
 
 -- Tab colors
-function Chat:UpdateTabColors(selected)
+function CHAT:UpdateTabColors(selected)
 	if selected then
 		B.ReskinText(self.Text, 1, .8, 0)
 		self.whisperIndex = 0
@@ -293,15 +293,15 @@ function Chat:UpdateTabColors(selected)
 	end
 end
 
-function Chat:UpdateTabEventColors(event)
+function CHAT:UpdateTabEventColors(event)
 	local tab = B.GetObject(self, "Tab")
 	local selected = GeneralDockManager.selected:GetID() == tab:GetID()
 	if event == "CHAT_MSG_WHISPER" then
 		tab.whisperIndex = 1
-		Chat.UpdateTabColors(tab, selected)
+		CHAT.UpdateTabColors(tab, selected)
 	elseif event == "CHAT_MSG_BN_WHISPER" then
 		tab.whisperIndex = 2
-		Chat.UpdateTabColors(tab, selected)
+		CHAT.UpdateTabColors(tab, selected)
 	end
 end
 
@@ -309,10 +309,10 @@ local whisperEvents = {
 	["CHAT_MSG_WHISPER"] = true,
 	["CHAT_MSG_BN_WHISPER"] = true,
 }
-function Chat:PlayWhisperSound(event)
+function CHAT:PlayWhisperSound(event)
 	if whisperEvents[event] then
-		if Chat.MuteThisTime then
-			Chat.MuteThisTime = nil
+		if CHAT.MuteThisTime then
+			CHAT.MuteThisTime = nil
 			return
 		end
 
@@ -324,12 +324,36 @@ function Chat:PlayWhisperSound(event)
 	end
 end
 
-function Chat:OnLogin()
+local function FixLanguageFilterSideEffects()
+	HelpFrame:HookScript("OnShow", function()
+		UIErrorsFrame:AddMessage(DB.InfoColor..L["LanguageFilterTip"])
+	end)
+
+	local OLD_GetFriendGameAccountInfo = C_BattleNet.GetFriendGameAccountInfo
+	function C_BattleNet.GetFriendGameAccountInfo(...)
+		local gameAccountInfo = OLD_GetFriendGameAccountInfo(...)
+		if gameAccountInfo then
+			gameAccountInfo.isInCurrentRegion = true
+		end
+		return gameAccountInfo
+	end
+
+	local OLD_GetFriendAccountInfo = C_BattleNet.GetFriendAccountInfo
+	function C_BattleNet.GetFriendAccountInfo(...)
+		local accountInfo = OLD_GetFriendAccountInfo(...)
+		if accountInfo and accountInfo.gameAccountInfo then
+			accountInfo.gameAccountInfo.isInCurrentRegion = true
+		end
+		return accountInfo
+	end
+end
+
+function CHAT:OnLogin()
 	fontOutline = C.db["Skins"]["FontOutline"] and "OUTLINE" or ""
 
 	for i = 1, NUM_CHAT_WINDOWS do
 		local chatframe = _G["ChatFrame"..i]
-		Chat.SkinChat(chatframe)
+		CHAT.SkinChat(chatframe)
 		ChatFrame_RemoveMessageGroup(chatframe, "CHANNEL")
 	end
 
@@ -337,14 +361,14 @@ function Chat:OnLogin()
 		for _, chatFrameName in pairs(CHAT_FRAMES) do
 			local frame = _G[chatFrameName]
 			if frame.isTemporary then
-				Chat.SkinChat(frame)
+				CHAT.SkinChat(frame)
 			end
 		end
 	end)
 
-	hooksecurefunc("FCFTab_UpdateColors", Chat.UpdateTabColors)
-	hooksecurefunc("FloatingChatFrame_OnEvent", Chat.UpdateTabEventColors)
-	hooksecurefunc("ChatFrame_MessageEventHandler", Chat.PlayWhisperSound)
+	hooksecurefunc("FCFTab_UpdateColors", CHAT.UpdateTabColors)
+	hooksecurefunc("FloatingChatFrame_OnEvent", CHAT.UpdateTabEventColors)
+	hooksecurefunc("ChatFrame_MessageEventHandler", CHAT.PlayWhisperSound)
 
 	-- Font size
 	for i = 1, 15 do
@@ -359,19 +383,19 @@ function Chat:OnLogin()
 	CombatLogQuickButtonFrame_CustomTexture:SetTexture("")
 
 	-- Add Elements
-	Chat:ChatWhisperSticky()
-	Chat:ChatFilter()
-	Chat:ChannelRename()
-	Chat:Chatbar()
-	Chat:ChatCopy()
-	Chat:UrlCopy()
-	Chat:WhisperInvite()
+	CHAT:ChatWhisperSticky()
+	CHAT:ChatFilter()
+	CHAT:ChannelRename()
+	CHAT:Chatbar()
+	CHAT:ChatCopy()
+	CHAT:UrlCopy()
+	CHAT:WhisperInvite()
 
 	-- Lock chatframe
 	if C.db["Chat"]["Lock"] then
-		Chat:UpdateChatSize()
-		B:RegisterEvent("UI_SCALE_CHANGED", Chat.UpdateChatSize)
-		hooksecurefunc("FCF_SavePositionAndDimensions", Chat.UpdateChatSize)
+		CHAT:UpdateChatSize()
+		B:RegisterEvent("UI_SCALE_CHANGED", CHAT.UpdateChatSize)
+		hooksecurefunc("FCF_SavePositionAndDimensions", CHAT.UpdateChatSize)
 		FCF_SavePositionAndDimensions(ChatFrame1)
 	end
 
@@ -380,10 +404,7 @@ function Chat:OnLogin()
 	if C.db["Chat"]["Freedom"] then
 		if GetCVar("portal") == "CN" then
 			ConsoleExec("portal TW")
-
-			HelpFrame:HookScript("OnShow", function()
-				UIErrorsFrame:AddMessage(DB.InfoColor..L["LanguageFilterTip"])
-			end)
+			FixLanguageFilterSideEffects()
 		end
 		SetCVar("profanityFilter", 0)
 	else

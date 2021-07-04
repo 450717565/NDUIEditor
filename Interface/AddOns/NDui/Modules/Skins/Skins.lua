@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:RegisterModule("Skins")
+local SKIN = B:RegisterModule("Skins")
 
 local pairs, wipe = pairs, wipe
 local IsAddOnLoaded = IsAddOnLoaded
@@ -8,7 +8,7 @@ local IsAddOnLoaded = IsAddOnLoaded
 C.OnLoginThemes = {}
 C.OnLoadThemes = {}
 
-function Skins:OnLogin()
+function SKIN:OnLogin()
 	if IsAddOnLoaded("AuroraClassic") or IsAddOnLoaded("Aurora") then return end
 
 	if C.db["Skins"]["BlizzardSkins"] then

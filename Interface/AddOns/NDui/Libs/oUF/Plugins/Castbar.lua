@@ -51,8 +51,8 @@ local function updateCastBarTicks(bar, numTicks)
 				ticks[i]:SetWidth(C.mult)
 				ticks[i]:SetHeight(bar:GetHeight())
 			end
-			ticks[i]:ClearAllPoints()
-			ticks[i]:SetPoint("CENTER", bar, "LEFT", delta * i, 0 )
+
+			B.UpdatePoint(ticks[i], "CENTER", bar, "LEFT", delta * i, 0)
 			ticks[i]:Show()
 		end
 	else

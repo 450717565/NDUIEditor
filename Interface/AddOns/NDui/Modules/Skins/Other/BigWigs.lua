@@ -117,7 +117,7 @@ local function Register_Style()
 	BigWigsAPI:RegisterBarStyle("NDui", styleData)
 	-- Force to use NDui style
 	local pending = true
-	hooksecurefunc(BigWigsAPI, "GetBarStyle", function(_, key)
+	hooksecurefunc(BigWigsAPI, "GetBarStyle", function()
 		if pending then
 			BigWigsAPI.GetBarStyle = function() return styleData end
 			pending = nil

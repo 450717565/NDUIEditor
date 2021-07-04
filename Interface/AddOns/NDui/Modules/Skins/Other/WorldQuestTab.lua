@@ -1,7 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
-local TT = B:GetModule("Tooltip")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
@@ -158,7 +157,7 @@ function Skins:WorldQuestTab()
 		ADDT.GetFrame = function(...)
 			local frame = orgiGetFrame(...)
 			B.StripTextures(frame)
-			TT.ReskinTooltip(frame)
+			B.ReskinTooltip(frame)
 
 			return frame
 		end

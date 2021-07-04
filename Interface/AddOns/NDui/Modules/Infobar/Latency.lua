@@ -2,8 +2,8 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 if not C.Infobar.Latency then return end
 
-local Infobar = B:GetModule("Infobar")
-local info = Infobar:RegisterInfobar("Latency", C.Infobar.LatencyPos)
+local IB = B:GetModule("Infobar")
+local info = IB:RegisterInfobar("Latency", C.Infobar.LatencyPos)
 
 local max, format = max, format
 local GetNetStats, GetNetIpTypes, GetCVarBool = GetNetStats, GetNetIpTypes, GetCVarBool

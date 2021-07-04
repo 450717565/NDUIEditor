@@ -1,7 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
-local TT = B:GetModule("Tooltip")
 
 local iconSize = 20
 
@@ -50,11 +49,11 @@ local function Reskin_ApplyStyle(self)
 	local texture = B.GetObject(frame, "BarTexture")
 
 	if self.enlarged then
-		frame:SetWidth(self.owner.options.HugeWidth)
-		tbar:SetWidth(self.owner.options.HugeWidth)
+		frame:SetWidth(self.owner.Options.HugeWidth)
+		tbar:SetWidth(self.owner.Options.HugeWidth)
 	else
-		frame:SetWidth(self.owner.options.Width)
-		tbar:SetWidth(self.owner.options.Width)
+		frame:SetWidth(self.owner.Options.Width)
+		tbar:SetWidth(self.owner.Options.Width)
 	end
 
 	if not frame.styled then
@@ -97,13 +96,13 @@ end
 
 local function Reskin_RangeCheck()
 	if DBMRangeCheckRadar and not DBMRangeCheckRadar.styled then
-		TT.ReskinTooltip(DBMRangeCheckRadar)
+		B.ReskinTooltip(DBMRangeCheckRadar)
 
 		DBMRangeCheckRadar.styled = true
 	end
 
 	if DBMRangeCheck and not DBMRangeCheck.styled then
-		TT.ReskinTooltip(DBMRangeCheck)
+		B.ReskinTooltip(DBMRangeCheck)
 
 		DBMRangeCheck.styled = true
 	end
@@ -136,7 +135,7 @@ function Skins:DeadlyBossMods()
 	if DBM.InfoFrame then
 		DBM.InfoFrame:Show(5, "test")
 		DBM.InfoFrame:Hide()
-		DBMInfoFrame:HookScript("OnShow", TT.ReskinTooltip)
+		DBMInfoFrame:HookScript("OnShow", B.ReskinTooltip)
 	end
 
 	-- Force Settings

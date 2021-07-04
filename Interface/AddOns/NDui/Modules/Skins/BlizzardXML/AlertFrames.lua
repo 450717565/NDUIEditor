@@ -121,7 +121,7 @@ local function Reskin_AlertFrame(_, frame)
 			frame.bg = B.CreateBG(frame, -18, 5, 18, -1)
 			frame.icbg = B.ReskinIcon(frame.Icon.Texture)
 
-			frame.bg:SetPoint("TOPLEFT", frame, 28, -7)
+			frame.bg:SetPoint("TOPLEFT", frame, 5, -7)
 			frame.bg:SetPoint("BOTTOMRIGHT", frame, 18, 10)
 			frame.Unlocked:SetTextColor(1, .8, 0)
 			frame.Unlocked:SetFontObject(NumberFont_GameNormal)

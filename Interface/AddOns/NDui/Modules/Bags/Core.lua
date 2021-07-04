@@ -1,6 +1,6 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bags = B:RegisterModule("Bags")
+local BAG = B:RegisterModule("Bags")
 
 local cargBags = ns.cargBags
 local pairs, strmatch, unpack, ceil = pairs, string.match, unpack, math.ceil
@@ -33,7 +33,7 @@ local function GetBagAnimaAmount()
 	return amount
 end
 
-function Bags:UpdateAnimaAmount()
+function BAG:UpdateAnimaAmount()
 	if not C.db["Bags"]["ItemFilter"] then return end
 	if not C.db["Bags"]["FilterAnima"] then return end
 
@@ -41,7 +41,7 @@ function Bags:UpdateAnimaAmount()
 end
 
 local sortCache = {}
-function Bags:ReverseSort()
+function BAG:ReverseSort()
 	for bag = 0, 4 do
 		local numSlots = GetContainerNumSlots(bag)
 		for slot = 1, numSlots do
@@ -54,11 +54,11 @@ function Bags:ReverseSort()
 		end
 	end
 
-	Bags.Bags.isSorting = false
-	Bags:UpdateAllBags()
+	BAG.Bags.isSorting = false
+	BAG:UpdateAllBags()
 end
 
-function Bags:UpdateAnchors(parent, bags)
+function BAG:UpdateAnchors(parent, bags)
 	if not parent:IsShown() then return end
 
 	local anchor = parent
@@ -79,7 +79,7 @@ local function highlightFunction(button, match)
 	button:SetAlpha(match and 1 or .25)
 end
 
-function Bags:CreateInfoFrame()
+function BAG:CreateInfoFrame()
 	local infoFrame = CreateFrame("Button", nil, self)
 	infoFrame:SetPoint("TOPLEFT", 10, 0)
 	infoFrame:SetSize(160, 32)
@@ -102,7 +102,7 @@ function Bags:CreateInfoFrame()
 	tag:SetPoint("LEFT", icon, "RIGHT", 5, 0)
 end
 
-function Bags:CreateBagBar(settings, columns)
+function BAG:CreateBagBar(settings, columns)
 	local bagBar = self:SpawnPlugin("BagBar", settings.Bags)
 	local width, height = bagBar:LayoutButtons("grid", columns, 5, 5, -5)
 	bagBar:SetSize(width + 10, height + 10)
@@ -115,7 +115,7 @@ function Bags:CreateBagBar(settings, columns)
 	self.BagBar = bagBar
 end
 
-function Bags:CreateCloseButton()
+function BAG:CreateCloseButton()
 	local bu = B.CreateButton(self, 24, 24, true, "Interface\\RAIDFRAME\\ReadyCheck-NotReady")
 	bu:SetScript("OnClick", CloseAllBags)
 	bu.title = CLOSE
@@ -124,7 +124,7 @@ function Bags:CreateCloseButton()
 	return bu
 end
 
-function Bags:CreateRestoreButton(f)
+function BAG:CreateRestoreButton(f)
 	local bu = B.CreateButton(self, 24, 24, true, "Atlas:transmog-icon-revert")
 	bu:SetScript("OnClick", function()
 		C.db["TempAnchor"][f.main:GetDebugName()] = nil
@@ -143,7 +143,7 @@ function Bags:CreateRestoreButton(f)
 	return bu
 end
 
-function Bags:CreateReagentButton(f)
+function BAG:CreateReagentButton(f)
 	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\TRADE_ARCHAEOLOGY_CHESTOFTINYGLASSANIMALS")
 	bu:RegisterForClicks("AnyUp")
 	bu:SetScript("OnClick", function(_, btn)
@@ -164,7 +164,7 @@ function Bags:CreateReagentButton(f)
 	return bu
 end
 
-function Bags:CreateBankButton(f)
+function BAG:CreateBankButton(f)
 	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\ACHIEVEMENT_GUILDPERK_MOBILEBANKING")
 	bu:SetScript("OnClick", function()
 		PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
@@ -187,13 +187,13 @@ local function updateDepositButtonStatus(bu)
 	end
 end
 
-function Bags:AutoDeposit()
+function BAG:AutoDeposit()
 	if C.db["Bags"]["AutoDeposit"] then
 		DepositReagentBank()
 	end
 end
 
-function Bags:CreateDepositButton()
+function BAG:CreateDepositButton()
 	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\Achievement_Guild_DoctorIsIn")
 	bu:RegisterForClicks("AnyUp")
 	bu:SetScript("OnClick", function(_, btn)
@@ -211,7 +211,7 @@ function Bags:CreateDepositButton()
 	return bu
 end
 
-function Bags:CreateBagToggle()
+function BAG:CreateBagToggle()
 	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\INV_Misc_Bag_08")
 	bu:SetScript("OnClick", function()
 		B.TogglePanel(self.BagBar)
@@ -229,7 +229,7 @@ function Bags:CreateBagToggle()
 	return bu
 end
 
-function Bags:CreateSortButton(name)
+function BAG:CreateSortButton(name)
 	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\INV_Pet_Broom")
 	bu:SetScript("OnClick", function()
 		if C.db["Bags"]["BagSortMode"] == 3 then
@@ -250,8 +250,8 @@ function Bags:CreateSortButton(name)
 				else
 					SortBags()
 					wipe(sortCache)
-					Bags.Bags.isSorting = true
-					C_Timer_After(.5, Bags.ReverseSort)
+					BAG.Bags.isSorting = true
+					C_Timer_After(.5, BAG.ReverseSort)
 				end
 			end
 		end
@@ -262,7 +262,7 @@ function Bags:CreateSortButton(name)
 	return bu
 end
 
-function Bags:GetContainerEmptySlot(bagID)
+function BAG:GetContainerEmptySlot(bagID)
 	for slotID = 1, GetContainerNumSlots(bagID) do
 		if not GetContainerItemID(bagID, slotID) then
 			return slotID
@@ -270,35 +270,35 @@ function Bags:GetContainerEmptySlot(bagID)
 	end
 end
 
-function Bags:GetEmptySlot(name)
+function BAG:GetEmptySlot(name)
 	if name == "Bag" then
 		for bagID = 0, 4 do
-			local slotID = Bags:GetContainerEmptySlot(bagID)
+			local slotID = BAG:GetContainerEmptySlot(bagID)
 			if slotID then
 				return bagID, slotID
 			end
 		end
 	elseif name == "Bank" then
-		local slotID = Bags:GetContainerEmptySlot(-1)
+		local slotID = BAG:GetContainerEmptySlot(-1)
 		if slotID then
 			return -1, slotID
 		end
 		for bagID = 5, 11 do
-			local slotID = Bags:GetContainerEmptySlot(bagID)
+			local slotID = BAG:GetContainerEmptySlot(bagID)
 			if slotID then
 				return bagID, slotID
 			end
 		end
 	elseif name == "Reagent" then
-		local slotID = Bags:GetContainerEmptySlot(-3)
+		local slotID = BAG:GetContainerEmptySlot(-3)
 		if slotID then
 			return -3, slotID
 		end
 	end
 end
 
-function Bags:FreeSlotOnDrop()
-	local bagID, slotID = Bags:GetEmptySlot(self.__name)
+function BAG:FreeSlotOnDrop()
+	local bagID, slotID = BAG:GetEmptySlot(self.__name)
 	if slotID then
 		PickupContainerItem(bagID, slotID)
 	end
@@ -310,7 +310,7 @@ local freeSlotContainer = {
 	["Reagent"] = true,
 }
 
-function Bags:CreateFreeSlots()
+function BAG:CreateFreeSlots()
 	local name = self.name
 	if not freeSlotContainer[name] then return end
 
@@ -319,8 +319,8 @@ function Bags:CreateFreeSlots()
 	B.ReskinHLTex(slot, bubg)
 
 	slot:SetSize(self.iconSize, self.iconSize)
-	slot:SetScript("OnMouseUp", Bags.FreeSlotOnDrop)
-	slot:SetScript("OnReceiveDrag", Bags.FreeSlotOnDrop)
+	slot:SetScript("OnMouseUp", BAG.FreeSlotOnDrop)
+	slot:SetScript("OnReceiveDrag", BAG.FreeSlotOnDrop)
 	B.AddTooltip(slot, "ANCHOR_RIGHT", L["FreeSlots"])
 	slot.__name = name
 
@@ -334,7 +334,7 @@ function Bags:CreateFreeSlots()
 end
 
 local toggleButtons = {}
-function Bags:SelectToggleButton(id)
+function BAG:SelectToggleButton(id)
 	for index, button in pairs(toggleButtons) do
 		if index ~= id then
 			button.__turnOff()
@@ -348,7 +348,7 @@ local function saveSplitCount(self)
 	C.db["Bags"]["SplitCount"] = tonumber(count) or 1
 end
 
-function Bags:CreateSplitButton()
+function BAG:CreateSplitButton()
 	local enabledText = DB.InfoColor..L["SplitMode Enabled"]
 
 	local splitFrame = CreateFrame("Frame", nil, self)
@@ -369,7 +369,7 @@ function Bags:CreateSplitButton()
 		splitEnable = nil
 	end
 	bu:SetScript("OnClick", function(self)
-		Bags:SelectToggleButton(1)
+		BAG:SelectToggleButton(1)
 		splitEnable = not splitEnable
 		if splitEnable then
 			self.icbg:SetBackdropBorderColor(cr, cg, cb)
@@ -399,7 +399,7 @@ local function splitOnClick(self)
 	if texture and not locked and itemCount and itemCount > C.db["Bags"]["SplitCount"] then
 		SplitContainerItem(self.bagID, self.slotID, C.db["Bags"]["SplitCount"])
 
-		local bagID, slotID = Bags:GetEmptySlot("Bag")
+		local bagID, slotID = BAG:GetEmptySlot("Bag")
 		if slotID then
 			PickupContainerItem(bagID, slotID)
 		end
@@ -407,7 +407,7 @@ local function splitOnClick(self)
 end
 
 local favouriteEnable
-function Bags:CreateFavouriteButton()
+function BAG:CreateFavouriteButton()
 	local enabledText = DB.InfoColor..L["FavouriteMode Enabled"]
 
 	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\Item_Shop_GiftBox01")
@@ -417,7 +417,7 @@ function Bags:CreateFavouriteButton()
 		favouriteEnable = nil
 	end
 	bu:SetScript("OnClick", function(self)
-		Bags:SelectToggleButton(2)
+		BAG:SelectToggleButton(2)
 		favouriteEnable = not favouriteEnable
 		if favouriteEnable then
 			self.icbg:SetBackdropBorderColor(cr, cg, cb)
@@ -447,7 +447,7 @@ local function favouriteOnClick(self)
 			C.db["Bags"]["FavouriteItems"][itemID] = true
 		end
 		ClearCursor()
-		Bags:UpdateAllBags()
+		BAG:UpdateAllBags()
 	end
 end
 
@@ -461,7 +461,7 @@ StaticPopupDialogs["NDUI_WIPE_JUNK_LIST"] = {
 	whileDead = 1,
 }
 local customJunkEnable
-function Bags:CreateJunkButton()
+function BAG:CreateJunkButton()
 	local enabledText = DB.InfoColor..L["JunkMode Enabled"]
 
 	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Icons\\inv_misc_coinbag_special")
@@ -476,7 +476,7 @@ function Bags:CreateJunkButton()
 			return
 		end
 
-		Bags:SelectToggleButton(3)
+		BAG:SelectToggleButton(3)
 		customJunkEnable = not customJunkEnable
 		if customJunkEnable then
 			self.icbg:SetBackdropBorderColor(cr, cg, cb)
@@ -484,7 +484,7 @@ function Bags:CreateJunkButton()
 		else
 			bu.__turnOff()
 		end
-		Bags:UpdateAllBags()
+		BAG:UpdateAllBags()
 		self:GetScript("OnEnter")(self)
 	end)
 	bu:SetScript("OnHide", bu.__turnOff)
@@ -508,12 +508,12 @@ local function customJunkOnClick(self)
 			NDuiADB["CustomJunkList"][itemID] = true
 		end
 		ClearCursor()
-		Bags:UpdateAllBags()
+		BAG:UpdateAllBags()
 	end
 end
 
 local deleteEnable
-function Bags:CreateDeleteButton()
+function BAG:CreateDeleteButton()
 	local enabledText = DB.InfoColor..L["DeleteMode Enabled"]
 
 	local bu = B.CreateButton(self, 24, 24, true, "Interface\\Buttons\\UI-GroupLoot-Pass-Up")
@@ -525,7 +525,7 @@ function Bags:CreateDeleteButton()
 		deleteEnable = nil
 	end
 	bu:SetScript("OnClick", function(self)
-		Bags:SelectToggleButton(4)
+		BAG:SelectToggleButton(4)
 		deleteEnable = not deleteEnable
 		if deleteEnable then
 			self.icbg:SetBackdropBorderColor(cr, cg, cb)
@@ -554,7 +554,7 @@ local function deleteButtonOnClick(self)
 	end
 end
 
-function Bags:ButtonOnClick(btn)
+function BAG:ButtonOnClick(btn)
 	if btn ~= "LeftButton" then return end
 	splitOnClick(self)
 	favouriteOnClick(self)
@@ -562,21 +562,21 @@ function Bags:ButtonOnClick(btn)
 	deleteButtonOnClick(self)
 end
 
-function Bags:UpdateAllBags()
-	if self.Bags and self.Bags:IsShown() then
-		self.Bags:BAG_UPDATE()
+function BAG:UpdateAllBags()
+	if self.Bags and self.BAG:IsShown() then
+		self.BAG:BAG_UPDATE()
 	end
 end
 
-function Bags:OpenBags()
+function BAG:OpenBags()
 	OpenAllBags(true)
 end
 
-function Bags:CloseBags()
+function BAG:CloseBags()
 	CloseAllBags()
 end
 
-function Bags:OnLogin()
+function BAG:OnLogin()
 	if not C.db["Bags"]["Enable"] then return end
 
 	-- Settings
@@ -598,14 +598,14 @@ function Bags:OnLogin()
 	Backpack:HookScript("OnShow", function() PlaySound(SOUNDKIT.IG_BACKPACK_OPEN) end)
 	Backpack:HookScript("OnHide", function() PlaySound(SOUNDKIT.IG_BACKPACK_CLOSE) end)
 
-	Bags.Bags = Backpack
-	Bags.BagsType = {}
-	Bags.BagsType[0] = 0	-- backpack
-	Bags.BagsType[-1] = 0	-- bank
-	Bags.BagsType[-3] = 0	-- reagent
+	BAG.Bags = Backpack
+	BAG.BagsType = {}
+	BAG.BagsType[0] = 0	-- backpack
+	BAG.BagsType[-1] = 0	-- bank
+	BAG.BagsType[-3] = 0	-- reagent
 
 	local f = {}
-	local filters = Bags:GetFilters()
+	local filters = BAG:GetFilters()
 	local MyContainer = Backpack:GetContainerClass()
 	local ContainerGroups = {["Bag"] = {}, ["Bank"] = {}}
 
@@ -670,7 +670,7 @@ function Bags:OnLogin()
 		self:GetContainer("Bank"):Show()
 
 		if not initBagType then
-			Bags:UpdateAllBags() -- Initialize bagType
+			BAG:UpdateAllBags() -- Initialize bagType
 			initBagType = true
 		end
 	end
@@ -723,7 +723,7 @@ function Bags:OnLogin()
 			self.canIMogIt:SetPoint(unpack(CanIMogIt.ICON_LOCATIONS[CanIMogItOptions["iconLocation"]]))
 		end
 
-		self:HookScript("OnClick", Bags.ButtonOnClick)
+		self:HookScript("OnClick", BAG.ButtonOnClick)
 	end
 
 	function MyButton:ItemOnEnter()
@@ -841,7 +841,7 @@ function Bags:OnLogin()
 		end
 
 		if C.db["Bags"]["SpecialBagsColor"] then
-			local bagType = Bags.BagsType[item.bagID]
+			local bagType = BAG.BagsType[item.bagID]
 			local color = bagTypeColor[bagType] or bagTypeColor[0]
 			self.bubg:SetBackdropColor(unpack(color))
 		else
@@ -896,8 +896,7 @@ function Bags:OnLogin()
 				local xPos = (col-1) * (iconSize + spacing)
 				local yPos = -1 * (row-1) * (iconSize + spacing)
 
-				self.freeSlot:ClearAllPoints()
-				self.freeSlot:SetPoint("TOPLEFT", self, "TOPLEFT", xPos+xOffset, yPos+yOffset)
+				B.UpdatePoint(self.freeSlot, "TOPLEFT", self, "TOPLEFT", xPos+xOffset, yPos+yOffset)
 				self.freeSlot:Show()
 
 				if height < 0 then
@@ -911,8 +910,8 @@ function Bags:OnLogin()
 		end
 		self:SetSize(width + xOffset*2, height + offset)
 
-		Bags:UpdateAnchors(f.main, ContainerGroups["Bag"])
-		Bags:UpdateAnchors(f.bank, ContainerGroups["Bank"])
+		BAG:UpdateAnchors(f.main, ContainerGroups["Bag"])
+		BAG:UpdateAnchors(f.bank, ContainerGroups["Bank"])
 	end
 
 	function MyContainer:OnCreate(name, settings)
@@ -953,27 +952,27 @@ function Bags:OnLogin()
 			return
 		end
 
-		Bags.CreateInfoFrame(self)
+		BAG.CreateInfoFrame(self)
 
 		local buttons = {}
-		buttons[1] = Bags.CreateCloseButton(self)
+		buttons[1] = BAG.CreateCloseButton(self)
 		if name == "Bag" then
-			Bags.CreateBagBar(self, settings, 4)
-			buttons[2] = Bags.CreateRestoreButton(self, f)
-			buttons[3] = Bags.CreateBagToggle(self)
-			buttons[5] = Bags.CreateSplitButton(self)
-			buttons[6] = Bags.CreateFavouriteButton(self)
-			buttons[7] = Bags.CreateJunkButton(self)
-			if deleteButton then buttons[8] = Bags.CreateDeleteButton(self) end
+			BAG.CreateBagBar(self, settings, 4)
+			buttons[2] = BAG.CreateRestoreButton(self, f)
+			buttons[3] = BAG.CreateBagToggle(self)
+			buttons[5] = BAG.CreateSplitButton(self)
+			buttons[6] = BAG.CreateFavouriteButton(self)
+			buttons[7] = BAG.CreateJunkButton(self)
+			if deleteButton then buttons[8] = BAG.CreateDeleteButton(self) end
 		elseif name == "Bank" then
-			Bags.CreateBagBar(self, settings, 7)
-			buttons[2] = Bags.CreateReagentButton(self, f)
-			buttons[3] = Bags.CreateBagToggle(self)
+			BAG.CreateBagBar(self, settings, 7)
+			buttons[2] = BAG.CreateReagentButton(self, f)
+			buttons[3] = BAG.CreateBagToggle(self)
 		elseif name == "Reagent" then
-			buttons[2] = Bags.CreateBankButton(self, f)
-			buttons[3] = Bags.CreateDepositButton(self)
+			buttons[2] = BAG.CreateBankButton(self, f)
+			buttons[3] = BAG.CreateDepositButton(self)
 		end
-		buttons[4] = Bags.CreateSortButton(self, name)
+		buttons[4] = BAG.CreateSortButton(self, name)
 
 		for i = 1, #buttons do
 			local bu = buttons[i]
@@ -988,7 +987,7 @@ function Bags:OnLogin()
 		self:HookScript("OnShow", B.RestoreMF)
 
 		self.iconSize = iconSize
-		Bags.CreateFreeSlots(self)
+		BAG.CreateFreeSlots(self)
 	end
 
 	local BagButton = Backpack:GetClass("BagButton", true, "BagButton")
@@ -1017,9 +1016,9 @@ function Bags:OnLogin()
 		end
 
 		if classID == LE_ITEM_CLASS_CONTAINER then
-			Bags.BagsType[self.bagID] = subClassID or 0
+			BAG.BagsType[self.bagID] = subClassID or 0
 		else
-			Bags.BagsType[self.bagID] = 0
+			BAG.BagsType[self.bagID] = 0
 		end
 	end
 
@@ -1030,11 +1029,11 @@ function Bags:OnLogin()
 	-- Init
 	ToggleAllBags()
 	ToggleAllBags()
-	Bags.initComplete = true
+	BAG.initComplete = true
 
-	B:RegisterEvent("TRADE_SHOW", Bags.OpenBags)
-	B:RegisterEvent("TRADE_CLOSED", Bags.CloseBags)
-	B:RegisterEvent("BANKFRAME_OPENED", Bags.AutoDeposit)
+	B:RegisterEvent("TRADE_SHOW", BAG.OpenBags)
+	B:RegisterEvent("TRADE_CLOSED", BAG.CloseBags)
+	B:RegisterEvent("BANKFRAME_OPENED", BAG.AutoDeposit)
 
 	-- Fixes
 	--BankFrame.GetRight = function() return f.bank:GetRight() end
@@ -1054,6 +1053,6 @@ function Bags:OnLogin()
 	shiftUpdater:SetScript("OnUpdate", onUpdate)
 
 	-- 心能统计
-	Bags:UpdateAnimaAmount()
-	B:RegisterEvent("BAG_UPDATE_DELAYED", Bags.UpdateAnimaAmount)
+	BAG:UpdateAnimaAmount()
+	B:RegisterEvent("BAG_UPDATE_DELAYED", BAG.UpdateAnimaAmount)
 end

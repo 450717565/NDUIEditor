@@ -72,6 +72,6 @@ function TT:ReskinTooltipIcons()
 	end)
 
 	-- Tooltip rewards icon
-	TT.ReskinRewardIcon(GameTooltip.ItemTooltip)
-	TT.ReskinRewardIcon(EmbeddedItemTooltip.ItemTooltip)
+	B.ReskinTTReward(GameTooltip.ItemTooltip)
+	B.ReskinTTReward(EmbeddedItemTooltip.ItemTooltip)
 end

@@ -1,0 +1,21 @@
+<Ui>
+	<Include file="LibCompress\LibCompress.lua"/>
+	<Include file="LibCustomGlow-1.0\LibCustomGlow-1.0.lua"/>
+	<Include file="LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
+	<Include file="LibDBIcon-1.0\LibDBIcon-1.0.lua"/>
+	<Include file="LibDeflate\LibDeflate.lua"/>
+	<Include file="LibDFramework-1.0\LibDFramework-1.0.xml"/>
+	<Include file="LibDurability\LibDurability.lua"/>
+	<Include file="LibGetFrame-1.0\LibGetFrame-1.0.lua"/>
+	<Include file="LibGraph-2.0\LibGraph-2.0.lua"/>
+	<Include file="LibItemUpgradeInfo-1.0\LibItemUpgradeInfo-1.0.lua"/>
+	<Include file="LibLatency\LibLatency.lua"/>
+	<Include file="LibParse\LibParse.lua"/>
+	<Include file="LibRaidStatus\LibRaidStatus.xml"/>
+	<Include file="LibRangeCheck-2.0\LibRangeCheck-2.0.lua"/>
+	<Include file="LibSerialize\LibSerialize.lua"/>
+	<Include file="LibSpellRange-1.0\LibSpellRange-1.0.lua"/>
+	<Include file="LibTranslit-1.0\LibTranslit-1.0.lua"/>
+	<Include file="LibUIDropDownMenu\LibUIDropDownMenu.lua"/>
+	<Include file="LibWindow-1.1\LibWindow-1.1.lua"/>
+</Ui>

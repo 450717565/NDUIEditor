@@ -2,8 +2,8 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 if not C.Infobar.Durability then return end
 
-local Infobar = B:GetModule("Infobar")
-local info = Infobar:RegisterInfobar("Durability", C.Infobar.DurabilityPos)
+local IB = B:GetModule("Infobar")
+local info = IB:RegisterInfobar("Durability", C.Infobar.DurabilityPos)
 
 local format, sort, floor, select = string.format, table.sort, math.floor, select
 local GetInventoryItemLink, GetInventoryItemDurability, GetInventoryItemTexture = GetInventoryItemLink, GetInventoryItemDurability, GetInventoryItemTexture
@@ -144,7 +144,7 @@ info.onEnter = function(self)
 
 	if totalCost > 0 then
 		GameTooltip:AddLine(" ")
-		GameTooltip:AddDoubleLine(repairCostString, Infobar:GetMoneyString(totalCost), .6,.8,1, 1,1,1)
+		GameTooltip:AddDoubleLine(repairCostString, IB:GetMoneyString(totalCost), .6,.8,1, 1,1,1)
 	end
 
 	GameTooltip:AddDoubleLine(" ", DB.LineString)
@@ -162,7 +162,7 @@ local function delayFunc()
 	if isBankEmpty then
 		autoRepair(true)
 	else
-		print(format(DB.InfoColor.."%s|r%s", L["Guild repair"], Infobar:GetMoneyString(repairAllCost)))
+		print(format(DB.InfoColor.."%s|r%s", L["Guild repair"], IB:GetMoneyString(repairAllCost)))
 	end
 end
 
@@ -180,7 +180,7 @@ function autoRepair(override)
 		else
 			if myMoney > repairAllCost then
 				RepairAllItems()
-				print(format(DB.InfoColor.."%s|r%s", L["Repair cost"], Infobar:GetMoneyString(repairAllCost)))
+				print(format(DB.InfoColor.."%s|r%s", L["Repair cost"], IB:GetMoneyString(repairAllCost)))
 				return
 			else
 				print(DB.InfoColor..L["Repair error"])

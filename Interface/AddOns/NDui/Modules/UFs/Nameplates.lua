@@ -674,15 +674,13 @@ function UF:CreateNamePlates()
 	self.Health.UpdateColor = UF.UpdateColor
 
 	local title = B.CreateFS(self, C.db["Nameplate"]["NameTextSize"]-1)
-	title:ClearAllPoints()
-	title:SetPoint("TOP", self, "BOTTOM", 0, -10)
+	B.UpdatePoint(title, "TOP", self, "BOTTOM", 0, -10)
 	title:Hide()
 	self:Tag(title, "[npctitle]")
 	self.npcTitle = title
 
 	local tarName = B.CreateFS(self, C.db["Nameplate"]["NameTextSize"]+4)
-	tarName:ClearAllPoints()
-	tarName:SetPoint("TOP", self, "BOTTOM", 0, -10)
+	B.UpdatePoint(tarName, "TOP", self, "BOTTOM", 0, -10)
 	tarName:Hide()
 	self:Tag(tarName, "[tarname]")
 	self.tarName = tarName
@@ -696,8 +694,7 @@ function UF:CreateNamePlates()
 	UF:CreateThreatColor(self)
 
 	self.powerText = B.CreateFS(self, 22)
-	self.powerText:ClearAllPoints()
-	self.powerText:SetPoint("TOP", self.Castbar, "BOTTOM", 0, -4)
+	B.UpdatePoint(self.powerText, "TOP", self.Castbar, "BOTTOM", 0, -4)
 	self:Tag(self.powerText, "[nppp]")
 
 	UF:MouseoverIndicator(self)
@@ -720,8 +717,7 @@ function UF:UpdateClassPowerAnchor()
 	local nameplate = C_NamePlate_GetNamePlateForUnit("target")
 	if nameplate then
 		bar:SetParent(nameplate.unitFrame)
-		bar:ClearAllPoints()
-		bar:SetPoint("BOTTOM", nameplate.unitFrame.nameText, "TOP", 0, 5)
+		B.UpdatePoint(bar, "BOTTOM", nameplate.unitFrame.nameText, "TOP", 0, 5)
 		bar:Show()
 	else
 		bar:Hide()
@@ -739,8 +735,7 @@ function UF:UpdateTargetClassPower()
 	else
 		isTargetClassPower = false
 		bar:SetParent(playerPlate.Health)
-		bar:ClearAllPoints()
-		bar:SetPoint("BOTTOMLEFT", playerPlate.Health, "TOPLEFT", 0, 3)
+		B.UpdatePoint(bar, "BOTTOMLEFT", playerPlate.Health, "TOPLEFT", 0, 3)
 		bar:Show()
 	end
 end
@@ -803,10 +798,10 @@ function UF:UpdatePlateByType()
 	local raidtarget = self.RaidTargetIndicator
 	local classify = self.ClassifyIndicator
 	local questIcon = self.questIcon
+	local widget = self.widgetContainer
 
 	name:SetShown(not self.widgetsOnly)
 	name:ClearAllPoints()
-	raidtarget:ClearAllPoints()
 
 	if self.isNameOnly then
 		for _, element in pairs(DisabledElements) do
@@ -815,20 +810,23 @@ function UF:UpdatePlateByType()
 			end
 		end
 
-		name:SetJustifyH("CENTER")
 		self:Tag(name, "[nplevel][color][name]")
+		name:SetJustifyH("CENTER")
 		name:UpdateTag()
 		name:SetPoint("CENTER", self, "BOTTOM")
+
 		hpval:Hide()
 		title:Show()
-
-		raidtarget:SetPoint("TOP", title, "BOTTOM", 0, -5)
 		classify:Hide()
-		if questIcon then questIcon:SetPoint("LEFT", name, "RIGHT", -1, 0) end
 
-		if self.widgetContainer then
-			self.widgetContainer:ClearAllPoints()
-			self.widgetContainer:SetPoint("TOP", title, "BOTTOM", 0, -5)
+		B.UpdatePoint(raidtarget, "TOP", title, "BOTTOM", 0, -5)
+
+		if questIcon then
+			B.UpdatePoint(questIcon, "LEFT", name, "RIGHT", -1, 0)
+		end
+
+		if widget then
+			B.UpdatePoint(widget, "TOP", title, "BOTTOM", 0, -5)
 		end
 	else
 		for _, element in pairs(DisabledElements) do
@@ -837,21 +835,24 @@ function UF:UpdatePlateByType()
 			end
 		end
 
-		name:SetJustifyH("LEFT")
 		self:Tag(name, "[nplevel][name]")
+		name:SetJustifyH("LEFT")
 		name:UpdateTag()
 		name:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 0, 5)
 		name:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", 0, 5)
+
 		hpval:Show()
 		title:Hide()
-
-		raidtarget:SetPoint("BOTTOMRIGHT", self, "TOPLEFT", -1, 1)
 		classify:Show()
-		if questIcon then questIcon:SetPoint("LEFT", self, "RIGHT", -1, 0) end
 
-		if self.widgetContainer then
-			self.widgetContainer:ClearAllPoints()
-			self.widgetContainer:SetPoint("TOP", self.Castbar, "BOTTOM", 0, -10)
+		B.UpdatePoint(raidtarget, "BOTTOMRIGHT", self, "TOPLEFT", -1, 1)
+
+		if questIcon then
+			B.UpdatePoint(questIcon, "LEFT", self, "RIGHT", -1, 0)
+		end
+
+		if widget then
+			B.UpdatePoint(widget, "TOP", self.Castbar, "BOTTOM", 0, -10)
 		end
 	end
 

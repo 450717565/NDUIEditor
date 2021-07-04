@@ -267,7 +267,25 @@ C.OnLoginThemes["ObjectiveTrackerFrame"] = function()
 	hooksecurefunc(SCENARIO_CONTENT_TRACKER_MODULE, "Update", Reskin_ContentTracker)
 
 	-- MawBuffsBlock
-	ScenarioBlocksFrame.MawBuffsBlock.Container:HookScript("OnClick", Update_FrameAnchor)
+	local mawBuffsBlock = ScenarioBlocksFrame.MawBuffsBlock
+	B.StripTextures(mawBuffsBlock)
+	local bg = B.CreateBG(mawBuffsBlock, 20, -10, -20, 10)
+
+	local blockContainer = mawBuffsBlock.Container
+	blockContainer:HookScript("OnClick", Update_FrameAnchor)
+	B.StripTextures(blockContainer, 0)
+
+	local blockList = blockContainer.List
+	B.StripTextures(blockList)
+	B.CreateBG(blockList, 7, -12, -7, 12)
+	blockList.__bg = bg
+
+	blockList:HookScript("OnShow", function(self)
+		self.__bg:SetBackdropBorderColor(cr, cg, cb)
+	end)
+	blockList:HookScript("OnHide", function(self)
+		self.__bg:SetBackdropBorderColor(0, 0, 0)
+	end)
 
 	-- Dummy
 	BonusObjectiveTrackerProgressBar_PlayFlareAnim = B.Dummy

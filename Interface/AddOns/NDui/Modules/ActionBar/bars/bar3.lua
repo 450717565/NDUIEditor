@@ -64,17 +64,17 @@ function Bar:CreateBar3()
 		local button = _G["MultiBarBottomRightButton"..i]
 		tinsert(buttonList, button)
 		tinsert(Bar.buttons, button)
-		button:ClearAllPoints()
+
 		if i == 1 then
-			button:SetPoint("TOPLEFT", frame, padding, -padding)
+			B.UpdatePoint(button, "TOPLEFT", frame, "TOPLEFT", padding, -padding)
 		elseif (i == 4 and layout < 4) or (i == 7 and layout == 5) then
-			button:SetPoint("TOP", _G["MultiBarBottomRightButton1"], "BOTTOM", 0, -margin)
+			B.UpdatePoint(button, "TOP", _G["MultiBarBottomRightButton1"], "BOTTOM", 0, -margin)
 		elseif i == 7 and layout < 4 then
-			button:SetPoint("TOPRIGHT", frame, -2*(cfg.size+margin) - padding, -padding)
+			B.UpdatePoint(button, "TOPRIGHT", frame, -2*(cfg.size+margin) - padding, -padding)
 		elseif i == 10 and layout < 4 then
-			button:SetPoint("TOP", _G["MultiBarBottomRightButton7"], "BOTTOM", 0, -margin)
+			B.UpdatePoint(button, "TOP", _G["MultiBarBottomRightButton7"], "BOTTOM", 0, -margin)
 		else
-			button:SetPoint("LEFT", _G["MultiBarBottomRightButton"..i-1], "RIGHT", margin, 0)
+			B.UpdatePoint(button, "LEFT", _G["MultiBarBottomRightButton"..i-1], "RIGHT", margin, 0)
 		end
 	end
 

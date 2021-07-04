@@ -48,11 +48,10 @@ function Misc:RaidTool_Header()
 			B.TogglePanel(menu)
 
 			if menu:IsShown() then
-				menu:ClearAllPoints()
 				if Misc:IsFrameOnTop(self) then
-					menu:SetPoint("TOP", self, "BOTTOM", 0, -3)
+					B.UpdatePoint(menu, "TOP", self, "BOTTOM", 0, -3)
 				else
-					menu:SetPoint("BOTTOM", self, "TOP", 0, 3)
+					B.UpdatePoint(menu, "BOTTOM", self, "TOP", 0, 3)
 				end
 
 				self.buttons[2].text:SetText(IsInRaid() and CONVERT_TO_PARTY or CONVERT_TO_RAID)
@@ -114,14 +113,13 @@ function Misc:RaidTool_RoleCount(parent)
 	local role = {}
 	for i = 1, 3 do
 		role[i] = frame:CreateTexture(nil, "OVERLAY")
-		role[i]:SetPoint("LEFT", 36*i-30, 0)
 		role[i]:SetSize(15, 15)
 		role[i]:SetTexture("Interface\\LFGFrame\\LFGROLE")
 		role[i]:SetTexCoord(unpack(roleTexCoord[i]))
+		B.UpdatePoint(role[i], "LEFT", frame, "LEFT", 36*i-30, 0)
 
 		role[i].text = B.CreateFS(frame, 13, "0")
-		role[i].text:ClearAllPoints()
-		role[i].text:SetPoint("CENTER", role[i], "RIGHT", 12, 0)
+		B.UpdatePoint(role[i].text, "CENTER", role[i], "RIGHT", 12, 0)
 	end
 
 	local raidCounts = {
@@ -200,8 +198,7 @@ function Misc:RaidTool_CombatRes(parent)
 	res.__owner = parent
 
 	res.Count = B.CreateFS(res, 16, "0")
-	res.Count:ClearAllPoints()
-	res.Count:SetPoint("LEFT", res, "RIGHT", 10, 0)
+	B.UpdatePoint(res.Count, "LEFT", res, "RIGHT", 10, 0)
 
 	res.Timer = B.CreateFS(frame, 16, "00:00", false, "RIGHT", -5, 0)
 	res:SetScript("OnUpdate", Misc.RaidTool_UpdateRes)
@@ -237,12 +234,10 @@ function Misc:RaidTool_ReadyCheck(parent)
 			C_Timer_After(5, hideRCFrame)
 		else
 			count, total = 0, 0
-
-			frame:ClearAllPoints()
 			if Misc:IsFrameOnTop(parent) then
-				frame:SetPoint("TOP", parent, "BOTTOM", 0, -3)
+				B.UpdatePoint(frame, "TOP", parent, "BOTTOM", 0, -3)
 			else
-				frame:SetPoint("BOTTOM", parent, "TOP", 0, 3)
+				B.UpdatePoint(frame, "BOTTOM", parent, "TOP", 0, 3)
 			end
 			frame:Show()
 
@@ -281,9 +276,8 @@ function Misc:RaidTool_Marker(parent)
 	if markerButton then
 		B.StripTextures(markerButton)
 		B.ReskinButton(markerButton, true)
+		B.UpdatePoint(markerButton, "RIGHT", parent, "LEFT", -3, 0)
 
-		markerButton:ClearAllPoints()
-		markerButton:SetPoint("RIGHT", parent, "LEFT", -3, 0)
 		markerButton:SetParent(parent)
 		markerButton:SetSize(28, 28)
 		markerButton:SetNormalTexture("Interface\\RaidFrame\\Raid-WorldPing")
@@ -656,13 +650,12 @@ function Misc:RaidTool_UpdateGrid()
 
 	for i = 1, 9 do
 		local button = frame.buttons[i]
-		button:ClearAllPoints()
 		if i == 1 then
-			button:SetPoint("TOPLEFT", frame, margin, -margin)
+			B.UpdatePoint(button, "TOPLEFT", frame, "TOPLEFT", margin, -margin)
 		elseif mod(i-1, perRow) ==  0 then
-			button:SetPoint("TOP", frame.buttons[i-perRow], "BOTTOM", 0, -margin)
+			B.UpdatePoint(button, "TOP", frame.buttons[i-perRow], "BOTTOM", 0, -margin)
 		else
-			button:SetPoint("LEFT", frame.buttons[i-1], "RIGHT", margin, 0)
+			B.UpdatePoint(button, "LEFT", frame.buttons[i-1], "RIGHT", margin, 0)
 		end
 	end
 

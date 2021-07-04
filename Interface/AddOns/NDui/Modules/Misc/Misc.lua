@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Misc = B:RegisterModule("Misc")
+local MISC = B:RegisterModule("Misc")
 
 local _G = getfenv(0)
 local select, floor, unpack, gsub = select, floor, unpack, gsub
@@ -35,13 +35,13 @@ local GetOverrideBarSkin, GetActionInfo, GetSpellInfo = GetOverrideBarSkin, GetA
 ]]
 local MISC_LIST = {}
 
-function Misc:RegisterMisc(name, func)
+function MISC:RegisterMisc(name, func)
 	if not MISC_LIST[name] then
 		MISC_LIST[name] = func
 	end
 end
 
-function Misc:OnLogin()
+function MISC:OnLogin()
 	for name, func in pairs(MISC_LIST) do
 		if name and type(func) == "function" then
 			func()
@@ -49,25 +49,25 @@ function Misc:OnLogin()
 	end
 
 	-- Init
-	Misc:NakedIcon()
-	Misc:ExtendInstance()
-	Misc:VehicleSeatMover()
-	Misc:UIWidgetFrameMover()
-	Misc:MoveDurabilityFrame()
-	Misc:MoveTicketStatusFrame()
-	Misc:UpdateScreenShot()
-	Misc:UpdateFasterLoot()
-	Misc:TradeTargetInfo()
-	Misc:MoveQuestTracker()
-	Misc:BlockStrangerInvite()
-	Misc:OverrideAWQ()
-	Misc:ToggleBossBanner()
-	Misc:ToggleBossEmote()
-	Misc:MawWidgetFrame()
-	Misc:WorldQuestTool()
-	Misc:FasterMovieSkip()
-	Misc:EnhanceDressup()
-	Misc:FuckTrainSound()
+	MISC:NakedIcon()
+	MISC:ExtendInstance()
+	MISC:VehicleSeatMover()
+	MISC:UIWidgetFrameMover()
+	MISC:MoveDurabilityFrame()
+	MISC:MoveTicketStatusFrame()
+	MISC:UpdateScreenShot()
+	MISC:UpdateFasterLoot()
+	MISC:TradeTargetInfo()
+	MISC:MoveQuestTracker()
+	MISC:BlockStrangerInvite()
+	MISC:OverrideAWQ()
+	MISC:ToggleBossBanner()
+	MISC:ToggleBossEmote()
+	MISC:MawWidgetFrame()
+	MISC:WorldQuestTool()
+	MISC:FasterMovieSkip()
+	MISC:EnhanceDressup()
+	MISC:FuckTrainSound()
 
 	-- Unregister talent event
 	if PlayerTalentFrame then
@@ -117,7 +117,7 @@ function Misc:OnLogin()
 end
 
 -- Hide boss banner
-function Misc:ToggleBossBanner()
+function MISC:ToggleBossBanner()
 	if C.db["Misc"]["HideBossBanner"] then
 		BossBanner:UnregisterAllEvents()
 	else
@@ -127,7 +127,7 @@ function Misc:ToggleBossBanner()
 end
 
 -- Hide boss emote
-function Misc:ToggleBossEmote()
+function MISC:ToggleBossEmote()
 	if C.db["Misc"]["HideBossEmote"] then
 		RaidBossEmoteFrame:UnregisterAllEvents()
 	else
@@ -138,7 +138,7 @@ function Misc:ToggleBossEmote()
 end
 
 -- Get Naked
-function Misc:NakedIcon()
+function MISC:NakedIcon()
 	local width = PaperDollSidebarTab1:GetWidth()
 	local bu = CreateFrame("Button", nil, CharacterFrameInsetRight)
 	bu:SetPoint("TOPLEFT", PaperDollSidebarTab1, "TOPLEFT", -(width+4), 0)
@@ -162,7 +162,7 @@ function Misc:NakedIcon()
 end
 
 -- Extend Instance
-function Misc:ExtendInstance()
+function MISC:ExtendInstance()
 	local bu = CreateFrame("Button", nil, RaidInfoFrame)
 	bu:SetSize(25, 25)
 	bu:SetPoint("TOPRIGHT", -35, -5)
@@ -192,7 +192,7 @@ function Misc:ExtendInstance()
 end
 
 -- Reanchor Vehicle
-function Misc:VehicleSeatMover()
+function MISC:VehicleSeatMover()
 	local frame = CreateFrame("Frame", "NDuiVehicleSeatMover", UIParent)
 	frame:SetSize(125, 125)
 	B.Mover(frame, L["VehicleSeat"], "VehicleSeat", {"BOTTOMRIGHT", UIParent, -400, 80})
@@ -205,7 +205,7 @@ function Misc:VehicleSeatMover()
 end
 
 -- Reanchor UIWidgetBelowMinimapContainerFrame
-function Misc:UIWidgetFrameMover()
+function MISC:UIWidgetFrameMover()
 	local frame = CreateFrame("Frame", "NDuiUIWidgetMover", UIParent)
 	frame:SetSize(200, 50)
 	B.Mover(frame, L["UIWidgetFrame"], "UIWidgetFrame", {"TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -30})
@@ -218,7 +218,7 @@ function Misc:UIWidgetFrameMover()
 end
 
 -- Reanchor DurabilityFrame
-function Misc:MoveDurabilityFrame()
+function MISC:MoveDurabilityFrame()
 	hooksecurefunc(DurabilityFrame, "SetPoint", function(self, _, parent)
 		if parent == "MinimapCluster" or parent == MinimapCluster then
 			B.UpdatePoint(self, "TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -30)
@@ -227,7 +227,7 @@ function Misc:MoveDurabilityFrame()
 end
 
 -- Reanchor TicketStatusFrame
-function Misc:MoveTicketStatusFrame()
+function MISC:MoveTicketStatusFrame()
 	hooksecurefunc(TicketStatusFrame, "SetPoint", function(self, relF)
 		if relF == "TOPRIGHT" then
 			B.UpdatePoint(self, "TOP", UIParent, "TOP", -400, -20)
@@ -236,14 +236,13 @@ function Misc:MoveTicketStatusFrame()
 end
 
 -- Reanchor ObjectiveTracker
-function Misc:MoveQuestTracker()
+function MISC:MoveQuestTracker()
 	local frame = CreateFrame("Frame", "NDuiQuestMover", UIParent)
 	frame:SetSize(240, 50)
 	B.Mover(frame, L["QuestTracker"], "QuestTracker", {"TOPRIGHT", Minimap, "BOTTOM", 0, -30})
 
 	local tracker = ObjectiveTrackerFrame
-	tracker:ClearAllPoints()
-	tracker:SetPoint("TOPRIGHT", frame)
+	B.UpdatePoint(tracker, "TOPRIGHT", frame, "TOPRIGHT")
 	tracker:SetHeight(GetScreenHeight()*.65)
 	tracker:SetClampedToScreen(false)
 	tracker:SetMovable(true)
@@ -251,16 +250,16 @@ function Misc:MoveQuestTracker()
 end
 
 -- Achievement screenshot
-function Misc:ScreenShotOnEvent()
-	Misc.ScreenShotFrame.delay = 1
-	Misc.ScreenShotFrame:Show()
+function MISC:ScreenShotOnEvent()
+	MISC.ScreenShotFrame.delay = 1
+	MISC.ScreenShotFrame:Show()
 end
 
-function Misc:UpdateScreenShot()
-	if not Misc.ScreenShotFrame then
-		Misc.ScreenShotFrame = CreateFrame("Frame")
-		Misc.ScreenShotFrame:Hide()
-		Misc.ScreenShotFrame:SetScript("OnUpdate", function(self, elapsed)
+function MISC:UpdateScreenShot()
+	if not MISC.ScreenShotFrame then
+		MISC.ScreenShotFrame = CreateFrame("Frame")
+		MISC.ScreenShotFrame:Hide()
+		MISC.ScreenShotFrame:SetScript("OnUpdate", function(self, elapsed)
 			self.delay = self.delay - elapsed
 			if self.delay < 0 then
 				Screenshot()
@@ -270,16 +269,16 @@ function Misc:UpdateScreenShot()
 	end
 
 	if C.db["Misc"]["Screenshot"] then
-		B:RegisterEvent("ACHIEVEMENT_EARNED", Misc.ScreenShotOnEvent)
+		B:RegisterEvent("ACHIEVEMENT_EARNED", MISC.ScreenShotOnEvent)
 	else
-		Misc.ScreenShotFrame:Hide()
-		B:UnregisterEvent("ACHIEVEMENT_EARNED", Misc.ScreenShotOnEvent)
+		MISC.ScreenShotFrame:Hide()
+		B:UnregisterEvent("ACHIEVEMENT_EARNED", MISC.ScreenShotOnEvent)
 	end
 end
 
 -- Faster Looting
 local lootDelay = 0
-function Misc:DoFasterLoot()
+function MISC:DoFasterLoot()
 	local thisTime = GetTime()
 	if thisTime - lootDelay >= .3 then
 		lootDelay = thisTime
@@ -292,16 +291,16 @@ function Misc:DoFasterLoot()
 	end
 end
 
-function Misc:UpdateFasterLoot()
+function MISC:UpdateFasterLoot()
 	if C.db["Misc"]["FasterLoot"] then
-		B:RegisterEvent("LOOT_READY", Misc.DoFasterLoot)
+		B:RegisterEvent("LOOT_READY", MISC.DoFasterLoot)
 	else
-		B:UnregisterEvent("LOOT_READY", Misc.DoFasterLoot)
+		B:UnregisterEvent("LOOT_READY", MISC.DoFasterLoot)
 	end
 end
 
 -- TradeFrame hook
-function Misc:TradeTargetInfo()
+function MISC:TradeTargetInfo()
 	local infoText = B.CreateFS(TradeFrame, 16)
 	B.UpdatePoint(infoText, "TOP", TradeFrameRecipientNameText, "BOTTOM", 0, -5)
 
@@ -323,7 +322,7 @@ function Misc:TradeTargetInfo()
 end
 
 -- Block invite from strangers
-function Misc:BlockStrangerInvite()
+function MISC:BlockStrangerInvite()
 	B:RegisterEvent("PARTY_INVITE_REQUEST", function(_, _, _, _, _, _, _, guid)
 		if C.db["Misc"]["BlockInvite"] and not (C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) or IsGuildMember(guid)) then
 			DeclineGroup()
@@ -342,8 +341,8 @@ local function GetMawBarValue()
 	end
 end
 
-function Misc:UpdateMawBarLayout()
-	local bar = Misc.mawbar
+function MISC:UpdateMawBarLayout()
+	local bar = MISC.mawbar
 	local rank, value = GetMawBarValue()
 	if rank then
 		local r, g, b = B.SmoothColor(rank, 5, true)
@@ -363,9 +362,9 @@ function Misc:UpdateMawBarLayout()
 	end
 end
 
-function Misc:MawWidgetFrame()
+function MISC:MawWidgetFrame()
 	if not C.db["Misc"]["MawThreatBar"] then return end
-	if Misc.mawbar then return end
+	if MISC.mawbar then return end
 
 	local bar = B.CreateSB(UIParent)
 	bar:SetPoint("TOP", 0, -50)
@@ -375,7 +374,7 @@ function Misc:MawWidgetFrame()
 
 	bar.text = B.CreateFS(bar, 14)
 
-	Misc.mawbar = bar
+	MISC.mawbar = bar
 
 	B.Mover(bar, L["MawThreatBar"], "MawThreatBar", {"TOP", UIParent, 0, -40})
 
@@ -396,13 +395,13 @@ function Misc:MawWidgetFrame()
 	end)
 	bar:SetScript("OnLeave", B.HideTooltip)
 
-	Misc:UpdateMawBarLayout()
-	B:RegisterEvent("PLAYER_ENTERING_WORLD", Misc.UpdateMawBarLayout)
-	B:RegisterEvent("UPDATE_UI_WIDGET", Misc.UpdateMawBarLayout)
+	MISC:UpdateMawBarLayout()
+	B:RegisterEvent("PLAYER_ENTERING_WORLD", MISC.UpdateMawBarLayout)
+	B:RegisterEvent("UPDATE_UI_WIDGET", MISC.UpdateMawBarLayout)
 end
 
 -- Override default settings for AngrierWorldQuests
-function Misc:OverrideAWQ()
+function MISC:OverrideAWQ()
 	if not IsAddOnLoaded("AngrierWorldQuests") then return end
 
 	AngrierWorldQuests_Config = AngrierWorldQuests_Config or {}
@@ -427,7 +426,7 @@ function Misc:OverrideAWQ()
 end
 
 -- WorldQuestTool
-function Misc:WorldQuestTool()
+function MISC:WorldQuestTool()
 	if not C.db["ActionBar"]["Enable"] then return end
 	--https://www.wowhead.com/quest=59585/well-make-an-aspirant-out-of-you
 	--https://www.wowhead.com/quest=61540/just-winging-it
@@ -474,38 +473,42 @@ function Misc:WorldQuestTool()
 	B:RegisterEvent("ACTIONBAR_UPDATE_COOLDOWN", Reset_ActionButtons)
 end
 
-function Misc:FasterMovieSkip()
+function MISC:FasterMovieSkip()
 	if not C.db["Misc"]["FasterSkip"] then return end
 
 	-- Allow space bar, escape key and enter key to cancel cinematic without confirmation
+	if CinematicFrame.closeDialog and not CinematicFrame.closeDialog.confirmButton then
+		CinematicFrame.closeDialog.confirmButton = CinematicFrameCloseDialogConfirmButton
+	end
+
 	CinematicFrame:HookScript("OnKeyDown", function(self, key)
 		if key == "ESCAPE" then
-			if CinematicFrame:IsShown() and CinematicFrame.closeDialog and CinematicFrameCloseDialogConfirmButton then
-				CinematicFrameCloseDialog:Hide()
+			if self:IsShown() and self.closeDialog and self.closeDialog.confirmButton then
+				self.closeDialog:Hide()
 			end
 		end
 	end)
 	CinematicFrame:HookScript("OnKeyUp", function(self, key)
 		if key == "SPACE" or key == "ESCAPE" or key == "ENTER" then
-			if CinematicFrame:IsShown() and CinematicFrame.closeDialog and CinematicFrameCloseDialogConfirmButton then
-				CinematicFrameCloseDialogConfirmButton:Click()
+			if self:IsShown() and self.closeDialog and self.closeDialog.confirmButton then
+				self.closeDialog.confirmButton:Click()
 			end
 		end
 	end)
 	MovieFrame:HookScript("OnKeyUp", function(self, key)
 		if key == "SPACE" or key == "ESCAPE" or key == "ENTER" then
-			if MovieFrame:IsShown() and MovieFrame.CloseDialog and MovieFrame.CloseDialog.ConfirmButton then
-				MovieFrame.CloseDialog.ConfirmButton:Click()
+			if self:IsShown() and self.CloseDialog and self.CloseDialog.ConfirmButton then
+				self.CloseDialog.ConfirmButton:Click()
 			end
 		end
 	end)
 end
 
-function Misc:EnhanceDressup()
+function MISC:EnhanceDressup()
 	if not C.db["Misc"]["EnhanceDressup"] then return end
 
 	local parent = _G.DressUpFrameResetButton
-	local button = Misc:MailBox_CreatButton(parent, 75, 22, L["Undress"], {"RIGHT", parent, "LEFT", -2, 0})
+	local button = MISC:MailBox_CreatButton(parent, 75, 22, L["Undress"], {"RIGHT", parent, "LEFT", -2, 0})
 	button:RegisterForClicks("AnyUp")
 	button:SetScript("OnClick", function(_, btn)
 		local actor = DressUpFrame.ModelScene:GetPlayerActor()
@@ -521,7 +524,7 @@ function Misc:EnhanceDressup()
 	B.AddTooltip(button, "ANCHOR_TOP", format(L["UndressButtonTip"], DB.LeftButton, DB.RightButton))
 end
 
-function Misc:FuckTrainSound()
+function MISC:FuckTrainSound()
 	local trainSounds = {
 	--[[Blood Elf]]	"539219", "539203", "1313588", "1306531",
 	--[[Draenei]]	"539516", "539730",
@@ -617,8 +620,7 @@ do
 
 	hooksecurefunc(PlayerPowerBarAlt, "SetPoint", function(_, _, parent)
 		if parent ~= mover then
-			PlayerPowerBarAlt:ClearAllPoints()
-			PlayerPowerBarAlt:SetPoint("CENTER", mover)
+			B.UpdatePoint(PlayerPowerBarAlt, "CENTER", mover, "CENTER")
 		end
 	end)
 

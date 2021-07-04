@@ -66,13 +66,6 @@ local function toggleButtonGrid()
 	end
 end
 
-local function hideFakeExtraBar(event, addon)
-	if addon == "Blizzard_BindingUI" then
-		B.HideObject(QuickKeybindFrame.phantomExtraActionButton)
-		B:UnregisterEvent(event, hideFakeExtraBar)
-	end
-end
-
 local function updateTokenVisibility()
 	TokenFrame_LoadUI()
 	TokenFrame_Update()
@@ -96,7 +89,6 @@ function Bar:HideBlizz()
 
 	-- Fix maw block anchor
 	MainMenuBarVehicleLeaveButton:RegisterEvent("PLAYER_ENTERING_WORLD")
-
 	-- Update button grid
 	hooksecurefunc("MultiActionBar_UpdateGridVisibility", toggleButtonGrid)
 	-- Update token panel

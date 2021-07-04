@@ -18,17 +18,19 @@ local function Replace_ApplicantRoles(texture, atlas)
 end
 
 local function Reskin_RoleIcons(member)
-	if not member.styled then
-		for i = 1, 3 do
-			local button = member["RoleIcon"..i]
+	for i = 1, 3 do
+		local button = member["RoleIcon"..i]
+		button:SetHighlightTexture("")
+
+		if not button.styled then
 			local texture = button:GetNormalTexture()
 			Replace_ApplicantRoles(texture, LFG_LIST_GROUP_DATA_ATLASES[button.role])
 			hooksecurefunc(texture, "SetAtlas", Replace_ApplicantRoles)
 
 			B.CreateBDFrame(button, 0, -C.mult)
-		end
 
-		member.styled = true
+			button.styled = true
+		end
 	end
 end
 
@@ -47,8 +49,19 @@ end
 
 local function Reskin_Applicant(button)
 	if not button.styled then
-		B.ReskinDecline(button.DeclineButton)
 		B.ReskinButton(button.InviteButton)
+
+		local decline = button.DeclineButton
+		decline:SetSize(22, 22)
+		decline.Icon:SetTexture(DB.noTex)
+		decline.Icon:SetInside()
+		B.ReskinButton(decline)
+
+		local invite = button.InviteButtonSmall
+		invite:SetSize(22, 22)
+		invite.Icon:SetTexture(DB.yesTex)
+		invite.Icon:SetInside()
+		B.ReskinButton(invite)
 
 		button.styled = true
 	end
@@ -131,8 +144,6 @@ C.OnLoginThemes["LFGListFrame"] = function()
 	}
 	for _, headerName in pairs(headers) do
 		local header = ApplicationViewer[headerName]
-		if not header then break end -- isNewPatch
-
 		header.Label:SetFont(DB.Font[1], 14, DB.Font[3])
 		header.Label:SetShadowColor(0, 0, 0, 0)
 

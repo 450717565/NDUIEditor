@@ -1,6 +1,7 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
 local oUF = ns.oUF
+local B, C, L, DB = unpack(ns)
+
 ----------------------------
 -- yClassColors, by yleaf
 -- NDui MOD

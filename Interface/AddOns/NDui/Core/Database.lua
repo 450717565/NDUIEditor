@@ -95,6 +95,8 @@ DB.newItemFlash = "Interface\\Cooldown\\star4"
 DB.objectTex = "Warfronts-BaseMapIcons-Horde-Barracks-Minimap"
 DB.questTex = "adventureguide-microbutton-alert"
 DB.sparkTex = "Interface\\CastingBar\\UI-CastingBar-Spark"
+DB.yesTex = "Interface\\RaidFrame\\ReadyCheck-Ready"
+DB.noTex = "Interface\\RaidFrame\\ReadyCheck-NotReady"
 
 DB.LeftButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:13:11:0:-1:512:512:12:66:230:307|t "
 DB.RightButton = " |TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:13:11:0:-1:512:512:12:66:333:410|t "

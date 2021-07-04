@@ -56,6 +56,7 @@ GUI.DefaultSettings = {
 		ShowNewItem = true,
 		SpecialBagsColor = false,
 		SplitCount = 1,
+		PetTrash = true,
 
 		FilterAzerite = true,
 		FilterCollection = true,
@@ -325,6 +326,7 @@ GUI.DefaultSettings = {
 		OnlyArmorIcons = false,
 		ConduitInfo = true,
 		HideAllID = false,
+		MDScore = true,
 	},
 	Misc = {
 		Mail = true,
@@ -572,8 +574,8 @@ local function updateCustomBar()
 end
 
 local function updateHotkeys()
-	local Bar = B:GetModule("ActionBar")
-	for _, button in pairs(Bar.buttons) do
+	local AB = B:GetModule("ActionBar")
+	for _, button in pairs(AB.buttons) do
 		if button.UpdateHotkeys then
 			button:UpdateHotkeys(button.buttonType)
 		end
@@ -581,26 +583,26 @@ local function updateHotkeys()
 end
 
 local function updateEquipColor()
-	local Bar = B:GetModule("ActionBar")
-	for _, button in pairs(Bar.buttons) do
+	local AB = B:GetModule("ActionBar")
+	for _, button in pairs(AB.buttons) do
 		if button.Border and button.Update then
-			Bar.UpdateEquipItemColor(button)
+			AB.UpdateEquipItemColor(button)
 		end
 	end
 end
 
 local function updateBuffFrame()
-	local Auras = B:GetModule("Auras")
-	Auras:UpdateOptions()
-	Auras:UpdateHeader(Auras.BuffFrame)
-	Auras.BuffFrame.mover:SetSize(Auras.BuffFrame:GetSize())
+	local AURA = B:GetModule("Auras")
+	AURA:UpdateOptions()
+	AURA:UpdateHeader(AURA.BuffFrame)
+	AURA.BuffFrame.mover:SetSize(AURA.BuffFrame:GetSize())
 end
 
 local function updateDebuffFrame()
-	local Auras = B:GetModule("Auras")
-	Auras:UpdateOptions()
-	Auras:UpdateHeader(Auras.DebuffFrame)
-	Auras.DebuffFrame.mover:SetSize(Auras.DebuffFrame:GetSize())
+	local AURA = B:GetModule("Auras")
+	AURA:UpdateOptions()
+	AURA:UpdateHeader(AURA.DebuffFrame)
+	AURA.DebuffFrame.mover:SetSize(AURA.DebuffFrame:GetSize())
 end
 
 local function updateReminder()
@@ -802,8 +804,6 @@ local function AddTextureToOption(parent, index)
 end
 
 -- Config
-local NewTag = "|TInterface\\OptionsFrame\\UI-OptionsFrame-NewFeatureIcon:0|t"
-
 GUI.TabList = {
 	L["ActionBar"],
 	L["Bags"],
@@ -850,16 +850,17 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 	},
 	[2] = {
 		{1, "Bags", "Enable", DB.MyColor..L["Enable Bags"]},
-		{1, "Bags", "ItemFilter", L["Bags ItemFilter"].."*", true, setupBagFilter, updateBagStatus},
+		{1, "Bags", "ItemFilter", L["Bags ItemFilter"].."*", false, setupBagFilter, updateBagStatus},
+		{4, "Bags", "BagSortMode", L["Bag SortMode"].."*", true, {L["Forward"], L["Backward"], DISABLE}, updateBagSortOrder, L["BagSortTip"]},
 		{},--blank
 		{1, "Bags", "GatherEmpty", L["Bags GatherEmpty"], false},
-		{1, "Bags", "SpecialBagsColor", L["SpecialBags Color"].."*", true, nil, updateBagStatus, L["Special Bags Color Tip"]},
-		{1, "Bags", "DeleteButton", L["Bags DeleteButton"], false},
-		{1, "Bags", "ShowNewItem", L["Bags ShowNewItem"], true},
-		{1, "Bags", "BagsiLvl", L["Bags Itemlevel"], false},
 		{1, "Bags", "BagsSlot", L["Bags ItemSlot"], true, nil, updateBagStatus},
-		{3, "Bags", "iLvlToShow", L["Bags iLvlToShow"].."*", false, {1, 500, 1}, nil, L["iLvlToShowTip"]},
-		{4, "Bags", "BagSortMode", L["Bag SortMode"].."*", true, {L["Forward"], L["Backward"], DISABLE}, updateBagSortOrder, L["BagSortTip"]},
+		{1, "Bags", "SpecialBagsColor", L["SpecialBags Color"].."*", false, nil, updateBagStatus, L["Special Bags Color Tip"]},
+		{1, "Bags", "BagsiLvl", L["Bags Itemlevel"], true},
+		{1, "Bags", "DeleteButton", L["Bags DeleteButton"], false},
+		{1, "Bags", "ShowNewItem", L["Bags ShowNewItem"], false},
+		{3, "Bags", "iLvlToShow", L["Bags iLvlToShow"].."*", true, {1, 500, 1}, nil, L["iLvlToShowTip"]},
+		{1, "Bags", "PetTrash", L["PetTrash"], false, nil, nil, L["PetTrashTip"]},
 		{},--blank
 		{3, "Bags", "BagsScale", L["Bags Scale"], false, {.5, 1.5, .01}},
 		{3, "Bags", "IconSize", L["Bags IconSize"], true, {30, 42, 1}},
@@ -1131,7 +1132,8 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Tooltip", "SpecLevelByShift", L["Show SpecLevelByShift"].."*", true},
 		{1, "Tooltip", "LFDRole", L["Group Roles"].."*"},
 		{1, "Tooltip", "TargetBy", L["Show TargetedBy"].."*", true},
-		{1, "Tooltip", "HideAllID", DB.MyColor..L["HideAllID"]},
+		{1, "Tooltip", "MDScore", L["MDScore"].."*", nil, nil, nil, L["MDScoreTip"]},
+		{1, "Tooltip", "HideAllID", DB.MyColor..L["HideAllID"], true},
 		{},--blank
 		{1, "Tooltip", "AzeriteArmor", DB.MyColor..L["Show AzeriteArmor"]},
 		{1, "Tooltip", "OnlyArmorIcons", L["Armor icons only"].."*", true},

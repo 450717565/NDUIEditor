@@ -15,14 +15,13 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 		end
 	elseif event == 'QUEST_REMOVED' then
 		local questID = ...
-		if(questID == 60739) then
+		if (questID == 60739) then
 			self:Unwatch()
 		end
 	elseif event == 'UPDATE_MOUSEOVER_UNIT' then
 		local unitGUID = UnitGUID('mouseover')
 		if unitGUID then
-			local mouseNPC = tonumber((string.match(unitGUID, 'Creature%-.-%-.-%-.-%-.-%-(.-)%-')))
-			if mouseNPC == 170080 and GetRaidTargetIndex('mouseover') ~= 8 then
+			if GetNPCID(unitGUID) == 170080 and GetRaidTargetIndex('mouseover') ~= 8 then
 				SetRaidTarget('mouseover', 8)
 			end
 		end

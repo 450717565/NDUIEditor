@@ -1,7 +1,7 @@
 local _, ns = ...
+local oUF = ns.oUF
 local B, C, L, DB = unpack(ns)
 
-local oUF = ns.oUF
 local UF = B:GetModule("UnitFrames")
 local format, tostring = string.format, tostring
 
@@ -354,7 +354,7 @@ function UF:OnLogin()
 			local arena = {}
 			for i = 1, 5 do
 				arena[i] = oUF:Spawn("arena"..i, "oUF_Arena"..i)
-				arena[i]:SetPoint("TOPLEFT", boss[i].mover)
+				B.UpdatePoint(arena[i], "TOPLEFT", boss[i].mover, "TOPLEFT")
 			end
 		end
 
@@ -410,8 +410,7 @@ function UF:OnLogin()
 			RegisterStateDriver(party, "visibility", GetPartyVisibility())
 
 			partyMover = B.Mover(party, L["PartyFrame"], "PartyFrame", {"LEFT", UIParent, 350, 70}, moverWidth, moverHeight)
-			party:ClearAllPoints()
-			party:SetPoint("BOTTOMLEFT", partyMover)
+			B.UpdatePoint(party, "BOTTOMLEFT", partyMover, "BOTTOMLEFT")
 
 			if C.db["UFs"]["PartyPetFrame"] then
 				oUF:RegisterStyle("PartyPet", CreatePartyPetStyle)
@@ -442,8 +441,7 @@ function UF:OnLogin()
 
 				local moverAnchor = horizonParty and {"TOPLEFT", partyMover, "BOTTOMLEFT", 0, -20} or {"BOTTOMRIGHT", partyMover, "BOTTOMLEFT", -10, 0}
 				local petMover = B.Mover(partyPet, L["PartyPetFrame"], "PartyPetFrame", moverAnchor, petMoverWidth, petMoverHeight)
-				partyPet:ClearAllPoints()
-				partyPet:SetPoint("BOTTOMLEFT", petMover)
+				B.UpdatePoint(partyPet, "BOTTOMLEFT", petMover, "BOTTOMLEFT")
 			end
 		end
 

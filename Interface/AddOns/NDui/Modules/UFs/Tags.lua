@@ -1,6 +1,6 @@
 ﻿local _, ns = ...
-local B, C, L, DB = unpack(ns)
 local oUF = ns.oUF
+local B, C, L, DB = unpack(ns)
 
 local AFK, DND, DEAD, PLAYER_OFFLINE, LEVEL = AFK, DND, DEAD, PLAYER_OFFLINE, LEVEL
 local select, format, strfind, GetCVarBool = select, format, strfind, GetCVarBool

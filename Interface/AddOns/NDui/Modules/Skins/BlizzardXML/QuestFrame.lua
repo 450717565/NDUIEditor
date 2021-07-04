@@ -11,12 +11,8 @@ local function Reskin_TextColor(fontString)
 	B.ReskinText(fontString, 1, 1, 1)
 end
 
-local function Fixed_ShowQuestPortrait(parentFrame, _, _, _, _, _, x, y)
-	if parentFrame == WorldMapFrame then
-		x = 2
-	else
-		x = 1
-	end
+local function Fix_ShowQuestPortrait(parentFrame, _, _, _, _, _, x, y)
+	x = (parentFrame == WorldMapFrame) and 2 or 1
 	B.UpdatePoint(QuestModelScene, "TOPLEFT", parentFrame, "TOPRIGHT", x, -25)
 end
 
@@ -92,7 +88,7 @@ C.OnLoginThemes["QuestFrame"] = function()
 	local boss = B.ReskinFrame(QuestModelScene)
 	boss:SetOutside(QuestModelScene, 0, 0, QuestNPCModelTextFrame)
 
-	hooksecurefunc("QuestFrame_ShowQuestPortrait", Fixed_ShowQuestPortrait)
+	hooksecurefunc("QuestFrame_ShowQuestPortrait", Fix_ShowQuestPortrait)
 
 	-- Quest Progress Item
 	for i = 1, MAX_REQUIRED_ITEMS do

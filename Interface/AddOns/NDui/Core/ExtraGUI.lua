@@ -1068,12 +1068,12 @@ function GUI:SetupBagFilter(parent)
 		[11] = "FilterAnima",
 	}
 
-	local Bags = B:GetModule("Bags")
+	local BAG = B:GetModule("Bags")
 	local function filterOnClick(self)
 		local value = self.__value
 		C.db["Bags"][value] = not C.db["Bags"][value]
 		self:SetChecked(C.db["Bags"][value])
-		Bags:UpdateAllBags()
+		BAG:UpdateAllBags()
 	end
 
 	local offset = 10

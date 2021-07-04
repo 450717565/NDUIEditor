@@ -104,15 +104,12 @@ function Misc:GuildBest_Update()
 			B.UpdatePoint(affix, "TOPLEFT", Child, "TOPLEFT", 20, -55)
 		end
 
-		local AffixFrame = AngryKeystones.Modules.Schedule.AffixFrame
-		B.UpdatePoint(frame, "BOTTOMLEFT", AffixFrame, "TOPLEFT", 0, 10)
-
-		local KeystoneText = AngryKeystones.Modules.Schedule.KeystoneText
-		B.UpdatePoint(KeystoneText, "TOP", Child.WeeklyChest, "BOTTOM", 0, -30)
-		B.UpdatePoint(Child.DungeonScoreInfo, "CENTER", Child.WeeklyChest, "BOTTOM", 0, 0)
-
-		local RunStatus = Child.WeeklyChest.RunStatus
-		B.UpdatePoint(RunStatus, "BOTTOM", Child.WeeklyChest, "TOP", 0, 30)
+		local WeeklyChest = Child.WeeklyChest
+		local Schedule = AngryKeystones.Modules.Schedule
+		B.UpdatePoint(frame, "BOTTOMLEFT", Schedule.AffixFrame, "TOPLEFT", 0, 10)
+		B.UpdatePoint(Schedule.KeystoneText, "TOP", WeeklyChest, "BOTTOM", 0, -30)
+		B.UpdatePoint(Child.DungeonScoreInfo, "CENTER", WeeklyChest, "BOTTOM", 0, 0)
+		B.UpdatePoint(WeeklyChest.RunStatus, "BOTTOM", WeeklyChest, "TOP", 0, 30)
 
 		resize = true
 	end

@@ -2,8 +2,8 @@
 local B, C, L, DB = unpack(ns)
 if not C.Infobar.Friends then return end
 
-local Infobar = B:GetModule("Infobar")
-local info = Infobar:RegisterInfobar("Friends", C.Infobar.FriendsPos)
+local IB = B:GetModule("Infobar")
+local info = IB:RegisterInfobar("Friends", C.Infobar.FriendsPos)
 
 local strfind, format, sort, wipe, unpack, tinsert = string.find, string.format, table.sort, table.wipe, unpack, table.insert
 local C_Timer_After = C_Timer.After
@@ -288,10 +288,10 @@ local function buttonOnClick(self, btn)
 end
 
 local function buttonOnEnter(self)
-	GameTooltip:SetOwner(self, "ANCHOR_NONE")
-	GameTooltip:ClearAllPoints()
-	GameTooltip:SetPoint("TOPLEFT", infoFrame, "TOPRIGHT", 5, 0)
 	GameTooltip:ClearLines()
+	GameTooltip:SetOwner(self, "ANCHOR_NONE")
+	B.UpdatePoint(GameTooltip, "TOPLEFT", infoFrame, "TOPRIGHT", 5, 0)
+
 	if self.isBNet then
 		GameTooltip:AddLine(L["BN"], 0,.6,1)
 		GameTooltip:AddLine(" ")
@@ -530,14 +530,15 @@ info.onEnter = function(self)
 	local totalFriends = info.totalFriends
 
 	if totalOnline == 0 then
-		GameTooltip:SetOwner(self, "ANCHOR_NONE")
-		GameTooltip:ClearAllPoints()
-		GameTooltip:SetPoint("TOPLEFT", UIParent, 15, -35)
 		GameTooltip:ClearLines()
+		GameTooltip:SetOwner(self, "ANCHOR_NONE")
 		GameTooltip:AddDoubleLine(FRIENDS_LIST, format("%s：%s / %s", FRIENDS_LIST_ONLINE, totalOnline, totalFriends), 0,.6,1, 0,.6,1)
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(L["No Online"], 1,1,1)
 		GameTooltip:Show()
+
+		B.UpdatePoint(GameTooltip, "TOPLEFT", UIParent, "TOPLEFT", 15, -35)
+
 		return
 	end
 

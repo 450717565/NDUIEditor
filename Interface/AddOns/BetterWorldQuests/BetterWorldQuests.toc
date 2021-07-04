@@ -1,6 +1,6 @@
 ## Interface: 90100
 ## Author: p3lim
-## Version: 90000.9-Release
+## Version: 90100.10-Release
 ## Title: Better World Quests
 ## Notes: Improves the World Quest POIs on the map
 ## OptionalDeps: LibStub, CallbackHandler-1.0, HereBeDragons

@@ -2,9 +2,9 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 if not C.Infobar.Location then return end
 
-local Infobar = B:GetModule("Infobar")
-local info = Infobar:RegisterInfobar("Location", C.Infobar.LocationPos)
-local Maps = B:GetModule("Maps")
+local MAP = B:GetModule("Maps")
+local IB = B:GetModule("Infobar")
+local info = IB:RegisterInfobar("Location", C.Infobar.LocationPos)
 
 local format, unpack = string.format, unpack
 local WorldMapFrame, SELECTED_DOCK_FRAME, ChatFrame_OpenChat = WorldMapFrame, SELECTED_DOCK_FRAME, ChatFrame_OpenChat
@@ -26,7 +26,7 @@ local pvpType, faction, zone, subZone, currentZone, totalZone, coordX, coordY, c
 local function UpdateCoords(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed > .1 then
-		coordX, coordY = Maps:GetPlayerMapPos(C_Map_GetBestMapForUnit("player"))
+		coordX, coordY = MAP:GetPlayerMapPos(C_Map_GetBestMapForUnit("player"))
 		self:GetScript("onEvent")(self)
 
 		self.elapsed = 0

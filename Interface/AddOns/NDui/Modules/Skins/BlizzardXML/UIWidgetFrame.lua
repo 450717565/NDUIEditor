@@ -17,17 +17,13 @@ end
 local function Reskin_DoubleStatusBar(self)
 	local LeftBar = self.LeftBar
 	Reskin_StatusBar(LeftBar)
-	LeftBar.Icon:ClearAllPoints()
-	LeftBar.Icon:SetPoint("RIGHT", LeftBar, "LEFT", 0, 0)
-	LeftBar.IconGlow:ClearAllPoints()
-	LeftBar.IconGlow:SetPoint("RIGHT", LeftBar, "LEFT", 0, 0)
+	B.UpdatePoint(LeftBar.Icon, "RIGHT", LeftBar, "LEFT", 0, 0)
+	B.UpdatePoint(LeftBar.IconGlow, "RIGHT", LeftBar, "LEFT", 0, 0)
 
 	local RightBar = self.RightBar
 	Reskin_StatusBar(RightBar)
-	RightBar.Icon:ClearAllPoints()
-	RightBar.Icon:SetPoint("LEFT", RightBar, "RIGHT", 0, 0)
-	RightBar.IconGlow:ClearAllPoints()
-	RightBar.IconGlow:SetPoint("LEFT", RightBar, "RIGHT", 0, 0)
+	B.UpdatePoint(RightBar.Icon, "LEFT", RightBar, "RIGHT", 0, 0)
+	B.UpdatePoint(RightBar.IconGlow, "LEFT", RightBar, "RIGHT", 0, 0)
 end
 
 local function Reskin_CaptureBar(self)
@@ -52,11 +48,16 @@ end
 
 local function Reskin_SpellDisplay(self)
 	local spell = self.Spell
-	B.StripTextures(spell, 1)
-
+	B.StripTextures(spell)
+	--spell.IconMask:Hide()
+	--spell.Border:SetTexture("")
+	--spell.DebuffBorder:SetTexture("")
 	if not self.styled then
+
+
 		local icbg = B.ReskinIcon(spell.Icon)
-		B.ReskinBGBorder(spell.DebuffBorder, icbg)
+		B.ReskinBorder(spell.DebuffBorder, icbg, nil, true)
+		--B.ReskinBGBorder(spell.DebuffBorder, icbg)
 
 		self.styled = true
 	end
@@ -77,12 +78,7 @@ local function Reskin_UIWidgetLayout(self)
 	end
 end
 
-local ignoredWidgetIDs = {
-	[3246] = true, -- Torghast progressbar
-	[3273] = true, -- Torghast progressbar
-}
 local function Reskin_UIWidgetStatusBar(self)
-	if ignoredWidgetIDs[self.widgetID] then return end
 	Reskin_StatusBar(self.Bar)
 end
 
@@ -92,4 +88,6 @@ C.OnLoginThemes["UIWidgetTemplate"] = function()
 	hooksecurefunc(_G.UIWidgetPowerBarContainerFrame, "UpdateWidgetLayout", Reskin_UIWidgetLayout)
 	hooksecurefunc(_G.UIWidgetTopCenterContainerFrame, "UpdateWidgetLayout", Reskin_UIWidgetLayout)
 	hooksecurefunc(_G.UIWidgetBelowMinimapContainerFrame, "UpdateWidgetLayout", Reskin_UIWidgetLayout)
+	hooksecurefunc(_G.TopScenarioWidgetContainerBlock.WidgetContainer, "UpdateWidgetLayout", Reskin_UIWidgetLayout)
+	hooksecurefunc(_G.BottomScenarioWidgetContainerBlock.WidgetContainer, "UpdateWidgetLayout", Reskin_UIWidgetLayout)
 end

@@ -240,32 +240,53 @@ L["zolla_note"] = "Nous prenons nos défenses très au sérieux. Qu'elles soient
 -------------------------------------------------------------------------------
 
 L["chamber_note"] = "Utilisez une {item:186718} de l'{npc:178257} sur le Téléporteur ancien. Utilise le Téléporteur ancien réparé pour accéder à la chambre."
+L["consumption_note"] = [[
+Ce monstre rare ne laissera pas de butin avant d'avoir consommé 40 {npc:179758} pour se transformer en sa forme bleue (Rare).
+
+Ce monstre rare laissera tomber des objets de recherche supplémentaires après avoir consommé *de nouveau* 40 {npc:179758} pour se transformer en sa forme verte (Élite Rare).
+
+|cFFFF0000LE MONSTRE RARE NE FERA PAS APPARAÎTRE DES {npc:179758} POUR LES CONSOMMER SI ENGAGÉ EN COMBAT.|r
+]]
 L["corpse_heap_note"] = "Parlez à {npc:180079} pour commencer l'événement de collecte."
-L["darkmaul_note"] = "Collectez des {item:187153} sur les champignantre envahissants et nourrissez {npc:180063} avec. Vous devez terminer l'événement 6 fois pour obtenir la monture."
+L["darkmaul_note"] = "Collectez des {item:187153} sur les champignantre envahissants et nourrissez {npc:180063} avec. Vous devez terminer l'événement 10 fois pour obtenir la monture."
 L["dislodged_nest_note"] = "Cliquez sur un papillon nocif proche pour obtenir {spell:355181}. Utilisez le bouton d'action supplémentaire {spell:355131} sur un {npc:178547} pour en prendre le contrôle et le conduire dans l'arbre où se trouve le nid."
 L["flayedwing_transporter_note"] = "Cliquez sur {npc:178633} pour voler vers ou depuis le Caveau des Secrets."
 L["forgotten_feather_note"] = "Flottant sur une petite île à laquelle on accède en sautant depuis le Répit du gardien."
 L["hunting_hunter_note"] = "Parlez au {npc:179729} pour obtenir {spell:355078} et suivez les traces de pas jusqu'à ce que vous trouviez les restes de chair."
-L["konthrogz_note"] = "Apparaît lors d'un événement lié à un portail de dévoreur."
+L["konthrogz_note"] = "Apparaît lors d'un événement lié à un portail de dévoreur. L'événement peut apparaître dans de nombreux endroits de Korthia."
 L["maelie_wanderer"] = "{npc:179912} apparaîtra à un endroit défini pour la journée. Une fois que vous avez utilisé {spell:355862} sur elle 6 jours différents, revenez voir {npc:179930} pour obtenir la monture."
 L["no_stoneborne_note"] = "Parlez à {npc:179974} pour commencer l'événement."
 L["offering_box_note"] = "Requiert une Petite clé des offrandes qui peut être trouvée sur le haut du mur ouest des ruines voisines."
 L["pop_quiz_note"] = "L'événement Pop Quizz apparaîtra aléatoirement sur la carte. Cliquez sur le Mât voilé abandonné et répondez aux questions de {npc:180162}."
 L["popo_note"] = "Parlez à {npc:180028} pour déclencher l'événement d'escorte."
-L["razorwing_note"] = "Donnez les {item:187054} obtenus sur les dévoreurs."
+L["razorwing_note"] = "Apportez 10 {item:187054} obtenus sur les dévoreurs dans la zone."
 L["reliwik_note"] = "Cliquez sur l'oeuf de rasaile non corrompu pour le faire descendre."
-L["riftbound_cache"] = "Cache failleliée" -- Confirmer le nom du coffre
 L["spectral_bound_chest"] = "Cliquez sur 3 clés spectrales proches pour déverrouiller le coffre."
 L["spectral_bound_note"] = "Coffre cerclé spectral"
-L["towering_exterminator_note"] = "Apparaît à partir d'un événement de portail antrelige."
+L["towering_exterminator_note"] = "Apparaît à partir d'un événement de portail antrelige. L'événement peut apparaître dans de nombreux endroits de Korthia."
 L["wilderling_note"] = "Cliquez sur le {npc:180014} pour lancer l'événement de domptage."
 
-L["archivist_key_note"] = "Achetez {item:186984} de {npc:178257} pour le déverrouiller."
-L["korthia_rift_note"] = "Achetez une {item:186731} à l'{npc:178257} pour pouvoir entrer dans la brèche."
+L["archivist_key_note"] = "Achetez %s de {npc:178257} pour le déverrouiller."
 L["korthian_shrine_note"] = "Cliquez sur l'autel pour obtenir {spell:352367} et voir le chemin caché vers l'autel."
 L["num_research"] = "%d Recherche"
 L["options_icons_relic"] = "{achievement:15066}"
 L["options_icons_relic_desc"] = "Afficher les emplacements des 20 reliques pour {achievement:15066}."
+
+L["rift_portal_note"] = [[
+Entrez dans |cFFFFFF00La Faille|r, une phase alternative de Korthia et de l'Antre contenant des monstres rares, reliques et coffres supplémentaires.
+
+Nécessite une {item:186731}, qui peut être achetée à {npc:178257} une fois que vous avez atteint le rang 4 avec {faction:2472}. Les clés ont également une faible chance d'être laissées par les monstres rares et coffres dans la zone.
+
+|cFFFF8C00Les portails de failles ne sont pas tous actifs à un moment donné.|r
+]]
+L["rift_rare_only_note"] = "Ce monstre ne peut être vu et tué qu'en étant entré dans |cFFFFFF00La Faille|r."
+L["rift_rare_exit_note"] = "Ce monstre rare sortira de |cFFFFFF00La Faille|r une fois qu'il aura été abordé à l'intérieur de celle-ci."
+L["options_icons_rift_portal"] = "{npc:179595s}"
+L["options_icons_rift_portal_desc"] = "Afficher les emplacements des {npc:179595s} utilisés pour entrer dans |cFFFFFF00La Faille|r."
+
+L["riftbound_cache"] = "Cache liée à la faille"
+L["options_icons_riftbound_cache"] = "Caches liées à la faille"
+L["options_icons_riftbound_cache_desc"] = "Afficher les emplacements des caches à l'intérieur de |cFFFFFF00La Faille|r."
 
 L["invasive_mawshroom"] = "Champignantre envahissant"
 L["mawsworn_cache"] = "Cache antrelige"
@@ -456,11 +477,11 @@ Jusqu'à ce que vous rameniez {npc:170651} à Oribos, vous serez séparé de la 
 
 L["apholeias_note"] = "Avec 3 autres joueurs, placez-vous sur les coins de la plateforme et lancez {spell:331783} pour invoquer le rare."
 L["dekaris_note"] = "Au sommet d'un gros rocher en saillie."
-L["deomen_note"] = "Entrez dans la chambre à l'ouest de sa cellule et activez le verrou pour y accéder."
+L["deomen_note"] = "Pour ouvrir sa cage, entrez dans la pièce au sud et activez les deux verrous situés de chaque côté de la salle."
 L["drifting_sorrow_note"] = "Tuez des {npc:175246s} près de l'orbe flottante pour activer le boss."
 L["ekphoras_note"] = "Avec 3 autres joueurs, placez-vous sur les coins de la plateforme et lancez {spell:330650} pour invoquer le rare."
 L["etherwyrm_label"] = "Cage à wyrm d'éther imprégné"
-L["etherwyrm_note"] = "Nécessite que l'assaut des Faë nocturnes soit actif. Pour obtenir le {item:186190}, tuez un {npc:179030} dans la faille."
+L["etherwyrm_note"] = "Nécessite que l'assaut des Faë nocturnes soit actif. Tuez un {npc:179030} en étant dans la faille pour obtenir l'objet {item:186190}. Utilisez la clé sur la cage du Wyrm d'éther (à l'extérieur de la faille) dans la caverne du Creux Désolé (où se trouve {npc:175821} lorsque l'assaut n'est pas actif)."
 L["fallen_charger_note"] = "Après le cri dans toute la zone, il prendra l'un des deux chemins jusqu'à ce qu'il atteigne Korthia où il disparaîtra."
 L["ikras_note"] = "Vole autour du Fort de la Perdition. C'est un bon endroit pour l'attirer."
 L["lilabom_note"] = "Collecter les 5 parties pour compléter le familier."
@@ -479,9 +500,6 @@ Tuez les trois autres Hérauts du Deuil, de la Souffrance et du Chagrin pour rec
 
 Combinez les trois gravures pour créer {item:182329}, qui peut être utilisé pour invoquer le rare à l'Autel de la Domination. Utilisez le {npc:173892} pour atteindre le niveau supérieur.
 ]]
-
-L["soul_well_note"] = "Attrapez la Stygie qui jaillit du Puit d'âmes."
-L["obliterated_soul_shards_note"] = "Collectez des éclats d'âme oblitérés sur les ponts."
 
 L["animaflow_teleporter_note"] = "Activer pour se rendre directement à d'autres endroits dans l'Antre."
 L["chaotic_riftstone_note"] = "Activer pour {spell:344157} rapidement à travers l'Antre."
@@ -519,6 +537,7 @@ L["nexus_area_gorgoa_mouth"] = "A l'embouchure de Gorgoa (la rivière des âmes)
 L["nexus_area_perdition_wall"] = "Le long du mur extérieur du Fort de la Perdition"
 L["nexus_area_torment_rock"] = "Sur un rocher dans les Plans de la Tourmente"
 L["nexus_area_zone_edge"] = "Le long du bord de la zone"
+L["nexus_area_zovaal_edge"] = "Le long du bord du Chaudron de Zovaal"
 L["nexus_area_zovaal_wall"] = "Le long du mur en dessous du Chaudron de Zovaal"
 -- Locations given relative to a named cave/cavern
 L["nexus_cave_anguish_lower"] = "Dans la Fosse de l’Angoisse (niveau inférieur)"
@@ -530,13 +549,12 @@ L["nexus_cave_forlorn"] = "A l'intérieur de la grotte de la Halte Mélancolique
 L["nexus_cave_howl_outside"] = "Sur le sol à l'extérieur de la caverne de la Complainte de la mort"
 L["nexus_cave_howl"] = "A l'intérieur de la caverne de la Complainte de la mort"
 L["nexus_cave_ledge"] = "Dans une petite grotte sous une corniche"
-L["nexus_cave_mothers"] = "Dans la caverne de la Tanière de la Mère"
 L["nexus_cave_prodigum"] = "Dans une petite grotte dans le Prodigium"
-L["nexus_cave_raveners"] = "Dans une petite grotte à la Lamentation de l’Affamé"
 L["nexus_cave_soulstained"] = "Dans une petite grotte dans les Champs Maculés d’âmes"
 L["nexus_cave_torturer"] = "Dans le Taudis du Tortionnaire"
 -- Locations given relative to a named NPC
 L["nexus_npc_akros"] = "En haut des escaliers à côté de {npc:170787}"
+L["nexus_npc_dekaris"] = "Au sommet du pic où se trouve {npc:157964}"
 L["nexus_npc_dolos"] = "Sur le sol derrière {npc:170711}"
 L["nexus_npc_ekphoras"] = "A côté de la plate-forme d'{npc:169827}"
 L["nexus_npc_incinerator"] = "Sur une petite corniche en dessous de l'{npc:156203}"
@@ -561,10 +579,12 @@ L["nexus_misc_grapple_rock"] = "Près d'une prise de grappin sur un rocher"
 L["nexus_misc_ledge_below"] = "Sur le sol, sous une corniche"
 L["nexus_misc_three_chains"] = "Sur le sol près de trois chaînes"
 
+L["rift_hidden_cache"] = "Cache secrète de la faille"
+L["options_icons_rift_hidden_cache"] = "Caches secrètes de la faille"
+L["options_icons_rift_hidden_cache_desc"] = "Afficher les emplacements des caches à l'intérieur de |cFFFFFF00La Faille|r."
+
 L["options_icons_bonus_boss"] = "Élites bonus"
 L["options_icons_bonus_boss_desc"] = "Afficher les emplacements des élites bonus."
-L["options_icons_bonus_event"] = "Événements bonus"
-L["options_icons_bonus_event_desc"] = "Afficher les emplacements des événements bonus."
 L["options_icons_riftstone"] = "{npc:174962s}"
 L["options_icons_riftstone_desc"] = "Affichez les emplacements des téléporteurs de Failles Chaotiques"
 L["options_icons_grapples"] = "{npc:176308s}"

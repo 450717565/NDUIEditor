@@ -1,7 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
-local TT = B:GetModule("Tooltip")
 
 ----------------------------
 -- Credit: AddOnSkins_MeetingStone by hokohuang
@@ -217,7 +216,7 @@ function Skins:MeetingStone()
 		level = level or 1
 		local menu = self.menuList[level]
 		if menu and not menu.styled then
-			TT.ReskinTooltip(menu)
+			B.ReskinTooltip(menu)
 
 			local scrollBar = menu.GetScrollBar and menu:GetScrollBar()
 			if scrollBar then B.ReskinScroll(scrollBar) end
@@ -330,8 +329,8 @@ function Skins:MeetingStone()
 
 	-- Tooltip
 	local Tooltip = GUI:GetClass("Tooltip")
-	TT.ReskinTooltip(Tooltip:GetGlobalTooltip())
-	TT.ReskinTooltip(MSEnv.MainPanel.GameTooltip)
+	B.ReskinTooltip(Tooltip:GetGlobalTooltip())
+	B.ReskinTooltip(MSEnv.MainPanel.GameTooltip)
 
 	-- DataBroker
 	local DataBroker = MSEnv.DataBroker

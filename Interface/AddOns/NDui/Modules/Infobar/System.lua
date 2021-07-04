@@ -1,10 +1,10 @@
 ﻿local _, ns = ...
-local B, C, L, DB = unpack(ns)
 local oUF = ns.oUF
+local B, C, L, DB = unpack(ns)
 if not C.Infobar.System then return end
 
-local Infobar = B:GetModule("Infobar")
-local info = Infobar:RegisterInfobar("System", C.Infobar.SystemPos)
+local IB = B:GetModule("Infobar")
+local info = IB:RegisterInfobar("System", C.Infobar.SystemPos)
 
 local pairs, tinsert, wipe, sort = pairs, tinsert, wipe, sort
 local format, floor, min, max = format, floor, min, max

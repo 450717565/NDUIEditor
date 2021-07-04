@@ -1,6 +1,6 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Maps = B:GetModule("Maps")
+local MAP = B:GetModule("Maps")
 
 local _G = _G
 local select, pairs, unpack, next, tinsert = select, pairs, unpack, next, tinsert
@@ -15,7 +15,7 @@ local LE_GARRISON_TYPE_9_0 = Enum.GarrisonType.Type_9_0
 local cr, cg, cb, color
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
-function Maps:CreatePulse()
+function MAP:CreatePulse()
 	if not C.db["Map"]["CombatPulse"] then return end
 
 	local bg = B.CreateBDFrame(Minimap, 0, -C.mult)
@@ -64,11 +64,11 @@ local function ToggleLandingPage(_, ...)
 	ShowGarrisonLandingPage(...)
 end
 
-function Maps:ReskinRegions()
+function MAP:ReskinRegions()
 	-- Garrison
 	hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
-		self:ClearAllPoints()
-		self:SetPoint("BOTTOMRIGHT", Minimap, 6, -6)
+		B.UpdatePoint(self, "BOTTOMRIGHT", Minimap, "BOTTOMRIGHT", 6, -6)
+
 		self:GetNormalTexture():SetTexture(DB.garrTex)
 		self:GetPushedTexture():SetTexture(DB.garrTex)
 		self:GetHighlightTexture():SetTexture(DB.garrTex)
@@ -117,11 +117,10 @@ function Maps:ReskinRegions()
 
 	-- Difficulty Flags
 	local flags = {"MiniMapInstanceDifficulty", "GuildInstanceDifficulty", "MiniMapChallengeMode"}
-	for _, v in pairs(flags) do
-		local flag = _G[v]
-		flag:ClearAllPoints()
-		flag:SetPoint("TOPRIGHT", Minimap, "TOPRIGHT", 2, 2)
+	for _, name in pairs(flags) do
+		local flag = _G[name]
 		flag:SetScale(.9)
+		B.UpdatePoint(flag, "TOPRIGHT", Minimap, "TOPRIGHT", 2, 2)
 	end
 
 	-- Mail icon
@@ -157,7 +156,7 @@ function Maps:ReskinRegions()
 	end)
 end
 
-function Maps:RecycleBin()
+function MAP:RecycleBin()
 	if not C.db["Map"]["ShowRecycleBin"] then return end
 
 	local blackList = {
@@ -195,7 +194,7 @@ function Maps:RecycleBin()
 	topLine:SetPoint("BOTTOM", bin, "TOP")
 	local bottomLine = B.CreateGA(bin, "H", cr, cg, cb, 0, C.alpha, width, C.mult*2)
 	bottomLine:SetPoint("TOP", bin, "BOTTOM")
-	local rightLine = B.CreateGA(bin, "V", cr, cg, cb, C.alpha, C.alpha, C.mult*2, 40 + C.mult*4)
+	local rightLine = B.CreateGA(bin, "V", cr, cg, cb, C.alpha, C.alpha, C.mult*2, height + C.mult*4)
 	rightLine:SetPoint("LEFT", bin, "RIGHT")
 
 	local function hideBinButton()
@@ -222,6 +221,8 @@ function Maps:RecycleBin()
 		["Narci_MinimapButton"] = true,
 	}
 
+	local iconsPerRow = 10
+	local rowMult = iconsPerRow/2 - 1
 	local currentIndex, pendingTime, timeThreshold = 0, 5, 12
 	local buttons, numMinimapChildren = {}, 0
 	local removedTextures = {
@@ -306,27 +307,41 @@ function Maps:RecycleBin()
 		end
 	end
 
+	local shownButtons = {}
 	local function SortRubbish()
 		if #buttons == 0 then return end
-		local lastbutton
-		for _, button in pairs(buttons) do
+
+		wipe(shownButtons)
+		for index, button in pairs(buttons) do
 			if next(button) and button:IsShown() then -- fix for fuxking AHDB
-				button:ClearAllPoints()
-				if not lastbutton then
-					button:SetPoint("RIGHT", bin, -3, 0)
-				else
-					button:SetPoint("RIGHT", lastbutton, "LEFT", -3, 0)
-				end
-				lastbutton = button
+				tinsert(shownButtons, button)
 			end
 		end
+
+		local lastbutton
+		for index, button in pairs(shownButtons) do
+			if not lastbutton then
+				B.UpdatePoint(button, "RIGHT", bin, "RIGHT", -3, 0)
+			elseif mod(index, iconsPerRow) == 1 then
+				B.UpdatePoint(button, "BOTTOM", shownButtons[index - iconsPerRow], "TOP", 0, 3)
+			else
+				B.UpdatePoint(button, "RIGHT", lastbutton, "LEFT", -3, 0)
+			end
+			lastbutton = button
+		end
+
+		local numShown = #shownButtons
+		local row = numShown == 0 and 1 or B:Round((numShown + rowMult) / iconsPerRow)
+		local newHeight = row*37 + 3
+		bin:SetHeight(newHeight)
+		rightLine:SetHeight(newHeight + 2*C.mult)
 	end
 
 	bu:SetScript("OnClick", function()
-		SortRubbish()
 		if bin:IsShown() then
 			clickFunc()
 		else
+			SortRubbish()
 			UIFrameFadeIn(bin, .5, 0, 1)
 		end
 	end)
@@ -334,7 +349,7 @@ function Maps:RecycleBin()
 	CollectRubbish()
 end
 
-function Maps:WhoPingsMyMap()
+function MAP:WhoPingsMyMap()
 	if not C.db["Map"]["WhoPings"] then return end
 
 	local ping = B.CreateParentFrame(Minimap)
@@ -364,14 +379,14 @@ function Maps:WhoPingsMyMap()
 	end)
 end
 
-function Maps:UpdateMinimapScale()
+function MAP:UpdateMinimapScale()
 	local size = Minimap:GetWidth()
 	local scale = C.db["Map"]["MinimapScale"]
 	Minimap:SetScale(scale)
 	Minimap.mover:SetSize(size*scale, size*scale)
 end
 
-function Maps:ShowMinimapClock()
+function MAP:ShowMinimapClock()
 	if C.db["Map"]["Clock"] then
 		if not TimeManagerClockButton then LoadAddOn("Blizzard_TimeManager") end
 		if not TimeManagerClockButton.styled then
@@ -388,7 +403,7 @@ function Maps:ShowMinimapClock()
 	end
 end
 
-function Maps:ShowCalendar()
+function MAP:ShowCalendar()
 	if C.db["Map"]["Calendar"] then
 		if not GameTimeFrame.styled then
 			GameTimeFrame:SetSize(18, 18)
@@ -415,7 +430,7 @@ function Maps:ShowCalendar()
 	end
 end
 
-function Maps:Minimap_OnMouseWheel(zoom)
+function MAP:Minimap_OnMouseWheel(zoom)
 	if zoom > 0 then
 		Minimap_ZoomIn()
 	else
@@ -430,7 +445,7 @@ NDuiMiniMapTrackingDropDown:Hide()
 NDuiMiniMapTrackingDropDown.noResize = true
 _G.UIDropDownMenu_Initialize(NDuiMiniMapTrackingDropDown, _G.MiniMapTrackingDropDown_Initialize, "MENU")
 
-function Maps:Minimap_OnMouseUp(btn)
+function MAP:Minimap_OnMouseUp(btn)
 	if btn == "MiddleButton" then
 		if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
 		ToggleCalendar()
@@ -441,14 +456,14 @@ function Maps:Minimap_OnMouseUp(btn)
 	end
 end
 
-function Maps:SetupHybridMinimap()
+function MAP:SetupHybridMinimap()
 	HybridMinimap.CircleMask:SetTexture("Interface\\BUTTONS\\WHITE8X8")
 end
 
-function Maps:HybridMinimapOnLoad(addon)
+function MAP:HybridMinimapOnLoad(addon)
 	if addon == "Blizzard_HybridMinimap" then
-		Maps:SetupHybridMinimap()
-		B:UnregisterEvent(self, Maps.HybridMinimapOnLoad)
+		MAP:SetupHybridMinimap()
+		B:UnregisterEvent(self, MAP.HybridMinimapOnLoad)
 	end
 end
 
@@ -461,7 +476,7 @@ local minimapInfo = {
 	alignment = 3,
 }
 
-function Maps:ShowMinimapHelpInfo()
+function MAP:ShowMinimapHelpInfo()
 	Minimap:HookScript("OnEnter", function()
 		if not NDuiADB["Help"]["MinimapInfo"] then
 			HelpTip:Show(MinimapCluster, minimapInfo)
@@ -469,7 +484,7 @@ function Maps:ShowMinimapHelpInfo()
 	end)
 end
 
-function Maps:SetupMinimap()
+function MAP:SetupMinimap()
 	cr, cg, cb = DB.cr, DB.cg, DB.cb
 	color = C.db["Skins"]["LineColor"]
 	if not C.db["Skins"]["ClassLine"] then cr, cg, cb = color.r, color.g, color.b end
@@ -480,8 +495,7 @@ function Maps:SetupMinimap()
 	DropDownList1:SetClampedToScreen(true)
 
 	local mover = B.Mover(Minimap, L["Minimap"], "Minimap", C.Minimap.MinimapPos)
-	Minimap:ClearAllPoints()
-	Minimap:SetPoint("TOPRIGHT", mover)
+	B.UpdatePoint(Minimap, "TOPRIGHT", mover, "TOPRIGHT")
 	Minimap.mover = mover
 
 	self:UpdateMinimapScale()
@@ -490,8 +504,8 @@ function Maps:SetupMinimap()
 
 	-- Minimap clicks
 	Minimap:EnableMouseWheel(true)
-	Minimap:SetScript("OnMouseWheel", Maps.Minimap_OnMouseWheel)
-	Minimap:SetScript("OnMouseUp", Maps.Minimap_OnMouseUp)
+	Minimap:SetScript("OnMouseWheel", MAP.Minimap_OnMouseWheel)
+	Minimap:SetScript("OnMouseUp", MAP.Minimap_OnMouseUp)
 
 	-- Hide Blizz
 	local frames = {
@@ -521,5 +535,5 @@ function Maps:SetupMinimap()
 	self:ShowMinimapHelpInfo()
 
 	-- HybridMinimap
-	B:RegisterEvent("ADDON_LOADED", Maps.HybridMinimapOnLoad)
+	B:RegisterEvent("ADDON_LOADED", MAP.HybridMinimapOnLoad)
 end

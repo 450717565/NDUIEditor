@@ -500,8 +500,7 @@ function Misc:NVision_Create()
 	frame.bars = {}
 
 	local mover = B.Mover(frame, L["NzothVision"], "NzothVision", {"BOTTOM", PlayerPowerBarAlt, "TOP"}, 216, 24)
-	frame:ClearAllPoints()
-	frame:SetPoint("CENTER", mover)
+	B.UpdatePoint(frame, "CENTER", mover, "CENTER")
 
 	local barData = {
 		[1] = {

@@ -3,11 +3,11 @@
 ## Notes: 各插件需要的运行库，请勿禁用！
 ## Author: All Developers
 ## X-Vendor: 七曜·星の痕
-## Version: 8.0
+## Version: 9.0
 
-Core.xml
-Ace3.xml
-Lib.xml
-Other.xml
+Core\Core.xml
+Ace3\Ace3.xml
+Lib\Lib.xml
+Other\Other.xml
 
 Fixer.lua

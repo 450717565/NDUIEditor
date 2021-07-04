@@ -43,11 +43,11 @@ function Bar:CreatePetBar()
 		local button = _G["PetActionButton"..i]
 		tinsert(buttonList, button)
 		tinsert(Bar.buttons, button)
-		button:ClearAllPoints()
+
 		if i == 1 then
-			button:SetPoint("LEFT", frame, padding, 0)
+			B.UpdatePoint(button, "LEFT", frame, "LEFT", padding, 0)
 		else
-			button:SetPoint("LEFT", _G["PetActionButton"..i-1], "RIGHT", margin, 0)
+			B.UpdatePoint(button, "LEFT", _G["PetActionButton"..i-1], "RIGHT", margin, 0)
 		end
 	end
 

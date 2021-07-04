@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Maps = B:GetModule("Maps")
+local MAP = B:GetModule("Maps")
 -----------------------------
 -- Leatrix Maps, by Leatix
 -----------------------------
@@ -242,7 +242,7 @@ local function TexturePool_ResetVertexColor(pool, texture)
 	return TexturePool_HideAndClearAnchors(pool, texture)
 end
 
-function Maps:MapReveal()
+function MAP:MapReveal()
 	if IsAddOnLoaded("Leatrix_Maps") then return end
 
 	local bu = CreateFrame("CheckButton", nil, WorldMapFrame.BorderFrame, "OptionsCheckButtonTemplate")

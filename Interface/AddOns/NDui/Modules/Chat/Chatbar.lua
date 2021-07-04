@@ -124,7 +124,7 @@ function Chat:Chatbar()
 
 	-- WORLD CHANNEL
 	if GetCVar("portal") == "CN" then
-		local channelName, channelID, channels = "大脚世界频道"
+		local channelName, channelID = "大脚世界频道"
 		local wc = AddButton(1, .75, .75, L["World Channel"])
 
 		local function updateChannelInfo()
@@ -181,8 +181,7 @@ function Chat:Chatbar()
 	-- Mover
 	local moverWidth, moverHeight = (#buttonList-1)*(padding+width) + width, 20
 	local mover = B.Mover(Chatbar, L["Chatbar"], "Chatbar", {"BOTTOMLEFT", UIParent, "BOTTOMLEFT", 5, 3}, moverWidth, moverHeight)
-	Chatbar:ClearAllPoints()
-	Chatbar:SetPoint("LEFT", mover)
+	B.UpdatePoint(Chatbar, "LEFT", mover, "LEFT")
 
 	Chat:ChatBarBackground()
 end

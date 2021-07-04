@@ -1,7 +1,7 @@
 local _, ns = ...
+local oUF = ns.oUF
 local B, C, L, DB = unpack(ns)
 
-local oUF = ns.oUF
 local UF = B:RegisterModule("UnitFrames")
 local Auras = B:GetModule("Auras")
 
@@ -477,8 +477,8 @@ end
 
 local function createBarMover(bar, text, value, anchor)
 	local mover = B.Mover(bar, text, value, anchor, bar:GetHeight()+bar:GetWidth()+3, bar:GetHeight()+3)
-	bar:ClearAllPoints()
-	bar:SetPoint("RIGHT", mover)
+	B.UpdatePoint(bar, "RIGHT", mover, "RIGHT")
+
 	bar.mover = mover
 end
 
@@ -535,8 +535,7 @@ function UF:CreateCastBar(self)
 			cb.SafeZone = safe
 
 			local lag = B.CreateFS(cb, 10)
-			lag:ClearAllPoints()
-			lag:SetPoint("BOTTOM", cb, "TOP", 0, 2)
+			B.UpdatePoint(lag, "BOTTOM", cb, "TOP", 0, 3)
 			cb.Lag = lag
 
 			self:RegisterEvent("GLOBAL_MOUSE_UP", B.OnCastSent, true) -- Fix quests with WorldFrame interaction
@@ -550,20 +549,19 @@ function UF:CreateCastBar(self)
 		local shield = cb:CreateTexture(nil, "OVERLAY")
 		shield:SetAtlas("nameplates-InterruptShield")
 		shield:SetSize(18, 18)
-		shield:SetPoint("CENTER", cb, "BOTTOM", 0, 0)
+		B.UpdatePoint(shield, "CENTER", cb, "BOTTOM", 0, 0)
 		cb.Shield = shield
 
 		local iconSize = self:GetHeight()*2 + 5
 		cb.Icon:SetSize(iconSize, iconSize)
-		cb.Icon:SetPoint("BOTTOMRIGHT", cb, "BOTTOMLEFT", -5, 0)
+		B.UpdatePoint(cb.Icon, "BOTTOMRIGHT", cb, "BOTTOMLEFT", -5, 0)
 		cb.timeToHold = .5
 
 		cb.glowFrame = B.CreateGlowFrame(cb, iconSize)
 		cb.glowFrame:SetPoint("CENTER", cb.Icon)
 
 		local spellTarget = B.CreateFS(cb, C.db["Nameplate"]["NameTextSize"]+3)
-		spellTarget:ClearAllPoints()
-		spellTarget:SetPoint("TOP", cb, "BOTTOM", 0, -5)
+		B.UpdatePoint(spellTarget, "TOP", cb, "BOTTOM", 0, -5)
 		cb.spellTarget = spellTarget
 	end
 
@@ -608,11 +606,10 @@ function UF:ReskinMirrorBars()
 		reskinTimerBar(bar)
 
 		local text = _G["MirrorTimer"..i.."Text"]
-		text:ClearAllPoints()
-		text:SetPoint("CENTER")
+		B.UpdatePoint(text, "CENTER", bar, "CENTER")
 
 		if previous then
-			bar:SetPoint("TOP", previous, "BOTTOM", 0, -5)
+			B.UpdatePoint(bar, "TOP", previous, "BOTTOM", 0, -5)
 		end
 		previous = bar
 	end

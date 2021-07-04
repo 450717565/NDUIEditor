@@ -1,6 +1,6 @@
 local _, ns = ...
-local B, C, L, DB = unpack(ns)
 local oUF = ns.oUF
+local B, C, L, DB = unpack(ns)
 local UF = B:GetModule("UnitFrames")
 
 local strmatch, format, wipe = strmatch, format, wipe
@@ -451,6 +451,7 @@ function UF:RefreshAuraIndicator(bu)
 		bu.timer:Hide()
 		bu.count:ClearAllPoints()
 		bu.count:SetPoint("CENTER", unpack(counterOffsets[bu.anchor][1]))
+
 		if C.db["UFs"]["AuraIndicatorType"] == 1 then
 			bu.icon:SetTexture(DB.bgTex)
 		else
@@ -725,12 +726,12 @@ function UF:CreatePartyAltPower(self)
 	end
 
 	local altPower = B.CreateFS(self, 16)
-	altPower:ClearAllPoints()
+	local parent = horizon and self.Power or self
 	if otherSide then
-		altPower:SetPoint(relT, self, relF, xOffset, yOffset)
+		B.UpdatePoint(altPower, relT, self, relF, xOffset, yOffset)
 	else
-		local parent = horizon and self.Power or self
-		altPower:SetPoint(relF, parent, relT, xOffset, yOffset)
+		B.UpdatePoint(altPower, relF, parent, relT, xOffset, yOffset)
 	end
+
 	self:Tag(altPower, "[altpower]")
 end

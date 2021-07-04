@@ -1,7 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
-local TT = B:GetModule("Tooltip")
 
 local function Update_FrameAnchor(self, _, parent)
 	if parent ~= LFGListFrame then
@@ -17,7 +16,7 @@ local function Reskin_PopupMenu(self)
 		local children = {PremadeGroupsFilterDialog:GetChildren()}
 		for _, child in pairs(children) do
 			if child and child.Shadow then
-				TT.ReskinTooltip(child)
+				B.ReskinTooltip(child)
 
 				break
 			end

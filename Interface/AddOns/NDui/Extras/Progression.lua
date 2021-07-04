@@ -1,5 +1,5 @@
 local _, ns = ...
-local B, C, L, DB, P = unpack(ns)
+local B, C, L, DB = unpack(ns)
 local EX = B:GetModule("Extras")
 local TT = B:GetModule("Tooltip")
 ---------------------------------
@@ -10,6 +10,7 @@ local compareGUID, loadedComparison
 
 local tiers = {
 	"Castle Nathria",
+	"Sanctum of Domination",
 }
 
 local levels = {
@@ -29,21 +30,13 @@ local locales = {
 	-- 特殊成就
 	["Special Achievement"] = L["Special Achievement"],
 	["KM: Season One"] = L["KM: Season One"],			-- 钥石大师：第一赛季
+	["KM: Season Two"] = L["KM: Season Two"],			-- 钥石大师：第一赛季
 	["AC: Sire Denathrius"] = L["AC: Sire Denathrius"],	-- 引领潮流：德纳修斯大帝
 	["CE: Sire Denathrius"] = L["CE: Sire Denathrius"],	-- 千钧一发：德纳修斯大帝
 
 	--团本
 	["Castle Nathria"] = L["Castle Nathria"],
-
-	-- 地下城
-	["The Necrotic Wake"] = L["The Necrotic Wake"],
-	["Plaguefall"] = L["Plaguefall"],
-	["Mists of Tirna Scithe"] = L["Mists of Tirna Scithe"],
-	["Halls of Atonement"] = L["Halls of Atonement"],
-	["Theater of Pain"] = L["Theater of Pain"],
-	["De Other Side"] = L["De Other Side"],
-	["Spires of Ascension"] = L["Spires of Ascension"],
-	["Sanguine Depths"] = L["Sanguine Depths"],
+	["Sanctum of Domination"] = L["Sanctum of Domination"],
 }
 
 local raidAchievements = {
@@ -96,22 +89,73 @@ local raidAchievements = {
 			14454,
 			14458,
 		}
+	},
+	["Sanctum of Domination"] = {
+		["Mythic"] = {
+			15139,
+			15143,
+			15147,
+			15155,
+			15151,
+			15159,
+			15163,
+			15167,
+			15172,
+			15176,
+		},
+		["Heroic"] = {
+			15138,
+			15142,
+			15146,
+			15154,
+			15150,
+			15158,
+			15162,
+			15166,
+			15171,
+			15175,
+		},
+		["Normal"] = {
+			15137,
+			15141,
+			15145,
+			15153,
+			15149,
+			15157,
+			15161,
+			15165,
+			15170,
+			15174,
+		},
+		["Raid Finder"] = {
+			15136,
+			15140,
+			15144,
+			15152,
+			15148,
+			15156,
+			15160,
+			15164,
+			15169,
+			15173,
+		}
 	}
 }
 
-local dungeonAchievements = {
-	["The Necrotic Wake"] = 14404,
-	["Plaguefall"] = 14398,
-	["Mists of Tirna Scithe"] = 14395,
-	["Halls of Atonement"] = 14392,
-	["Theater of Pain"] = 14407,
-	["De Other Side"] = 14389,
-	["Spires of Ascension"] = 14401,
-	["Sanguine Depths"] = 14205,
+local dungeons = {
+	[375] = "Mists of Tirna Scithe",
+	[376] = "The Necrotic Wake",
+	[377] = "De Other Side",
+	[378] = "Halls of Atonement",
+	[379] = "Plaguefall",
+	[380] = "Sanguine Depths",
+	[381] = "Spires of Ascension",
+	[382] = "Theater of Pain",
 }
 
 local specialAchievements = {
 	["KM: Season One"] = 14532,
+	["KM: Season Two"] = 15078,
 	["CE: Sire Denathrius"] = 14461,
 	["AC: Sire Denathrius"] = 14460,
 }
@@ -155,7 +199,7 @@ function EX:UpdateProgression(guid, faction)
 
 		for name, achievementID in pairs(specialAchievements) do
 			local completed, month, day, year = GetAchievementInfoByID(guid, achievementID)
-			local completedString = "|cffFF0000" .. L["Not Completed"] .. "|r"
+			local completedString = "|cffFF0000" .. INCOMPLETE .. "|r"
 			if completed then
 				completedString = gsub(L["%month%-%day%-%year%"], "%%month%%", month)
 				completedString = gsub(completedString, "%%day%%", day)
@@ -194,19 +238,9 @@ function EX:UpdateProgression(guid, faction)
 			end
 		end
 	end
-
-	if C.db["Extras"]["ProgDungeons"] then
-		cache[guid].info.mythicDungeons = {}
-		cache[guid].info.mythicDungeons.total = 0
-
-		for name, achievementID in pairs(dungeonAchievements) do
-			cache[guid].info.mythicDungeons[name] = GetBossKillTimes(guid, achievementID)
-			cache[guid].info.mythicDungeons.total = cache[guid].info.mythicDungeons.total + cache[guid].info.mythicDungeons[name]
-		end
-	end
 end
 
-function EX:SetProgressionInfo(guid)
+function EX:SetProgressionInfo(unit, guid)
 	if not cache[guid] then return end
 
 	local updated = false
@@ -253,25 +287,6 @@ function EX:SetProgressionInfo(guid)
 					end
 				end
 			end
-
-			found = false
-
-			if C.db["Extras"]["ProgDungeons"] then
-				for name, achievementID in pairs(dungeonAchievements) do
-					if strfind(leftTipText, locales[name]) then
-						local rightTip = _G["GameTooltipTextRight" .. i]
-						leftTip:SetText(locales[name] .. "：")
-						rightTip:SetText(cache[guid].info.mythicDungeons[name])
-						updated = true
-						found = true
-						break
-					end
-
-					if found then
-						break
-					end
-				end
-			end
 		end
 	end
 
@@ -309,14 +324,21 @@ function EX:SetProgressionInfo(guid)
 		end
 	end
 
-	if C.db["Extras"]["ProgDungeons"] and cache[guid].info.mythicDungeons then
+	local summary = C_PlayerInfo.GetPlayerMythicPlusRatingSummary(unit)
+	local runs = summary and summary.runs
+	if C.db["Extras"]["ProgDungeons"] and runs and next(runs) then
 		GameTooltip:AddLine(" ")
-		GameTooltip:AddDoubleLine(MYTHIC_DUNGEONS.."：", cache[guid].info.mythicDungeons.total, nil,nil,nil, 1,1,1)
+		GameTooltip:AddDoubleLine(CHALLENGES, L["Score (Level)"])
 
-		for name, achievementID in pairs(dungeonAchievements) do
-			local left = format("%s", locales[name])
-			local right = cache[guid].info.mythicDungeons[name]
-			GameTooltip:AddDoubleLine(left, right, .6,.8,1, 1,1,1)
+		for _, info in ipairs(runs) do
+			local cs = "|cffFF0000"
+			if info.finishedSuccess then cs = "|cff00FF00" end
+
+			local name = C_ChallengeMode.GetMapUIInfo(info.challengeModeID)
+			local left = format("%s", name)
+			local color = C_ChallengeMode.GetSpecificDungeonOverallScoreRarityColor(info.mapScore) or HIGHLIGHT_FONT_COLOR
+			local right = format("%s (%s)", color:WrapTextInColorCode(info.mapScore), cs..info.bestRunLevel.."|r")
+			GameTooltip:AddDoubleLine(left, right, .6, .8, 1, 1, 1, 1)
 		end
 	end
 end
@@ -383,7 +405,7 @@ function EX:AddProgression()
 		end
 	end
 
-	EX:SetProgressionInfo(guid)
+	EX:SetProgressionInfo(unit, guid)
 end
 
 do
@@ -392,15 +414,12 @@ do
 	end
 end
 
-local function loadFunc(event, addon)  -- fix
-	if addon == "Blizzard_AchievementUI" then
-		local origFunc = AchievementFrameComparison_UpdateStatusBars
-		AchievementFrameComparison_UpdateStatusBars = function(id)
-			if id and id ~= "summary" then
-				origFunc(id)
-			end
+local function Fix_AchievementFrameComparison()
+	local origFunc = AchievementFrameComparison_UpdateStatusBars
+	AchievementFrameComparison_UpdateStatusBars = function(id)
+		if id and id ~= "summary" then
+			origFunc(id)
 		end
-		B:UnregisterEvent(event, loadFunc)
 	end
 end
-B:RegisterEvent("ADDON_LOADED", loadFunc)
+B.LoadWithAddOn("Blizzard_AchievementUI", Fix_AchievementFrameComparison)

@@ -2,11 +2,11 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 if not C.Infobar.Time then return end
 
-local Infobar = B:GetModule("Infobar")
-local info = Infobar:RegisterInfobar("Time", C.Infobar.TimePos)
+local IB = B:GetModule("Infobar")
+local info = IB:RegisterInfobar("Time", C.Infobar.TimePos)
 
 local time, date = time, date
-local strfind, format, floor, strmatch = strfind, format, floor, strmatch
+local strfind, format, floor = strfind, format, floor
 local mod, tonumber, pairs = mod, tonumber, pairs
 local IsShiftKeyDown = IsShiftKeyDown
 local C_Map_GetMapInfo = C_Map.GetMapInfo

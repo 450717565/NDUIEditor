@@ -70,7 +70,7 @@ do
 
 	function B.UpdatePoint(frame1, point1, frame2, point2, xOfs, yOfs)
 		frame1:ClearAllPoints()
-		frame1:SetPoint(point1, frame2, point2, xOfs or 0, yOfs or 0)
+		frame1:SetPoint(point1, frame2, point2, xOfs, yOfs)
 	end
 
 	function B.LoadWithAddOn(addonName, func, autoReskin)
@@ -93,6 +93,88 @@ do
 
 		B:RegisterEvent("PLAYER_ENTERING_WORLD", loadFunc)
 		B:RegisterEvent("ADDON_LOADED", loadFunc)
+	end
+end
+
+-- Tooltip Function
+do
+	-- Tooltip rewards icon
+	function B:ReskinTTReward()
+		local icon = self.Icon or self.icon
+		local border = self.Border or self.IconBorder
+		local count = self.Count
+
+		if not self.iconStyled then
+			if icon then self.icbg = B.ReskinIcon(icon, 1) end
+			if border then B.ReskinBorder(border, self.icbg) end
+			if count then B.UpdatePoint(count, "BOTTOMRIGHT", self.icbg, "BOTTOMRIGHT", 1, 1) end
+
+			self.iconStyled = true
+		end
+	end
+
+	-- Tooltip status bar
+	function B:ReskinTTStatusBar()
+		if not self.StatusBar then return end
+
+		self.StatusBar:ClearAllPoints()
+		self.StatusBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", C.mult, C.margin)
+		self.StatusBar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -C.mult, C.margin)
+		self.StatusBar:SetHeight(6)
+
+		B.ReskinStatusBar(self.StatusBar, true)
+	end
+
+	-- Tooltip skin
+	local fakeBg = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
+	fakeBg:SetBackdrop({bgFile = DB.bgTex, edgeFile = DB.bgTex, edgeSize = 1})
+
+	local function __GetBackdrop() return fakeBg:GetBackdrop() end
+	local function __GetBackdropColor() return 0, 0, 0, .5 end
+	local function __GetBackdropBorderColor() return 0, 0, 0 end
+
+	function B:ReskinTooltip()
+		if not self then
+			if DB.isDeveloper then print("Unknown tooltip spotted.") end
+			return
+		end
+
+		if self:IsForbidden() then return end
+		self:SetScale(C.db["Tooltip"]["TTScale"])
+
+		if not self.tipStyled then
+			B.StripTextures(self)
+			B.CleanTextures(self)
+
+			self.bg = B.CreateBG(self)
+
+			B.ReskinTTReward(self)
+			B.ReskinTTStatusBar(self)
+
+			local closeButton = B.GetObject(self, "CloseButton")
+			if closeButton then B.ReskinClose(closeButton) end
+
+			local scrollBar = self.ScrollBar or self.scrollBar
+			if scrollBar then B.ReskinScroll(scrollBar) end
+
+			if self.GetBackdrop then
+				self.GetBackdrop = __GetBackdrop
+				self.GetBackdropColor = __GetBackdropColor
+				self.GetBackdropBorderColor = __GetBackdropBorderColor
+			end
+
+			self.tipStyled = true
+		end
+
+		self.bg:SetBackdropBorderColor(0, 0, 0)
+		if C.db["Tooltip"]["ColorBorder"] and self.GetItem then
+			local _, link = self:GetItem()
+			if link then
+				local quality = select(3, GetItemInfo(link))
+				local r, g, b = B.GetQualityColor(quality)
+				self.bg:SetBackdropBorderColor(r, g, b)
+			end
+		end
 	end
 end
 
@@ -152,11 +234,7 @@ do
 		elseif s >= minute then
 			return format("%.1d:%.2d", s/minute, s%minute), s-floor(s)
 		elseif s > 3 then
-			if auraTime then
-				return format("|cffFFFF00%d|r"..DB.MyColor..L["Seconds"], s), s-floor(s)
-			else
-				return format("|cffFFFF00%d|r", s), s-floor(s)
-			end
+			return format("|cffFFFF00%d|r"..(auraTime and DB.MyColor..L["Seconds"] or ""), s), s-floor(s)
 		else
 			return format("|cffFF0000%.1f|r", s), s-format("%.1f", s)
 		end
@@ -624,6 +702,8 @@ do
 		"ScrollBarBottom",
 		"ScrollBarMiddle",
 		"ScrollBarTop",
+		"Spark",
+		"SparkGlow",
 		"TabSpacer",
 		"TabSpacer1",
 		"TabSpacer2",
@@ -1779,8 +1859,8 @@ do
 			bar.Spark:SetBlendMode("ADD")
 			bar.Spark:SetAlpha(C.alpha)
 			bar.Spark:ClearAllPoints()
-			bar.Spark:SetPoint("TOPLEFT", bar:GetStatusBarTexture(), "TOPRIGHT", -10, 10)
-			bar.Spark:SetPoint("BOTTOMRIGHT", bar:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -10)
+			bar.Spark:Point("TOPLEFT", bar:GetStatusBarTexture(), "TOPRIGHT", -10, 10)
+			bar.Spark:Point("BOTTOMRIGHT", bar:GetStatusBarTexture(), "BOTTOMRIGHT", 10, -10)
 		end
 
 		return bar
@@ -1828,7 +1908,7 @@ do
 	-- WaterMark
 	function B:CreateWaterMark()
 		local logo = self:CreateTexture(nil, "BACKGROUND")
-		logo:SetPoint("BOTTOMRIGHT", 10, 0)
+		logo:Point("BOTTOMRIGHT", 10, 0)
 		logo:SetTexture(DB.logoTex)
 		logo:SetTexCoord(0, 1, 0, .75)
 		logo:SetSize(200, 75)

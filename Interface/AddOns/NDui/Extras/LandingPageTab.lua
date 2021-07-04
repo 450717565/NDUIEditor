@@ -22,11 +22,10 @@ local function Setup_LandingPage()
 		tab:SetScript("OnClick", Select_LandingPage)
 		tab:Show()
 
-		tab:ClearAllPoints()
 		if index == 1 then
-			tab:SetPoint("TOPLEFT", GarrisonLandingPage, "TOPRIGHT", 2, -25)
+			B.UpdatePoint(tab, "TOPLEFT", GarrisonLandingPage, "TOPRIGHT", 2, -25)
 		else
-			tab:SetPoint("TOP", tabs[index-1], "BOTTOM", 0, -25)
+			B.UpdatePoint(tab, "TOP", tabs[index-1], "BOTTOM", 0, -25)
 		end
 
 		B.ReskinSideTab(tab)

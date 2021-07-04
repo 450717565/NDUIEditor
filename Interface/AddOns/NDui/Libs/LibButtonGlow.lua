@@ -199,7 +199,6 @@ function B:ShowOverlayGlow()
 		local frameWidth, frameHeight = self:GetSize()
 		overlay:SetParent(self)
 		overlay:SetFrameLevel(self:GetFrameLevel() + 5)
-		overlay:ClearAllPoints()
 		--Make the height/width available before the next frame:
 		overlay:SetSize(frameWidth * 1.4, frameHeight * 1.4)
 		overlay:SetOutside(self, frameWidth * .2, frameWidth * .2)

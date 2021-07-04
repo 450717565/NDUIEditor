@@ -2,8 +2,8 @@
 local B, C, L, DB = unpack(ns)
 if not C.Infobar.Gold then return end
 
-local Infobar = B:GetModule("Infobar")
-local info = Infobar:RegisterInfobar("Gold", C.Infobar.GoldPos)
+local IB = B:GetModule("Infobar")
+local info = IB:RegisterInfobar("Gold", C.Infobar.GoldPos)
 
 local format, pairs, wipe, unpack = string.format, pairs, table.wipe, unpack
 local GetMoney, GetNumWatchedTokens, Ambiguate = GetMoney, GetNumWatchedTokens, Ambiguate
@@ -66,7 +66,7 @@ info.onEvent = function(self, event, arg1)
 	if NDuiADB["ShowSlots"] then
 		self.text:SetText(getFreeSlots()..L["Bags"])
 	else
-		self.text:SetText(Infobar:GetMoneyString(newMoney, true))
+		self.text:SetText(IB:GetMoneyString(newMoney, true))
 	end
 
 	if not NDuiADB["totalGold"][myRealm] then NDuiADB["totalGold"][myRealm] = {} end
@@ -126,12 +126,12 @@ info.onEnter = function(self)
 	GameTooltip:AddLine(" ")
 
 	GameTooltip:AddLine(L["Session"], .6,.8,1)
-	GameTooltip:AddDoubleLine(L["Earned"], Infobar:GetMoneyString(profit), 1,1,1, 1,1,1)
-	GameTooltip:AddDoubleLine(L["Spent"], Infobar:GetMoneyString(spent), 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["Earned"], IB:GetMoneyString(profit), 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine(L["Spent"], IB:GetMoneyString(spent), 1,1,1, 1,1,1)
 	if profit < spent then
-		GameTooltip:AddDoubleLine(L["Deficit"], Infobar:GetMoneyString(spent-profit), 1,0,0, 1,1,1)
+		GameTooltip:AddDoubleLine(L["Deficit"], IB:GetMoneyString(spent-profit), 1,0,0, 1,1,1)
 	elseif profit > spent then
-		GameTooltip:AddDoubleLine(L["Profit"], Infobar:GetMoneyString(profit-spent), 0,1,0, 1,1,1)
+		GameTooltip:AddDoubleLine(L["Profit"], IB:GetMoneyString(profit-spent), 0,1,0, 1,1,1)
 	end
 	GameTooltip:AddLine(" ")
 
@@ -144,13 +144,13 @@ info.onEnter = function(self)
 				local name = Ambiguate(k.."-"..realm, "none")
 				local gold, class = unpack(v)
 				local r, g, b = B.GetClassColor(class)
-				GameTooltip:AddDoubleLine(getClassIcon(class)..name, Infobar:GetMoneyString(gold, true), r,g,b, 1,1,1)
+				GameTooltip:AddDoubleLine(getClassIcon(class)..name, IB:GetMoneyString(gold, true), r,g,b, 1,1,1)
 				totalGold = totalGold + gold
 			end
 		end
 	end
 	GameTooltip:AddLine(" ")
-	GameTooltip:AddDoubleLine(TOTAL.."：", Infobar:GetMoneyString(totalGold, true), .6,.8,1, 1,1,1)
+	GameTooltip:AddDoubleLine(TOTAL.."：", IB:GetMoneyString(totalGold, true), .6,.8,1, 1,1,1)
 
 	for i = 1, GetNumWatchedTokens() do
 		local currencyInfo = C_CurrencyInfo_GetBackpackCurrencyInfo(i)
@@ -174,10 +174,12 @@ info.onEnter = function(self)
 
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddLine(LOOT_JOURNAL_POWERS.."：", .6,.8,1)
-	GameTooltip:AddDoubleLine("1级（190）", "1250", 1,1,1, 1,1,1)
-	GameTooltip:AddDoubleLine("2级（210）", "2000", 1,1,1, 1,1,1)
-	GameTooltip:AddDoubleLine("3级（225）", "3200", 1,1,1, 1,1,1)
-	GameTooltip:AddDoubleLine("4级（235）", "5150", 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine("1级 (190)", "1250", 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine("2级 (210)", "2000", 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine("3级 (225)", "3200", 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine("4级 (235)", "5150", 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine("6级 (249)", "5150 + 1100", 1,1,1, 1,1,1)
+	GameTooltip:AddDoubleLine("7级 (262)", "5150 + 1650", 1,1,1, 1,1,1)
 
 	GameTooltip:AddDoubleLine(" ", DB.LineString)
 	GameTooltip:AddDoubleLine(" ", DB.LeftButton..L["Currency Panel"].." ", 1,1,1, .6,.8,1)
@@ -192,6 +194,7 @@ info.onLeave = B.HideTooltip
 -- Auto selljunk
 local stop, cache = true, {}
 local errorText = _G.ERR_VENDOR_DOESNT_BUY
+local BAG = B:GetModule("Bags")
 
 local function startSelling()
 	if stop then return end
@@ -202,7 +205,7 @@ local function startSelling()
 			if link then
 				local price = select(11, GetItemInfo(link))
 				local _, _, _, quality, _, _, _, _, _, itemID = GetContainerItemInfo(bag, slot)
-				if (quality == 0 or NDuiADB["CustomJunkList"][itemID]) and price > 0 and not cache["b"..bag.."s"..slot] then
+				if (quality == 0 or NDuiADB["CustomJunkList"][itemID]) and (not BAG:IsPetTrashCurrency(itemID)) and price > 0 and not cache["b"..bag.."s"..slot] then
 					cache["b"..bag.."s"..slot] = true
 					UseContainerItem(bag, slot)
 					C_Timer_After(.15, startSelling)

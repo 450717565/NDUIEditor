@@ -2,8 +2,8 @@
 local B, C, L, DB = unpack(ns)
 if not C.Infobar.Spec then return end
 
-local Infobar = B:GetModule("Infobar")
-local info = Infobar:RegisterInfobar("Spec", C.Infobar.SpecPos)
+local IB = B:GetModule("Infobar")
+local info = IB:RegisterInfobar("Spec", C.Infobar.SpecPos)
 
 local format, wipe, select, next = string.format, table.wipe, select, next
 local SPECIALIZATION, TALENTS_BUTTON, MAX_TALENT_TIERS = SPECIALIZATION, TALENTS_BUTTON, MAX_TALENT_TIERS

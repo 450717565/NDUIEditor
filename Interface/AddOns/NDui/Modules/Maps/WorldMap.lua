@@ -1,6 +1,6 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Maps = B:RegisterModule("Maps")
+local MAP = B:RegisterModule("Maps")
 
 local select = select
 local WorldMapFrame = WorldMapFrame
@@ -14,7 +14,7 @@ local mapRects = {}
 local tempVec2D = CreateVector2D(0, 0)
 local currentMapID, playerCoords, cursorCoords, playerText, cursorText
 
-function Maps:GetPlayerMapPos(mapID)
+function MAP:GetPlayerMapPos(mapID)
 	tempVec2D.x, tempVec2D.y = UnitPosition("player")
 	if not tempVec2D.x or not mapID then return end
 
@@ -33,7 +33,7 @@ function Maps:GetPlayerMapPos(mapID)
 	return tempVec2D.y/mapRect[2].y, tempVec2D.x/mapRect[2].x
 end
 
-function Maps:GetCursorCoords()
+function MAP:GetCursorCoords()
 	if not WorldMapFrame.ScrollContainer:IsMouseOver() then return end
 
 	local cursorX, cursorY = WorldMapFrame.ScrollContainer:GetNormalizedCursorPosition()
@@ -47,17 +47,17 @@ local function CoordsFormat(owner, none)
 	return owner..DB.MyColor..text
 end
 
-function Maps:UpdateCoords(elapsed)
+function MAP:UpdateCoords(elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed > .1 then
-		local cursorX, cursorY = Maps:GetCursorCoords()
+		local cursorX, cursorY = MAP:GetCursorCoords()
 		if cursorX and cursorY then
 			cursorCoords:SetFormattedText(CoordsFormat(cursorText), 100 * cursorX, 100 * cursorY)
 		else
 			cursorCoords:SetText(CoordsFormat(cursorText, true))
 		end
 
-		local playerX, playerY = Maps:GetPlayerMapPos(currentMapID)
+		local playerX, playerY = MAP:GetPlayerMapPos(currentMapID)
 		if playerX and playerY then
 			playerCoords:SetFormattedText(CoordsFormat(playerText), 100 * playerX, 100 * playerY)
 		else
@@ -68,7 +68,7 @@ function Maps:UpdateCoords(elapsed)
 	end
 end
 
-function Maps:UpdateMapID()
+function MAP:UpdateMapID()
 	if self:GetMapID() == C_Map_GetBestMapForUnit("player") then
 		currentMapID = self:GetMapID()
 	else
@@ -76,21 +76,21 @@ function Maps:UpdateMapID()
 	end
 end
 
-function Maps:SetupCoords()
+function MAP:SetupCoords()
 	playerText = PLAYER.."："
 	cursorText = MOUSE_LABEL.."："
 
 	playerCoords = B.CreateFS(BorderFrame, 14, "", false, "TOPLEFT", 55, -6)
 	cursorCoords = B.CreateFS(BorderFrame, 14, "", false, "TOPLEFT", 175, -6)
 
-	hooksecurefunc(WorldMapFrame, "OnFrameSizeChanged", Maps.UpdateMapID)
-	hooksecurefunc(WorldMapFrame, "OnMapChanged", Maps.UpdateMapID)
+	hooksecurefunc(WorldMapFrame, "OnFrameSizeChanged", MAP.UpdateMapID)
+	hooksecurefunc(WorldMapFrame, "OnMapChanged", MAP.UpdateMapID)
 
 	local CoordsUpdater = CreateFrame("Frame", nil, WorldMapFrame.BorderFrame)
-	CoordsUpdater:SetScript("OnUpdate", Maps.UpdateCoords)
+	CoordsUpdater:SetScript("OnUpdate", MAP.UpdateCoords)
 end
 
-function Maps:UpdateMapScale()
+function MAP:UpdateMapScale()
 	if self.isMaximized and self:GetScale() ~= C.db["Map"]["MaxMapScale"] then
 		self:SetScale(C.db["Map"]["MaxMapScale"])
 	elseif not self.isMaximized and self:GetScale() ~= C.db["Map"]["MapScale"] then
@@ -98,12 +98,12 @@ function Maps:UpdateMapScale()
 	end
 end
 
-function Maps:UpdateMapAnchor()
-	Maps.UpdateMapScale(self)
+function MAP:UpdateMapAnchor()
+	MAP.UpdateMapScale(self)
 	B.RestoreMF(self)
 end
 
-function Maps:WorldMapScale()
+function MAP:WorldMapScale()
 	-- Fix worldmap cursor when scaling
 	WorldMapFrame.ScrollContainer.GetCursorPosition = function(f)
 		local x, y = MapCanvasScrollControllerMixin.GetCursorPosition(f)
@@ -115,7 +115,7 @@ function Maps:WorldMapScale()
 	hooksecurefunc(WorldMapFrame, "SynchronizeDisplayState", self.UpdateMapAnchor)
 end
 
-function Maps:SetupWorldMap()
+function MAP:SetupWorldMap()
 	if not C.db["Map"]["EnableMap"] then return end
 	if IsAddOnLoaded("Mapster") then return end
 	if IsAddOnLoaded("Leatrix_Maps") then return end
@@ -138,7 +138,7 @@ function Maps:SetupWorldMap()
 	self:MapReveal()
 end
 
-function Maps:OnLogin()
+function MAP:OnLogin()
 	self:SetupWorldMap()
 	self:SetupMinimap()
 end

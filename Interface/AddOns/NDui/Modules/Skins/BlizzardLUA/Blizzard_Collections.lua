@@ -137,17 +137,6 @@ local function Reskin_LayoutCurrentPage()
 	end
 end
 
-local function Reskin_SetTab(tabID)
-	for index = 1, 2 do
-		local tab = _G["WardrobeCollectionFrameTab"..index]
-		if tabID == index then
-			tab.bg:SetBackdropColor(cr, cg, cb, .5)
-		else
-			tab.bg:SetBackdropColor(0, 0, 0, 0)
-		end
-	end
-end
-
 local function Reskin_Refresh(self)
 	if WardrobeCollectionFrame.SetsCollectionFrame.DetailsFrame.LimitedSet:IsShown() then
 		self.bg:SetBackdropBorderColor(1, .5, .2)
@@ -483,8 +472,6 @@ C.OnLoadThemes["Blizzard_Collections"] = function()
 		tab.bg = B.CreateBDFrame(tab, 0, 3)
 	end
 
-	hooksecurefunc("WardrobeCollectionFrame_SetTab", Reskin_SetTab)
-
 	local SetsCollectionFrame = WardrobeCollectionFrame.SetsCollectionFrame
 	SetsCollectionFrame.bg = B.CreateBDFrame(SetsCollectionFrame.Model)
 
@@ -502,6 +489,7 @@ C.OnLoadThemes["Blizzard_Collections"] = function()
 	-- [[ WardrobeFrame ]]
 	B.ReskinFrame(WardrobeFrame)
 	B.ReskinArrow(WardrobeTransmogFrame.SpecButton, "down")
+	B.ReskinCheck(WardrobeTransmogFrame.ToggleSecondaryAppearanceCheckbox)
 
 	local ModelScene = WardrobeTransmogFrame.ModelScene
 	B.StripTextures(ModelScene.ControlFrame)
@@ -511,6 +499,7 @@ C.OnLoadThemes["Blizzard_Collections"] = function()
 		"Head",
 		"Neck",
 		"Shoulder",
+		"SecondaryShoulder",
 		"Shirt",
 		"Chest",
 		"Waist",
@@ -529,14 +518,16 @@ C.OnLoadThemes["Blizzard_Collections"] = function()
 		"MainHandEnchant",
 		"SecondaryHandEnchant",
 	}
-	for i = 1, #slots do
-		local slot = ModelScene[slots[i].."Button"]
+	for _, name in pairs(slots) do
+		local slot = WardrobeTransmogFrame[name.."Button"]
 		if slot then
 			slot.Border:Hide()
 
 			local icbg = B.ReskinIcon(slot.Icon)
 			B.ReskinHLTex(slot, icbg)
 
+			slot.NoItemTexture:SetDrawLayer("OVERLAY")
+			slot.NoItemTexture:SetInside(icbg)
 			slot.HiddenVisualCover:SetInside(icbg)
 		end
 	end

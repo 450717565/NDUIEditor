@@ -267,18 +267,24 @@ do
 			local currency = B.GetObject(item, "AltCurrencyFrame")
 
 			if button and button:IsShown() then
-				money:ClearAllPoints()
-				if name:GetNumLines() > 1 then
-					money:SetPoint("BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, -1)
-				else
-					money:SetPoint("BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, 4)
+				if not button.fixed then
+					if name:GetWrappedWidth() <= name:GetStringWidth() then
+						name:SetWidth(name:GetWidth() + 2)
+					end
+
+					button.fixed = true
 				end
 
-				currency:ClearAllPoints()
-				if money:IsShown() then
-					currency:SetPoint("LEFT", money, "RIGHT", -10, 0)
+				if name:GetNumLines() > 1 then
+					B.UpdatePoint(money, "BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, -1)
 				else
-					currency:SetPoint("LEFT", money, "LEFT", 0, 0)
+					B.UpdatePoint(money, "BOTTOMLEFT", button.icbg, "BOTTOMRIGHT", 4, 4)
+				end
+
+				if money:IsShown() then
+					B.UpdatePoint(currency, "LEFT", money, "RIGHT", -10, 0)
+				else
+					B.UpdatePoint(currency, "LEFT", money, "LEFT", 0, 0)
 				end
 			end
 

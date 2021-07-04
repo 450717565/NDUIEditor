@@ -2,8 +2,8 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 if not C.Infobar.Guild then return end
 
-local Infobar = B:GetModule("Infobar")
-local info = Infobar:RegisterInfobar("Guild", C.Infobar.GuildPos)
+local IB = B:GetModule("Infobar")
+local info = IB:RegisterInfobar("Guild", C.Infobar.GuildPos)
 
 info.guildTable = {}
 local cr, cg, cb = DB.cr, DB.cg, DB.cb

@@ -1,3 +1,9 @@
+function GetNPCID(guid)
+	local id = tonumber(strmatch((guid or ""), "%-(%d-)%-%x-$"))
+
+	return id
+end
+
 local parentMaps = {
 	-- list of all continents and their sub-zones that have world quests
 	[1550] = { -- Shadowlands
@@ -90,13 +96,13 @@ end
 
 function DataProvider:ShouldShowQuest(questInfo)
 	local questID = questInfo.questId
-	if(self.focusedQuestID or self:IsQuestSuppressed(questID)) then
+	if (self.focusedQuestID or self:IsQuestSuppressed(questID)) then
 		return false
 	else
 		-- returns true if the given quest is a world quest on one of the maps in our list
 		local mapID = AdjustedMapID(self:GetMap():GetMapID())
 		local questMapID = questInfo.mapID
-		if(mapID == questMapID or (parentMaps[mapID] and parentMaps[mapID][questMapID])) then
+		if (mapID == questMapID or (parentMaps[mapID] and parentMaps[mapID][questMapID])) then
 			return HaveQuestData(questID) and QuestUtils_IsQuestWorldQuest(questID)
 		end
 	end
@@ -114,19 +120,19 @@ function DataProvider:RefreshAllData()
 	local mapID = AdjustedMapID(Map:GetMapID())
 
 	local quests = mapID and C_TaskQuest.GetQuestsForPlayerByMapID(mapID)
-	if(quests) then
+	if (quests) then
 		for _, questInfo in next, quests do
-			if(self:ShouldShowQuest(questInfo) and self:DoesWorldQuestInfoPassFilters(questInfo)) then
+			if (self:ShouldShowQuest(questInfo) and self:DoesWorldQuestInfoPassFilters(questInfo)) then
 				local questID = questInfo.questId
 				pinsToRemove[questID] = nil -- unmark the pin for removal
 
 				local Pin = self.activePins[questID]
-				if(Pin) then
+				if (Pin) then
 					-- update existing pin
 					Pin:RefreshVisuals()
 					Pin:SetPosition(questInfo.x, questInfo.y)
 
-					if(self.pingPin and self.pingPin:IsAttachedToQuest(questID)) then
+					if (self.pingPin and self.pingPin:IsAttachedToQuest(questID)) then
 						self.pingPin:SetScalingLimits(1, 1, 1)
 						self.pingPin:SetPosition(questInfo.x, questInfo.y)
 					end
@@ -140,7 +146,7 @@ function DataProvider:RefreshAllData()
 
 	for questID in next, pinsToRemove do
 		-- iterate and remove all pins marked for removal
-		if(self.pingPin and self.pingPin:IsAttachedToQuest(questID)) then
+		if (self.pingPin and self.pingPin:IsAttachedToQuest(questID)) then
 			self.pingPin:Stop()
 		end
 
@@ -197,7 +203,7 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 	WorldMap_WorldQuestPinMixin.RefreshVisuals(self)
 
 	-- update scale
-	if(IsParentMap(self:GetMap():GetMapID())) then
+	if (IsParentMap(self:GetMap():GetMapID())) then
 		self:SetScalingLimits(1, 0.3, 0.5)
 	else
 		self:SetScalingLimits(1, 0.425, 0.425)
@@ -274,28 +280,28 @@ function BetterWorldQuestPinMixin:RefreshVisuals()
 	local Indicator = self.Indicator
 	local questInfo = C_QuestLog.GetQuestTagInfo(questID)
 	-- local _, _, worldQuestType, _, _, professionID = C_QuestLog.GetQuestTagInfo(questID)
-	if(questInfo.worldQuestType == Enum.QuestTagType.PvP) then
+	if (questInfo.worldQuestType == Enum.QuestTagType.PvP) then
 		self.Indicator:SetAtlas('Warfronts-BaseMapIcons-Empty-Barracks-Minimap')
 		self.Indicator:SetSize(58, 58)
 		self.Indicator:Show()
 	else
 		self.Indicator:SetSize(44, 44)
-		if(questInfo.worldQuestType == Enum.QuestTagType.PetBattle) then
+		if (questInfo.worldQuestType == Enum.QuestTagType.PetBattle) then
 			self.Indicator:SetAtlas('WildBattlePetCapturable')
 			self.Indicator:Show()
-		elseif(questInfo.worldQuestType == Enum.QuestTagType.Profession) then
+		elseif (questInfo.worldQuestType == Enum.QuestTagType.Profession) then
 			self.Indicator:SetAtlas(WORLD_QUEST_ICONS_BY_PROFESSION[questInfo.tradeskillLineID])
 			self.Indicator:Show()
-		elseif(questInfo.worldQuestType == Enum.QuestTagType.Dungeon) then
+		elseif (questInfo.worldQuestType == Enum.QuestTagType.Dungeon) then
 			self.Indicator:SetAtlas('Dungeon')
 			self.Indicator:Show()
-		elseif(questInfo.worldQuestType == Enum.QuestTagType.Raid) then
+		elseif (questInfo.worldQuestType == Enum.QuestTagType.Raid) then
 			self.Indicator:SetAtlas('Raid')
 			self.Indicator:Show()
-		elseif(questInfo.worldQuestType == Enum.QuestTagType.Invasion) then
+		elseif (questInfo.worldQuestType == Enum.QuestTagType.Invasion) then
 			self.Indicator:SetAtlas('worldquest-icon-burninglegion')
 			self.Indicator:Show()
-		elseif(questInfo.worldQuestType == Enum.QuestTagType.FactionAssault) then
+		elseif (questInfo.worldQuestType == Enum.QuestTagType.FactionAssault) then
 			self.Indicator:SetAtlas(factionAssaultAtlasName)
 			self.Indicator:SetSize(38, 38)
 			self.Indicator:Show()
@@ -307,7 +313,7 @@ end
 
 -- we need to remove the default data provider mixin
 for provider in next, WorldMapFrame.dataProviders do
-	if(provider.GetPinTemplate and provider.GetPinTemplate() == 'WorldMap_WorldQuestPinTemplate') then
+	if (provider.GetPinTemplate and provider.GetPinTemplate() == 'WorldMap_WorldQuestPinTemplate') then
 		WorldMapFrame:RemoveDataProvider(provider)
 	end
 end

@@ -77,32 +77,32 @@ function Bar:CreateBar4()
 		local button = _G["MultiBarRightButton"..i]
 		tinsert(buttonList, button)
 		tinsert(Bar.buttons, button)
-		button:ClearAllPoints()
+
 		if layout == 2 then
 			if i == 1 then
-				button:SetPoint("TOPLEFT", frame, padding, -padding)
+				B.UpdatePoint(button, "TOPLEFT", frame, "TOPLEFT", padding, -padding)
 			elseif i == 4 then
-				button:SetPoint("TOP", _G["MultiBarRightButton1"], "BOTTOM", 0, -margin)
+				B.UpdatePoint(button, "TOP", _G["MultiBarRightButton1"], "BOTTOM", 0, -margin)
 			elseif i == 7 then
-				button:SetPoint("TOPRIGHT", frame, -2*(cfg.size+margin) - padding, -padding)
+				B.UpdatePoint(button, "TOPRIGHT", frame, -2*(cfg.size+margin) - padding, -padding)
 			elseif i == 10 then
-				button:SetPoint("TOP", _G["MultiBarRightButton7"], "BOTTOM", 0, -margin)
+				B.UpdatePoint(button, "TOP", _G["MultiBarRightButton7"], "BOTTOM", 0, -margin)
 			else
-				button:SetPoint("LEFT", _G["MultiBarRightButton"..i-1], "RIGHT", margin, 0)
+				B.UpdatePoint(button, "LEFT", _G["MultiBarRightButton"..i-1], "RIGHT", margin, 0)
 			end
 		elseif layout == 3 then
 			if i == 1 then
-				button:SetPoint("TOPLEFT", frame, padding, -padding)
+				B.UpdatePoint(button, "TOPLEFT", frame, "TOPLEFT", padding, -padding)
 			elseif i == 5 or i == 9 then
-				button:SetPoint("TOP", _G["MultiBarRightButton"..i-4], "BOTTOM", 0, -margin)
+				B.UpdatePoint(button, "TOP", _G["MultiBarRightButton"..i-4], "BOTTOM", 0, -margin)
 			else
-				button:SetPoint("LEFT", _G["MultiBarRightButton"..i-1], "RIGHT", margin, 0)
+				B.UpdatePoint(button, "LEFT", _G["MultiBarRightButton"..i-1], "RIGHT", margin, 0)
 			end
 		else
 			if i == 1 then
-				button:SetPoint("TOPRIGHT", frame, -padding, -padding)
+				B.UpdatePoint(button, "TOPRIGHT", frame, "TOPRIGHT", -padding, -padding)
 			else
-				button:SetPoint("TOP", _G["MultiBarRightButton"..i-1], "BOTTOM", 0, -margin)
+				B.UpdatePoint(button, "TOP", _G["MultiBarRightButton"..i-1], "BOTTOM", 0, -margin)
 			end
 		end
 	end

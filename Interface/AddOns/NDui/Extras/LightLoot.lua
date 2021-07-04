@@ -160,16 +160,15 @@ function LightLoot:LOOT_OPENED(event, autoloot)
 		x = B.Round(x / scale)
 		y = B.Round(y / scale)
 
-		self:ClearAllPoints()
-		self:SetPoint("TOPLEFT", nil, "BOTTOMLEFT", x, y)
+		B.UpdatePoint(self, "TOPLEFT", nil, "BOTTOMLEFT", x, y)
+
 		self:GetCenter()
 		self:Raise()
 	else
 		if not mover then
 			mover = B.Mover(self, "LightLoot", "LightLoot", {"CENTER", 300, 0}, 50, 50)
 		end
-		self:ClearAllPoints()
-		self:SetPoint("CENTER", mover)
+		B.UpdatePoint(self, "CENTER", mover, "CENTER")
 	end
 
 	local items = GetNumLootItems()

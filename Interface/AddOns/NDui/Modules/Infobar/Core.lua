@@ -1,9 +1,9 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Infobar = B:RegisterModule("Infobar")
+local IB = B:RegisterModule("Infobar")
 local tinsert, pairs, unpack = table.insert, pairs, unpack
 
-function Infobar:GetMoneyString(money, formatted)
+function IB:GetMoneyString(money, formatted)
 	if money > 0 then
 		if formatted then
 			return format("%s%s", B.FormatNumb(money / 1e4), GOLD_AMOUNT_SYMBOL)
@@ -28,7 +28,7 @@ function Infobar:GetMoneyString(money, formatted)
 	end
 end
 
-function Infobar:RegisterInfobar(name, point)
+function IB:RegisterInfobar(name, point)
 	if not self.modules then self.modules = {} end
 
 	local info = CreateFrame("Frame", nil, UIParent)
@@ -47,7 +47,7 @@ function Infobar:RegisterInfobar(name, point)
 	return info
 end
 
-function Infobar:LoadInfobar(info)
+function IB:LoadInfobar(info)
 	if info.eventList then
 		for _, event in pairs(info.eventList) do
 			info:RegisterEvent(event)
@@ -68,7 +68,7 @@ function Infobar:LoadInfobar(info)
 	end
 end
 
-function Infobar:BackgroundLines()
+function IB:BackgroundLines()
 	if not C.db["Skins"]["InfobarLine"] then return end
 
 	local cr, cg, cb = DB.cr, DB.cg, DB.cb
@@ -96,7 +96,7 @@ function Infobar:BackgroundLines()
 	end
 end
 
-function Infobar:OnLogin()
+function IB:OnLogin()
 	if NDuiADB["DisableInfobars"] then return end
 
 	if not self.modules then return end

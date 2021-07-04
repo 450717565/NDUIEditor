@@ -1,5 +1,7 @@
+-- 小洛快跑
+
 local MESSAGE = 'Spam <SpaceBar> to complete!'
-local BUTTON = 'OverrideActionBarButton%d'
+local BUTTON = 'ActionButton%d'
 
 local quests = {
 	[51632] = { -- Make Loh Go (Tiragarde Sound)
@@ -45,8 +47,6 @@ local currentQuestID
 local currentCheckpoint
 local nextActionIndex
 
--- 小洛快跑
-
 local actionSpells = {
 	[271602] = true, -- 1: Turn Left
 	[271600] = true, -- 2: Move Forward
@@ -57,11 +57,11 @@ local Handler = CreateFrame('Frame')
 Handler:RegisterEvent('QUEST_LOG_UPDATE')
 Handler:RegisterEvent('QUEST_ACCEPTED')
 Handler:SetScript('OnEvent', function(self, event, ...)
-	if(event == 'QUEST_LOG_UPDATE') then
+	if (event == 'QUEST_LOG_UPDATE') then
 		for questID in next, quests do
-			if(C_QuestLog.IsOnQuest(questID)) then
+			if (C_QuestLog.IsOnQuest(questID)) then
 				self:Watch(questID)
-				if(self:GetCheckpoint() > 0) then
+				if (self:GetCheckpoint() > 0) then
 					self:Control()
 					self:UpdateCheckpoint()
 				end
@@ -70,28 +70,28 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 		end
 
 		self:UnregisterEvent(event)
-	elseif(event == 'QUEST_ACCEPTED') then
+	elseif (event == 'QUEST_ACCEPTED') then
 		local questID = ...
-		if(quests[questID]) then
+		if (quests[questID]) then
 			self:Watch(questID)
 		end
-	elseif(event == 'QUEST_REMOVED') then
+	elseif (event == 'QUEST_REMOVED') then
 		local questID = ...
-		if(quests[questID]) then
+		if (quests[questID]) then
 			self:Unwatch()
 		end
-	elseif(event == 'UNIT_ENTERED_VEHICLE') then
+	elseif (event == 'UNIT_ENTERED_VEHICLE') then
 		self:Control()
-	elseif(event == 'UNIT_EXITED_VEHICLE') then
+	elseif (event == 'UNIT_EXITED_VEHICLE') then
 		self:Uncontrol()
-	elseif(event == 'UNIT_SPELLCAST_SUCCEEDED') then
+	elseif (event == 'UNIT_SPELLCAST_SUCCEEDED') then
 		local _, _, spellID = ...
-		if(actionSpells[spellID]) then
+		if (actionSpells[spellID]) then
 			self:UpdateAction()
 		end
-	elseif(event == 'UNIT_AURA') then
+	elseif (event == 'UNIT_AURA') then
 		self:UpdateCheckpoint()
-	elseif(event == 'PLAYER_REGEN_ENABLED') then
+	elseif (event == 'PLAYER_REGEN_ENABLED') then
 		ClearOverrideBindings(self)
 		self:UnregisterEvent(event)
 	end
@@ -150,10 +150,10 @@ function Handler:GetCheckpoint()
 	local index = 1
 	while(true) do
 		local exists, _, num, _, _, _, _, _, _, spellID = UnitAura('vehicle', index, 'HARMFUL')
-		if(not exists) then
+		if (not exists) then
 			checkpoint = 0
 			break
-		elseif(spellID == 276705) then
+		elseif (spellID == 276705) then
 			checkpoint = num
 			break
 		end
@@ -166,7 +166,7 @@ end
 
 function Handler:UpdateCheckpoint()
 	local checkpoint = self:GetCheckpoint()
-	if(checkpoint ~= currentCheckpoint) then
+	if (checkpoint ~= currentCheckpoint) then
 		currentCheckpoint = checkpoint
 		nextActionIndex = 1
 
@@ -176,5 +176,5 @@ end
 
 function Handler:Next()
 	local nextAction = quests[currentQuestID][currentCheckpoint][nextActionIndex]
-	SetOverrideBindingClick(self, true, 'SPACE', BUTTON:format(nextAction))
+	SetOverrideBinding(self, true, 'SPACE', BUTTON:format(nextAction))
 end

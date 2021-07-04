@@ -801,8 +801,9 @@ C.OnLoadThemes["Blizzard_GarrisonUI"] = function()
 			reward:ClearAllPoints()
 			reward:SetPoint("TOPRIGHT", -5, -4.5)
 
-			reward.icbg = B.ReskinIcon(reward.Icon)
-			B.ReskinBorder(reward.IconBorder, reward.icbg)
+			local icbg = B.ReskinIcon(reward.Icon)
+			B.ReskinBorder(reward.IconBorder, icbg)
+			B.UpdatePoint(reward.Quantity, "BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 0, 1)
 		end
 	end
 

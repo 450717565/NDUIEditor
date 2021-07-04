@@ -1,7 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
-local TT = B:GetModule("Tooltip")
 
 ----------------------------
 -- Credit: ElvUI
@@ -19,10 +18,10 @@ function Skins:Ace3()
 	if not AceGUI then return end
 
 	if AceGUITooltip then
-		AceGUITooltip:HookScript("OnShow", TT.ReskinTooltip)
+		AceGUITooltip:HookScript("OnShow", B.ReskinTooltip)
 	end
 	if AceConfigDialogTooltip then
-		AceConfigDialogTooltip:HookScript("OnShow", TT.ReskinTooltip)
+		AceConfigDialogTooltip:HookScript("OnShow", B.ReskinTooltip)
 	end
 
 	for _, n in pairs(EarlyAceWidgets) do
@@ -37,10 +36,10 @@ end
 function Skins:Ace3_SkinDropdown()
 	if self and self.obj then
 		if self.obj.pullout and self.obj.pullout.frame then
-			TT.ReskinTooltip(self.obj.pullout.frame)
+			B.ReskinTooltip(self.obj.pullout.frame)
 			self.obj.pullout.frame.SetBackdrop = B.Dummy
 		elseif self.obj.dropdown then
-			TT.ReskinTooltip(self.obj.dropdown)
+			B.ReskinTooltip(self.obj.dropdown)
 			self.obj.dropdown.SetBackdrop = B.Dummy
 			if self.obj.dropdown.slider then
 				B.ReskinSlider(self.obj.dropdown.slider)

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Settings = B:RegisterModule("Settings")
+local TUTORIAL = B:RegisterModule("Tutorial")
 
 local pairs, wipe = pairs, table.wipe
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
@@ -475,7 +475,7 @@ end
 SlashCmdList["NDUI"] = HelloWorld
 SLASH_NDUI1 = "/ndui"
 
-function Settings:OnLogin()
+function TUTORIAL:OnLogin()
 	-- Hide options
 	B.HideOption(Display_UseUIScale)
 	B.HideOption(Display_UIScaleSlider)

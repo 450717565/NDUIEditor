@@ -253,22 +253,19 @@ function ExtraQuestButton:PLAYER_LOGIN()
 	self.Highlight = Highlight
 
 	local Artwork = self:CreateTexture("$parentArtwork", "OVERLAY")
-	Artwork:ClearAllPoints()
-	Artwork:SetPoint("BOTTOMLEFT")
+	B.UpdatePoint(Artwork, "BOTTOMLEFT", self, "BOTTOMLEFT", 0, 0)
 	Artwork:SetSize(20, 20)
 	Artwork:SetAtlas(DB.questTex)
 	self.Artwork = Artwork
 
 	local HotKey = self:CreateFontString("$parentHotKey", nil, "NumberFontNormal")
-	HotKey:ClearAllPoints()
-	HotKey:SetPoint("TOPLEFT", 3, -3)
+	B.UpdatePoint(HotKey, "TOPLEFT", self, "TOPLEFT", 3, -3)
 	HotKey:SetTextColor(cr, cg, cb)
 	HotKey:SetShadowColor(0, 0, 0, 0)
 	self.HotKey = HotKey
 
 	local Count = self:CreateFontString("$parentCount", nil, "NumberFontNormal")
-	Count:ClearAllPoints()
-	Count:SetPoint("BOTTOMRIGHT", -3, 3)
+	B.UpdatePoint(Count, "BOTTOMRIGHT", self, "BOTTOMRIGHT", -3, 3)
 	Count:SetTextColor(1, 1, 1)
 	Count:SetShadowColor(0, 0, 0, 0)
 	self.Count = Count

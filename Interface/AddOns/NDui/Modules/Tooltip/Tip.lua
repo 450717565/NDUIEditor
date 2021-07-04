@@ -4,6 +4,7 @@ local TT = B:RegisterModule("Tooltip")
 
 local strfind, format, strupper, strlen, pairs, unpack = string.find, string.format, string.upper, string.len, pairs, unpack
 local ICON_LIST = ICON_LIST
+local HIGHLIGHT_FONT_COLOR = HIGHLIGHT_FONT_COLOR
 local PVP, LEVEL, FACTION_HORDE, FACTION_ALLIANCE = PVP, LEVEL, FACTION_HORDE, FACTION_ALLIANCE
 local YOU, TARGET, AFK, DND, DEAD, PLAYER_OFFLINE = YOU, TARGET, AFK, DND, DEAD, PLAYER_OFFLINE
 local FOREIGN_SERVER_LABEL, INTERACTIVE_SERVER_LABEL = FOREIGN_SERVER_LABEL, INTERACTIVE_SERVER_LABEL
@@ -17,6 +18,8 @@ local UnitIsWildBattlePet, UnitIsBattlePetCompanion, UnitBattlePetLevel = UnitIs
 local UnitIsPlayer, UnitName, UnitPVPName, UnitClass, UnitRace, UnitLevel = UnitIsPlayer, UnitName, UnitPVPName, UnitClass, UnitRace, UnitLevel
 local GetRaidTargetIndex, UnitGroupRolesAssigned, GetGuildInfo, IsInGuild = GetRaidTargetIndex, UnitGroupRolesAssigned, GetGuildInfo, IsInGuild
 local C_PetBattles_GetNumAuras, C_PetBattles_GetAuraInfo = C_PetBattles.GetNumAuras, C_PetBattles.GetAuraInfo
+local C_ChallengeMode_GetDungeonScoreRarityColor = C_ChallengeMode.GetDungeonScoreRarityColor
+local C_PlayerInfo_GetPlayerMythicPlusRatingSummary = C_PlayerInfo.GetPlayerMythicPlusRatingSummary
 
 local fontOutline
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
@@ -131,16 +134,15 @@ function TT:GetTarget(unit)
 end
 
 function TT:InsertFactionFrame(faction)
-	if not self.factionFrame then
-		local f = self:CreateTexture(nil, "OVERLAY")
-		f:ClearAllPoints()
-		f:SetPoint("BOTTOMRIGHT", 10, 0)
-		f:SetBlendMode("ADD")
-		f:SetScale(.25)
-		self.factionFrame = f
+	if not self.logo then
+		local logo = self:CreateTexture(nil, "OVERLAY")
+		B.UpdatePoint(logo, "BOTTOMRIGHT", self, "BOTTOMRIGHT", 10, 0)
+		logo:SetBlendMode("ADD")
+		logo:SetScale(.25)
+		self.logo = logo
 	end
-	self.factionFrame:SetTexture("Interface\\Timer\\"..faction.."-Logo")
-	self.factionFrame:SetAlpha(.5)
+	self.logo:SetTexture("Interface\\Timer\\"..faction.."-Logo")
+	self.logo:SetAlpha(.5)
 end
 
 local roleTex = {
@@ -152,8 +154,7 @@ local roleTex = {
 function TT:InsertRoleFrame(role)
 	if not self.role then
 		local role = self:CreateTexture(nil, "OVERLAY")
-		role:ClearAllPoints()
-		role:SetPoint("TOPRIGHT", self, "TOPLEFT", -C.margin, -1)
+		B.UpdatePoint(role, "TOPRIGHT", self, "TOPLEFT", -C.margin, -1)
 		role:SetSize(25, 25)
 		role:SetTexture("Interface\\LFGFrame\\UI-LFG-ICONS-ROLEBACKGROUNDS")
 		self.role = role
@@ -166,12 +167,23 @@ function TT:InsertRoleFrame(role)
 end
 
 function TT:OnTooltipCleared()
-	if self.factionFrame and self.factionFrame:GetAlpha() ~= 0 then
-		self.factionFrame:SetAlpha(0)
+	if self.logo and self.logo:GetAlpha() ~= 0 then
+		self.logo:SetAlpha(0)
 	end
 	if self.role and self.role:GetAlpha() ~= 0 then
 		self.role:SetAlpha(0)
 		self.icbg:SetAlpha(0)
+	end
+end
+
+function TT:ShowUnitMythicPlusScore(unit)
+	if not C.db["Tooltip"]["MDScore"] then return end
+
+	local summary = C_PlayerInfo_GetPlayerMythicPlusRatingSummary(unit)
+	local score = summary and summary.currentSeasonScore
+	if score and score > 0 then
+		local color = C_ChallengeMode_GetDungeonScoreRarityColor(score) or HIGHLIGHT_FONT_COLOR
+		GameTooltip:AddLine(format(L["MythicScore"], color:WrapTextInColorCode(score)))
 	end
 end
 
@@ -298,6 +310,7 @@ function TT:OnTooltipSetUnit()
 		end
 
 		TT.InspectUnitSpecAndLevel(self, unit)
+		TT.ShowUnitMythicPlusScore(self, unit)
 
 		self.StatusBar:SetStatusBarColor(r, g, b)
 	else
@@ -305,7 +318,7 @@ function TT:OnTooltipSetUnit()
 	end
 end
 
-function TT:StatusBar_OnValueChanged(value)
+function TT:OnValueChanged(value)
 	if self:IsForbidden() or not value then return end
 	local min, max = self:GetMinMaxValues()
 	if (value < min) or (value > max) then return end
@@ -364,13 +377,12 @@ function TT:GameTooltip_SetDefaultAnchor(parent)
 			mover = B.Mover(self, L["Tooltip"], "GameTooltip", C.Tooltips.TooltipPos, 240, 120)
 		end
 		self:SetOwner(parent, "ANCHOR_NONE")
-		self:ClearAllPoints()
-		self:SetPoint("BOTTOMRIGHT", mover)
+		B.UpdatePoint(self, "BOTTOMRIGHT", mover, "BOTTOMRIGHT")
 	end
 end
 
 -- Fix comparison error on cursor
-function TT:GameTooltip_ComparisonFix(anchorFrame, shoppingTooltip1, shoppingTooltip2, _, secondaryItemShown)
+function TT:GameTooltip_AnchorComparisonTooltips(anchorFrame, shoppingTooltip1, shoppingTooltip2, _, secondaryItemShown)
 	local point = shoppingTooltip1:GetPoint(2)
 	if secondaryItemShown then
 		if point == "TOP" then
@@ -385,83 +397,6 @@ function TT:GameTooltip_ComparisonFix(anchorFrame, shoppingTooltip1, shoppingToo
 			B.UpdatePoint(shoppingTooltip1, "TOPLEFT", anchorFrame, "TOPRIGHT", 3, 0)
 		elseif point == "RIGHT" then
 			B.UpdatePoint(shoppingTooltip1, "TOPRIGHT", anchorFrame, "TOPLEFT", -3, 0)
-		end
-	end
-end
-
--- Tooltip rewards icon
-function TT:ReskinRewardIcon()
-	local icon = self.Icon or self.icon
-	local border = self.Border or self.IconBorder
-
-	if not self.iconStyled then
-		if icon then self.icbg = B.ReskinIcon(icon, 1) end
-		if border then B.ReskinBorder(border, self.icbg) end
-
-		self.iconStyled = true
-	end
-end
-
--- Tooltip status bar
-function TT:ReskinStatusBar()
-	if not self.StatusBar then return end
-
-	self.StatusBar:ClearAllPoints()
-	self.StatusBar:SetPoint("BOTTOMLEFT", self, "TOPLEFT", C.mult, C.margin)
-	self.StatusBar:SetPoint("BOTTOMRIGHT", self, "TOPRIGHT", -C.mult, C.margin)
-	self.StatusBar:SetHeight(6)
-
-	B.ReskinStatusBar(self.StatusBar, true)
-end
-
--- Tooltip skin
-local fakeBg = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
-fakeBg:SetBackdrop({ bgFile = DB.bgTex, edgeFile = DB.bgTex, edgeSize = 1 })
-
-local function __GetBackdrop() return fakeBg:GetBackdrop() end
-local function __GetBackdropColor() return 0, 0, 0, .5 end
-local function __GetBackdropBorderColor() return 0, 0, 0 end
-
-function TT:ReskinTooltip()
-	if not self then
-		if DB.isDeveloper then print("Unknown tooltip spotted.") end
-		return
-	end
-
-	if self:IsForbidden() then return end
-	self:SetScale(C.db["Tooltip"]["TTScale"])
-
-	if not self.tipStyled then
-		if self.SetBackdrop then self:SetBackdrop("") end
-		self:DisableDrawLayer("BACKGROUND")
-
-		self.bg = B.CreateBG(self)
-
-		TT.ReskinRewardIcon(self)
-		TT.ReskinStatusBar(self)
-
-		local closeButton = B.GetObject(self, "CloseButton")
-		if closeButton then B.ReskinClose(closeButton) end
-
-		local scrollBar = self.ScrollBar or self.scrollBar
-		if scrollBar then B.ReskinScroll(scrollBar) end
-
-		if self.GetBackdrop then
-			self.GetBackdrop = __GetBackdrop
-			self.GetBackdropColor = __GetBackdropColor
-			self.GetBackdropBorderColor = __GetBackdropBorderColor
-		end
-
-		self.tipStyled = true
-	end
-
-	self.bg:SetBackdropBorderColor(0, 0, 0)
-	if C.db["Tooltip"]["ColorBorder"] and self.GetItem then
-		local _, link = self:GetItem()
-		if link then
-			local quality = select(3, GetItemInfo(link))
-			local r, g, b = B.GetQualityColor(quality)
-			self.bg:SetBackdropBorderColor(r, g, b)
 		end
 	end
 end
@@ -502,8 +437,27 @@ end
 function TT:OnTooltipSetItem()
 	for i = 1, self:NumLines() do
 		local line = _G["GameTooltipTextLeft"..i]
-		if line:GetNumLines() > 1 then
-			line:SetWidth(line:GetWidth() + 1)
+		if not line.fixed then
+			if line:GetWrappedWidth() <= line:GetStringWidth() then
+				line:SetWidth(line:GetWidth() + 2)
+			end
+
+			line.fixed = true
+		end
+	end
+end
+
+function TT:GameTooltip_AddWidgetSet()
+	if self.widgetContainer then
+		for frame in self.widgetContainer.widgetPools:EnumerateActive() do
+			local text = frame.Text
+			if not frame.fixed then
+				if text:GetWrappedWidth() <= text:GetStringWidth() then
+					text:SetWidth(text:GetWidth() + 2)
+				end
+
+				frame.fixed = true
+			end
 		end
 	end
 end
@@ -514,11 +468,12 @@ function TT:OnLogin()
 	TT:SetupTooltipFonts()
 
 	GameTooltip.StatusBar = GameTooltipStatusBar
-	GameTooltip.StatusBar:SetScript("OnValueChanged", TT.StatusBar_OnValueChanged)
+	GameTooltip.StatusBar:SetScript("OnValueChanged", TT.OnValueChanged)
 	GameTooltip:HookScript("OnTooltipCleared", TT.OnTooltipCleared)
 	GameTooltip:HookScript("OnTooltipSetItem", TT.OnTooltipSetItem)
 	GameTooltip:HookScript("OnTooltipSetUnit", TT.OnTooltipSetUnit)
-	hooksecurefunc("GameTooltip_AnchorComparisonTooltips", TT.GameTooltip_ComparisonFix)
+	hooksecurefunc("GameTooltip_AddWidgetSet", TT.GameTooltip_AddWidgetSet)
+	hooksecurefunc("GameTooltip_AnchorComparisonTooltips", TT.GameTooltip_AnchorComparisonTooltips)
 	hooksecurefunc("GameTooltip_SetDefaultAnchor", TT.GameTooltip_SetDefaultAnchor)
 	hooksecurefunc("GameTooltip_ShowProgressBar", TT.GameTooltip_ShowProgressBar)
 	hooksecurefunc("GameTooltip_ShowStatusBar", TT.GameTooltip_ShowStatusBar)
@@ -582,7 +537,7 @@ TT:RegisterTooltips("NDui", function()
 		VoiceMacroMenu,
 	}
 	for _, tip in pairs(tooltips) do
-		tip:HookScript("OnShow", TT.ReskinTooltip)
+		tip:HookScript("OnShow", B.ReskinTooltip)
 	end
 
 	ItemRefTooltip:HookScript("OnShow", function(self)
@@ -600,7 +555,7 @@ TT:RegisterTooltips("NDui", function()
 	PetBattlePrimaryUnitTooltip:HookScript("OnShow", function(self)
 		if not self.styled then
 			if self.glow then self.glow:Hide() end
-			TT.ReskinRewardIcon(self)
+			B.ReskinTTReward(self)
 
 			self.styled = true
 		end
@@ -612,15 +567,19 @@ TT:RegisterTooltips("NDui", function()
 			local _, _, _, isBuff = C_PetBattles_GetAuraInfo(self.petOwner, self.petIndex, i)
 			if isBuff and self.Buffs then
 				local frame = self.Buffs.frames[nextBuff]
-				if frame and frame.Icon then
+				if frame and not frame.styled then
 					B.ReskinIcon(frame.Icon)
+
+					frame.styled = true
 				end
 				nextBuff = nextBuff + 1
 			elseif (not isBuff) and self.Debuffs then
 				local frame = self.Debuffs.frames[nextDebuff]
-				if frame and frame.Icon then
+				if frame and not frame.styled then
 					local icbg = B.ReskinIcon(frame.Icon)
-					B.ReskinBGBorder(frame.DebuffBorder, icbg)
+					B.ReskinBorder(frame.DebuffBorder, icbg, nil, true)
+
+					frame.styled = true
 				end
 				nextDebuff = nextDebuff + 1
 			end
@@ -631,38 +590,38 @@ TT:RegisterTooltips("NDui", function()
 	C_Timer.After(5, function()
 		-- BagSync
 		if BSYC_EventAlertTooltip then
-			TT.ReskinTooltip(BSYC_EventAlertTooltip)
+			B.ReskinTooltip(BSYC_EventAlertTooltip)
 		end
 		-- Libs
 		if LibDBIconTooltip then
-			TT.ReskinTooltip(LibDBIconTooltip)
+			B.ReskinTooltip(LibDBIconTooltip)
 		end
 		if AceConfigDialogTooltip then
-			TT.ReskinTooltip(AceConfigDialogTooltip)
+			B.ReskinTooltip(AceConfigDialogTooltip)
 		end
 		-- TomTom
 		if TomTomTooltip then
-			TT.ReskinTooltip(TomTomTooltip)
+			B.ReskinTooltip(TomTomTooltip)
 		end
 		-- RareScanner
 		if RSMapItemToolTip then
-			TT.ReskinTooltip(RSMapItemToolTip)
+			B.ReskinTooltip(RSMapItemToolTip)
 		end
 		if LootBarToolTip then
-			TT.ReskinTooltip(LootBarToolTip)
+			B.ReskinTooltip(LootBarToolTip)
 		end
 		-- Narcissus
 		if NarciGameTooltip then
-			TT.ReskinTooltip(NarciGameTooltip)
+			B.ReskinTooltip(NarciGameTooltip)
 		end
 	end)
 
 	if IsAddOnLoaded("BattlePetBreedID") then
 		hooksecurefunc("BPBID_SetBreedTooltip", function(parent)
 			if parent == FloatingBattlePetTooltip then
-				TT.ReskinTooltip(BPBID_BreedTooltip2)
+				B.ReskinTooltip(BPBID_BreedTooltip2)
 			else
-				TT.ReskinTooltip(BPBID_BreedTooltip)
+				B.ReskinTooltip(BPBID_BreedTooltip)
 			end
 		end)
 	end
@@ -670,8 +629,8 @@ TT:RegisterTooltips("NDui", function()
 	if IsAddOnLoaded("MythicDungeonTools") then
 		hooksecurefunc(MDT, "ShowInterface", function(self)
 			if not self.styled then
-				TT.ReskinTooltip(MDT.tooltip)
-				TT.ReskinTooltip(MDT.pullTooltip)
+				B.ReskinTooltip(MDT.tooltip)
+				B.ReskinTooltip(MDT.pullTooltip)
 
 				self.styled = true
 			end
@@ -680,17 +639,17 @@ TT:RegisterTooltips("NDui", function()
 end)
 
 TT:RegisterTooltips("Blizzard_DebugTools", function()
-	TT.ReskinTooltip(FrameStackTooltip)
+	B.ReskinTooltip(FrameStackTooltip)
 	FrameStackTooltip:SetScale(UIParent:GetScale())
 end)
 
 TT:RegisterTooltips("Blizzard_EventTrace", function()
-	TT.ReskinTooltip(EventTraceTooltip)
+	B.ReskinTooltip(EventTraceTooltip)
 end)
 
 TT:RegisterTooltips("Blizzard_Collections", function()
-	PetJournalPrimaryAbilityTooltip:HookScript("OnShow", TT.ReskinTooltip)
-	PetJournalSecondaryAbilityTooltip:HookScript("OnShow", TT.ReskinTooltip)
+	PetJournalPrimaryAbilityTooltip:HookScript("OnShow", B.ReskinTooltip)
+	PetJournalSecondaryAbilityTooltip:HookScript("OnShow", B.ReskinTooltip)
 	PetJournalPrimaryAbilityTooltip.Delimiter1:SetHeight(C.mult)
 	PetJournalPrimaryAbilityTooltip.Delimiter1:SetColorTexture(0, 0, 0, 1)
 	PetJournalPrimaryAbilityTooltip.Delimiter2:SetHeight(C.mult)
@@ -708,26 +667,26 @@ TT:RegisterTooltips("Blizzard_GarrisonUI", function()
 		GarrisonShipyardMapMissionTooltip,
 	}
 	for _, tip in pairs(garrisonTips) do
-		tip:HookScript("OnShow", TT.ReskinTooltip)
+		tip:HookScript("OnShow", B.ReskinTooltip)
 	end
 end)
 
 TT:RegisterTooltips("Blizzard_PVPUI", function()
-	ConquestTooltip:HookScript("OnShow", TT.ReskinTooltip)
+	ConquestTooltip:HookScript("OnShow", B.ReskinTooltip)
 end)
 
 TT:RegisterTooltips("Blizzard_Contribution", function()
-	ContributionBuffTooltip:HookScript("OnShow", TT.ReskinTooltip)
-	TT.ReskinRewardIcon(ContributionBuffTooltip)
+	ContributionBuffTooltip:HookScript("OnShow", B.ReskinTooltip)
+	B.ReskinTTReward(ContributionBuffTooltip)
 end)
 
 TT:RegisterTooltips("Blizzard_EncounterJournal", function()
-	EncounterJournalTooltip:HookScript("OnShow", TT.ReskinTooltip)
-	TT.ReskinRewardIcon(EncounterJournalTooltip.Item1)
-	TT.ReskinRewardIcon(EncounterJournalTooltip.Item2)
+	EncounterJournalTooltip:HookScript("OnShow", B.ReskinTooltip)
+	B.ReskinTTReward(EncounterJournalTooltip.Item1)
+	B.ReskinTTReward(EncounterJournalTooltip.Item2)
 end)
 
 TT:RegisterTooltips("Blizzard_Calendar", function()
-	CalendarContextMenu:HookScript("OnShow", TT.ReskinTooltip)
-	CalendarInviteStatusContextMenu:HookScript("OnShow", TT.ReskinTooltip)
+	CalendarContextMenu:HookScript("OnShow", B.ReskinTooltip)
+	CalendarInviteStatusContextMenu:HookScript("OnShow", B.ReskinTooltip)
 end)

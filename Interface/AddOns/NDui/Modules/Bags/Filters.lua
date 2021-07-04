@@ -11,6 +11,22 @@ local C_ToyBox_GetToyInfo = C_ToyBox.GetToyInfo
 local C_Item_IsAnimaItemByID = C_Item.IsAnimaItemByID
 local C_AzeriteEmpoweredItem_IsAzeriteEmpoweredItemByID = C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID
 
+-- Global filter
+local petTrashCurrenies = {
+	[3300] = true,
+	[3670] = true,
+	[6150] = true,
+	[11406] = true,
+	[11944] = true,
+	[25402] = true,
+	[36812] = true,
+	[62072] = true,
+	[67410] = true,
+}
+function Bags:IsPetTrashCurrency(itemID)
+	return C.db["Bags"]["PetTrash"] and petTrashCurrenies[itemID]
+end
+
 -- Custom filter
 local CustomFilterList = {
 	[40772] = false,	-- 侏儒军刀
@@ -42,7 +58,7 @@ end
 local function isItemJunk(item)
 	if not C.db["Bags"]["ItemFilter"] then return end
 	if not C.db["Bags"]["FilterJunk"] then return end
-	return (item.rarity == LE_ITEM_QUALITY_POOR or NDuiADB["CustomJunkList"][item.id]) and item.sellPrice and item.sellPrice > 0
+	return (item.rarity == LE_ITEM_QUALITY_POOR or NDuiADB["CustomJunkList"][item.id]) and item.sellPrice and item.sellPrice > 0 and not Bags:IsPetTrashCurrency(item.id)
 end
 
 local function isItemEquipSet(item)
@@ -80,10 +96,14 @@ end
 local isPetToy = {
 	[174925] = true,
 }
+local function isMountOrPet(item)
+	return (not isPetToy[item.id]) and item.classID == LE_ITEM_CLASS_MISCELLANEOUS and (item.subClassID == LE_ITEM_MISCELLANEOUS_MOUNT or item.subClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET)
+end
+
 local function isItemCollection(item)
 	if not C.db["Bags"]["ItemFilter"] then return end
 	if not C.db["Bags"]["FilterCollection"] then return end
-	return item.id and C_ToyBox_GetToyInfo(item.id) or (not isPetToy[item.id]) and item.classID == LE_ITEM_CLASS_MISCELLANEOUS and (item.subClassID == LE_ITEM_MISCELLANEOUS_MOUNT or item.subClassID == LE_ITEM_MISCELLANEOUS_COMPANION_PET)
+	return item.id and C_ToyBox_GetToyInfo(item.id) or isMountOrPet(item) or Bags:IsPetTrashCurrency(item.id)
 end
 
 local function isItemFavourite(item)

@@ -58,14 +58,15 @@ function Bar:UpdateCustomBar()
 		button.Name:SetScale(scale)
 		button.Count:SetScale(scale)
 		button.HotKey:SetScale(scale)
-		button:ClearAllPoints()
+
 		if i == 1 then
-			button:SetPoint("TOPLEFT", frame, padding, -padding)
+			B.UpdatePoint(button, "TOPLEFT", frame, "TOPLEFT", padding, -padding)
 		elseif mod(i-1, perRow) ==  0 then
-			button:SetPoint("TOP", frame.buttons[i-perRow], "BOTTOM", 0, -margin)
+			B.UpdatePoint(button, "TOP", frame.buttons[i-perRow], "BOTTOM", 0, -margin)
 		else
-			button:SetPoint("LEFT", frame.buttons[i-1], "RIGHT", margin, 0)
+			B.UpdatePoint(button, "LEFT", frame.buttons[i-1], "RIGHT", margin, 0)
 		end
+
 		button:SetAttribute("statehidden", false)
 		button:Show()
 	end

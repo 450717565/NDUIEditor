@@ -1,6 +1,5 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local TT = B:GetModule("Tooltip")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
@@ -77,7 +76,7 @@ end
 C.OnLoadThemes["Blizzard_RuneforgeUI"] = function()
 	local frame = RuneforgeFrame
 	B.ReskinClose(frame.CloseButton, frame, -70, -70)
-	TT.ReskinTooltip(frame.ResultTooltip)
+	B.ReskinTooltip(frame.ResultTooltip)
 	hooksecurefunc(frame.CurrencyDisplay, "SetCurrencies", Updat_SetCurrencies)
 
 	local createFrame = frame.CreateFrame

@@ -84,6 +84,7 @@ L["Into the Maw"] = "В Утробу"
 L["Mailbox"] = "Почтовый ящик"
 L["Portal to Orgrimmar"] = "Портал в Оргриммар"
 L["Portal to Stormwind"] = "Портал в Штормград"
+L["To Keeper's Respite"] = "В Приют Хранителя"
 L["To Ring of Fates"] = "В Кольцо Судеб"
 L["To Ring of Transference"] = "В Кольцо Перенаправления"
 L["TomTom"] = true

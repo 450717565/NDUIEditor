@@ -41,11 +41,11 @@ function Bar:CreateBar2()
 		local button = _G["MultiBarBottomLeftButton"..i]
 		tinsert(buttonList, button)
 		tinsert(Bar.buttons, button)
-		button:ClearAllPoints()
+
 		if i == 1 then
-			button:SetPoint("BOTTOMLEFT", frame, padding, padding)
+			B.UpdatePoint(button, "BOTTOMLEFT", frame, "BOTTOMLEFT", padding, padding)
 		else
-			button:SetPoint("LEFT", _G["MultiBarBottomLeftButton"..i-1], "RIGHT", margin, 0)
+			B.UpdatePoint(button, "LEFT", _G["MultiBarBottomLeftButton"..i-1], "RIGHT", margin, 0)
 		end
 	end
 

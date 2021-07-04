@@ -1,7 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local Skins = B:GetModule("Skins")
-local TT = B:GetModule("Tooltip")
 
 function Skins:Rematch()
 	if not IsAddOnLoaded("Rematch") then return end
@@ -196,8 +195,8 @@ function Skins:Rematch()
 
 		-- Main Elements
 		hooksecurefunc("CollectionsJournal_UpdateSelectedTab", resizeJournal)
-		TT.ReskinTooltip(RematchTooltip)
-		TT.ReskinTooltip(RematchTableTooltip)
+		B.ReskinTooltip(RematchTooltip)
+		B.ReskinTooltip(RematchTableTooltip)
 
 		for i = 1, 3 do
 			local menu = Rematch:GetMenuFrame(i, UIParent)

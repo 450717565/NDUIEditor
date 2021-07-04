@@ -1,7 +1,7 @@
 -- 候选者训练
 
 local MESSAGE = 'Stand in circle and spam <SpaceBar> to complete!'
-local BUTTON = 'OverrideActionBarButton%d'
+local BUTTON = 'ActionButton%d'
 
 local actionMessages = {}
 local actionResetSpells = {}
@@ -44,10 +44,6 @@ elseif locale == 'zhCN' or locale == 'zhTW' then
 	MESSAGE = '站在圈里狂按 <空格> 完成!'
 end
 
-local function GetNPCIDByGUID(guid)
-	return guid and (tonumber((string.match(guid, 'Creature%-.-%-.-%-.-%-.-%-(.-)%-')) or ''))
-end
-
 local function auraFilter(a, _, _, _, _, _, _, _, _, _, _, _, b)
 	return a == b
 end
@@ -67,7 +63,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 		if questID == 59585 then
 			self:Watch()
 		end
-	elseif(event == 'QUEST_REMOVED') then
+	elseif (event == 'QUEST_REMOVED') then
 		local questID = ...
 		if questID == 59585 then
 			self:Unwatch()
@@ -89,7 +85,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 					C_Timer.After(0.1, function()
 						-- wait a split second to get "Perfect"
 						ClearOverrideBindings(self)
-						SetOverrideBindingClick(self, true, 'SPACE', BUTTON:format(actionID))
+						SetOverrideBinding(self, true, 'SPACE', BUTTON:format(actionID))
 					end)
 					break
 				end
@@ -101,9 +97,9 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 			ClearOverrideBindings(self)
 
 			-- bind to something useless to avoid spamming jump
-			SetOverrideBindingClick(self, true, 'SPACE', BUTTON:format(12))
+			SetOverrideBinding(self, true, 'SPACE', BUTTON:format(4))
 		end
-	elseif(event == 'PLAYER_REGEN_ENABLED') then
+	elseif (event == 'PLAYER_REGEN_ENABLED') then
 		ClearOverrideBindings(self)
 		self:UnregisterEvent(event)
 	end
@@ -133,7 +129,7 @@ function Handler:Control(spellSet)
 	end
 
 	-- bind to something useless to avoid spamming jump
-	SetOverrideBindingClick(self, true, 'SPACE', BUTTON:format(12))
+	SetOverrideBinding(self, true, 'SPACE', BUTTON:format(4))
 
 	self:Message()
 
