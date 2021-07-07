@@ -30,7 +30,7 @@ function NPC:QUEST_PROGRESS(...) -- special case, doesn't use QuestInfo
 	if hasItems then
 		local width, height = elements.Progress:GetSize()
 		-- Extra: 32 padding + 8 offset from talkbox + 8 px bottom offset
-		self.TalkBox:SetExtraOffset((height + 48) * L('elementscale')) 
+		self.TalkBox:SetExtraOffset((height + 48) * L('elementscale'))
 		return
 	end
 	self:ResetElements()

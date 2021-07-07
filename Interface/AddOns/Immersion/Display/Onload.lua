@@ -70,7 +70,7 @@ for _, event in pairs({
 	'GOSSIP_SHOW',		-- Show gossip options, can be a mix of gossip/quests
 	'QUEST_COMPLETE',	-- Hide when going from gossip -> complete
 	'QUEST_DETAIL',		-- Hide when going from gossip -> detail
-	'QUEST_FINISHED',	-- Hide when going from gossip -> finished 
+	'QUEST_FINISHED',	-- Hide when going from gossip -> finished
 	'QUEST_GREETING',	-- Show quest options, why is this a thing again?
 --	'QUEST_IGNORED',	-- Hide when using ignore binding?
 	'QUEST_PROGRESS',	-- Hide when going from gossip -> active quest
@@ -109,7 +109,7 @@ function frame:ADDON_LOADED(name)
 			L.cfg.anidivisor = 1
 		end
 
-		-- Hide portrait 
+		-- Hide portrait
 		talkbox.PortraitFrame:SetShown(not L('disableportrait'))
 		talkbox.MainFrame.Model.PortraitBG:SetShown(not L('disableportrait'))
 
@@ -159,7 +159,7 @@ function frame:ADDON_LOADED(name)
 	end
 
 	-- The L.compat table is empty -> all addons are loaded, disabled or missing.
-	-- Garbage collect the table. 
+	-- Garbage collect the table.
 	if not next(L.compat) then
 		L.compat = nil
 	end
@@ -241,7 +241,7 @@ function text:OnDisplayLineCallback(text)
 		model:PrepareAnimation(text, isEmote)
 		model:RunSequence(self:GetModifiedTime(), self:IsSequence())
 	end
-	
+
 	counter:Hide()
 	if self:IsSequence() then
 		if not self:IsFinished() then
@@ -290,22 +290,9 @@ titles:SetUserPlaced(false)
 -- Hooks and hacks
 --------------------------------
 
--- Handle custom gossip events (new in Shadowlands)
-if CustomGossipManagerMixin then
-	-- Only mixin the necessities
-	local mixin = CustomGossipManagerMixin
-	frame.RegisterHandler = mixin.RegisterHandler
-	frame.GetGossipHandler = mixin.GetHandler
-	mixin.OnLoad(frame)
-	-- Simplest solution to kill GossipFrame without spreading taint
-	if CustomGossipFrameManager then
-		CustomGossipFrameManager:UnregisterAllEvents()
-	end
-end
-
 -- Anchor the real talking head to the fake talking head,
 -- make it appear IN PLACE of the fake one if the fake one isn't shown.
-do 
+do
 	local function HookTalkingHead()
 		-- use this as assertion. if something else beat Immersion to it and manipulated the frame,
 		-- it shouldn't be moved, even if enabled by user. in essence, dummy protection.
@@ -333,7 +320,7 @@ do
 				if L('movetalkinghead') then
 					self:ClearAllPoints(self)
 					self:RegisterForDrag('LeftButton')
-					
+
 					if not isTalkingHeadMoved then
 						-- Need this to keep it from resetting position
 						self.ignoreFramePositionManager = true

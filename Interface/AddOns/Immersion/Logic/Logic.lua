@@ -40,16 +40,16 @@ function NPC:AddQuestInfo(template)
 	else
 		elements:Hide()
 		content:Hide()
-	end 
-	-- Extra: 32 px padding 
+	end
+	-- Extra: 32 px padding
 	self.TalkBox:SetExtraOffset((height + 32) * L('elementscale'))
 	self.TalkBox.NameFrame.FadeIn:Play()
 end
 
 function NPC:IsGossipAvailable(ignoreAutoSelect)
 	-- if there is only a non-gossip option, then go to it directly
-	if 	(API:GetNumGossipAvailableQuests() == 0) and 
-		(API:GetNumGossipActiveQuests() == 0) and 
+	if 	(API:GetNumGossipAvailableQuests() == 0) and
+		(API:GetNumGossipActiveQuests() == 0) and
 		(API:GetNumGossipOptions() == 1) and
 		not API:ForceGossip() then
 		----------------------------
@@ -62,7 +62,7 @@ end
 
 function NPC:IsQuestAutoAccepted(questStartItemID)
 	-- Auto-accepted quests need to be treated differently from other quests,
-	-- and different from eachother depending on the source of the quest. 
+	-- and different from eachother depending on the source of the quest.
 	-- Handling here is prone to cause bugs/weird behaviour, update with caution.
 
 	local questID = GetQuestID()
@@ -135,11 +135,19 @@ function NPC:HandleGossipQuestOverlap(event)
 	end
 end
 
+local textureKits = {
+	["npe-guide"] = true,
+	["skoldushall"] = true,
+	["mortregar"] = true,
+	["coldheartinterstitia"] = true,
+	["fracturechambers"] = true,
+	["soulforges"] = true,
+	["theupperreaches"] = true,
+	["twistingcorridors"] = true,
+}
+
 function NPC:HandleGossipOpenEvent(kit)
-	local handler = kit and self:GetGossipHandler(kit)
-	if handler then
-		self.customGossipFrame = handler(kit)
-	else
+	if not textureKits[kit] then
 		self:SetBackground(kit)
 		self:UpdateTalkingHead(API:GetUnitName('npc'), API:GetGossipText(), 'GossipGossip')
 		if self:IsGossipAvailable() then
@@ -151,7 +159,6 @@ end
 function NPC:HandleGossipCloseEvent()
 	if self.customGossipFrame then
 		self.customGossipFrame:Hide()
-		self.customGossipFrame = nil;
 	end
 end
 
@@ -186,7 +193,7 @@ end
 
 function NPC:ResetElements(event)
 	if ( self.IgnoreResetEvent[event] ) then return end
-	
+
 	self.Inspector:Hide()
 	self.TalkBox.Elements:Reset()
 	self:SetBackground(nil)
@@ -621,7 +628,7 @@ function TalkBox:OnDragStop()
 		x = ( self:GetCenter() * ImmersionFrame:GetScale() ) - ( GetScreenWidth() / 2 )
 		y = self:GetBottom()
 	end
-	
+
 	local isBottom = point == 'Bottom'
 	if isBottom then
 		y = y - (self.extraY or 0)

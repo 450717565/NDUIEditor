@@ -677,6 +677,7 @@ do
 		"MiddleTex",
 		"NineSlice",
 		"Overlay",
+		"OverlayKit",
 		"Portrait",
 		"portrait",
 		"PortraitOverlay",
