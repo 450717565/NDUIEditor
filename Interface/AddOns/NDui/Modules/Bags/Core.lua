@@ -19,25 +19,30 @@ local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
 -- 心能统计
-local function GetBagAnimaAmount()
-	local amount = 0
+local function GetBagAnimaOrRelicAmount()
+	local anima, relic = 0, 0
 	for bagID = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
 		for slot = 1, GetContainerNumSlots(bagID) do
 			local count, _, _, _, _, _, _, _, itemID = select(2, GetContainerItemInfo(bagID, slot))
-			if itemID and C_Item.IsAnimaItemByID(itemID) then
-				amount = amount + (B.GetAnimaMultiplier(itemID) * count)
+			if itemID then
+				if B.GetItemMultiplier(itemID) and not C_Item.IsAnimaItemByID(itemID) then
+					relic = relic + (B.GetItemMultiplier(itemID) * count)
+				elseif C_Item.IsAnimaItemByID(itemID) then
+					anima = anima + (B.GetItemMultiplier(itemID) * count)
+				end
 			end
 		end
 	end
 
-	return amount
+	return anima, relic
 end
 
 function BAG:UpdateAnimaAmount()
 	if not C.db["Bags"]["ItemFilter"] then return end
-	if not C.db["Bags"]["FilterAnima"] then return end
+	if not C.db["Bags"]["FilterAnimaOrRelic"] then return end
 
-	_G.NDui_BackpackBagAnima.label:SetFormattedText(POWER_TYPE_ANIMA.."：%d", GetBagAnimaAmount())
+	local anima, relic = GetBagAnimaOrRelicAmount()
+	_G.NDui_BackpackBagAnimaOrRelic.label:SetFormattedText("%s：%d | %s：%d", POWER_TYPE_ANIMA, anima, RELICSLOT, relic)
 end
 
 local sortCache = {}
@@ -563,8 +568,8 @@ function BAG:ButtonOnClick(btn)
 end
 
 function BAG:UpdateAllBags()
-	if self.Bags and self.BAG:IsShown() then
-		self.BAG:BAG_UPDATE()
+	if self.Bags and self.Bags:IsShown() then
+		self.Bags:BAG_UPDATE()
 	end
 end
 
@@ -628,7 +633,7 @@ function BAG:OnLogin()
 		AddNewContainer("Bag", 7, "Consumable", filters.bagConsumable)
 		AddNewContainer("Bag", 5, "BagGoods", filters.bagGoods)
 		AddNewContainer("Bag", 8, "BagQuest", filters.bagQuest)
-		AddNewContainer("Bag", 6, "BagAnima", filters.bagAnima)
+		AddNewContainer("Bag", 6, "BagAnimaOrRelic", filters.bagAnimaOrRelic)
 
 		f.main = MyContainer:New("Bag", {Columns = bagsWidth, Bags = "bags"})
 		f.main:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", -100, 200)
@@ -643,7 +648,7 @@ function BAG:OnLogin()
 		AddNewContainer("Bank", 8, "BankConsumable", filters.bankConsumable)
 		AddNewContainer("Bank", 6, "BankGoods", filters.bankGoods)
 		AddNewContainer("Bank", 9, "BankQuest", filters.bankQuest)
-		AddNewContainer("Bank", 7, "BankAnima", filters.bankAnima)
+		AddNewContainer("Bank", 7, "BankAnimaOrRelic", filters.bankAnimaOrRelic)
 
 		f.bank = MyContainer:New("Bank", {Columns = bankWidth, Bags = "bank"})
 		f.bank:SetPoint("TOPRIGHT", f.main, "TOPLEFT", -25, 0)
@@ -818,9 +823,9 @@ function BAG:OnLogin()
 
 			if level < C.db["Bags"]["iLvlToShow"] then level = "" end
 
-			if C_Item.IsAnimaItemByID(item.id) then
+			if B.GetItemMultiplier(item.id) then
 				if showItemSlot then
-					local mult = B.GetAnimaMultiplier(item.id)
+					local mult = B.GetItemMultiplier(item.id)
 					local total = item.count * mult
 					self.Slot:SetText(total)
 				end
@@ -944,8 +949,8 @@ function BAG:OnLogin()
 			label = AUCTION_CATEGORY_TRADE_GOODS
 		elseif strmatch(name, "Quest") then
 			label = QUESTS_LABEL
-		elseif strmatch(name, "Anima") then
-			label = POWER_TYPE_ANIMA
+		elseif strmatch(name, "AnimaOrRelic") then
+			label = POWER_TYPE_ANIMA..RELICSLOT
 		end
 		if label then
 			self.label = B.CreateFS(self, 14, label, true, "TOPLEFT", 5, -8)

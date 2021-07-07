@@ -68,7 +68,7 @@ GUI.DefaultSettings = {
 		FilterJunk = true,
 		FilterLegendary = true,
 		FilterQuest = true,
-		FilterAnima = true,
+		FilterAnimaOrRelic = true,
 	},
 	Auras = {
 		BuffSize = 30,
@@ -180,10 +180,13 @@ GUI.DefaultSettings = {
 
 		CastingColor = {r=.3, g=.7, b=1},
 		NotInterruptColor = {r=1, g=.5, b=.5},
+		PlayerCB = true,
 		PlayerCBWidth = 280,
 		PlayerCBHeight = 20,
+		TargetCB = true,
 		TargetCBWidth = 300,
 		TargetCBHeight = 20,
+		FocusCB = true,
 		FocusCBWidth = 320,
 		FocusCBHeight = 20,
 	},

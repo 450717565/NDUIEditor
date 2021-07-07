@@ -239,6 +239,7 @@ L["zolla_note"] = "Nos tomamos muy en serio nuestras defensas. Seamos grandes o 
 ----------------------------------- KORTHIA -----------------------------------
 -------------------------------------------------------------------------------
 
+L["carriage_crusher_note"] = "Sigue al {npc:180182} en las Fauces y deféndelo hasta que ataque el {npc:180246}."
 L["chamber_note"] = "Usa un {item:186718} del {npc:178257} en el Teletransportador Antiguo. Usa el Teletransportador Antiguo reparado para acceder a la cámara."
 L["consumption_note"] = [[
 Este raro no soltará botín hasta que haya consumido a 40x {npc:179758} para transformarse en su forma azul sombreada (Raro).
@@ -247,24 +248,35 @@ Este raro soltará objetos de investigación extra después de consumir otros 40
 
 |cFFFF0000EL RARO NO HARÁ APARECER {npc:179758} PARA CONSUMIR SI ESTÁ EN COMBATE.|r
 ]]
-L["corpse_heap_note"] = "Habla con {npc:180079} para empezar el evento de recolección."
-L["darkmaul_note"] = "Recoge {item:187153} de los Champifauces Invasivos y alimenta a las {npc:180063} con ellos. Se ha de completar el evento 10 veces para conseguir la montura."
+L["darkmaul_note"] = [[
+Recoge {item:187153} de los Champifauces Invasivos y alimenta a la {npc:180063} con ellos. Se ha de completar el evento 10 veces para conseguir la montura."
+
+|cFFFF8C00¡El progreso no contará si estás en una banda!|r
+]]
 L["dislodged_nest_note"] = "Haz click en una Polilla Nociva cercana para conseguir {spell:355181}. Usa el botón de acción extra de {spell:355131} en el {npc:178547} para controlarlo y montarlo en el árbol que tiene el nido."
+L["escaped_wilderling_note"] = "Haz click en el {npc:180014} para empezar el evento de doma."
 L["flayedwing_transporter_note"] = "Haz click en el {npc:178633} para volar a o desde la Cámara de los Secretos."
+L["fleshwing_note"] = "Habla con {npc:180079} para empezar el evento de recolección."
 L["forgotten_feather_note"] = "Flotando en una isla pequeña que se accede saltando hacia abajo desde el Respiro del Guardían."
-L["hunting_hunter_note"] = "Habla con el {npc:179729} para conseguir {spell:355078} y seguir las huellas de pisadas hasta encontrar los restos carnosos."
 L["konthrogz_note"] = "Aparece de un portal del evento de los devoradores. El evento puede aparecer en varios sitios a lo largo de Korthia."
+L["korthia_limited_rare"] = nil
+L["krelva_note"] = "Se mueve a otra plataforma al 80%, entonces se mueve al suelo al 60%. |cFFFF8C00¡Has de darle al boss después del 60% para que te cuente!|r"
+L["kroke_note"] = "Mata a los {npc:179029} de la zona hasta que aparezca. No puede aparecer los días que no estén los {npc:179029}."
 L["maelie_wanderer"] = "{npc:179912} aparecerá en varios sitios durante el día. Una vez se haya usado {spell:355862} en ella 6 días distintos hay que volver con {npc:179930} para aprender la montura."
-L["no_stoneborne_note"] = "Habla con {npc:179974} para empezar el evento."
+L["malbog_note"] = "Habla con el {npc:179729} para conseguir {spell:355078} y seguir las huellas de pisadas hasta encontrar los restos carnosos."
 L["offering_box_note"] = "Requiere una {item:187033} que se puede encontrar en la parte superior de la pared del lado oeste de las ruinas cercanas."
 L["pop_quiz_note"] = "El evento del Cuestionario aparecerá aleatoriamente en el mapa. Haz click en el Bastón del Velo Abandonado y responde a las preguntas de {npc:180162}."
-L["popo_note"] = "Habla con {npc:180028} para empezar el evento de escolta."
-L["razorwing_note"] = "Devuelve 10 {item:187054} soltados por los devoradores de la zona."
+L["razorwing_note"] = [[
+Devuelve 10 {item:187054} soltados por los devoradores de la zona."
+
+|cFFFF8C00¡El progreso no contará si estás en una banda!|r
+]]
 L["reliwik_note"] = "Haz click en el huevo de alafilada prístino para hacerlo bajar."
 L["spectral_bound_chest"] = "Haz click en las 3 {item:179369} cercanas para debloquear el cofre."
 L["spectral_bound_note"] = "Cofre reforzado espectral"
+L["stonecrusher_note"] = "Habla con {npc:179974} para empezar el evento."
 L["towering_exterminator_note"] = "Aparece del portal del evento jurafauce. El evento puede aparecer en varios sitios a lo largo de Korthia."
-L["wilderling_note"] = "Haz click en el {npc:180014} para empezar el evento de doma."
+L["worldcracker_note"] = "Habla con {npc:180028} para empezar el evento de escolta."
 
 L["archivist_key_note"] = "Compra la %s del {npc:178257} para desbloquear."
 L["korthian_shrine_note"] = "Haz click en la roca con forma de espada para ganar {spell:352367} y poder ver el camino oculto al altar."
@@ -285,16 +297,21 @@ L["options_icons_rift_portal"] = "{npc:179595}"
 L["options_icons_rift_portal_desc"] = "Muestra donde están los {npc:179595} usados para entrar en |cFFFFFF00La Falla|r."
 
 L["riftbound_cache"] = "Alijo Vinculafalla"
+L["riftbound_cache_note"] = "Sólo pueden aparecer 4 alijos diferentes en un conjunto de sitios dentro de la falla."
 L["options_icons_riftbound_cache"] = "Alijos Vinculafalla"
 L["options_icons_riftbound_cache_desc"] = "Muestra donde están los alijos dentro de |cFFFFFF00La Falla|r."
 
 L["invasive_mawshroom"] = "Champifauces Invasivos"
+L["invasive_mawshroom_note"] = "Sólo pueden aparecer 5 champifauces diferentes en un conjunto de sitios."
 L["mawsworn_cache"] = "Alijo jurafauces"
+L["mawsworn_cache_note"] = "Sólo pueden aparecer 3 alijos diferentes en un conjunto de sitios."
 L["pile_of_bones"] = "Montón de huesos"
 L["relic_cache"] = "Alijo de reliquias"
 L["shardhide_stash"] = "Alijo de pellejosquirla"
-L["shared_note"] = "Puedes recoger 5 de estos tesoros por día."
+L["korthia_shared_chest_note"] = "Se pueden coger reliquias de estos tesoros 5 veces al día. Después, los alijos pueden tener cristales legendarios o fichas de equipo ligados a cuenta."
 L["unusual_nest"] = "Nido de materiales inusuales"
+L["unusual_nest_note"] = "Todos los sitios con nidos se pueden despojar sólo 5 veces al día."
+
 L["options_icons_invasive_mawshroom_desc"] = "Muestra donde están los Champifauces Invasivos."
 L["options_icons_invasive_mawshroom"] = "Champifauces Invasivos (Diaria)"
 L["options_icons_korthia_dailies_desc"] = "Muestra donde están los tesoros diarios sin marcar."
@@ -535,7 +552,7 @@ L["nexus_area_gorgoa_mouth"] = "En la desembocadura de Gorgoa (Río de Almas)"
 L["nexus_area_perdition_wall"] = "A lo largo de la pared exterior del Bastión de la Perdición"
 L["nexus_area_torment_rock"] = "En una roca en los Llanos del Tormento"
 L["nexus_area_zone_edge"] = "A lo largo del borde de la zona"
-L["nexus_area_zovaal_edge"] = nil
+L["nexus_area_zovaal_edge"] = "A lo largo del borde de la Caldera de Zovaal"
 L["nexus_area_zovaal_wall"] = "A lo largo de la pared debajo de la Caldera de Zovaal"
 -- Locations given relative to a named cave/cavern
 L["nexus_cave_anguish_lower"] = "En el Pozo de la Angustia (nivel inferior)"
@@ -546,13 +563,14 @@ L["nexus_cave_echoing_outside"] = "Fuera de las Cavernas Resonantes"
 L["nexus_cave_forlorn"] = "Dentro de la cueva Descanso Desolado"
 L["nexus_cave_howl_outside"] = "En el suelo fuera de la cueva Aullido de la Muerte"
 L["nexus_cave_howl"] = "Dentro de la cueva Aullido de la Muerte"
+L["nexus_cave_roar"] = nil
 L["nexus_cave_ledge"] = "En una cueva pequeña debajo de un saliente"
 L["nexus_cave_prodigum"] = "En una cueva pequeña en el Prodigum"
 L["nexus_cave_soulstained"] = "En una cueva pequeña en los Campos Manchados de Almas"
 L["nexus_cave_torturer"] = "Dentro del Cobertizo del Torturador"
 -- Locations given relative to a named NPC
 L["nexus_npc_akros"] = "En lo alto de las escaleras junto a {npc:170787}"
-L["nexus_npc_dekaris"] = nil
+L["nexus_npc_dekaris"] = "En la cima del pico donde está el {npc:157964}"
 L["nexus_npc_dolos"] = "En el suelo detrás de {npc:170711}"
 L["nexus_npc_ekphoras"] = "Al lado de la plataforma de {npc:169827}"
 L["nexus_npc_incinerator"] = "En una repisa pequeña bajo el {npc:156203}"
@@ -577,6 +595,11 @@ L["nexus_misc_grapple_rock"] = "Por un punto de agarre en una roca"
 L["nexus_misc_ledge_below"] = "En el suelo bajo una repisa"
 L["nexus_misc_three_chains"] = "En el suelo cerca de tres cadenas"
 
+L["stolen_anima_vessel"] = "Receptáculo de Ánima Robado"
+L["hidden_anima_cache"] = "Alijo de Ánima Oculto"
+L["options_icons_anima_vessel"] = "Receptáculos de Ánima Robados"
+L["options_icons_anima_vessel_desc"] = "Muestra donde están los receptáculos de ánima dentro de |cFFFFFF00La Falla|r."
+
 L["rift_hidden_cache"] = "Alijo Oculto de Falla"
 L["options_icons_rift_hidden_cache"] = "Alijos Ocultos de Falla"
 L["options_icons_rift_hidden_cache_desc"] = "Muestra donde están los alijos dentro de |cFFFFFF00La Falla|r."
@@ -594,6 +617,7 @@ L["options_icons_stygia_nexus_desc"] = "Muestra dónde están los Nexos necesari
 L["options_icons_stygian_caches"] = "Alijos de Estigia"
 L["options_icons_stygian_caches_desc"] = "Muestra dónde están los alijos con Estigia extra."
 
+L["cov_assault_only"] = nil
 L["domination_chest"] = "Cofre de Dominación"
 L["domination_chest_note"] = "Requiere 4 {item:186727} para abrir todos los sellos."
 L["gold_band_note"] = "En la cima del pico de una montaña."

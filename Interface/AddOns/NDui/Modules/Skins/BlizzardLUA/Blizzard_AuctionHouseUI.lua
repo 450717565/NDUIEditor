@@ -15,10 +15,6 @@ local function Reskin_ItemDisplay(self)
 	local ItemButton = self.ItemButton
 	B.CleanTextures(ItemButton)
 
-	if ItemButton.IconMask then ItemButton.IconMask:Hide() end
-	if ItemButton.CircleMask then ItemButton.CircleMask:Hide() end
-	if ItemButton.EmptyBackground then ItemButton.EmptyBackground:Hide() end
-
 	local icbg = B.ReskinIcon(ItemButton.Icon)
 	B.ReskinBorder(ItemButton.IconBorder, icbg)
 	B.ReskinHLTex(ItemButton.Highlight, icbg)

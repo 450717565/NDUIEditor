@@ -34,7 +34,7 @@ local function Reskin_RewardFrame(self, rew)
 		if C_Item.IsAnimaItemByID(rew.itemID) then
 			self.Icon:SetTexture(3528288)
 
-			local mult = B.GetAnimaMultiplier(rew.itemID)
+			local mult = B.GetItemMultiplier(rew.itemID)
 			if mult then
 				local total = rew.quantity * mult
 				self.Quantity:SetText(total)

@@ -27,7 +27,6 @@ local function Reskin_InvitePool(self)
 
 			local Children = FriendsListFrameScrollFrameScrollChild:GetChildren()
 			B.StripTextures(Children)
-			B.CleanTextures(Children)
 
 			local bg = B.CreateBDFrame(Children, 0, 1)
 			B.ReskinHLTex(Children, bg, true)

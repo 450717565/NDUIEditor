@@ -141,7 +141,6 @@ do
 
 	function B:ReskinSearchBox()
 		B.StripTextures(self)
-		B.CleanTextures(self)
 
 		local bg = B.CreateBDFrame(self, 0, 1)
 		B.ReskinHLTex(self, bg, true)
@@ -157,7 +156,6 @@ do
 		results:ClearAllPoints()
 		results:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", 10, 0)
 		B.StripTextures(results, 0)
-		B.CleanTextures(results)
 		local bg = B.CreateBG(results, 0, 0, 5, 0)
 
 		local closeButton = B.GetObject(results, "closeButton") or B.GetObject(self, "SearchResultsCloseButton")

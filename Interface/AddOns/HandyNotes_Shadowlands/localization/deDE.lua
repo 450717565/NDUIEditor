@@ -238,7 +238,8 @@ L["zolla_note"] = "Wir nehmen unsere Verteidigung sehr ernst. Ob groß oder klei
 ----------------------------------- KORTHIA -----------------------------------
 -------------------------------------------------------------------------------
 
-L["chamber_note"] = "Verwende für den Uralten Teleporter ein {item:186718} von {npc:178257}. Benutze den Reparierten Uralten Teleporter, um die Kammer zu betreten."
+L["carriage_crusher_note"] = "Folge der {npc:180182} in den Schlund und verteidige sie, bis der {npc:180246} angreift."
+L["chamber_note"] = "Verwende für den Uralten Teleporter ein {item:186718} von {npc:178257}, um die Kammer zu betreten."
 L["consumption_note"] = [[
 Wird keine Beute fallen lassen, bis er 40x {npc:179758} verzehrt hat, um sich in seine blauschattierte Form zu verwandeln (Selten).
 
@@ -246,24 +247,37 @@ Lässt zusätzliche Gegenstände für {currency:1931} fallen, wenn er *erneut* 4
 
 |cFFFF0000LÄSST KEINE {npc:179758} ZUM VERZEHREN ERSCHEINEN, WENN ER IM KAMPF IST.|r
 ]]
-L["corpse_heap_note"] = "Sprich mit {npc:180079}, um das Sammelevent zu starten."
-L["darkmaul_note"] = "Sammel {item:187153} von einem Invasivem Schlundpilz und füttere {npc:180063} damit. Das Event muss 10 mal abgeschlossen werden, um das Reittier zu erhalten."
+L["darkmaul_note"] = [[
+Sammel {item:187153} von einem Invasivem Schlundpilz und füttere 10x {npc:180063} damit, um das Reittier zu erhalten.
+
+|cFFFF8C00Der Fortschritt wird nicht gezählt, wenn du dich in einem Schlachtzug befindest!|r
+]]
 L["dislodged_nest_note"] = "Klicke in der Nähe eine Giftige Motte an, um den Stärkungszauber {spell:355181} zu erhalten. Benutze den Extrabutton von {spell:355131} auf einen {npc:178547}, um die Kontrolle über ihn zu erlangen und dann reite mit ihm gegen den Baum, in dem der Schatz liegt."
+L["escaped_wilderling_note"] = "Klicke den {npc:180014} an, um das Zähmungsevent zu starten."
 L["flayedwing_transporter_note"] = "Klicke den {npc:178633} an, um zum oder vom Archiv der Geheimnisse zu fliegen."
+L["fleshwing_note"] = "Sprich mit {npc:180079}, um das Sammelevent zu starten."
 L["forgotten_feather_note"] = "Auf einer kleinen schwebenden Insel, die man durch einen Absprung von der Zuflucht des Hüters aus erreicht."
-L["hunting_hunter_note"] = "Sprich mit {npc:179729}, um den Stärkungszauber {spell:355078} zu erhalten und dann folge den Fußspuren, bis du die fleischigen Überreste findest."
-L["konthrogz_note"] = "Erscheint bei dem Event 'Verschlingender Spalt', dass an mehreren Positionen in Korthia erscheinen kann."
+L["konthrogz_note"] = "Erscheint bei dem Event 'Verschlingender Spalt', dass an mehreren Orten in Korthia erscheinen kann."
+L["korthia_limited_rare"] = nil
+L["krelva_note"] = "Wechselt bei 80% Leben zu einer anderen Plattform und wechselt erneut bei 60% zum Festland. \n|cFFFF8C00Damit die Tötung angerechnet wird, muss nach 60% auch angegriffen worden sein!|r"
+L["kroke_note"] = "Töte {npc:179029} in dem Gebiet, bis er erscheint. Kann nicht an Tagen erscheinen, an denen {npc:179029} nicht aufzufinden sind."
 L["maelie_wanderer"] = "Erscheint für den Tag an einem festgeleten Ort. Wenn du an 6 verschiedenen Tagen {spell:355862} verwendet hast, kehre zu {npc:179930} zurück, um das Reittier zu erhalten."
-L["no_stoneborne_note"] = "Sprich mit {npc:179974}, um das Event zu starten."
+L["malbog_note"] = "Sprich mit {npc:179729}, um den Stärkungszauber {spell:355078} zu erhalten und dann folge den Fußspuren, bis du die fleischigen Überreste findest."
 L["offering_box_note"] = "Der {item:187033} befindet sich oben auf der westlichen Wand der nahe gelegenen Ruine."
 L["pop_quiz_note"] = "Wird zufällig auf der Map erscheinen. Klicke den zurückgelassenen Schleierstab an und antworte auf die Fragen von {npc:180162}."
-L["popo_note"] = "Sprich mit {npc:180028}, um das Escortevent zu starten."
-L["razorwing_note"] = "Gib 10x {item:187054} ab, dass von den Verschlingern wie {npc:177245} geplündert werden kann."
+L["razorwing_note"] = [[
+|cFFFF0000Es können täglich 2 Eier erbeutet werden.|r
+
+Gib 10x {item:187054} ab, dass von den Verschlingern wie {npc:177245} geplündert werden kann.
+
+|cFFFF8C00Der Fortschritt wird nicht gezählt, wenn du dich in einem Schlachtzug befindest!|r
+]]
 L["reliwik_note"] = "Klicke das Unverderbte Klingenschwingenei an."
 L["spectral_bound_chest"] = "Spektralgebundene Truhe"
 L["spectral_bound_note"] = "Klicke die drei Spektralschlüssel in der Nähe an, um die Truhe freizuschalten."
-L["towering_exterminator_note"] = "Erscheint bei dem Event 'Schlundgebundenes Portal', dass an mehreren Positionen in Korthia erscheinen kann."
-L["wilderling_note"] = "Klicke den {npc:180014} an, um das Zähmungsevent zu starten."
+L["stonecrusher_note"] = "Sprich mit {npc:179974}, um das Event zu starten."
+L["towering_exterminator_note"] = "Erscheint bei dem Event 'Schlundgebundenes Portal', dass an mehreren Orten in Korthia erscheinen kann."
+L["worldcracker_note"] = "Sprich mit {npc:180028}, um das Escortevent zu starten."
 
 L["archivist_key_note"] = "Kaufe zum öffnen von {npc:178257} einen %s."
 L["korthian_shrine_note"] = "Klicke den Schrein an, um die {spell:352367} zu erhalten, damit du den versteckten Pfad zum Altar sehen kannst."
@@ -284,16 +298,20 @@ L["options_icons_rift_portal"] = "{npc:179595}"
 L["options_icons_rift_portal_desc"] = "Zeigt die Positionen von {npc:179595en} an, um den |cFFFFFF00Riss|r zu betreten."
 
 L["riftbound_cache"] = "Rissgebundene Truhe"
+L["riftbound_cache_note"] = "Es gibt 4 einzigartige Truhen, die jeweils an festgelegten Orten im |cFFFFFF00Riss|r erscheinen können."
 L["options_icons_riftbound_cache"] = "Rissgebundene Truhen"
 L["options_icons_riftbound_cache_desc"] = "Zeigt die Positionen von Truhen innerhalb des |cFFFFFF00Riss|r an."
 
 L["invasive_mawshroom"] = "Invasiver Schlundpilz"
+L["invasive_mawshroom_note"] = "Es gibt 5 einzigartige Pilze, die jeweils an festgelegten Orten erscheinen können."
 L["mawsworn_cache"] = "Schlundgebundene Truhe"
+L["mawsworn_cache_note"] = "Es gibt 3 einzigartige Truhen, die jeweils an festgelegten Orten erscheinen können."
 L["pile_of_bones"] = "Knochenhaufen"
 L["relic_cache"] = "Relikttruhe"
 L["shardhide_stash"] = "Splitterfellvorrat"
-L["shared_note"] = "Es können fünf von diesen Schätzen täglich gesammelt werden."
+L["korthia_shared_chest_note"] = "Es können täglich 5 Relikte von diesen Schätzen gesammelt werden, zusätzliche Schätze können noch {item:186017} und {item:187187} enthalten."
 L["unusual_nest"] = "Nest aus ungewöhnlichen Materialien"
+L["unusual_nest_note"] = "Jedes der 5 Nester kann täglich geplündert werden."
 
 L["options_icons_invasive_mawshroom_desc"] = "Zeigt die Positionen von Invasiven Schlundpilzen an."
 L["options_icons_invasive_mawshroom"] = "Invasiver Schlundpilz (tägliche)"
@@ -547,6 +565,7 @@ L["nexus_cave_echoing_outside"] = "Außerhalb der Schallenden Höhlen."
 L["nexus_cave_forlorn"] = 'In der "Trostlose Rast" Höhle.'
 L["nexus_cave_howl_outside"] = 'Auf dem Boden, außerhalb der "Todesgeheul" Höhle.'
 L["nexus_cave_howl"] = 'In der "Todesgeheul" Höhle.'
+L["nexus_cave_roar"] = nil
 L["nexus_cave_ledge"] = "In einer kleinen Höhle unter einer Kante."
 L["nexus_cave_prodigum"] = "In einer kleinen Höhle bei Prodigum."
 L["nexus_cave_soulstained"] = "In einer kleinen Höhle, in den Seelenbefleckten Feldern."
@@ -578,6 +597,11 @@ L["nexus_misc_grapple_rock"] = "Bei einem Greifhakenziel auf dem Felsen."
 L["nexus_misc_ledge_below"] = "Auf dem Boden unter einer Kante."
 L["nexus_misc_three_chains"] = "Auf dem Boden bei drei Ketten."
 
+L["stolen_anima_vessel"] = "Gestohlenes Animagefäß"
+L["hidden_anima_cache"] = "Versteckter Animabehälter"
+L["options_icons_anima_vessel"] = "Gestohlene Animagefäße"
+L["options_icons_anima_vessel_desc"] = "Zeigt die Positionen von Animagefäßen innerhalb des |cFFFFFF00Riss|r an."
+
 L["rift_hidden_cache"] = "Versteckte Risstruhe"
 L["options_icons_rift_hidden_cache"] = "Versteckte Risstruhen"
 L["options_icons_rift_hidden_cache_desc"] = "Zeigt die Positionen von versteckten Risstruhen innerhalb des |cFFFFFF00Riss|r an."
@@ -591,10 +615,11 @@ L["options_icons_grapples_desc"] = "Zeigt Greifhakenziele für die {item:184653}
 L["options_icons_maw_lore"] = "Mythen des Schlunds"
 L["options_icons_maw_lore_desc"] = "Zeigt die Mythen für den Erfolg {achievement:14761} an."
 L["options_icons_stygia_nexus"] = "Stygianexus"
-L["options_icons_stygia_nexus_desc"] = "Zeigt Stygianexus an, die für das Reittier {item:184168} benötigt werden."
+L["options_icons_stygia_nexus_desc"] = "Zeigt die für das Reittier {item:184168} benötigten Stygianexus an."
 L["options_icons_stygian_caches"] = "Stygische Truhen"
 L["options_icons_stygian_caches_desc"] = "Zeigt Truhen an, die zusätzliche Stygia enthalten."
 
+L["cov_assault_only"] = nil
 L["domination_chest"] = "Herrschaftstruhe"
 L["domination_chest_note"] = [[
 Benötigt 4x {item:186727}, um alle Siegel zu öffnen.

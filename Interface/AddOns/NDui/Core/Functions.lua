@@ -13,10 +13,26 @@ local tL, tR, tT, tB = unpack(DB.TexCoord)
 do
 	B.EasyMenu = CreateFrame("Frame", "NDui_EasyMenu", UIParent, "UIDropDownMenuTemplate")
 
-	local ANIMA_SPELLID = {[347555] = 3, [345706] = 5, [336327] = 35, [336456] = 250}
-	function B.GetAnimaMultiplier(itemID)
+	local ITEM_SPELLID = {
+		-- 心能
+		[347555] = 3,
+		[345706] = 5,
+		[336327] = 35,
+		[336456] = 250,
+		-- 圣物
+		[356933] = 1,
+		[356931] = 6,
+		[356934] = 8,
+		[356935] = 16,
+		[356937] = 26,
+		[356936] = 48,
+		[356938] = 100,
+		[356939] = 150,
+		[356940] = 300,
+	}
+	function B.GetItemMultiplier(itemID)
 		local _, spellID = GetItemSpell(itemID)
-		return ANIMA_SPELLID[spellID]
+		return ITEM_SPELLID[spellID]
 	end
 
 	function B:CreateLines(direction, noClassColor)
@@ -69,6 +85,8 @@ do
 	end
 
 	function B.UpdatePoint(frame1, point1, frame2, point2, xOfs, yOfs)
+		if not frame1 then return end
+
 		frame1:ClearAllPoints()
 		frame1:SetPoint(point1, frame2, point2, xOfs, yOfs)
 	end
@@ -144,7 +162,6 @@ do
 
 		if not self.tipStyled then
 			B.StripTextures(self)
-			B.CleanTextures(self)
 
 			self.bg = B.CreateBG(self)
 
@@ -588,84 +605,29 @@ do
 	end
 
 	local blizzTextures = {
-		"ArtOverlayFrame",
-		"bgLeft",
-		"bgRight",
-		"border",
-		"Border",
-		"BorderBox",
-		"BorderFrame",
-		"bottomInset",
-		"BottomInset",
-		"Cover",
-		"FilligreeOverlay",
-		"GarrCorners",
-		"Inset",
-		"inset",
-		"InsetFrame",
-		"InsetLeft",
-		"InsetRight",
-		"LeftInset",
-		"NineSlice",
-		"Overlay",
-		"Portrait",
-		"portrait",
-		"PortraitOverlay",
-		"RightInset",
-		"ScrollDownBorder",
-		"ScrollFrameBorder",
-		"ScrollUpBorder",
-		"ShadowOverlay",
-		"shadows",
-	}
-
-	function B:StripTextures(kill)
-		for _, texture in pairs(blizzTextures) do
-			local blizzFrame = B.GetObject(self, texture)
-			if blizzFrame then
-				B.StripTextures(blizzFrame, kill)
-			end
-		end
-
-		if self.GetRegions then
-			local regions = {self:GetRegions()}
-			for index, region in pairs(regions) do
-				if region and region.IsObjectType and region:IsObjectType("Texture") then
-					if kill and type(kill) == "boolean" then
-						B.HideObject(region)
-					elseif tonumber(kill) then
-						if kill == 0 then
-							region:SetTexture("")
-							region:SetAlpha(0)
-							region:Hide()
-						elseif index ~= kill then
-							region:SetTexture("")
-							region:SetAlpha(0)
-							region:Hide()
-						end
-					else
-						region:SetTexture("")
-					end
-				end
-			end
-		end
-	end
-
-	local cleanTextures = {
 		"_LeftSeparator",
 		"_RightSeparator",
+		"ArtOverlayFrame",
 		"Background",
-		"BG",
+		"BackgroundOverlay",
+		"Begin",
 		"Bg",
+		"BG",
 		"BGBottom",
 		"BGCenter",
+		"bgLeft",
 		"BGLeft",
+		"bgRight",
 		"BGRight",
 		"BGTop",
+		"border",
+		"Border",
 		"BorderBottom",
 		"BorderBottomLeft",
 		"BorderBottomRight",
+		"BorderBox",
 		"BorderCenter",
+		"BorderFrame",
 		"BorderGlow",
 		"BorderLeft",
 		"BorderRight",
@@ -673,6 +635,8 @@ do
 		"BorderTopLeft",
 		"BorderTopRight",
 		"Bottom",
+		"bottomInset",
+		"BottomInset",
 		"BottomLeft",
 		"BottomLeftTex",
 		"BottomMid",
@@ -681,12 +645,28 @@ do
 		"BottomRightTex",
 		"BottomTex",
 		"Center",
+		"CircleMask",
+		"Cover",
 		"Delimiter1",
 		"Delimiter2",
+		"EmptyBackground",
+		"End",
+		"FilligreeOverlay",
+		"GarrCorners",
+		"IconMask",
+		"IconRing",
+		"inset",
+		"Inset",
+		"InsetFrame",
+		"InsetLeft",
+		"InsetRight",
 		"Left",
 		"LeftDisabled",
+		"LeftInset",
 		"LeftSeparator",
 		"LeftTex",
+		"LogoBorder",
+		"Mask",
 		"Mid",
 		"Middle",
 		"MiddleDisabled",
@@ -695,15 +675,28 @@ do
 		"MiddleMiddle",
 		"MiddleRight",
 		"MiddleTex",
+		"NineSlice",
+		"Overlay",
+		"Portrait",
+		"portrait",
+		"PortraitOverlay",
 		"Right",
 		"RightDisabled",
+		"RightInset",
 		"RightSeparator",
 		"RightTex",
+		"Ring",
 		"ScrollBarBottom",
 		"ScrollBarMiddle",
 		"ScrollBarTop",
+		"ScrollDownBorder",
+		"ScrollFrameBorder",
+		"ScrollUpBorder",
+		"ShadowOverlay",
+		"shadows",
 		"Spark",
 		"SparkGlow",
+		"SpellBorder",
 		"TabSpacer",
 		"TabSpacer1",
 		"TabSpacer2",
@@ -728,11 +721,40 @@ do
 		if self.SetHighlightTexture then self:SetHighlightTexture("") end
 		if self.SetNormalTexture and not isOverride then self:SetNormalTexture("") end
 
-		for _, key in pairs(cleanTextures) do
-			local cleanFrame = B.GetObject(self, key)
-			if cleanFrame then
-				cleanFrame:SetAlpha(0)
-				cleanFrame:Hide()
+		for _, texture in pairs(blizzTextures) do
+			local blizzTexture = B.GetObject(self, texture)
+			if blizzTexture then
+				if blizzTexture:IsObjectType("Texture") then
+					blizzTexture:SetTexture("")
+					blizzTexture:SetAlpha(0)
+				else
+					B.StripTextures(blizzTexture, 0)
+				end
+			end
+		end
+	end
+
+	function B:StripTextures(kill)
+		B.CleanTextures(self)
+
+		if self.GetRegions then
+			local regions = {self:GetRegions()}
+			for index, region in pairs(regions) do
+				if region and region:IsObjectType("Texture") then
+					if kill and type(kill) == "boolean" then
+						B.HideObject(region)
+					elseif tonumber(kill) then
+						if kill == 0 then
+							region:SetTexture("")
+							region:SetAlpha(0)
+						elseif kill ~= index then
+							region:SetTexture("")
+							region:SetAlpha(0)
+						end
+					else
+						region:SetTexture("")
+					end
+				end
 			end
 		end
 	end
@@ -1134,7 +1156,7 @@ do
 
 	-- Handle Check and Radio
 	function B:ReskinCheck(force)
-		B.CleanTextures(self)
+		B.StripTextures(self)
 
 		local check = self:GetCheckedTexture()
 		check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
@@ -1151,8 +1173,7 @@ do
 	end
 
 	function B:ReskinRadio()
-		B.StripTextures(self, 0)
-		B.CleanTextures(self)
+		B.StripTextures(self)
 
 		local bgTex = B.CreateBDFrame(self, 0, 2)
 		bgTex:SetFrameLevel(self:GetFrameLevel())
@@ -1172,7 +1193,7 @@ do
 		self:ClearAllPoints()
 		self:Point("TOPRIGHT", parent or self:GetParent(), "TOPRIGHT", xOffset or -6, yOffset or -6)
 
-		B.StripTextures(self, 0)
+		B.StripTextures(self)
 
 		B.ReskinButton(self)
 		SetupDisTex(self)
@@ -1183,7 +1204,7 @@ do
 	end
 
 	function B:ReskinDecline()
-		B.StripTextures(self, 0)
+		B.StripTextures(self)
 
 		B.ReskinButton(self)
 
@@ -1219,7 +1240,6 @@ do
 
 	function B:ReskinCollapse(isAtlas)
 		B.StripTextures(self, 0)
-		B.CleanTextures(self)
 
 		local bgTex = B.CreateBDFrame(self)
 		bgTex:SetFrameLevel(self:GetFrameLevel())
@@ -1283,7 +1303,6 @@ do
 	-- Handle DropDown
 	function B:ReskinDropDown()
 		B.StripTextures(self)
-		B.CleanTextures(self)
 
 		local button = B.GetObject(self, "Button") or B.GetObject(self, "_Button")
 		button:ClearAllPoints()
@@ -1308,7 +1327,6 @@ do
 
 	-- Handle EditBox
 	function B:ReskinInput(height, width)
-		B.CleanTextures(self)
 		self:DisableDrawLayer("BACKGROUND")
 
 		if height then self:SetHeight(height) end
@@ -1350,13 +1368,12 @@ do
 		else
 			B.StripTextures(self, killType or 0)
 		end
-		B.CleanTextures(self)
 
 		local bg = B.CreateBG(self)
 		for _, key in pairs(headers) do
 			local frameHeader = B.GetObject(self, key)
 			if frameHeader then
-				B.StripTextures(frameHeader, 0)
+				B.StripTextures(frameHeader)
 				B.UpdatePoint(frameHeader, "TOP", bg, "TOP", 0, 5)
 			end
 		end
@@ -1375,10 +1392,25 @@ do
 	end
 
 	-- Handle Icon
+	local maskList = {
+		"Mask",
+		"IconMask",
+		"CircleMask",
+	}
 	function B:ReskinIcon(alpha)
 		if self.SetDrawLayer then
 			if self:GetDrawLayer() == "BACKGROUND" or self:GetDrawLayer() == "BORDER" then
 				self:SetDrawLayer("ARTWORK")
+			end
+		end
+
+		local parent = self:GetParent()
+		for _, name in pairs(maskList) do
+			local mask = B.GetObject(parent, name)
+			if mask then
+				mask:SetTexture("")
+				mask:SetAlpha(0)
+				mask:Hide()
 			end
 		end
 
@@ -1392,8 +1424,7 @@ do
 	function B:ReskinNavBar()
 		if self.styled then return end
 
-		B.StripTextures(self, 0)
-		B.CleanTextures(self)
+		B.StripTextures(self)
 		self.overlay:Hide()
 
 		local homeButton = self.homeButton
@@ -1526,13 +1557,11 @@ do
 	end
 
 	function B:ReskinScroll()
-		B.StripTextures(self, 0)
-		B.CleanTextures(self)
+		B.StripTextures(self)
 
 		local parent = self:GetParent()
 		if parent then
-			B.StripTextures(parent, 0)
-			B.CleanTextures(parent)
+			B.StripTextures(parent)
 		end
 
 		local thumb = GetScrollThumb(self)
@@ -1584,7 +1613,6 @@ do
 
 	function B:ReskinStatusBar(noClassColor)
 		B.StripTextures(self)
-		B.CleanTextures(self)
 
 		B.CreateBDFrame(self, 0, -C.mult)
 
@@ -1610,7 +1638,6 @@ do
 	-- Handle Tab
 	function B:ReskinTab()
 		B.StripTextures(self)
-		B.CleanTextures(self)
 
 		local bg = B.CreateBG(self, 8, -3, -8, 2)
 		B.ReskinHLTex(self, bg, true)

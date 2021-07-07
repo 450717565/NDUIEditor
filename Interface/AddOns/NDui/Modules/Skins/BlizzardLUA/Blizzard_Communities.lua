@@ -31,10 +31,6 @@ end
 
 local function Reskin_CommunityCards(self)
 	for _, button in pairs(self.ListScrollFrame.buttons) do
-		button.CircleMask:Hide()
-		button.LogoBorder:Hide()
-		button.Background:Hide()
-
 		B.ReskinButton(button)
 		B.ReskinIcon(button.CommunityLogo)
 	end
@@ -69,11 +65,13 @@ local function Reskin_CommunitiesList(self)
 	for i = 1, #buttons do
 		local button = buttons[i]
 		if not button.bubg then
-			B.CleanTextures(button)
 			button.Background:Hide()
+			button.IconRing:SetAlpha(0)
 			button.Selection:SetAlpha(0)
 
+			button.icbg = B.ReskinIcon(button.Icon)
 			button.bubg = B.CreateBGFrame(button, 5, -5, -10, 5)
+			B.ReskinHLTex(button, button.bubg, true)
 		end
 
 		if button.Selection:IsShown() then
@@ -81,6 +79,9 @@ local function Reskin_CommunitiesList(self)
 		else
 			button.bubg:SetBackdropColor(0, 0, 0, 0)
 		end
+
+		button.CircleMask:Hide()
+		button.icbg:SetShown(button.IconRing:IsShown())
 	end
 end
 

@@ -381,10 +381,8 @@ local function Reskin_CombatantStats(self, followerInfo)
 	for _ in pairs(autoSpellInfo) do
 		local abilityFrame = self.autoSpellPool:Acquire()
 		if not abilityFrame.styled then
+			B.CleanTextures(abilityFrame)
 			B.ReskinIcon(abilityFrame.Icon)
-
-			if abilityFrame.IconMask then abilityFrame.IconMask:Hide() end
-			if abilityFrame.SpellBorder then abilityFrame.SpellBorder:Hide() end
 
 			abilityFrame.styled = true
 		end

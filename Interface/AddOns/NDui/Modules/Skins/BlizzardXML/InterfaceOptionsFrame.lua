@@ -61,7 +61,7 @@ local function Reskin_InterfaceOptionsFrame(self)
 	local cLine = B.CreateLines(InterfaceOptionsFrameCategories, "V")
 	cLine:SetPoint("RIGHT", 10, 0)
 
-	local examples = InterfaceOptionsAccessibilityPanel.ColorblindFilterExamples
+	local examples = InterfaceOptionsColorblindPanel.ColorblindFilterExamples
 	for i = 1, 6 do
 		local icon = examples["ExampleIcon"..i]
 		B.ReskinIcon(icon)
@@ -70,7 +70,6 @@ local function Reskin_InterfaceOptionsFrame(self)
 		border:Hide()
 	end
 
-	InterfaceOptionsAccessibilityPanel.ColorblindFiltersSeparator:Hide()
 	InterfaceOptionsFrameOkay:ClearAllPoints()
 	InterfaceOptionsFrameOkay:SetPoint("RIGHT", InterfaceOptionsFrameCancel, "LEFT", -1, 0)
 

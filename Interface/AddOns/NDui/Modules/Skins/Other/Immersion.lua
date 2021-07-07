@@ -44,6 +44,12 @@ local function Reskin_RewardButton(self)
 		self.icbg = B.ReskinIcon(self.Icon)
 		self.bubg = B.CreateBGFrame(self, 2, 0, -6, 0, self.icbg)
 
+		if self.Count then
+			self.Count:SetJustifyH("RIGHT")
+			self.Count:SetFontObject(Game20Font)
+			B.UpdatePoint(self.Count, "BOTTOMRIGHT", self.icbg, "BOTTOMRIGHT", 0, 0)
+		end
+
 		self.styled = true
 	end
 

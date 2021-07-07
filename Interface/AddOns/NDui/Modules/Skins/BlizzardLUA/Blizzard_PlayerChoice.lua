@@ -1,32 +1,28 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-local function ShouldHideBackground()
-	local instID = select(3, GetInstanceInfo())
-	return IsInJailersTower() or instID == 8
-end
-
--- Needs review, still buggy on blizz
 local function Reskin_OptionButton(self)
 	if not self or self.bgTex then return end
 
-	B.StripTextures(self)
 	B.ReskinButton(self)
 end
 
-local function Reskin_SpellWidget(spell)
+local function Reskin_WidgetSpell(spell)
 	B.StripTextures(spell, 1)
 	B.ReskinText(spell.Text, 1, 1, 1)
 
 	if not spell.styled then
-		local icbg = B.ReskinIcon(spell.Icon)
-		B.ReskinBorder(spell.DebuffBorder, icbg, nil, true)
+		B.ReskinIcon(spell.Icon)
 
 		spell.styled = true
 	end
 end
 
 local function Reskin_PlayerChoiceFrame(self)
+	B.StripTextures(self)
+	B.StripTextures(self.Header)
+	B.CleanTextures(self.CloseButton)
+
 	if not self.bg then
 		local Title = self.Title
 		Title:DisableDrawLayer("BACKGROUND")
@@ -36,17 +32,20 @@ local function Reskin_PlayerChoiceFrame(self)
 		self.bg = B.ReskinFrame(self)
 	end
 
-	self.bg:SetShown(not ShouldHideBackground())
+	self.bg:SetShown(self.CloseButton:IsShown())
 	B.UpdatePoint(self.CloseButton, "TOPRIGHT", self.bg, "TOPRIGHT", -6, -6)
 
 	for optionFrame in self.optionPools:EnumerateActiveByTemplate(self.optionFrameTemplate) do
-		optionFrame.CircleBorder:Hide()
-
 		B.ReskinText(optionFrame.OptionText, 1, 1, 1)
+
+		local circleBorder = optionFrame.CircleBorder
+		if circleBorder then
+			circleBorder:Hide()
+		end
 
 		local header = optionFrame.Header
 		if header then
-			B.ReskinText(header.Text, 1, .8, 0)
+			if header.Text then B.ReskinText(header.Text, 1, .8, 0) end
 			if header.Contents then B.ReskinText(header.Contents.Text, 1, .8, 0) end
 		end
 
@@ -81,10 +80,11 @@ local function Reskin_PlayerChoiceFrame(self)
 		local widgetContainer = optionFrame.WidgetContainer
 		if widgetContainer and widgetContainer.widgetFrames then
 			for _, widgetFrame in pairs(widgetContainer.widgetFrames) do
-				B.ReskinText(widgetFrame.Text, 1, 1, 1)
-
+				if widgetFrame.Text then
+					B.ReskinText(widgetFrame.Text, 1, 1, 1)
+				end
 				if widgetFrame.Spell then
-					Reskin_SpellWidget(widgetFrame.Spell)
+					Reskin_WidgetSpell(widgetFrame.Spell)
 				end
 			end
 		end
@@ -92,5 +92,5 @@ local function Reskin_PlayerChoiceFrame(self)
 end
 
 C.OnLoadThemes["Blizzard_PlayerChoice"] = function()
-	hooksecurefunc(PlayerChoiceFrame, "TryShow", Reskin_PlayerChoiceFrame)
+	hooksecurefunc(PlayerChoiceFrame, "SetupOptions", Reskin_PlayerChoiceFrame)
 end

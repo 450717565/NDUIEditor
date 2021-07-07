@@ -20,8 +20,7 @@ local function Reskin_Reward(self)
 
 	local Reward = self.Reward
 	if Reward then
-		Reward.Border:Hide()
-		Reward.CircleMask:Hide()
+		B.CleanTextures(Reward)
 		Reward.icbg = B.ReskinIcon(Reward.Icon)
 
 		local Bonus = Reward.EnlistmentBonus
@@ -79,8 +78,7 @@ C.OnLoadThemes["Blizzard_PVPUI"] = function()
 		B.ReskinHLTex(button.Background, button.bgTex, true)
 
 		local icon = button.Icon
-		icon:ClearAllPoints()
-		icon:SetPoint("LEFT", button, "LEFT")
+		B.UpdatePoint(icon, "LEFT", button, "LEFT")
 
 		local icbg = B.ReskinIcon(icon)
 		icbg:SetFrameLevel(button:GetFrameLevel())
@@ -111,8 +109,7 @@ C.OnLoadThemes["Blizzard_PVPUI"] = function()
 		PVPQueueFrame.HonorInset.RatedPanel.SeasonRewardFrame,
 	}
 	for _, frame in pairs(frames) do
-		frame.Ring:Hide()
-		frame.CircleMask:Hide()
+		B.CleanTextures(frame)
 		B.ReskinIcon(frame.Icon)
 	end
 
@@ -137,8 +134,7 @@ C.OnLoadThemes["Blizzard_PVPUI"] = function()
 	end
 
 	for _, button in pairs(HonorFrame.SpecificFrame.buttons) do
-		button.Bg:Hide()
-		button.Border:Hide()
+		B.CleanTextures(button)
 
 		local icbg = B.ReskinIcon(button.Icon)
 		local bubg = B.CreateBGFrame(button, 2, 0, -2, 0, icbg)
@@ -146,16 +142,13 @@ C.OnLoadThemes["Blizzard_PVPUI"] = function()
 		B.ReskinHLTex(button.SelectedTexture, bubg, true)
 
 		local name = button.NameText
-		name:ClearAllPoints()
-		name:SetPoint("LEFT", bubg, 2, 0)
+		B.UpdatePoint(name, "LEFT", bubg, "LEFT", 2, 0)
 
 		local size = button.SizeText
-		size:ClearAllPoints()
-		size:SetPoint("TOPRIGHT", bubg, -1, -2)
+		B.UpdatePoint(size, "TOPRIGHT", bubg, "TOPRIGHT", -1, -2)
 
 		local info = button.InfoText
-		info:ClearAllPoints()
-		info:SetPoint("BOTTOMRIGHT", bubg, -1, 3)
+		B.UpdatePoint(info, "BOTTOMRIGHT", bubg, "BOTTOMRIGHT", -1, 3)
 	end
 
 	-- ConquestFrame
@@ -180,10 +173,8 @@ C.OnLoadThemes["Blizzard_PVPUI"] = function()
 		B.ReskinStatusBar(frame.ConquestBar)
 
 		local Reward = frame.ConquestBar.Reward
-		Reward:ClearAllPoints()
-		Reward:SetPoint("LEFT", frame.ConquestBar, "RIGHT", 2, 0)
-		Reward.CircleMask:Hide()
-		Reward.Ring:Hide()
+		B.UpdatePoint(Reward, "LEFT", frame.ConquestBar, "RIGHT", 2, 0)
+		B.CleanTextures(Reward)
 		B.ReskinIcon(Reward.Icon)
 
 		hooksecurefunc(frame.ConquestBar, "Update", Reskin_ConquestBar)

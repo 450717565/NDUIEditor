@@ -331,7 +331,7 @@ function MAP:RecycleBin()
 		end
 
 		local numShown = #shownButtons
-		local row = numShown == 0 and 1 or B:Round((numShown + rowMult) / iconsPerRow)
+		local row = numShown == 0 and 1 or B.Round((numShown + rowMult) / iconsPerRow)
 		local newHeight = row*37 + 3
 		bin:SetHeight(newHeight)
 		rightLine:SetHeight(newHeight + 2*C.mult)

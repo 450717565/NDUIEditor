@@ -2,9 +2,8 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local function Reskin_EventTraceButton(self)
+	B.StripTextures(self)
 	B.ReskinButton(self)
-	self.NormalTexture:SetAlpha(0)
-	self.MouseoverOverlay:SetAlpha(0)
 end
 
 local function Reskin_EventTraceScrollBar(self)
@@ -13,26 +12,29 @@ local function Reskin_EventTraceScrollBar(self)
 	B.ReskinArrow(self.Forward, "down")
 
 	local Thumb = self:GetThumb()
-	B.StripTextures(Thumb, 0)
+	Thumb.Begin:SetAlpha(0)
+	Thumb.Middle:SetAlpha(0)
+	Thumb.End:SetAlpha(0)
 	B.CreateBDFrame(Thumb)
 end
 
 local function Reskin_ScrollChild(self)
 	local children = {self.ScrollTarget:GetChildren()}
 	for _, child in pairs(children) do
-		local HideButton = child and child.HideButton
-		if HideButton and not HideButton.styled then
-			B.ReskinClose(HideButton)
-			HideButton:ClearAllPoints()
-			HideButton:SetPoint("LEFT", 3, 0)
+		if child and not child.styled then
+			local HideButton = child.HideButton
+			if HideButton then
+				B.ReskinClose(HideButton)
+				B.UpdatePoint(HideButton, "LEFT", child, "LEFT", 3, 0)
+			end
 
 			local CheckButton = child.CheckButton
 			if CheckButton then
 				B.ReskinCheck(CheckButton)
-				CheckButton:SetSize(22, 22)
+				CheckButton:SetSize(24, 24)
 			end
 
-			HideButton.styled = true
+			child.styled = true
 		end
 	end
 end
@@ -55,7 +57,7 @@ C.OnLoadThemes["Blizzard_EventTrace"] = function()
 	local filterBar = EventTrace.Filter.Bar
 	local subtitleBar = EventTrace.SubtitleBar
 
-	B.ReskinEditBox(logBar.SearchBox)
+	B.ReskinInput(logBar.SearchBox)
 	B.ReskinFilter(subtitleBar.OptionsDropDown)
 
 	Reskin_EventTraceFrame(EventTrace.Log.Events)

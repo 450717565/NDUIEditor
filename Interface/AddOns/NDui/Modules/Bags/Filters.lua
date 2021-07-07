@@ -129,10 +129,10 @@ local function isQuestItem(item)
 	return item.questID or item.isQuestItem
 end
 
-local function isAnimaItem(item)
+local function isAnimaOrRelicItem(item)
 	if not C.db["Bags"]["ItemFilter"] then return end
-	if not C.db["Bags"]["FilterAnima"] then return end
-	return item.id and C_Item_IsAnimaItemByID(item.id)
+	if not C.db["Bags"]["FilterAnimaOrRelic"] then return end
+	return item.id and B.GetItemMultiplier(item.id)
 end
 
 function Bags:GetFilters()
@@ -159,8 +159,8 @@ function Bags:GetFilters()
 	filters.bankGoods = function(item) return isItemInBank(item) and isTradeGoods(item) end
 	filters.bagQuest = function(item) return isItemInBag(item) and isQuestItem(item) end
 	filters.bankQuest = function(item) return isItemInBank(item) and isQuestItem(item) end
-	filters.bagAnima = function(item) return isItemInBag(item) and isAnimaItem(item) end
-	filters.bankAnima = function(item) return isItemInBank(item) and isAnimaItem(item) end
+	filters.bagAnimaOrRelic = function(item) return isItemInBag(item) and isAnimaOrRelicItem(item) end
+	filters.bankAnimaOrRelic = function(item) return isItemInBank(item) and isAnimaOrRelicItem(item) end
 
 	return filters
 end

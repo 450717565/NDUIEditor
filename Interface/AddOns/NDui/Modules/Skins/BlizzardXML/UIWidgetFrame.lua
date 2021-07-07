@@ -28,7 +28,6 @@ end
 
 local function Reskin_CaptureBar(self)
 	B.StripTextures(self, 0)
-	B.CleanTextures(self)
 
 	self.LeftBar:SetTexture(DB.normTex)
 	self.NeutralBar:SetTexture(DB.normTex)
@@ -48,18 +47,18 @@ end
 
 local function Reskin_SpellDisplay(self)
 	local spell = self.Spell
-	B.StripTextures(spell)
-	--spell.IconMask:Hide()
-	--spell.Border:SetTexture("")
-	--spell.DebuffBorder:SetTexture("")
-	if not self.styled then
+	spell.IconMask:Hide()
+	spell.CircleMask:Hide()
+	B.StripTextures(spell, 1)
 
+	if not spell.icbg then
+		spell.icbg = B.ReskinIcon(spell.Icon)
+	end
 
-		local icbg = B.ReskinIcon(spell.Icon)
-		B.ReskinBorder(spell.DebuffBorder, icbg, nil, true)
-		--B.ReskinBGBorder(spell.DebuffBorder, icbg)
-
-		self.styled = true
+	if spell.DebuffBorder:IsShown() then
+		spell.icbg:SetBackdropBorderColor(1, 0, 0)
+	else
+		spell.icbg:SetBackdropBorderColor(0, 0, 0)
 	end
 end
 

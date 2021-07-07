@@ -123,13 +123,19 @@ C.OnLoginThemes["PetBattleFrame"] = function()
 
 	B.UpdatePoint(frame.TopVersusText, "TOP", UIParent, "TOP", 0, -80)
 
-	B.UpdatePoint(frame.ActiveAlly, "BOTTOMRIGHT", frame.TopVersusText, "BOTTOMLEFT", -200, 0)
+	if IsAddOnLoaded("BattlePetBattleUITweaks") then
+		B.UpdatePoint(frame.ActiveAlly, "TOP", UIParent, "TOP", -350, -50)
+		B.UpdatePoint(frame.ActiveEnemy, "TOP", UIParent, "TOP", 350, -50)
+	else
+		B.UpdatePoint(frame.ActiveAlly, "BOTTOMRIGHT", frame.TopVersusText, "BOTTOMLEFT", -200, 0)
+		B.UpdatePoint(frame.ActiveEnemy, "BOTTOMLEFT", frame.TopVersusText, "BOTTOMRIGHT", 200, 0)
+	end
+
 	B.UpdatePoint(frame.AllyBuffFrame, "TOPLEFT", frame.ActiveAlly, "BOTTOMLEFT", 0, -5)
 	B.UpdatePoint(frame.AllyDebuffFrame, "TOPLEFT", frame.AllyBuffFrame, "BOTTOMLEFT", 0, -5)
 	B.UpdatePoint(frame.AllyPadBuffFrame, "TOPRIGHT", frame.ActiveAlly, "BOTTOMLEFT", 0, -5)
 	B.UpdatePoint(frame.AllyPadDebuffFrame, "TOPRIGHT", frame.EnemyPadBuffFrame, "BOTTOMRIGHT", 0, -5)
 
-	B.UpdatePoint(frame.ActiveEnemy, "BOTTOMLEFT", frame.TopVersusText, "BOTTOMRIGHT", 200, 0)
 	B.UpdatePoint(frame.EnemyBuffFrame, "TOPRIGHT", frame.ActiveEnemy, "BOTTOMRIGHT", 0, -5)
 	B.UpdatePoint(frame.EnemyDebuffFrame, "TOPRIGHT", frame.EnemyBuffFrame, "BOTTOMRIGHT", 0, -5)
 	B.UpdatePoint(frame.EnemyPadBuffFrame, "TOPLEFT", frame.ActiveEnemy, "BOTTOMRIGHT", 0, -5)
