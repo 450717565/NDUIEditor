@@ -2,8 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local function Reskin_GuildBankPopupFrame(self)
-	self:ClearAllPoints()
-	self:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 42, 0)
+	B.UpdatePoint(self, "TOPLEFT", GuildBankFrame, "TOPRIGHT", 42, 0)
 
 	for i = 1, NUM_GUILDBANK_ICONS_PER_ROW * NUM_GUILDBANK_ICON_ROWS do
 		local buttons = "GuildBankPopupButton"..i
@@ -35,9 +34,9 @@ C.OnLoadThemes["Blizzard_GuildBankUI"] = function()
 	B.StripTextures(GuildBankEmblemFrame, 0)
 	B.StripTextures(GuildBankMoneyFrameBackground)
 
+	B.UpdatePoint(GuildBankFrameWithdrawButton, "RIGHT", GuildBankFrameDepositButton, "LEFT", -1, 0)
+
 	GuildBankPopupFrame:SetHeight(525)
-	GuildBankFrameWithdrawButton:ClearAllPoints()
-	GuildBankFrameWithdrawButton:SetPoint("RIGHT", GuildBankFrameDepositButton, "LEFT", -1, 0)
 
 	local buttons = {
 		GuildBankFrameWithdrawButton,
@@ -76,8 +75,7 @@ C.OnLoadThemes["Blizzard_GuildBankUI"] = function()
 		B.ReskinCPTex(button, icbg)
 
 		if i == 1 then
-			tab:ClearAllPoints()
-			tab:SetPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 1, -25)
+			B.UpdatePoint(tab, "TOPLEFT", GuildBankFrame, "TOPRIGHT", 1, -25)
 		end
 	end
 
@@ -95,6 +93,9 @@ C.OnLoadThemes["Blizzard_GuildBankUI"] = function()
 
 			local border = button.IconBorder
 			B.ReskinBorder(border, icbg)
+
+			local count = button.Count
+			B.UpdatePoint(count, "BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 0, 1)
 
 			local search = button.searchOverlay
 			search:SetAllPoints(icbg)

@@ -165,21 +165,8 @@ function EX:FriendlyNameAutoSet()
 	end
 end
 
--- 系统信息关键词提示
-do
-	local function UpdateKeyWord(_, msg)
-		if strfind(msg, "宝物") then
-			UIErrorsFrame:AddMessage(DB.InfoColor..msg)
-		end
-	end
-
-	function EX:InstanceReset()
-		B:RegisterEvent("CHAT_MSG_MONSTER_EMOTE", UpdateKeyWord)
-	end
-end
-
 -- 临时解决打开大地图卡顿
-do
+--[[ do
 	local temp = {}
 	local OLD_GetQuestsForPlayerByMapID = C_TaskQuest.GetQuestsForPlayerByMapID
 	C_TaskQuest.GetQuestsForPlayerByMapID = function(mapID)
@@ -191,7 +178,7 @@ do
 
 		return temp[mapID].result
 	end
-end
+end ]]
 
 -- 自动选择节日BOSS
 do

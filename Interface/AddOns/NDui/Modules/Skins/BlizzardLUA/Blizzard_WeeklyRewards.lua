@@ -37,7 +37,7 @@ local function Reskin_ActivityFrame(self, isObject)
 			self.SelectedTexture:SetAlpha(0)
 
 			hooksecurefunc(self, "SetSelectionState", Update_SelectionState)
-			hooksecurefunc(self.ItemFrame, "SetDisplayedItem", Reskin_DisplayedItem)
+			hooksecurefunc(self.ItemFrame, "SetRewards", Reskin_DisplayedItem)
 		else
 			self.Border:SetTexCoord(.926, 1, 0, 1)
 			self.Border:SetSize(25, 137)

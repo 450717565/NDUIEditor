@@ -24,13 +24,11 @@ C.OnLoginThemes["TradeFrame"] = function()
 	B.ReskinInput(TradePlayerInputMoneyFrameSilver)
 	B.ReskinInput(TradePlayerInputMoneyFrameCopper)
 
+	B.UpdatePoint(TradePlayerInputMoneyFrameSilver, "LEFT", TradePlayerInputMoneyFrameGold, "RIGHT", 1, 0)
+	B.UpdatePoint(TradePlayerInputMoneyFrameCopper, "LEFT", TradePlayerInputMoneyFrameSilver, "RIGHT", 1, 0)
+
 	TradeFrame.RecipientOverlay:Hide()
 	TradeRecipientMoneyBg:Hide()
-
-	TradePlayerInputMoneyFrameSilver:ClearAllPoints()
-	TradePlayerInputMoneyFrameSilver:SetPoint("LEFT", TradePlayerInputMoneyFrameGold, "RIGHT", 1, 0)
-	TradePlayerInputMoneyFrameCopper:ClearAllPoints()
-	TradePlayerInputMoneyFrameCopper:SetPoint("LEFT", TradePlayerInputMoneyFrameSilver, "RIGHT", 1, 0)
 
 	local texts = {
 		TradeFramePlayerNameText,
@@ -39,11 +37,10 @@ C.OnLoginThemes["TradeFrame"] = function()
 	for index, text in pairs(texts) do
 		text:SetWidth(150)
 		text:SetJustifyH("CENTER")
-		text:ClearAllPoints()
 		if index == 1 then
-			text:SetPoint("TOPRIGHT", TradeFrame, "TOP", -5, -10)
+			B.UpdatePoint(text, "TOPRIGHT", TradeFrame, "TOP", -5, -10)
 		else
-			text:SetPoint("TOPLEFT", TradeFrame, "TOP", 5, -10)
+			B.UpdatePoint(text, "TOPLEFT", TradeFrame, "TOP", 5, -10)
 		end
 	end
 

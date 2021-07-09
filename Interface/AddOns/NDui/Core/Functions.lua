@@ -499,9 +499,11 @@ end
 -- ItemInfo Function
 do
 	-- Item Slot
+	local iSlotDB = {}
 	function B.GetItemSlot(item)
 		local itemID = GetItemInfoInstant(item)
 		if not itemID then return end
+		if iSlotDB[itemID] then return iSlotDB[itemID] end
 
 		local itemSolt
 		local _, _, _, _, _, _, _, _, itemEquipLoc, _, _, itemClassID, itemSubClassID, bindType = GetItemInfo(itemID)
@@ -553,7 +555,9 @@ do
 			end
 		end
 
-		return itemSolt
+		iSlotDB[itemID] = itemSolt
+
+		return iSlotDB[itemID]
 	end
 
 	-- Item Gems
@@ -607,6 +611,7 @@ do
 	local blizzTextures = {
 		"_LeftSeparator",
 		"_RightSeparator",
+		"AffixBorder",
 		"ArtOverlayFrame",
 		"Background",
 		"BackgroundOverlay",
@@ -675,10 +680,10 @@ do
 		"MiddleMiddle",
 		"MiddleRight",
 		"MiddleTex",
+		"NameFrame",
 		"NineSlice",
 		"Overlay",
 		"OverlayKit",
-		"Portrait",
 		"portrait",
 		"PortraitOverlay",
 		"Right",
@@ -1328,6 +1333,7 @@ do
 
 	-- Handle EditBox
 	function B:ReskinInput(height, width)
+		B.CleanTextures(self)
 		self:DisableDrawLayer("BACKGROUND")
 
 		if height then self:SetHeight(height) end
@@ -1583,7 +1589,6 @@ do
 
 	-- Handle Slider
 	function B:ReskinSlider(verticle)
-		self:SetBackdrop("")
 		B.StripTextures(self)
 
 		B.CreateBGFrame(self, 14, -2, -15, 3)

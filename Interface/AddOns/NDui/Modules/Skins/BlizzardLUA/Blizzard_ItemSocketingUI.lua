@@ -2,16 +2,20 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local GemTypeInfo = {
-	Blue = {r=.1, g=.1, b=1},
-	Red = {r=1, g=.1, b=.1},
-	Yellow = {r=1, g=1, b=.1},
+	Red = {r=1, g=0, b=0},
+	PunchcardRed = {r=1, g=0, b=0},
+
+	Yellow = {r=1, g=1, b=0},
+	PunchcardYellow = {r=1, g=1, b=0},
+
+	Blue = {r=0, g=0, b=1},
+	PunchcardBlue = {r=0, g=0, b=1},
+
+	Meta = {r=0, g=0, b=0},
 	Cogwheel = {r=0, g=0, b=0},
 	Hydraulic = {r=0, g=0, b=0},
-	Meta = {r=0, g=0, b=0},
 	Prismatic = {r=0, g=0, b=0},
-	PunchcardBlue = {r=.1, g=.1, b=1},
-	PunchcardRed = {r=1, g=.1, b=.1},
-	PunchcardYellow = {r=1, g=1, b=.1},
+	Domination = {r=0, g=0, b=0},
 }
 
 local function Reskin_ItemSocketingFrame()
@@ -38,14 +42,10 @@ C.OnLoadThemes["Blizzard_ItemSocketingUI"] = function()
 		local button = _G[buttons]
 		B.StripTextures(button)
 
-		local bf = _G[buttons.."BracketFrame"]
-		bf:SetAlpha(0)
+		local bracket = _G[buttons.."BracketFrame"]
+		B.StripTextures(bracket, 0)
 
-		local bg = _G[buttons.."Background"]
-		bg:SetAlpha(0)
-
-		local icon = _G[buttons.."IconTexture"]
-		local icbg = B.ReskinIcon(icon)
+		local icbg = B.ReskinIcon(_G[buttons.."IconTexture"])
 		B.ReskinHLTex(button, icbg)
 
 		local shine = _G[buttons.."Shine"]

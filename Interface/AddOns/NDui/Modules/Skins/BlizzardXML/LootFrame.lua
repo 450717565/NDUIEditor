@@ -45,14 +45,11 @@ C.OnLoginThemes["LootFrame"] = function()
 	B.ReskinArrow(LootFrameUpButton, "up")
 	B.ReskinArrow(LootFrameDownButton, "down")
 
-	hooksecurefunc("LootFrame_Update", Reskin_LootFrame)
+	B.UpdatePoint(LootFrameDownButton, "BOTTOMRIGHT", LootFrame, "BOTTOMRIGHT", -8, 6)
+	B.UpdatePoint(LootFramePrev, "LEFT", LootFrameUpButton, "RIGHT", 4, 0)
+	B.UpdatePoint(LootFrameNext, "RIGHT", LootFrameDownButton, "LEFT", -4, 0)
 
-	LootFrameDownButton:ClearAllPoints()
-	LootFrameDownButton:SetPoint("BOTTOMRIGHT", -8, 6)
-	LootFramePrev:ClearAllPoints()
-	LootFramePrev:SetPoint("LEFT", LootFrameUpButton, "RIGHT", 4, 0)
-	LootFrameNext:ClearAllPoints()
-	LootFrameNext:SetPoint("RIGHT", LootFrameDownButton, "LEFT", -4, 0)
+	hooksecurefunc("LootFrame_Update", Reskin_LootFrame)
 end
 
 C.OnLoginThemes["BonusRollFrame"] = function()
@@ -68,8 +65,7 @@ C.OnLoginThemes["BonusRollFrame"] = function()
 	B.CreateBDFrame(Timer, 0, -C.mult)
 
 	local SpecIcon = BonusRollFrame.SpecIcon
-	SpecIcon:ClearAllPoints()
-	SpecIcon:SetPoint("RIGHT", PromptFrame.InfoFrame, "RIGHT", -5, 0)
+	B.UpdatePoint(SpecIcon, "RIGHT", PromptFrame.InfoFrame, "RIGHT", -5, 0)
 
 	local icbg = B.ReskinIcon(SpecIcon)
 	hooksecurefunc("BonusRollFrame_StartBonusRoll", function()

@@ -707,10 +707,11 @@ function BAG:OnLogin()
 
 		self.Count:SetPoint("BOTTOMRIGHT", 0, 1)
 		self.Count:SetFont(unpack(DB.Font))
+		self.Count:SetJustifyH("RIGHT")
 
 		self.Quest = B.CreateFS(self, 30, "!", "system", "LEFT", 3, 0)
-		self.iLvl = B.CreateFS(self, 12, "", false, "BOTTOMRIGHT", 1, 1)
-		self.Slot = B.CreateFS(self, 12, "", false, "TOPLEFT", 1, -2)
+		self.iLvl = B.CreateFS(self, 12, "", false, "BOTTOMRIGHT", 0, 1)
+		self.iSlot = B.CreateFS(self, 12, "", false, "TOPLEFT", 1, -2)
 
 		if showNewItem then
 			self.glowFrame = B.CreateGlowFrame(self, iconSize)
@@ -816,7 +817,7 @@ function BAG:OnLogin()
 		end
 
 		self.iLvl:SetText("")
-		self.Slot:SetText("")
+		self.iSlot:SetText("")
 		if item.link and (item.rarity and item.rarity > 0) and (item.level and item.level > 0) then
 			local slot = B.GetItemSlot(item.link)
 			local level = B.GetItemLevel(item.link, item.bagID, item.slotID) or item.level
@@ -827,13 +828,13 @@ function BAG:OnLogin()
 				if showItemSlot then
 					local mult = B.GetItemMultiplier(item.id)
 					local total = item.count * mult
-					self.Slot:SetText(total)
+					self.iSlot:SetText(total)
 				end
 			elseif (item.equipLoc and item.equipLoc ~= "") or IsArtifactRelicItem(item.link) then
 				if showItemLevel then self.iLvl:SetText(level) end
-				if showItemSlot then self.Slot:SetText(slot) end
+				if showItemSlot then self.iSlot:SetText(slot) end
 			elseif (item.classID and (item.classID == LE_ITEM_CLASS_ARMOR or item.classID == LE_ITEM_CLASS_CONSUMABLE or item.classID == LE_ITEM_CLASS_MISCELLANEOUS)) or C_ToyBox.GetToyInfo(item.id) then
-				if showItemSlot then self.Slot:SetText(slot) end
+				if showItemSlot then self.iSlot:SetText(slot) end
 			end
 		end
 

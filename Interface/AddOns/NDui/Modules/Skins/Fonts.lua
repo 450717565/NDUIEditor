@@ -22,8 +22,7 @@ end
 
 local function Fixed_UpdateScrollFrame()
 	local buttons = PaperDollTitlesPane.buttons
-	for i = 1, #buttons do
-		local button = buttons[i]
+	for _, button in pairs(buttons) do
 		if button and not button.fontStyled then
 			B.ReskinFont(button.text, 14)
 
@@ -34,14 +33,15 @@ end
 
 local function Fixed_WhoListUpdate()
 	local buttons = WhoListScrollFrame.buttons
-	for i = 1, #buttons do
-		local button = buttons[i]
-		local level = button.Level
-		if level and not level.fontStyled then
-			level:SetWidth(32)
-			level:SetJustifyH("CENTER")
+	for _, button in pairs(buttons) do
+		if button and not button.fontStyled then
+			local level = button.Level
+			if level and not level.fontStyled then
+				level:SetWidth(32)
+				level:SetJustifyH("CENTER")
 
-			level.fontStyled = true
+				level.fontStyled = true
+			end
 		end
 	end
 end

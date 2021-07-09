@@ -22,9 +22,21 @@ end
 local function Update_RewardBorder(self)
 	if not self.icbg and not self.bubg then return end
 
+	self.iLvl:SetText("")
+	self.iSlot:SetText("")
+
 	local quality
 	if self.objectType == "item" then
 		quality = select(4, GetQuestItemInfo(self.type, self:GetID()))
+
+		local itemLink = GetQuestItemLink(self.type, self:GetID())
+		if itemLink then
+			local level = B.GetItemLevel(itemLink)
+			self.iLvl:SetText(level or "")
+
+			local slot = B.GetItemSlot(itemLink)
+			self.iSlot:SetText(slot or "")
+		end
 	elseif self.objectType == "currency" then
 		quality = select(4, GetQuestCurrencyInfo(self.type, self:GetID()))
 	else
@@ -44,10 +56,18 @@ local function Reskin_RewardButton(self)
 		self.icbg = B.ReskinIcon(self.Icon)
 		self.bubg = B.CreateBGFrame(self, 2, 0, -6, 0, self.icbg)
 
+		self.iLvl = B.CreateFS(self, 20)
+		self.iLvl:SetJustifyH("RIGHT")
+		B.UpdatePoint(self.iLvl, "BOTTOMRIGHT", self.icbg, "BOTTOMRIGHT", -1, 0)
+
+		self.iSlot = B.CreateFS(self, 20)
+		self.iSlot:SetJustifyH("LEFT")
+		B.UpdatePoint(self.iSlot, "TOPLEFT", self.icbg, "TOPLEFT", 1, -2)
+
 		if self.Count then
 			self.Count:SetJustifyH("RIGHT")
 			self.Count:SetFontObject(Game20Font)
-			B.UpdatePoint(self.Count, "BOTTOMRIGHT", self.icbg, "BOTTOMRIGHT", 0, 0)
+			B.UpdatePoint(self.Count, "BOTTOMRIGHT", self.icbg, "BOTTOMRIGHT", -1, 0)
 		end
 
 		self.styled = true
@@ -70,8 +90,7 @@ local function Reskin_TitleButton(self, index)
 	end
 
 	if index > 1 then
-		button:ClearAllPoints()
-		button:SetPoint("TOP", self.Buttons[index-1], "BOTTOM", 0, -C.margin)
+		B.UpdatePoint(button, "TOP", self.Buttons[index-1], "BOTTOM", 0, -C.margin)
 	end
 end
 
@@ -101,8 +120,7 @@ local function Reskin_AddQuestInfo(self)
 				B.ReskinFollowerPortrait(portrait)
 
 				local bubg = B.CreateBGFrame(followerReward, 0, -3, 2, 7)
-				portrait:ClearAllPoints()
-				portrait:SetPoint("LEFT", bubg, "LEFT", 4, 0)
+				B.UpdatePoint(portrait, "LEFT", bubg, "LEFT", 4, 0)
 
 				if class then
 					B.ReskinFollowerClass(class, 36, "RIGHT", -4, 0, bubg)
@@ -140,8 +158,7 @@ local function Reskin_ShowItems(self)
 			local icon = tooltip.Icon
 			B.StripTextures(icon, 1)
 			B.ReskinIcon(icon.Texture)
-			icon.Texture:ClearAllPoints()
-			icon.Texture:SetPoint("TOPLEFT", button.bgTex, "TOPRIGHT", 3, -C.mult)
+			B.UpdatePoint(icon.Texture, "TOPLEFT", button.bgTex, "TOPRIGHT", 3, -C.mult)
 
 			tooltip.styled = true
 		end
@@ -178,15 +195,13 @@ function Skins:Immersion()
 	B.CreateBDFrame(MainFrame.Model, 0, -C.mult)
 
 	local ReputationBar = TalkBox.ReputationBar
-	B.ReskinStatusBar(ReputationBar)
 	ReputationBar.icon:Hide()
-	ReputationBar:ClearAllPoints()
-	ReputationBar:SetPoint("BOTTOM", MainFrame, "TOP", 0, 3)
+	B.ReskinStatusBar(ReputationBar)
+	B.UpdatePoint(ReputationBar, "BOTTOM", MainFrame, "TOP", 0, C.margin)
 
 	local Indicator = MainFrame.Indicator
 	Indicator:SetScale(1.25)
-	Indicator:ClearAllPoints()
-	Indicator:SetPoint("RIGHT", MainFrame.CloseButton, "LEFT", -3, 0)
+	B.UpdatePoint(Indicator, "RIGHT", MainFrame.CloseButton, "LEFT", -3, 0)
 
 	hooksecurefunc(ImmersionFrame, "ShowItems", Reskin_ShowItems)
 	hooksecurefunc(ImmersionFrame, "AddQuestInfo", Reskin_AddQuestInfo)

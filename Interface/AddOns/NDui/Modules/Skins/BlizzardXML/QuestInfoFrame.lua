@@ -111,6 +111,7 @@ local function Reskin_RewardButton(self, isMapQuestInfo)
 		self.bubg = bubg
 
 		B.ReskinBorder(self.IconBorder, icbg, bubg)
+		B.UpdatePoint(self.Count, "BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 0, 1)
 	end
 end
 
@@ -154,12 +155,10 @@ local function Reskin_SpecialReward()
 				followerReward.BG:Hide()
 
 				B.ReskinFollowerPortrait(portrait)
+				B.UpdatePoint(portrait, "LEFT", bubg, "LEFT", .5, .5)
 
 				local bubg = B.CreateBGFrame(followerReward, 0, -3, 2, 7)
 				followerReward.bubg = bubg
-
-				portrait:ClearAllPoints()
-				portrait:SetPoint("LEFT", bubg, "LEFT", .5, .5)
 
 				if class then
 					B.ReskinFollowerClass(class, 36, "RIGHT", -4, 0, bubg)

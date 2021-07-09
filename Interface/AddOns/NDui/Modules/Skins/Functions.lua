@@ -37,9 +37,8 @@ do
 		local portrait = self.Portrait
 
 		local point, _, _, xOfs, yOfs = portrait:GetPoint()
-		portrait:ClearAllPoints()
 		if point == "CENTER" then
-			portrait:SetPoint("CENTER", self, "CENTER")
+			B.UpdatePoint(portrait, "CENTER", self, "CENTER")
 		elseif B.Round(xOfs) == 6 and B.Round(yOfs) == -8 then
 			portrait:SetInside(self, 4, 8)
 		else
@@ -61,8 +60,7 @@ do
 
 		local levelFrame = self.Level or self.LevelText or self.LevelDisplayFrame
 		if levelFrame then
-			levelFrame:ClearAllPoints()
-			levelFrame:SetPoint("BOTTOM", squareBG, "BOTTOM", 0, 5)
+			B.UpdatePoint(levelFrame, "BOTTOM", squareBG, "BOTTOM", 0, 5)
 
 			if levelFrame.LevelCircle then
 				levelFrame.LevelCircle:SetAlpha(0)
@@ -72,12 +70,11 @@ do
 		if self.HealthBar then
 			self.HealthBar.Border:SetAlpha(0)
 			self.HealthBar.Health:SetTexture(DB.normTex)
-			self.HealthBar.HealthValue:ClearAllPoints()
-			self.HealthBar.HealthValue:SetPoint("CENTER", self.HealthBar, "CENTER")
+
+			B.UpdatePoint(self.HealthBar.HealthValue, "CENTER", self.HealthBar, "CENTER")
 
 			local roleIcon = self.HealthBar.RoleIcon
-			roleIcon:ClearAllPoints()
-			roleIcon:SetPoint("CENTER", squareBG, "TOPRIGHT")
+			B.UpdatePoint(roleIcon, "CENTER", squareBG, "TOPRIGHT")
 			replaceFollowerRole(roleIcon, roleIcon:GetAtlas())
 			hooksecurefunc(roleIcon, "SetAtlas", replaceFollowerRole)
 
@@ -92,9 +89,9 @@ do
 	function B:ReskinFollowerClass(size, point, x, y, relativeTo)
 		relativeTo = relativeTo or self:GetParent()
 
+		B.UpdatePoint(self, point, relativeTo, point, x, y)
+
 		self:SetSize(size, size)
-		self:ClearAllPoints()
-		self:SetPoint(point, relativeTo, x, y)
 		self:SetTexCoord(.18, .92, .08, .92)
 
 		local bg = B.CreateBDFrame(self, 0, -C.mult)
@@ -108,8 +105,7 @@ do
 
 		local button = B.GetObject(self, "ItemButton")
 		B.StripTextures(button)
-		button:ClearAllPoints()
-		button:SetPoint("LEFT", self, 4, 0)
+		B.UpdatePoint(button, "LEFT", self, "LEFT", 4, 0)
 
 		local icbg = B.ReskinIcon(button.icon)
 		B.ReskinHLTex(button, icbg)
@@ -118,25 +114,21 @@ do
 
 		local count = B.GetObject(self, "ItemButtonCount")
 		count:SetJustifyH("RIGHT")
-		count:ClearAllPoints()
-		count:SetPoint("BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 0, 1)
+		B.UpdatePoint(count, "BOTTOMRIGHT", icbg, "BOTTOMRIGHT", 0, 1)
 
 		local stock = B.GetObject(self, "ItemButtonStock")
 		stock:SetJustifyH("RIGHT")
-		stock:ClearAllPoints()
-		stock:SetPoint("TOPRIGHT", icbg, "TOPRIGHT", 0, -1)
+		B.UpdatePoint(stock, "TOPRIGHT", icbg, "TOPRIGHT", 0, -1)
 
 		local name = B.GetObject(self, "Name")
 		name:SetWidth(105)
 		name:SetFontObject(Game12Font)
 		name:SetWordWrap(true)
 		name:SetJustifyH("LEFT")
-		name:ClearAllPoints()
-		name:SetPoint("TOPLEFT", icbg, "TOPRIGHT", 4, 3)
+		B.UpdatePoint(name, "TOPLEFT", icbg, "TOPRIGHT", 4, 3)
 
 		local money = B.GetObject(self, "MoneyFrame")
-		money:ClearAllPoints()
-		money:SetPoint("BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 4)
+		B.UpdatePoint(money, "BOTTOMLEFT", icbg, "BOTTOMRIGHT", 4, 4)
 	end
 
 	function B:ReskinSearchBox()
@@ -153,8 +145,7 @@ do
 		if not self then return end
 
 		local results = self.searchResults
-		results:ClearAllPoints()
-		results:SetPoint("BOTTOMLEFT", self, "BOTTOMRIGHT", 10, 0)
+		B.UpdatePoint(results, "BOTTOMLEFT", self, "BOTTOMRIGHT", 10, 0)
 		B.StripTextures(results, 0)
 		local bg = B.CreateBG(results, 0, 0, 5, 0)
 
@@ -174,18 +165,9 @@ do
 
 				local bubg = B.CreateBGFrame(button, 2, 2, -2, -2, icbg)
 				B.ReskinHLTex(button, bubg, true)
-
-				local name = button.name
-				name:ClearAllPoints()
-				name:SetPoint("TOPLEFT", bubg, 4, -6)
-
-				local path = button.path
-				path:ClearAllPoints()
-				path:SetPoint("BOTTOMLEFT", bubg, 4, 4)
-
-				local type = button.resultType
-				type:ClearAllPoints()
-				type:SetPoint("RIGHT", bubg, -2, 0)
+				B.UpdatePoint(button.name, "TOPLEFT", bubg, "TOPLEFT", 4, -6)
+				B.UpdatePoint(button.path, "BOTTOMLEFT", bubg, "BOTTOMLEFT", 4, 4)
+				B.UpdatePoint(button.resultType, "RIGHT", bubg, "RIGHT", -2, 0)
 
 				button.styled = true
 			end
@@ -308,8 +290,7 @@ do
 		local text = B.GetObject(self, "Text")
 		if text then
 			text:SetJustifyH("CENTER")
-			text:ClearAllPoints()
-			text:SetPoint("CENTER")
+			B.UpdatePoint(text, "CENTER", self, "CENTER", 1, 0)
 		end
 	end
 
@@ -367,16 +348,16 @@ do
 	function B:SetToggleDirection()
 		local str1, str2, rel1, rel2, x, y, width, height = B.GetToggleDirection()
 		local parent = self.bg
+
 		local close = self.closeButton
-		local open = self.openButton
-		close:ClearAllPoints()
-		close:SetPoint(rel1, parent, rel2, x, y)
 		close:SetSize(width, height)
 		close.text:SetText(str1)
-		open:ClearAllPoints()
-		open:SetPoint(rel1, parent, rel1, -x, -y)
+		B.UpdatePoint(close, rel1, parent, rel2, x, y)
+
+		local open = self.openButton
 		open:SetSize(width, height)
 		open.text:SetText(str2)
+		B.UpdatePoint(open, rel1, parent, rel1, -x, -y)
 
 		if C.db["Skins"]["ToggleDirection"] == 5 then
 			close:SetAlpha(0)
