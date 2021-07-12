@@ -21,11 +21,12 @@ local GemTypeInfo = {
 local function Reskin_ItemSocketingFrame()
 	ItemSocketingDescription:SetBackdrop("")
 
-	for i = 1, MAX_NUM_SOCKETS do
+	for i, socket in ipairs(ItemSocketingFrame.Sockets) do
+		if not socket:IsShown() then break end
+
 		local types = GetSocketTypes(i)
-		local color = GemTypeInfo[types]
-		local button = _G["ItemSocketingSocket"..i]
-		button.icbg:SetBackdropBorderColor(color.r, color.g, color.b)
+		local color = GemTypeInfo[types] or GemTypeInfo.Cogwheel
+		socket.icbg:SetBackdropBorderColor(color.r, color.g, color.b)
 	end
 end
 
@@ -37,21 +38,21 @@ C.OnLoadThemes["Blizzard_ItemSocketingUI"] = function()
 	B.CreateBGFrame(ItemSocketingScrollFrame, 0, 2, 0, -4)
 
 	for i = 1, MAX_NUM_SOCKETS do
-		local buttons = "ItemSocketingSocket"..i
+		local sockets = "ItemSocketingSocket"..i
 
-		local button = _G[buttons]
-		B.StripTextures(button)
+		local socket = _G[sockets]
+		B.StripTextures(socket)
 
-		local bracket = _G[buttons.."BracketFrame"]
+		local bracket = _G[sockets.."BracketFrame"]
 		B.StripTextures(bracket, 0)
 
-		local icbg = B.ReskinIcon(_G[buttons.."IconTexture"])
-		B.ReskinHLTex(button, icbg)
+		local icbg = B.ReskinIcon(_G[sockets.."IconTexture"])
+		B.ReskinHLTex(socket, icbg)
 
-		local shine = _G[buttons.."Shine"]
+		local shine = _G[sockets.."Shine"]
 		shine:SetInside(icbg)
 
-		button.icbg = icbg
+		socket.icbg = icbg
 	end
 
 	hooksecurefunc("ItemSocketingFrame_Update", Reskin_ItemSocketingFrame)

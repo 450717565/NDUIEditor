@@ -111,6 +111,8 @@ function MOVER:CalculateMoverPoints(mover, trimX, trimY)
 end
 
 function MOVER:UpdateTrimFrame()
+	if not f then return end -- for aurawatch preview
+
 	local x, y = MOVER:CalculateMoverPoints(self)
 	x, y = B.Round(x), B.Round(y)
 	f.__x:SetText(x)

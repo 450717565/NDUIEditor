@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB, P = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local Buttons = {
 	"ClearPresetButton",
@@ -36,7 +36,7 @@ local function Reskin_ShowInterface(self)
 	end
 end
 
-function Skins:MythicDungeonTools()
+function SKIN:MythicDungeonTools()
 	if not IsAddOnLoaded("MythicDungeonTools") then return end
 
 	local MDT = _G.MDT
@@ -48,4 +48,4 @@ function Skins:MythicDungeonTools()
 	end
 end
 
-C.OnLoginThemes["MythicDungeonTools"] = Skins.MythicDungeonTools
+C.OnLoginThemes["MythicDungeonTools"] = SKIN.MythicDungeonTools

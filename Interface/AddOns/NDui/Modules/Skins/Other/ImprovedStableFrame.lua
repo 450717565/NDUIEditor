@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:ImprovedStableFrame()
+function SKIN:ImprovedStableFrame()
 	if not IsAddOnLoaded("ImprovedStableFrame") then return end
 
 	B.StripTextures(ImprovedStableFrameSlots)
@@ -21,4 +21,4 @@ function Skins:ImprovedStableFrame()
 	end
 end
 
-C.OnLoginThemes["ImprovedStableFrame"] = Skins.ImprovedStableFrame
+C.OnLoginThemes["ImprovedStableFrame"] = SKIN.ImprovedStableFrame

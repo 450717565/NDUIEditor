@@ -1,10 +1,10 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Auras = B:GetModule("Auras")
+local AURA = B:GetModule("Auras")
 
 if DB.MyClass ~= "HUNTER" then return end
 
-function Auras:PostCreateLumos(self)
+function AURA:PostCreateLumos(self)
 	local iconSize = self.lumos[1]:GetWidth()
 	local boom = CreateFrame("Frame", nil, self.Health)
 	boom:SetSize(iconSize, iconSize)
@@ -15,24 +15,24 @@ function Auras:PostCreateLumos(self)
 	self.boom = boom
 end
 
-function Auras:PostUpdateVisibility(self)
+function AURA:PostUpdateVisibility(self)
 	if self.boom then self.boom:Hide() end
 end
 
 local function GetUnitAura(unit, spell, filter)
-	return Auras:GetUnitAura(unit, spell, filter)
+	return AURA:GetUnitAura(unit, spell, filter)
 end
 
 local function UpdateCooldown(button, spellID, texture)
-	return Auras:UpdateCooldown(button, spellID, texture)
+	return AURA:UpdateCooldown(button, spellID, texture)
 end
 
 local function UpdateBuff(button, spellID, auraID, cooldown, isPet, glow)
-	return Auras:UpdateAura(button, isPet and "pet" or "player", auraID, "HELPFUL", spellID, cooldown, glow)
+	return AURA:UpdateAura(button, isPet and "pet" or "player", auraID, "HELPFUL", spellID, cooldown, glow)
 end
 
 local function UpdateDebuff(button, spellID, auraID, cooldown, glow)
-	return Auras:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown, glow)
+	return AURA:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown, glow)
 end
 
 local function UpdateSpellStatus(button, spellID)
@@ -50,7 +50,7 @@ local boomGroups = {
 	[271049] = 259491,
 }
 
-function Auras:ChantLumos(self)
+function AURA:ChantLumos(self)
 	local spec = GetSpecialization()
 	if spec == 1 then
 		UpdateCooldown(self.lumos[1], 34026, true)

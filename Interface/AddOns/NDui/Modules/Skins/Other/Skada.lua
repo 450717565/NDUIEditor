@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local function Strip_Options(self)
 	self.baroptions.args.barspacing = nil
@@ -28,7 +28,7 @@ local function Embed_Window(window, width, barheight, height, ofsx, ofsy)
 	barmod.ApplySettings(barmod, window)
 end
 
-function Skins:Skada()
+function SKIN:Skada()
 	if not C.db["Skins"]["Skada"] or not IsAddOnLoaded("Skada") then return end
 
 	local Skada = Skada

@@ -11,7 +11,7 @@ local function Reskin_ItemButton(self)
 	local icbg = B.ReskinIcon(button.icon)
 	B.ReskinHLTex(button, icbg)
 
-	local bubg = B.CreateBGFrame(item, 2, 0, -15, 0, icbg)
+	local bubg = B.CreateBGFrame(item, C.margin, 0, -15, 0, icbg)
 	B.ReskinBorder(button.IconBorder, icbg, bubg)
 end
 

@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:Postal()
+function SKIN:Postal()
 	if not IsAddOnLoaded("Postal") then return end
 
 	B.ReskinButton(PostalSelectOpenButton)
@@ -24,4 +24,4 @@ function Skins:Postal()
 	Postal_BlackBookButton:SetPoint("LEFT", SendMailNameEditBox, "RIGHT", 2, 0)
 end
 
-C.OnLoginThemes["Postal"] = Skins.Postal
+C.OnLoginThemes["Postal"] = SKIN.Postal

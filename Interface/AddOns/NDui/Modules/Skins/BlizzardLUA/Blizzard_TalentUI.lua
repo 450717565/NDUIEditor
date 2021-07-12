@@ -211,7 +211,7 @@ C.OnLoadThemes["Blizzard_TalentUI"] = function()
 		icon:SetSize(32, 32)
 
 		local icbg = B.ReskinIcon(icon)
-		local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
+		local bubg = B.CreateBGFrame(button, C.margin, 0, 0, 0, icbg)
 		B.ReskinHLTex(button, bubg, true)
 		B.ReskinHLTex(button.Selected, bubg, true)
 

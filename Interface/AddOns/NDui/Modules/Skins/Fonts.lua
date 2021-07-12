@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local function Fixed_UpdateStatusText(frame)
 	if frame:IsForbidden() then return end
@@ -46,7 +46,7 @@ local function Fixed_WhoListUpdate()
 	end
 end
 
-function Skins:Fonts()
+function SKIN:Fonts()
 	if not C.db["Skins"]["FontOutline"] then return end
 
 	local fontList = {
@@ -208,4 +208,4 @@ function Skins:Fonts()
 	hooksecurefunc("WhoList_Update", Fixed_WhoListUpdate)
 end
 
-C.OnLoginThemes["Fonts"] = Skins.Fonts
+C.OnLoginThemes["Fonts"] = SKIN.Fonts

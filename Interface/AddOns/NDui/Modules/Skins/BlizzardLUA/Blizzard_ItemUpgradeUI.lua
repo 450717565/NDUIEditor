@@ -35,7 +35,7 @@ C.OnLoadThemes["Blizzard_ItemUpgradeUI"] = function()
 
 	local TextFrame = ItemUpgradeFrame.TextFrame
 	B.StripTextures(TextFrame)
-	local bubg = B.CreateBGFrame(TextFrame, 2, 0, -10, 0, icbg)
+	local bubg = B.CreateBGFrame(TextFrame, C.margin, 0, -10, 0, icbg)
 	ItemButton.bubg = bubg
 
 	hooksecurefunc("ItemUpgradeFrame_Update", Reskin_ItemUpgradeFrame)

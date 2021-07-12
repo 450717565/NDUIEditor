@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bags = B:GetModule("Bags")
+local BAG = B:GetModule("Bags")
 
 local LE_ITEM_QUALITY_POOR, LE_ITEM_QUALITY_COMMON, LE_ITEM_QUALITY_LEGENDARY = LE_ITEM_QUALITY_POOR, LE_ITEM_QUALITY_COMMON, LE_ITEM_QUALITY_LEGENDARY
 local LE_ITEM_CLASS_GEM, LE_ITEM_GEM_ARTIFACTRELIC = LE_ITEM_CLASS_GEM, LE_ITEM_GEM_ARTIFACTRELIC
@@ -23,7 +23,7 @@ local petTrashCurrenies = {
 	[62072] = true,
 	[67410] = true,
 }
-function Bags:IsPetTrashCurrency(itemID)
+function BAG:IsPetTrashCurrency(itemID)
 	return C.db["Bags"]["PetTrash"] and petTrashCurrenies[itemID]
 end
 
@@ -58,7 +58,7 @@ end
 local function isItemJunk(item)
 	if not C.db["Bags"]["ItemFilter"] then return end
 	if not C.db["Bags"]["FilterJunk"] then return end
-	return (item.rarity == LE_ITEM_QUALITY_POOR or NDuiADB["CustomJunkList"][item.id]) and item.sellPrice and item.sellPrice > 0 and not Bags:IsPetTrashCurrency(item.id)
+	return (item.rarity == LE_ITEM_QUALITY_POOR or NDuiADB["CustomJunkList"][item.id]) and item.sellPrice and item.sellPrice > 0 and not BAG:IsPetTrashCurrency(item.id)
 end
 
 local function isItemEquipSet(item)
@@ -103,7 +103,7 @@ end
 local function isItemCollection(item)
 	if not C.db["Bags"]["ItemFilter"] then return end
 	if not C.db["Bags"]["FilterCollection"] then return end
-	return item.id and C_ToyBox_GetToyInfo(item.id) or isMountOrPet(item) or Bags:IsPetTrashCurrency(item.id)
+	return item.id and C_ToyBox_GetToyInfo(item.id) or isMountOrPet(item) or BAG:IsPetTrashCurrency(item.id)
 end
 
 local function isItemFavourite(item)
@@ -114,7 +114,7 @@ end
 
 local function isEmptySlot(item)
 	if not C.db["Bags"]["GatherEmpty"] then return end
-	return Bags.initComplete and not item.texture and Bags.BagsType[item.bagID] == 0
+	return BAG.initComplete and not item.texture and BAG.BagsType[item.bagID] == 0
 end
 
 local function isTradeGoods(item)
@@ -135,7 +135,7 @@ local function isAnimaOrRelicItem(item)
 	return item.id and B.GetItemMultiplier(item.id)
 end
 
-function Bags:GetFilters()
+function BAG:GetFilters()
 	local filters = {}
 
 	filters.onlyBags = function(item) return isItemInBag(item) and not isEmptySlot(item) end

@@ -496,7 +496,7 @@ local function CreatePanel()
 end
 
 SlashCmdList["NDUI_AWCONFIG"] = function()
-	if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
+	--if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end -- fix by LibShowUIPanel
 	CreatePanel()
 end
 SLASH_NDUI_AWCONFIG1 = "/ww"

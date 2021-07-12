@@ -1,19 +1,19 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Auras = B:GetModule("Auras")
+local AURA = B:GetModule("Auras")
 
 if DB.MyClass ~= "MONK" then return end
 
 local function UpdateCooldown(button, spellID, texture)
-	return Auras:UpdateCooldown(button, spellID, texture)
+	return AURA:UpdateCooldown(button, spellID, texture)
 end
 
 local function UpdateBuff(button, spellID, auraID, cooldown, glow)
-	return Auras:UpdateAura(button, "player", auraID, "HELPFUL", spellID, cooldown, glow)
+	return AURA:UpdateAura(button, "player", auraID, "HELPFUL", spellID, cooldown, glow)
 end
 
 local function UpdateTargetBuff(button, spellID, auraID, cooldown)
-	return Auras:UpdateAura(button, "target", auraID, "HELPFUL", spellID, cooldown, true)
+	return AURA:UpdateAura(button, "target", auraID, "HELPFUL", spellID, cooldown, true)
 end
 
 local function UpdateSpellStatus(button, spellID)
@@ -25,7 +25,7 @@ local function UpdateSpellStatus(button, spellID)
 	end
 end
 
-function Auras:ChantLumos(self)
+function AURA:ChantLumos(self)
 	local spec = GetSpecialization()
 	if spec == 1 then
 		UpdateCooldown(self.lumos[1], 121253, true)
@@ -61,6 +61,6 @@ function Auras:ChantLumos(self)
 			end
 		end
 
-		Auras:UpdateTotemAura(self.lumos[5], 620832, 123904, true)
+		AURA:UpdateTotemAura(self.lumos[5], 620832, 123904, true)
 	end
 end

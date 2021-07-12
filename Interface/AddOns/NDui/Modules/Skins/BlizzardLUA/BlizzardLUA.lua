@@ -9,7 +9,7 @@ local function Reskin_ChoiceDialog(self)
 				button.ItemNameBG:Hide()
 
 				local icbg = B.ReskinIcon(button.Icon)
-				B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
+				B.CreateBGFrame(button, C.margin, 0, -5, 0, icbg)
 			end
 		end
 

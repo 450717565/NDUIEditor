@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:Rematch()
+function SKIN:Rematch()
 	if not IsAddOnLoaded("Rematch") then return end
 
 	local cr, cg, cb = DB.cr, DB.cg, DB.cb
@@ -732,4 +732,4 @@ function Skins:Rematch()
 	end)
 end
 
-C.OnLoginThemes["Rematch"] = Skins.Rematch
+C.OnLoginThemes["Rematch"] = SKIN.Rematch

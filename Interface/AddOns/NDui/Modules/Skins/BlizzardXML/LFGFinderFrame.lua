@@ -22,7 +22,7 @@ local function Reskin_Reward(self)
 		local shortageBorder = B.GetObject(self, "ShortageBorder")
 
 		local icbg = B.ReskinIcon(iconTexture)
-		local bubg = B.CreateBGFrame(self, 2, 0, -5, 0, icbg)
+		local bubg = B.CreateBGFrame(self, C.margin, 0, -5, 0, icbg)
 		B.ReskinBorder(self.IconBorder, icbg, bubg)
 
 		if nameFrame then nameFrame:Hide() end

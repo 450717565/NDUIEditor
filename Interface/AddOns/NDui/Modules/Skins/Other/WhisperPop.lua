@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:WhisperPop()
+function SKIN:WhisperPop()
 	if not IsAddOnLoaded("WhisperPop") then return end
 
 	B.ReskinFrame(WhisperPopFrame, "none")
@@ -37,4 +37,4 @@ function Skins:WhisperPop()
 	end
 end
 
-C.OnLoginThemes["WhisperPop"] = Skins.WhisperPop
+C.OnLoginThemes["WhisperPop"] = SKIN.WhisperPop

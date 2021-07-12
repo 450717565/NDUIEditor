@@ -1,5 +1,10 @@
 local _, T = ...
 local EV = T.Evie
+local LibParse = LibStub("LibParse");
+
+local function serialize(data)
+	return LibParse:JSONEncode(data)
+end
 
 local function GetCompletedMissionInfo(mid)
 	local ma = C_Garrison.GetCompleteMissions(123)
@@ -102,10 +107,37 @@ local function isNovelLog(cr, checkpoints)
 	local ok, ret, ret2 = pcall(checkSim, cr, checkpoints)
 	return not (ok and ret), ok, ret2
 end
+local function findReportSlot(logs, st, novel)
+	local nc, oc, nt, ot, ni, oi = 0, 0
+	for i=1,#logs do
+		local li = logs[i]
+		if li[1] == st then
+			return i
+		elseif li.novel then
+			nc = nc + 1
+			if nc == 1 or nt > li.ts then
+				nt, ni = li.ts, i
+			end
+		else
+			oc = oc + 1
+			if oc == 1 or ot > li.ts then
+				ot, oi = li.ts, i
+			end
+		end
+	end
+	if nc + oc < 99 then
+		return #logs+1
+	elseif novel then
+		return oc > 49 and oi or ni
+	else
+		return nc > 50 and ni or oi
+	end
+end
 function EV:GARRISON_MISSION_COMPLETE_RESPONSE(mid, _canCom, _suc, _bonusOK, _followerDeaths, autoCombatResult)
 	if not (autoCombatResult and autoCombatResult.combatLog and mid and C_Garrison.GetFollowerTypeByMissionID(mid) == 123) then return end
 	local cr = {
 		log=autoCombatResult.combatLog, winner=autoCombatResult.winner, missionID=mid,
+		meta={lc=GetLocale(), ts=math.floor(GetServerTime()/86400), cb=select(2,GetBuildInfo()), dv=1},
 	}
 	cr.encounters = C_Garrison.GetMissionCompleteEncounters(mid)
 	cr.environment = C_Garrison.GetAutoMissionEnvironmentEffect(mid)
@@ -142,9 +174,29 @@ function EV:GARRISON_MISSION_COMPLETE_RESPONSE(mid, _canCom, _suc, _bonusOK, _fo
 	cr.missionName = mi.name
 	local ok, checkpoints = generateCheckpoints(cr)
 	if ok then
-		local novel, nok, om = isNovelLog(cr, checkpoints)
+		local st, novel, nok, om = serialize(cr), isNovelLog(cr, checkpoints)
+		cr.predictionCorrect = om
+		cr.addonVersion = GetAddOnMetadata("VenturePlan", "Version")
+		st = serialize(cr)
+		VP_MissionReports = VP_MissionReports or {}
+		VP_MissionReports[findReportSlot(VP_MissionReports, st, novel)] = {st, ts=cr.meta.ts, novel=novel}
 		LR_MissionID, LR_Novelty = mid, nok and (novel and (om and 2 or 3) or 1) or 0
+		EV("I_STORED_LOG_UPDATE")
 	end
+end
+function EV:I_RESET_STORED_LOGS()
+	VP_MissionReports = nil
+	EV("I_STORED_LOG_UPDATE")
+end
+function T.GetMissionReportCount()
+	return type(VP_MissionReports) == "table" and #VP_MissionReports or 0
+end
+function T.ExportMissionReports()
+	local missionReportString = ""
+	for i=1,VP_MissionReports and #VP_MissionReports or 0 do
+		missionReportString = (i > 1 and missionReportString .. "\n" or "") .. VP_MissionReports[i][1]
+	end
+	return missionReportString
 end
 function T.GetMissionReportInfo(mid)
 	if mid == LR_MissionID then

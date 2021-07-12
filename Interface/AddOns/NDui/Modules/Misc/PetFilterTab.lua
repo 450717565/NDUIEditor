@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Misc = B:GetModule("Misc")
+local MISC = B:GetModule("Misc")
 
 -- Credit: PetJournal_QuickFilter, Integer
 local PET_TYPE_SUFFIX = PET_TYPE_SUFFIX
@@ -10,7 +10,7 @@ local C_PetJournal_IsPetTypeChecked = C_PetJournal.IsPetTypeChecked
 local C_PetJournal_SetAllPetTypesChecked = C_PetJournal.SetAllPetTypesChecked
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
-function Misc:PetTabs_Click(button)
+function MISC:PetTabs_Click(button)
 	local activeCount = 0
 	for petType in pairs(PET_TYPE_SUFFIX) do
 		local btn = _G["PetJournalQuickFilterButton"..petType]
@@ -39,7 +39,7 @@ function Misc:PetTabs_Click(button)
 end
 
 local order = {1, 2, 6, 3, 9, 7, 10, 8, 5, 4}
-function Misc:PetTabs_Create()
+function MISC:PetTabs_Create()
 	PetJournalListScrollFrame:SetPoint("TOPLEFT", PetJournalLeftInset, 3, -60)
 
 	-- Create the pet type buttons, sorted according weakness
@@ -59,7 +59,7 @@ function Misc:PetTabs_Create()
 			btn.isActive = false
 		end
 		btn.petType = petType
-		btn:SetScript("OnMouseUp", Misc.PetTabs_Click)
+		btn:SetScript("OnMouseUp", MISC.PetTabs_Click)
 	end
 
 	if activeCount == #PET_TYPE_SUFFIX then
@@ -71,20 +71,20 @@ function Misc:PetTabs_Create()
 	end
 end
 
-function Misc:PetTabs_Load(addon)
+function MISC:PetTabs_Load(addon)
 	if addon == "Blizzard_Collections" then
-		Misc:PetTabs_Create()
-		B:UnregisterEvent(self, Misc.PetTabs_Load)
+		MISC:PetTabs_Create()
+		B:UnregisterEvent(self, MISC.PetTabs_Load)
 	end
 end
 
-function Misc:PetTabs_Init()
+function MISC:PetTabs_Init()
 	if not C.db["Misc"]["PetFilter"] then return end
 
 	if IsAddOnLoaded("Blizzard_Collections") then
-		Misc:PetTabs_Create()
+		MISC:PetTabs_Create()
 	else
-		B:RegisterEvent("ADDON_LOADED", Misc.PetTabs_Load)
+		B:RegisterEvent("ADDON_LOADED", MISC.PetTabs_Load)
 	end
 end
-Misc:RegisterMisc("PetFilterTab", Misc.PetTabs_Init)
+MISC:RegisterMisc("PetFilterTab", MISC.PetTabs_Init)

@@ -636,7 +636,7 @@ local function Reskin_BuildingListSelectTab(tab)
 			button.BG:Hide()
 
 			local icbg = B.ReskinIcon(button.Icon)
-			local bg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
+			local bg = B.CreateBGFrame(button, C.margin, 0, 0, 0, icbg)
 			B.ReskinHLTex(button, bg, true)
 			B.ReskinHLTex(button.SelectedBG, bg, true)
 
@@ -695,7 +695,7 @@ local function Reskin_CapacitiveDisplayFrameUpdate(self)
 			reagent.NameFrame:Hide()
 
 			local icbg = B.ReskinIcon(reagent.Icon)
-			B.CreateBGFrame(reagent, 2, 0, -5, 0, icbg)
+			B.CreateBGFrame(reagent, C.margin, 0, -5, 0, icbg)
 
 			reagent.styled = true
 		end
@@ -1008,7 +1008,7 @@ C.OnLoadThemes["Blizzard_GarrisonUI"] = function()
 	CapacitiveDisplay.IconBG:Hide()
 
 	local icbg = B.ReskinIcon(CapacitiveDisplay.ShipmentIconFrame.Icon)
-	B.CreateBGFrame(CapacitiveDisplay.IconBG, 2, 0, 0, 0, icbg)
+	B.CreateBGFrame(CapacitiveDisplay.IconBG, C.margin, 0, 0, 0, icbg)
 
 	local Follower = CapacitiveDisplay.ShipmentIconFrame.Follower
 	B.ReskinFollowerPortrait(Follower)
@@ -1048,7 +1048,7 @@ C.OnLoadThemes["Blizzard_GarrisonUI"] = function()
 	CovenantMissionFrame.MissionComplete.Board:HookScript("OnShow", Reskin_MissionBoard)
 
 	-- Addon supports
-	local function Reskin_OnUpdate(self)
+	local function Reskin_MissionListOnUpdate(self)
 		local buttons = self.listScroll.buttons
 		for i = 1, #buttons do
 			local button = select(3, buttons[i]:GetChildren())
@@ -1061,7 +1061,7 @@ C.OnLoadThemes["Blizzard_GarrisonUI"] = function()
 		end
 	end
 
-	local function Reskin_OnShow(self)
+	local function Reskin_MissionPageOnShow(self)
 		for i = 18, 27 do
 			local button = select(i, self:GetChildren())
 			if button and button:IsObjectType("Button") and not button.styled then
@@ -1078,7 +1078,7 @@ C.OnLoadThemes["Blizzard_GarrisonUI"] = function()
 		for _, frame in pairs(frames) do
 			if frame then
 				hooksecurefunc(frame.MissionTab.MissionList, "Update", Reskin_OnUpdate)
-				frame.MissionTab.MissionPage:HookScript("OnShow", Reskin_OnShow)
+				frame.MissionTab.MissionPage:HookScript("OnShow", Reskin_MissionPageOnShow)
 			end
 		end
 	end

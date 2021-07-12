@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("ActionBar")
+local AB = B:GetModule("ActionBar")
 
 local _G = _G
 local pairs, tonumber, print, strfind, strupper = pairs, tonumber, print, strfind, strupper
@@ -16,22 +16,22 @@ local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local function hookActionButton(self)
 	local pet = self.commandName and strfind(self.commandName, "^BONUSACTION") and "PET"
 	local stance = self.commandName and strfind(self.commandName, "^SHAPESHIFT") and "STANCE"
-	Bar:Bind_Update(self, pet or stance or nil)
+	AB:Bind_Update(self, pet or stance or nil)
 end
 local function hookMacroButton(self)
-	Bar:Bind_Update(self, "MACRO")
+	AB:Bind_Update(self, "MACRO")
 end
 local function hookSpellButton(self)
-	Bar:Bind_Update(self, "SPELL")
+	AB:Bind_Update(self, "SPELL")
 end
 
-function Bar:Bind_RegisterButton(button)
+function AB:Bind_RegisterButton(button)
 	if button.IsProtected and button.IsObjectType and button:IsObjectType("CheckButton") and button:IsProtected() then
 		button:HookScript("OnEnter", hookActionButton)
 	end
 end
 
-function Bar:Bind_RegisterMacro()
+function AB:Bind_RegisterMacro()
 	if self ~= "Blizzard_MacroUI" then return end
 
 	for i = 1, MAX_ACCOUNT_MACROS do
@@ -40,8 +40,8 @@ function Bar:Bind_RegisterMacro()
 	end
 end
 
-function Bar:Bind_Create()
-	if Bar.keybindFrame then return end
+function AB:Bind_Create()
+	if AB.keybindFrame then return end
 
 	local frame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
 	frame:SetFrameStrata("DIALOG")
@@ -70,19 +70,19 @@ function Bar:Bind_Create()
 		end
 		GameTooltip:Show()
 	end)
-	frame:SetScript("OnLeave", Bar.Bind_HideFrame)
-	frame:SetScript("OnKeyUp", function(_, key) Bar:Bind_Listener(key) end)
-	frame:SetScript("OnMouseUp", function(_, key) Bar:Bind_Listener(key) end)
+	frame:SetScript("OnLeave", AB.Bind_HideFrame)
+	frame:SetScript("OnKeyUp", function(_, key) AB:Bind_Listener(key) end)
+	frame:SetScript("OnMouseUp", function(_, key) AB:Bind_Listener(key) end)
 	frame:SetScript("OnMouseWheel", function(_, delta)
 		if delta > 0 then
-			Bar:Bind_Listener("MOUSEWHEELUP")
+			AB:Bind_Listener("MOUSEWHEELUP")
 		else
-			Bar:Bind_Listener("MOUSEWHEELDOWN")
+			AB:Bind_Listener("MOUSEWHEELDOWN")
 		end
 	end)
 
-	for _, button in pairs(Bar.buttons) do
-		Bar:Bind_RegisterButton(button)
+	for _, button in pairs(AB.buttons) do
+		AB:Bind_RegisterButton(button)
 	end
 
 	for i = 1, 12 do
@@ -91,16 +91,16 @@ function Bar:Bind_Create()
 	end
 
 	if not IsAddOnLoaded("Blizzard_MacroUI") then
-		hooksecurefunc("LoadAddOn", Bar.Bind_RegisterMacro)
+		hooksecurefunc("LoadAddOn", AB.Bind_RegisterMacro)
 	else
-		Bar.Bind_RegisterMacro("Blizzard_MacroUI")
+		AB.Bind_RegisterMacro("Blizzard_MacroUI")
 	end
 
-	Bar.keybindFrame = frame
+	AB.keybindFrame = frame
 end
 
-function Bar:Bind_Update(button, spellmacro)
-	local frame = Bar.keybindFrame
+function AB:Bind_Update(button, spellmacro)
+	local frame = AB.keybindFrame
 	if not frame.enabled or InCombatLockdown() then return end
 
 	frame.button = button
@@ -173,8 +173,8 @@ local ignoreKeys = {
 	["LeftButton"] = true,
 }
 
-function Bar:Bind_Listener(key)
-	local frame = Bar.keybindFrame
+function AB:Bind_Listener(key)
+	local frame = AB.keybindFrame
 	if key == "ESCAPE" or key == "RightButton" then
 		if frame.bindings then
 			for i = 1, #frame.bindings do
@@ -183,7 +183,7 @@ function Bar:Bind_Listener(key)
 		end
 		print(format(L["Clear binds"], frame.tipName or frame.name))
 
-		Bar:Bind_Update(frame.button, frame.spellmacro)
+		AB:Bind_Update(frame.button, frame.spellmacro)
 		return
 	end
 
@@ -204,22 +204,22 @@ function Bar:Bind_Listener(key)
 	end
 	print((frame.tipName or frame.name).." |cff00ff00"..L["KeyBoundTo"].."|r "..alt..ctrl..shift..key)
 
-	Bar:Bind_Update(frame.button, frame.spellmacro)
+	AB:Bind_Update(frame.button, frame.spellmacro)
 end
 
-function Bar:Bind_HideFrame()
-	local frame = Bar.keybindFrame
+function AB:Bind_HideFrame()
+	local frame = AB.keybindFrame
 	frame:ClearAllPoints()
 	frame:Hide()
 	if not GameTooltip:IsForbidden() then GameTooltip:Hide() end
 end
 
-function Bar:Bind_Activate()
-	Bar.keybindFrame.enabled = true
-	B:RegisterEvent("PLAYER_REGEN_DISABLED", Bar.Bind_Deactivate)
+function AB:Bind_Activate()
+	AB.keybindFrame.enabled = true
+	B:RegisterEvent("PLAYER_REGEN_DISABLED", AB.Bind_Deactivate)
 end
 
-function Bar:Bind_Deactivate(save)
+function AB:Bind_Deactivate(save)
 	if save == true then
 		SaveBindings(C.db["ActionBar"]["BindType"])
 		print(DB.NDuiString.." |cff00ff00"..L["Save keybinds"].."|r")
@@ -228,14 +228,14 @@ function Bar:Bind_Deactivate(save)
 		print(DB.NDuiString.." |cffffff00"..L["Discard keybinds"].."|r")
 	end
 
-	Bar:Bind_HideFrame()
-	Bar.keybindFrame.enabled = false
-	B:UnregisterEvent("PLAYER_REGEN_DISABLED", Bar.Bind_Deactivate)
-	Bar.keybindDialog:Hide()
+	AB:Bind_HideFrame()
+	AB.keybindFrame.enabled = false
+	B:UnregisterEvent("PLAYER_REGEN_DISABLED", AB.Bind_Deactivate)
+	AB.keybindDialog:Hide()
 end
 
-function Bar:Bind_CreateDialog()
-	local dialog = Bar.keybindDialog
+function AB:Bind_CreateDialog()
+	local dialog = AB.keybindDialog
 	if dialog then dialog:Show() return end
 
 	local frame = CreateFrame("Frame", nil, UIParent)
@@ -258,22 +258,22 @@ function Bar:Bind_CreateDialog()
 	local button1 = B.CreateButton(frame, 120, 25, APPLY, 14)
 	button1:SetPoint("BOTTOMLEFT", 25, 10)
 	button1:SetScript("OnClick", function()
-		Bar:Bind_Deactivate(true)
+		AB:Bind_Deactivate(true)
 	end)
 	local button2 = B.CreateButton(frame, 120, 25, CANCEL, 14)
 	button2:SetPoint("BOTTOMRIGHT", -25, 10)
 	button2:SetScript("OnClick", function()
-		Bar:Bind_Deactivate()
+		AB:Bind_Deactivate()
 	end)
 
-	Bar.keybindDialog = frame
+	AB.keybindDialog = frame
 end
 
 SlashCmdList["NDUI_KEYBIND"] = function()
-	if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
+	--if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end -- fix by LibShowUIPanel
 
-	Bar:Bind_Create()
-	Bar:Bind_Activate()
-	Bar:Bind_CreateDialog()
+	AB:Bind_Create()
+	AB:Bind_Activate()
+	AB:Bind_CreateDialog()
 end
 SLASH_NDUI_KEYBIND1 = "/bb"

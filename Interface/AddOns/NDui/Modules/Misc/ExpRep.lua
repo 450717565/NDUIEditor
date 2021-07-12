@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Misc = B:GetModule("Misc")
+local MISC = B:GetModule("Misc")
 
 --[[
 	一个工具条用来替代系统的经验条、声望条、神器经验等等
@@ -34,13 +34,13 @@ local function IsAzeriteAvailable()
 	return itemLocation and itemLocation:IsEquipmentSlot() and not C_AzeriteItem_IsAzeriteItemAtMaxLevel()
 end
 
-function Misc:ExpBar_Update()
+function MISC:ExpBar_Update()
 	local rest = self.restBar
 	if rest then rest:Hide() end
 
 	if not IsPlayerAtEffectiveMaxLevel() then
 		local xp, mxp, rxp = UnitXP("player"), UnitXPMax("player"), GetXPExhaustion()
-		self:SetStatusBarColor(0, .7, 1)
+		self:SetStatusBarColor(0, .7, 1, C.alpha)
 		self:SetMinMaxValues(0, mxp)
 		self:SetValue(xp)
 		self:Show()
@@ -49,7 +49,7 @@ function Misc:ExpBar_Update()
 			rest:SetValue(min(xp + rxp, mxp))
 			rest:Show()
 		end
-		if IsXPUserDisabled() then self:SetStatusBarColor(.7, 0, 0) end
+		if IsXPUserDisabled() then self:SetStatusBarColor(.7, 0, 0, C.alpha) end
 	elseif GetWatchedFactionInfo() then
 		local _, standing, barMin, barMax, value, factionID = GetWatchedFactionInfo()
 		local friendID, friendRep, _, _, _, _, _, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID)
@@ -67,33 +67,33 @@ function Misc:ExpBar_Update()
 		else
 			if standing == MAX_REPUTATION_REACTION then barMin, barMax, value = 0, 1, 1 end
 		end
-		self:SetStatusBarColor(FACTION_BAR_COLORS[standing].r, FACTION_BAR_COLORS[standing].g, FACTION_BAR_COLORS[standing].b, .85)
+		self:SetStatusBarColor(FACTION_BAR_COLORS[standing].r, FACTION_BAR_COLORS[standing].g, FACTION_BAR_COLORS[standing].b, C.alpha)
 		self:SetMinMaxValues(barMin, barMax)
 		self:SetValue(value)
 		self:Show()
 	elseif IsWatchingHonorAsXP() then
 		local current, barMax = UnitHonor("player"), UnitHonorMax("player")
-		self:SetStatusBarColor(1, .24, 0)
+		self:SetStatusBarColor(1, .24, 0, C.alpha)
 		self:SetMinMaxValues(0, barMax)
 		self:SetValue(current)
 		self:Show()
 	elseif IsAzeriteAvailable() then
 		local azeriteItemLocation = C_AzeriteItem_FindActiveAzeriteItem()
 		local xp, totalLevelXP = C_AzeriteItem_GetAzeriteItemXPInfo(azeriteItemLocation)
-		self:SetStatusBarColor(.9, .8, .6)
+		self:SetStatusBarColor(.9, .8, .6, C.alpha)
 		self:SetMinMaxValues(0, totalLevelXP)
 		self:SetValue(xp)
 		self:Show()
 	elseif HasArtifactEquipped() then
 		if C_ArtifactUI_IsEquippedArtifactDisabled() then
-			self:SetStatusBarColor(.6, .6, .6)
+			self:SetStatusBarColor(.6, .6, .6, C.alpha)
 			self:SetMinMaxValues(0, 1)
 			self:SetValue(1)
 		else
 			local _, _, _, _, totalXP, pointsSpent, _, _, _, _, _, _, artifactTier = C_ArtifactUI_GetEquippedArtifactInfo()
 			local _, xp, xpForNextPoint = ArtifactBarGetNumArtifactTraitsPurchasableFromXP(pointsSpent, totalXP, artifactTier)
 			xp = xpForNextPoint == 0 and 0 or xp
-			self:SetStatusBarColor(.9, .8, .6)
+			self:SetStatusBarColor(.9, .8, .6, C.alpha)
 			self:SetMinMaxValues(0, xpForNextPoint)
 			self:SetValue(xp)
 		end
@@ -103,7 +103,7 @@ function Misc:ExpBar_Update()
 	end
 end
 
-function Misc:ExpBar_UpdateTooltip()
+function MISC:ExpBar_UpdateTooltip()
 	GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 	GameTooltip:ClearLines()
 	GameTooltip:AddLine(LEVEL.." "..UnitLevel("player"), 0,.6,1)
@@ -214,7 +214,7 @@ function Misc:ExpBar_UpdateTooltip()
 	GameTooltip:Show()
 end
 
-function Misc:SetupScript(bar)
+function MISC:SetupScript(bar)
 	bar.eventList = {
 		"PLAYER_XP_UPDATE",
 		"PLAYER_LEVEL_UP",
@@ -231,8 +231,8 @@ function Misc:SetupScript(bar)
 	for _, event in pairs(bar.eventList) do
 		bar:RegisterEvent(event)
 	end
-	bar:SetScript("OnEvent", Misc.ExpBar_Update)
-	bar:SetScript("OnEnter", Misc.ExpBar_UpdateTooltip)
+	bar:SetScript("OnEvent", MISC.ExpBar_Update)
+	bar:SetScript("OnEnter", MISC.ExpBar_UpdateTooltip)
 	bar:SetScript("OnLeave", B.HideTooltip)
 	bar:SetScript("OnMouseUp", function(_, btn)
 		if not HasArtifactEquipped() or btn ~= "LeftButton" then return end
@@ -243,11 +243,11 @@ function Misc:SetupScript(bar)
 		end
 	end)
 	hooksecurefunc(StatusTrackingBarManager, "UpdateBarsShown", function()
-		Misc.ExpBar_Update(bar)
+		MISC.ExpBar_Update(bar)
 	end)
 end
 
-function Misc:Expbar()
+function MISC:Expbar()
 	if not C.db["Misc"]["ExpRep"] then return end
 
 	local bar = B.CreateSB(MinimapCluster)
@@ -260,15 +260,15 @@ function Misc:Expbar()
 	local rest = CreateFrame("StatusBar", nil, bar)
 	rest:SetAllPoints()
 	rest:SetStatusBarTexture(DB.normTex)
-	rest:SetStatusBarColor(0, .4, 1, .6)
+	rest:SetStatusBarColor(0, .4, 1, C.alpha)
 	bar.restBar = rest
 
-	Misc:SetupScript(bar)
+	MISC:SetupScript(bar)
 end
-Misc:RegisterMisc("ExpRep", Misc.Expbar)
+MISC:RegisterMisc("ExpRep", MISC.Expbar)
 
 -- Paragon reputation info
-function Misc:HookParagonRep()
+function MISC:HookParagonRep()
 	ReputationFrame.paragonFramesPool:ReleaseAll()
 	local numFactions = GetNumFactions()
 	local factionOffset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
@@ -317,8 +317,8 @@ function Misc:HookParagonRep()
 	end
 end
 
-function Misc:ParagonReputationSetup()
+function MISC:ParagonReputationSetup()
 	if not C.db["Misc"]["ParagonRep"] then return end
-	hooksecurefunc("ReputationFrame_Update", Misc.HookParagonRep)
+	hooksecurefunc("ReputationFrame_Update", MISC.HookParagonRep)
 end
-Misc:RegisterMisc("ParagonRep", Misc.ParagonReputationSetup)
+MISC:RegisterMisc("ParagonRep", MISC.ParagonReputationSetup)

@@ -9,7 +9,7 @@ local function Reskin_SetServiceButton(skillButton, skillIndex)
 		B.StripTextures(skillButton)
 
 		local icbg = B.ReskinIcon(skillButton.icon)
-		local bubg = B.CreateBGFrame(skillButton, 2, 0, 0, 0, icbg)
+		local bubg = B.CreateBGFrame(skillButton, C.margin, 0, 0, 0, icbg)
 
 		if skillButton == ClassTrainerFrame.skillStepButton then
 			bubg:SetPoint("RIGHT", 2+C.mult, 0)

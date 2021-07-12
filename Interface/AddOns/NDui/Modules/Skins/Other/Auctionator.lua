@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
@@ -200,7 +200,7 @@ local function Reskin_BagList(self)
 	end
 end
 
-function Skins:Auctionator()
+function SKIN:Auctionator()
 	if not IsAddOnLoaded("Auctionator") then return end
 
 	local styled
@@ -331,4 +331,4 @@ function Skins:Auctionator()
 	end)
 end
 
-C.OnLoginThemes["Auctionator"] = Skins.Auctionator
+C.OnLoginThemes["Auctionator"] = SKIN.Auctionator

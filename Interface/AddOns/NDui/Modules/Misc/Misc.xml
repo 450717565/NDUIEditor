@@ -1,5 +1,5 @@
 <Ui>
-	<Script file="Misc.lua"/>
+	<Script file="MISC.lua"/>
 
 	<Script file="AlertFrames.lua"/>
 	<Script file="Animation.lua"/>

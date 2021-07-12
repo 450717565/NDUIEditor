@@ -924,7 +924,7 @@ function UF:PostUpdatePlates(event, unit)
 end
 
 -- Player Nameplate
-local Auras = B:GetModule("Auras")
+local AURA = B:GetModule("Auras")
 
 function UF:PlateVisibility(event)
 	local alpha = C.db["Nameplate"]["PPFadeoutAlpha"]
@@ -1000,7 +1000,7 @@ function UF:CreatePlayerPlate()
 	UF:CreatePrediction(self)
 	UF:CreateClassPower(self)
 	UF:StaggerBar(self)
-	if C.db["Auras"]["ClassAuras"] then Auras:CreateLumos(self) end
+	if C.db["Auras"]["ClassAuras"] then AURA:CreateLumos(self) end
 
 	local textFrame = B.CreateParentFrame(self.Power, 1, self)
 	self.powerText = B.CreateFS(textFrame, 14)

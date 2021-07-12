@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local function Reskin_UpdateLog(self)
 	for i = 1, #self.buttons do
@@ -13,7 +13,7 @@ local function Reskin_UpdateLog(self)
 	end
 end
 
-function Skins:ClassicQuestLog()
+function SKIN:ClassicQuestLog()
 	if not IsAddOnLoaded("Classic Quest Log") then return end
 
 	B.ReskinFrame(ClassicQuestLog)
@@ -76,4 +76,4 @@ function Skins:ClassicQuestLog()
 	end
 end
 
-C.OnLoginThemes["ClassicQuestLog"] = Skins.ClassicQuestLog
+C.OnLoginThemes["ClassicQuestLog"] = SKIN.ClassicQuestLog

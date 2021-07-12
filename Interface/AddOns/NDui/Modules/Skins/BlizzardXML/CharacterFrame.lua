@@ -97,7 +97,6 @@ C.OnLoginThemes["CharacterFrame"] = function()
 
 		local overlay = slot.IconOverlay
 		overlay:SetAtlas("CosmeticIconFrame")
-		overlay:SetInside(icbg)
 
 		local tex = popout:CreateTexture(nil, "OVERLAY")
 		tex:SetSize(14, 14)

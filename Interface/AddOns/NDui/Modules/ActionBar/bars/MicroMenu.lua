@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("ActionBar")
+local AB = B:GetModule("ActionBar")
 
 -- Texture credit: 胡里胡涂
 local _G = getfenv(0)
@@ -19,13 +19,13 @@ local function ResetButtonAnchor(button)
 	button:SetAllPoints()
 end
 
-function Bar:MicroButton_SetupTexture(icon, texture)
+function AB:MicroButton_SetupTexture(icon, texture)
 	icon:SetOutside(nil, 3, 3)
 	icon:SetTexture(DB.menuTex..texture)
 	icon:SetVertexColor(cr, cg, cb)
 end
 
-function Bar:MicroButton_Create(parent, data)
+function AB:MicroButton_Create(parent, data)
 	local texture, method, tooltip = unpack(data)
 
 	local bu = CreateFrame("Frame", nil, parent)
@@ -33,7 +33,7 @@ function Bar:MicroButton_Create(parent, data)
 	bu:SetSize(22, 22)
 
 	local icon = bu:CreateTexture(nil, "ARTWORK")
-	Bar:MicroButton_SetupTexture(icon, texture)
+	AB:MicroButton_SetupTexture(icon, texture)
 
 	if type(method) == "string" then
 		local button = _G[method]
@@ -53,21 +53,21 @@ function Bar:MicroButton_Create(parent, data)
 		if tooltip then B.AddTooltip(button, "ANCHOR_TOP", tooltip) end
 
 		local hl = button:GetHighlightTexture()
-		Bar:MicroButton_SetupTexture(hl, texture)
+		AB:MicroButton_SetupTexture(hl, texture)
 
 		local flash = button.Flash
-		Bar:MicroButton_SetupTexture(flash, texture)
+		AB:MicroButton_SetupTexture(flash, texture)
 	else
 		bu:SetScript("OnMouseUp", method)
 		B.AddTooltip(bu, "ANCHOR_TOP", tooltip)
 
 		local hl = bu:CreateTexture(nil, "HIGHLIGHT")
 		hl:SetBlendMode("ADD")
-		Bar:MicroButton_SetupTexture(hl, texture)
+		AB:MicroButton_SetupTexture(hl, texture)
 	end
 end
 
-function Bar:MicroMenu_Lines(parent)
+function AB:MicroMenu_Lines(parent)
 	if not C.db["Skins"]["MenuLine"] then return end
 
 	local width = B.Round(parent:GetWidth()*.6)
@@ -89,7 +89,7 @@ function Bar:MicroMenu_Lines(parent)
 	end
 end
 
-function Bar:MicroMenu()
+function AB:MicroMenu()
 	if not C.db["ActionBar"]["MicroMenu"] then return end
 
 	cr, cg, cb = DB.cr, DB.cg, DB.cb
@@ -99,7 +99,7 @@ function Bar:MicroMenu()
 	local menubar = CreateFrame("Frame", nil, UIParent)
 	menubar:SetSize(323, 22)
 	B.Mover(menubar, L["Menubar"], "Menubar", C.Skins.MicroMenuPos)
-	Bar:MicroMenu_Lines(menubar)
+	AB:MicroMenu_Lines(menubar)
 
 	-- Generate Buttons
 	local buttonInfo = {
@@ -117,7 +117,7 @@ function Bar:MicroMenu()
 		{"bags", function() ToggleAllBags() end, MicroButtonTooltipText(BAGSLOT, "OPENALLBAGS")},
 	}
 	for _, info in pairs(buttonInfo) do
-		Bar:MicroButton_Create(menubar, info)
+		AB:MicroButton_Create(menubar, info)
 	end
 
 	-- Order Positions

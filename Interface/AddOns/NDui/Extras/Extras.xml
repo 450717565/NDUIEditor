@@ -15,4 +15,5 @@
 	<Include file="MountSources.lua"/>
 	<Include file="Progression.lua"/>
 	<Include file="TrainAll.lua"/>
+	<Include file="WorldQuestsHelpers.lua"/>
 </Ui>

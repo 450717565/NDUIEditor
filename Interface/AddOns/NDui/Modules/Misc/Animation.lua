@@ -1,30 +1,30 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Misc = B:GetModule("Misc")
+local MISC = B:GetModule("Misc")
 
 local soundID = SOUNDKIT.UI_LEGENDARY_LOOT_TOAST
 local PlaySound = PlaySound
 
 local needAnimation
 
-function Misc:Logo_PlayAnimation()
+function MISC:Logo_PlayAnimation()
 	if needAnimation then
-		Misc.logoFrame:Show()
-		B:UnregisterEvent(self, Misc.Logo_PlayAnimation)
+		MISC.logoFrame:Show()
+		B:UnregisterEvent(self, MISC.Logo_PlayAnimation)
 		needAnimation = false
 	end
 end
 
-function Misc:Logo_CheckStatus(isInitialLogin)
+function MISC:Logo_CheckStatus(isInitialLogin)
 	if isInitialLogin and not (IsInInstance() and InCombatLockdown()) then
 		needAnimation = true
-		Misc:Logo_Create()
-		B:RegisterEvent("PLAYER_STARTED_MOVING", Misc.Logo_PlayAnimation)
+		MISC:Logo_Create()
+		B:RegisterEvent("PLAYER_STARTED_MOVING", MISC.Logo_PlayAnimation)
 	end
-	B:UnregisterEvent(self, Misc.Logo_CheckStatus)
+	B:UnregisterEvent(self, MISC.Logo_CheckStatus)
 end
 
-function Misc:Logo_Create()
+function MISC:Logo_Create()
 	local frame = CreateFrame("Frame", nil, UIParent)
 	frame:SetSize(300, 150)
 	frame:SetPoint("CENTER", UIParent, "BOTTOM", -500, GetScreenHeight()*.618)
@@ -93,19 +93,19 @@ function Misc:Logo_Create()
 		PlaySound(soundID)
 	end)
 
-	Misc.logoFrame = frame
+	MISC.logoFrame = frame
 end
 
-function Misc:LoginAnimation()
-	B:RegisterEvent("PLAYER_ENTERING_WORLD", Misc.Logo_CheckStatus)
+function MISC:LoginAnimation()
+	B:RegisterEvent("PLAYER_ENTERING_WORLD", MISC.Logo_CheckStatus)
 
 	SlashCmdList["NDUI_PLAYLOGO"] = function()
-		if not Misc.logoFrame then
-			Misc:Logo_Create()
+		if not MISC.logoFrame then
+			MISC:Logo_Create()
 		end
-		Misc.logoFrame:Show()
+		MISC.logoFrame:Show()
 		if DB.isDeveloper then print("Play logo") end
 	end
 	SLASH_NDUI_PLAYLOGO1 = "/nlogo"
 end
-Misc:RegisterMisc("LoginAnimation", Misc.LoginAnimation)
+MISC:RegisterMisc("LoginAnimation", MISC.LoginAnimation)

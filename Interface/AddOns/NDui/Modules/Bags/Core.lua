@@ -836,6 +836,10 @@ function BAG:OnLogin()
 			elseif (item.classID and (item.classID == LE_ITEM_CLASS_ARMOR or item.classID == LE_ITEM_CLASS_CONSUMABLE or item.classID == LE_ITEM_CLASS_MISCELLANEOUS)) or C_ToyBox.GetToyInfo(item.id) then
 				if showItemSlot then self.iSlot:SetText(slot) end
 			end
+
+			if C_Item.IsAnimaItemByID(item.id) then
+				self.Icon:SetTexture(3528288)
+			end
 		end
 
 		if self.glowFrame then

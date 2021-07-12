@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Misc = B:GetModule("Misc")
+local MISC = B:GetModule("Misc")
 
 local format, strsplit, tonumber, pairs, wipe = format, strsplit, tonumber, pairs, wipe
 local Ambiguate = Ambiguate
@@ -22,7 +22,7 @@ local mlvl, wlvl
 local nameString = "|c%s%s|r"
 local mapString = "|cffFFFFFF%s|r (%s)"
 
-function Misc:GuildBest_UpdateTooltip()
+function MISC:GuildBest_UpdateTooltip()
 	local leaderInfo = self.leaderInfo
 	if not leaderInfo then return end
 
@@ -37,7 +37,7 @@ function Misc:GuildBest_UpdateTooltip()
 	GameTooltip:Show()
 end
 
-function Misc:GuildBest_Create()
+function MISC:GuildBest_Create()
 	frame = CreateFrame("Frame", nil, ChallengesFrame)
 	frame:SetPoint("BOTTOMRIGHT", -5, 75)
 	frame:SetSize(246, 105)
@@ -70,7 +70,7 @@ function Misc:GuildBest_Create()
 	end
 end
 
-function Misc:GuildBest_SetUp(leaderInfo)
+function MISC:GuildBest_SetUp(leaderInfo)
 	self.leaderInfo = leaderInfo
 
 	local mapName = C_ChallengeMode_GetMapUIInfo(leaderInfo.mapChallengeModeID)
@@ -80,14 +80,14 @@ function Misc:GuildBest_SetUp(leaderInfo)
 end
 
 local resize
-function Misc:GuildBest_Update()
-	if not frame then Misc:GuildBest_Create() end
+function MISC:GuildBest_Update()
+	if not frame then MISC:GuildBest_Create() end
 
 	if self.leadersAvailable then
 		local leaders = C_ChallengeMode_GetGuildLeaders()
 		if leaders and #leaders > 0 then
 			for i = 1, #leaders do
-				Misc.GuildBest_SetUp(frame.entries[i], leaders[i])
+				MISC.GuildBest_SetUp(frame.entries[i], leaders[i])
 			end
 			frame:Show()
 		else
@@ -115,13 +115,13 @@ function Misc:GuildBest_Update()
 	end
 end
 
-function Misc.GuildBest_OnLoad(event, addon)
+function MISC.GuildBest_OnLoad(event, addon)
 	if addon == "Blizzard_ChallengesUI" then
-		hooksecurefunc("ChallengesFrame_Update", Misc.GuildBest_Update)
-		Misc:KeystoneInfo_Create()
-		ChallengesFrame.WeeklyInfo.Child.WeeklyChest:HookScript("OnEnter", Misc.KeystoneInfo_WeeklyRuns)
+		hooksecurefunc("ChallengesFrame_Update", MISC.GuildBest_Update)
+		MISC:KeystoneInfo_Create()
+		ChallengesFrame.WeeklyInfo.Child.WeeklyChest:HookScript("OnEnter", MISC.KeystoneInfo_WeeklyRuns)
 
-		B:UnregisterEvent(event, Misc.GuildBest_OnLoad)
+		B:UnregisterEvent(event, MISC.GuildBest_OnLoad)
 	end
 end
 
@@ -133,7 +133,7 @@ local function sortHistory(entry1, entry2)
 	end
 end
 
-function Misc:KeystoneInfo_WeeklyRuns()
+function MISC:KeystoneInfo_WeeklyRuns()
 	local runHistory = C_MythicPlus_GetRunHistory(false, true)
 	local numRuns = runHistory and #runHistory
 	if numRuns > 0 then
@@ -155,7 +155,7 @@ function Misc:KeystoneInfo_WeeklyRuns()
 end
 
 -- Keystone Info
-function Misc:KeystoneInfo_Create()
+function MISC:KeystoneInfo_Create()
 	local texture = select(10, GetItemInfo(158923)) or 525134
 	local button = CreateFrame("Frame", "KeystoneInfo", ChallengesFrame)
 	button:SetPoint("BOTTOMLEFT", ChallengesFrame.WeeklyInfo.Child.SeasonBest, "TOPLEFT", 0, 3)
@@ -195,15 +195,15 @@ function Misc:KeystoneInfo_Create()
 	end)
 end
 
-function Misc:KeystoneInfo_UpdateBag()
+function MISC:KeystoneInfo_UpdateBag()
 	local keystoneMapID = C_MythicPlus_GetOwnedKeystoneChallengeMapID()
 	if keystoneMapID then
 		return keystoneMapID, C_MythicPlus_GetOwnedKeystoneLevel()
 	end
 end
 
-function Misc:KeystoneInfo_Update()
-	local mapID, keystoneLevel = Misc:KeystoneInfo_UpdateBag()
+function MISC:KeystoneInfo_Update()
+	local mapID, keystoneLevel = MISC:KeystoneInfo_UpdateBag()
 	if mapID then
 		NDuiADB["KeystoneInfo"][DB.MyFullName] = mapID..":"..keystoneLevel..":"..DB.MyClass..":"..DB.MyFaction
 	else
@@ -211,13 +211,13 @@ function Misc:KeystoneInfo_Update()
 	end
 end
 
-function Misc:GuildBest()
+function MISC:GuildBest()
 	if not C.db["Misc"]["MDGuildBest"] then return end
 
 	hasAngryKeystones = IsAddOnLoaded("AngryKeystones")
-	B:RegisterEvent("ADDON_LOADED", Misc.GuildBest_OnLoad)
+	B:RegisterEvent("ADDON_LOADED", MISC.GuildBest_OnLoad)
 
-	Misc:KeystoneInfo_Update()
-	B:RegisterEvent("BAG_UPDATE", Misc.KeystoneInfo_Update)
+	MISC:KeystoneInfo_Update()
+	B:RegisterEvent("BAG_UPDATE", MISC.KeystoneInfo_Update)
 end
-Misc:RegisterMisc("GuildBest", Misc.GuildBest)
+MISC:RegisterMisc("GuildBest", MISC.GuildBest)

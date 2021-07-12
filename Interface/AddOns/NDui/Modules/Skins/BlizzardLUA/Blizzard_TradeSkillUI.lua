@@ -25,7 +25,7 @@ local function Reskin_Reagents(self)
 		reagent.Icon:SetSize(36, 36)
 
 		local icbg = B.ReskinIcon(reagent.Icon)
-		local bubg = B.CreateBGFrame(reagent, 2, 0, -10, 0, icbg)
+		local bubg = B.CreateBGFrame(reagent, C.margin, 0, -10, 0, icbg)
 
 		if reagent.SelectedTexture then
 			B.ReskinHLTex(reagent.SelectedTexture, icbg)
@@ -45,7 +45,7 @@ local function Reskin_OptionalReagentList(self)
 			button.Icon:SetPoint("TOPLEFT", button, "TOPLEFT", 3, -3)
 
 			local icbg = B.ReskinIcon(button.Icon)
-			local bubg = B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
+			local bubg = B.CreateBGFrame(button, C.margin, 0, -5, 0, icbg)
 
 			hooksecurefunc(button, "SetState", Update_IconBorder)
 

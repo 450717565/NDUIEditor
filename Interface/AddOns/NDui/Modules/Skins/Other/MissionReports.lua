@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:MissionReports()
+function SKIN:MissionReports()
 	if not IsAddOnLoaded("MissionReports") then return end
 
 	for index = 11, 14 do
@@ -22,4 +22,4 @@ function Skins:MissionReports()
 	end
 end
 
-C.OnLoginThemes["Blizzard_GarrisonUI"] = Skins.MissionReports
+C.OnLoginThemes["Blizzard_GarrisonUI"] = SKIN.MissionReports

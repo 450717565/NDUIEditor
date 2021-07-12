@@ -1,10 +1,10 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
-function Skins:BaudErrorFrame()
+function SKIN:BaudErrorFrame()
 	if not IsAddOnLoaded("!BaudErrorFrame") then return end
 
 	B.StripTextures(BaudErrorFrame)
@@ -29,4 +29,4 @@ function Skins:BaudErrorFrame()
 	end
 end
 
-C.OnLoginThemes["BaudErrorFrame"] = Skins.BaudErrorFrame
+C.OnLoginThemes["BaudErrorFrame"] = SKIN.BaudErrorFrame

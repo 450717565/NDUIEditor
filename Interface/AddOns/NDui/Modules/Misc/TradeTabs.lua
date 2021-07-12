@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Misc = B:GetModule("Misc")
+local MISC = B:GetModule("Misc")
 
 local pairs, unpack, tinsert, select = pairs, unpack, tinsert, select
 local GetSpellCooldown, GetSpellInfo, GetItemCooldown, GetItemCount, GetItemInfo = GetSpellCooldown, GetSpellInfo, GetItemCooldown, GetItemCount, GetItemInfo
@@ -28,14 +28,14 @@ local onlyPrimary = {
 	[356] = true, -- Fishing
 }
 
-function Misc:UpdateProfessions()
+function MISC:UpdateProfessions()
 	local prof1, prof2, _, fish, cook = GetProfessions()
 	local profs = {prof1, prof2, fish, cook}
 
 	if DB.MyClass == "DEATHKNIGHT" then
-		Misc:TradeTabs_Create(RUNEFORGING_ID)
+		MISC:TradeTabs_Create(RUNEFORGING_ID)
 	elseif DB.MyClass == "ROGUE" and IsPlayerSpell(PICK_LOCK) then
-		Misc:TradeTabs_Create(PICK_LOCK)
+		MISC:TradeTabs_Create(PICK_LOCK)
 	end
 
 	local isCook
@@ -50,9 +50,9 @@ function Misc:UpdateProfessions()
 				if not IsPassiveSpell(slotID, BOOKTYPE_PROFESSION) then
 					local spellID = select(2, GetSpellBookItemInfo(slotID, BOOKTYPE_PROFESSION))
 					if i == 1 then
-						Misc:TradeTabs_Create(spellID)
+						MISC:TradeTabs_Create(spellID)
 					else
-						Misc:TradeTabs_Create(spellID)
+						MISC:TradeTabs_Create(spellID)
 					end
 				end
 			end
@@ -60,14 +60,14 @@ function Misc:UpdateProfessions()
 	end
 
 	if isCook and PlayerHasToy(CHEF_HAT) and C_ToyBox_IsToyUsable(CHEF_HAT) then
-		Misc:TradeTabs_Create(nil, CHEF_HAT)
+		MISC:TradeTabs_Create(nil, CHEF_HAT)
 	end
 	if GetItemCount(THERMAL_ANVIL) > 0 then
-		Misc:TradeTabs_Create(nil, nil, THERMAL_ANVIL)
+		MISC:TradeTabs_Create(nil, nil, THERMAL_ANVIL)
 	end
 end
 
-function Misc:TradeTabs_Update()
+function MISC:TradeTabs_Update()
 	for _, tab in pairs(tabList) do
 		local spellID = tab.spellID
 		local itemID = tab.itemID
@@ -92,7 +92,7 @@ function Misc:TradeTabs_Update()
 	end
 end
 
-function Misc:TradeTabs_Reskin()
+function MISC:TradeTabs_Reskin()
 	if not C.db["Skins"]["BlizzardSkins"] then return end
 
 	for _, tab in pairs(tabList) do
@@ -105,7 +105,7 @@ function Misc:TradeTabs_Reskin()
 end
 
 local index = 1
-function Misc:TradeTabs_Create(spellID, toyID, itemID)
+function MISC:TradeTabs_Create(spellID, toyID, itemID)
 	local name, _, texture
 	if toyID then
 		_, name, texture = C_ToyBox_GetToyInfo(toyID)
@@ -141,7 +141,7 @@ function Misc:TradeTabs_Create(spellID, toyID, itemID)
 	index = index + 1
 end
 
-function Misc:TradeTabs_FilterIcons()
+function MISC:TradeTabs_FilterIcons()
 	local buttonList = {
 		[1] = {"Atlas:bags-greenarrow", TRADESKILL_FILTER_HAS_SKILL_UP, C_TradeSkillUI_GetOnlyShowSkillUpRecipes, C_TradeSkillUI_SetOnlyShowSkillUpRecipes},
 		[2] = {"Interface\\RAIDFRAME\\ReadyCheck-Ready", CRAFT_IS_MAKEABLE, C_TradeSkillUI_GetOnlyShowMakeableRecipes, C_TradeSkillUI_SetOnlyShowMakeableRecipes},
@@ -183,32 +183,32 @@ function Misc:TradeTabs_FilterIcons()
 	B:RegisterEvent("TRADE_SKILL_LIST_UPDATE", updateFilterStatus)
 end
 
-function Misc:TradeTabs_OnLoad()
-	Misc:UpdateProfessions()
+function MISC:TradeTabs_OnLoad()
+	MISC:UpdateProfessions()
 
-	Misc:TradeTabs_Update()
-	B:RegisterEvent("TRADE_SKILL_SHOW", Misc.TradeTabs_Update)
-	B:RegisterEvent("TRADE_SKILL_CLOSE", Misc.TradeTabs_Update)
-	B:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", Misc.TradeTabs_Update)
+	MISC:TradeTabs_Update()
+	B:RegisterEvent("TRADE_SKILL_SHOW", MISC.TradeTabs_Update)
+	B:RegisterEvent("TRADE_SKILL_CLOSE", MISC.TradeTabs_Update)
+	B:RegisterEvent("CURRENT_SPELL_CAST_CHANGED", MISC.TradeTabs_Update)
 
-	Misc:TradeTabs_FilterIcons()
-	Misc:TradeTabs_QuickEnchanting()
+	MISC:TradeTabs_FilterIcons()
+	MISC:TradeTabs_QuickEnchanting()
 
-	Misc:TradeTabs_Reskin()
+	MISC:TradeTabs_Reskin()
 end
 
-function Misc.TradeTabs_OnEvent(event, addon)
+function MISC.TradeTabs_OnEvent(event, addon)
 	if event == "ADDON_LOADED" and addon == "Blizzard_TradeSkillUI" then
-		B:UnregisterEvent(event, Misc.TradeTabs_OnEvent)
+		B:UnregisterEvent(event, MISC.TradeTabs_OnEvent)
 
 		if InCombatLockdown() then
-			B:RegisterEvent("PLAYER_REGEN_ENABLED", Misc.TradeTabs_OnEvent)
+			B:RegisterEvent("PLAYER_REGEN_ENABLED", MISC.TradeTabs_OnEvent)
 		else
-			Misc:TradeTabs_OnLoad()
+			MISC:TradeTabs_OnLoad()
 		end
 	elseif event == "PLAYER_REGEN_ENABLED" then
-		B:UnregisterEvent(event, Misc.TradeTabs_OnEvent)
-		Misc:TradeTabs_OnLoad()
+		B:UnregisterEvent(event, MISC.TradeTabs_OnEvent)
+		MISC:TradeTabs_OnLoad()
 	end
 end
 
@@ -228,7 +228,7 @@ local function IsRecipeEnchanting(self)
 	end
 end
 
-function Misc:TradeTabs_QuickEnchanting()
+function MISC:TradeTabs_QuickEnchanting()
 	if not TradeSkillFrame then return end
 
 	local detailsFrame = TradeSkillFrame.DetailsFrame
@@ -243,9 +243,9 @@ function Misc:TradeTabs_QuickEnchanting()
 	end)
 end
 
-function Misc:TradeTabs()
+function MISC:TradeTabs()
 	if not C.db["Misc"]["TradeTabs"] then return end
 
-	B:RegisterEvent("ADDON_LOADED", Misc.TradeTabs_OnEvent)
+	B:RegisterEvent("ADDON_LOADED", MISC.TradeTabs_OnEvent)
 end
-Misc:RegisterMisc("TradeTabs", Misc.TradeTabs)
+MISC:RegisterMisc("TradeTabs", MISC.TradeTabs)

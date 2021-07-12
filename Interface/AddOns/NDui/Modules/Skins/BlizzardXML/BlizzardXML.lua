@@ -97,6 +97,11 @@ C.OnLoginThemes["LossOfControlFrame"] = function()
 	hooksecurefunc("LossOfControlFrame_SetUpDisplay", Reskin_LossOfControlFrame)
 end
 
+C.OnLoginThemes["MawBuffsFrame"] = function()
+	B.ReskinMawBuffs(MawBuffsBelowMinimapFrame)
+	B.ReskinMawBuffs(ScenarioBlocksFrame.MawBuffsBlock)
+end
+
 C.OnLoginThemes["ModelPreviewFrame"] = function()
 	B.StripTextures(ModelPreviewFrame)
 	B.CreateBG(ModelPreviewFrame)

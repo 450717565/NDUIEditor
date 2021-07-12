@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("ActionBar")
+local AB = B:GetModule("ActionBar")
 
 local _G = _G
 local tinsert = tinsert
@@ -26,7 +26,7 @@ local function SetFrameSize(frame, size, num)
 	end
 end
 
-function Bar:CreatePetBar()
+function AB:CreatePetBar()
 	local num = NUM_PET_ACTION_SLOTS
 	local buttonList = {}
 
@@ -42,7 +42,7 @@ function Bar:CreatePetBar()
 	for i = 1, num do
 		local button = _G["PetActionButton"..i]
 		tinsert(buttonList, button)
-		tinsert(Bar.buttons, button)
+		tinsert(AB.buttons, button)
 
 		if i == 1 then
 			B.UpdatePoint(button, "LEFT", frame, "LEFT", padding, 0)
@@ -58,6 +58,6 @@ function Bar:CreatePetBar()
 	RegisterStateDriver(frame, "visibility", frame.frameVisibility)
 
 	if cfg.fader then
-		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
+		AB.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 end

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("ActionBar")
+local AB = B:GetModule("ActionBar")
 
 local _G = _G
 local tinsert = tinsert
@@ -48,14 +48,14 @@ local function updateVisibility(event)
 	end
 end
 
-function Bar:FixSizebarVisibility()
+function AB:FixSizebarVisibility()
 	B:RegisterEvent("PET_BATTLE_OVER", updateVisibility)
 	B:RegisterEvent("PET_BATTLE_CLOSE", updateVisibility)
 	B:RegisterEvent("UNIT_EXITED_VEHICLE", updateVisibility)
 	B:RegisterEvent("UNIT_EXITING_VEHICLE", updateVisibility)
 end
 
-function Bar:CreateBar4()
+function AB:CreateBar4()
 	local num = NUM_ACTIONBAR_BUTTONS
 	local buttonList = {}
 	local layout = C.db["ActionBar"]["BarStyle"]
@@ -76,7 +76,7 @@ function Bar:CreateBar4()
 	for i = 1, num do
 		local button = _G["MultiBarRightButton"..i]
 		tinsert(buttonList, button)
-		tinsert(Bar.buttons, button)
+		tinsert(AB.buttons, button)
 
 		if layout == 2 then
 			if i == 1 then
@@ -114,9 +114,9 @@ function Bar:CreateBar4()
 	RegisterStateDriver(frame, "visibility", frame.frameVisibility)
 
 	if C.db["ActionBar"]["Bar4Fade"] and cfg.fader then
-		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
+		AB.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 
 	-- Fix visibility when leaving vehicle or petbattle
-	Bar:FixSizebarVisibility()
+	AB:FixSizebarVisibility()
 end

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local function Update_FrameAnchor(self)
 	B.UpdatePoint(self, "TOPLEFT", MerchantFrame, "TOPRIGHT", 3, -25)
@@ -18,7 +18,7 @@ local function Update_MoneyFrame(self)
 	BuyEmAllCurrency3.icbg:SetShown(BuyEmAllCurrency3:GetTexture() ~= nil)
 end
 
-function Skins:BuyEmAll()
+function SKIN:BuyEmAll()
 	if not IsAddOnLoaded("BuyEmAll") then return end
 
 	B.ReskinFrame(BuyEmAllFrame)
@@ -45,4 +45,4 @@ function Skins:BuyEmAll()
 	hooksecurefunc(BuyEmAll, "UpdateDisplay", Update_MoneyFrame)
 end
 
-C.OnLoginThemes["BuyEmAll"] = Skins.BuyEmAll
+C.OnLoginThemes["BuyEmAll"] = SKIN.BuyEmAll

@@ -78,7 +78,7 @@ local function Reskin_GuildPerks()
 			B.StripTextures(button)
 
 			local icbg = B.ReskinIcon(button.icon)
-			local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
+			local bubg = B.CreateBGFrame(button, C.margin, 0, 0, 0, icbg)
 			B.ReskinHLTex(button, bubg, true)
 
 			button.styled = true

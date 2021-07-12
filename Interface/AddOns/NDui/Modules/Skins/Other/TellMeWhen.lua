@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:TellMeWhen()
+function SKIN:TellMeWhen()
 	if not C.db["Skins"]["TellMeWhen"] or not IsAddOnLoaded("TellMeWhen") then return end
 
 	TMW.Classes.IconModule_Texture:PostHookMethod("OnNewInstance", function(self)

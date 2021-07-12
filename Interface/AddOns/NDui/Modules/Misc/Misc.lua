@@ -49,25 +49,26 @@ function MISC:OnLogin()
 	end
 
 	-- Init
-	MISC:NakedIcon()
-	MISC:ExtendInstance()
-	MISC:VehicleSeatMover()
-	MISC:UIWidgetFrameMover()
-	MISC:MoveDurabilityFrame()
-	MISC:MoveTicketStatusFrame()
-	MISC:UpdateScreenShot()
-	MISC:UpdateFasterLoot()
-	MISC:TradeTargetInfo()
-	MISC:MoveQuestTracker()
 	MISC:BlockStrangerInvite()
+	MISC:EnhanceDressup()
+	MISC:ExtendInstance()
+	MISC:FasterMovieSkip()
+	MISC:FuckTrainSound()
+	MISC:MawWidgetFrame()
+	MISC:MoveDurabilityFrame()
+	MISC:MoveMawBuffsFrame()
+	MISC:MoveQuestTracker()
+	MISC:MoveTicketStatusFrame()
+	MISC:MoveUIWidgetFrame()
+	MISC:MoveVehicleSeat()
+	MISC:NakedIcon()
 	MISC:OverrideAWQ()
 	MISC:ToggleBossBanner()
 	MISC:ToggleBossEmote()
-	MISC:MawWidgetFrame()
+	MISC:TradeTargetInfo()
+	MISC:UpdateFasterLoot()
+	MISC:UpdateScreenShot()
 	MISC:WorldQuestTool()
-	MISC:FasterMovieSkip()
-	MISC:EnhanceDressup()
-	MISC:FuckTrainSound()
 
 	-- Unregister talent event
 	if PlayerTalentFrame then
@@ -192,7 +193,7 @@ function MISC:ExtendInstance()
 end
 
 -- Reanchor Vehicle
-function MISC:VehicleSeatMover()
+function MISC:MoveVehicleSeat()
 	local frame = CreateFrame("Frame", "NDuiVehicleSeatMover", UIParent)
 	frame:SetSize(125, 125)
 	B.Mover(frame, L["VehicleSeat"], "VehicleSeat", {"BOTTOMRIGHT", UIParent, -400, 80})
@@ -205,7 +206,7 @@ function MISC:VehicleSeatMover()
 end
 
 -- Reanchor UIWidgetBelowMinimapContainerFrame
-function MISC:UIWidgetFrameMover()
+function MISC:MoveUIWidgetFrame()
 	local frame = CreateFrame("Frame", "NDuiUIWidgetMover", UIParent)
 	frame:SetSize(200, 50)
 	B.Mover(frame, L["UIWidgetFrame"], "UIWidgetFrame", {"TOPRIGHT", Minimap, "BOTTOMRIGHT", 0, -30})
@@ -213,6 +214,20 @@ function MISC:UIWidgetFrameMover()
 	hooksecurefunc(UIWidgetBelowMinimapContainerFrame, "SetPoint", function(self, _, parent)
 		if parent == "MinimapCluster" or parent == MinimapCluster then
 			B.UpdatePoint(self, "TOPRIGHT", frame, "TOPRIGHT", 0, 0)
+		end
+	end)
+end
+
+-- Reanchor MawBuffsBelowMinimapFrame
+function MISC:MoveMawBuffsFrame()
+	local frame = CreateFrame("Frame", "NDuiMawBuffsMover", UIParent)
+	frame:SetSize(200, 28)
+	local mover = B.Mover(frame, MAW_POWER_DESCRIPTION, "MawBuffs", {"RIGHT", Minimap, "LEFT", -10, 0})
+	frame:SetPoint("CENTER", mover)
+
+	hooksecurefunc(MawBuffsBelowMinimapFrame, "SetPoint", function(self, _, parent)
+		if parent == "MinimapCluster" or parent == MinimapCluster then
+			B.UpdatePoint(self, "CENTER", frame, "CENTER")
 		end
 	end)
 end

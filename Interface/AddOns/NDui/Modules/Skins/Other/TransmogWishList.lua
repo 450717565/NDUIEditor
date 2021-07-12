@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:TransmogWishList()
+function SKIN:TransmogWishList()
 	if not IsAddOnLoaded("TransmogWishList") then return end
 
 	B.ReskinButton(TransmogWishListButton)
@@ -28,4 +28,4 @@ function Skins:TransmogWishList()
 	end
 end
 
-C.OnLoginThemes["TransmogWishList"] = Skins.TransmogWishList
+C.OnLoginThemes["TransmogWishList"] = SKIN.TransmogWishList

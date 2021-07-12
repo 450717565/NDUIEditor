@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Chat = B:GetModule("Chat")
+local CHAT = B:GetModule("Chat")
 
 local strfind, strmatch, gsub, strrep = string.find, string.match, string.gsub, string.rep
 local pairs, tonumber = pairs, tonumber
@@ -17,18 +17,18 @@ local BN_TOAST_TYPE_CLUB_INVITATION = BN_TOAST_TYPE_CLUB_INVITATION or 6
 local msgSymbols = {"`", "～", "＠", "＃", "^", "＊", "！", "？", "。", "|", " ", "—", "——", "￥", "’", "‘", "“", "”", "【", "】", "『", "』", "《", "》", "〈", "〉", "（", "）", "〔", "〕", "、", "，", "：", ",", "_", "/", "~"}
 
 local FilterList = {}
-function Chat:UpdateFilterList()
+function CHAT:UpdateFilterList()
 	B.SplitList(FilterList, NDuiADB["ChatFilterList"], true)
 end
 
 local WhiteFilterList = {}
-function Chat:UpdateFilterWhiteList()
+function CHAT:UpdateFilterWhiteList()
 	B.SplitList(WhiteFilterList, NDuiADB["ChatFilterWhiteList"], true)
 end
 
 -- ECF strings compare
 local last, this = {}, {}
-function Chat:CompareStrDiff(sA, sB) -- arrays of bytes
+function CHAT:CompareStrDiff(sA, sB) -- arrays of bytes
 	local len_a, len_b = #sA, #sB
 	for j = 0, len_b do
 		last[j+1] = j
@@ -49,7 +49,7 @@ end
 C.BadBoys = {} -- debug
 local chatLines, prevLineID, filterResult = {}, 0, false
 
-function Chat:GetFilterResult(event, msg, name, flag, guid)
+function CHAT:GetFilterResult(event, msg, name, flag, guid)
 	if name == DB.MyName or (event == "CHAT_MSG_WHISPER" and flag == "GM") or flag == "DEV" then
 		return
 	elseif guid and (IsGuildMember(guid) or C_BattleNet_GetGameAccountInfoByGUID(guid) or C_FriendList_IsFriend(guid) or IsGUIDInGroup(guid)) then
@@ -57,7 +57,7 @@ function Chat:GetFilterResult(event, msg, name, flag, guid)
 	end
 
 	if C.db["Chat"]["BlockStranger"] and event == "CHAT_MSG_WHISPER" then -- Block strangers
-		Chat.MuteThisTime = true
+		CHAT.MuteThisTime = true
 		return true
 	end
 
@@ -113,7 +113,7 @@ function Chat:GetFilterResult(event, msg, name, flag, guid)
 	chatLines[chatLinesSize+1] = msgTable
 	for i = 1, chatLinesSize do
 		local line = chatLines[i]
-		if line[1] == msgTable[1] and ((event == "CHAT_MSG_CHANNEL" and msgTable[3] - line[3] < .6) or Chat:CompareStrDiff(line[2], msgTable[2]) <= .1) then
+		if line[1] == msgTable[1] and ((event == "CHAT_MSG_CHANNEL" and msgTable[3] - line[3] < .6) or CHAT:CompareStrDiff(line[2], msgTable[2]) <= .1) then
 			tremove(chatLines, i)
 
 			return true
@@ -122,12 +122,12 @@ function Chat:GetFilterResult(event, msg, name, flag, guid)
 	if chatLinesSize >= 30 then tremove(chatLines, 1) end
 end
 
-function Chat:UpdateChatFilter(event, msg, author, _, _, _, flag, _, _, _, _, lineID, guid)
+function CHAT:UpdateChatFilter(event, msg, author, _, _, _, flag, _, _, _, _, lineID, guid)
 	if lineID ~= prevLineID then
 		prevLineID = lineID
 
 		local name = Ambiguate(author, "none")
-		filterResult = Chat:GetFilterResult(event, msg, name, flag, guid)
+		filterResult = CHAT:GetFilterResult(event, msg, name, flag, guid)
 		if filterResult and filterResult ~= 0 then
 			C.BadBoys[name] = (C.BadBoys[name] or 0) + 1
 		end
@@ -149,25 +149,25 @@ local function toggleCVar(value)
 	SetCVar(cvar, value)
 end
 
-function Chat:ToggleChatBubble(party)
+function CHAT:ToggleChatBubble(party)
 	cvar = "chatBubbles"..(party and "Party" or "")
 	if not GetCVarBool(cvar) then return end
 	toggleCVar(0)
 	C_Timer_After(.01, toggleCVar)
 end
 
-function Chat:UpdateAddOnBlocker(event, msg, author)
+function CHAT:UpdateAddOnBlocker(event, msg, author)
 	local name = Ambiguate(author, "none")
 	if UnitIsUnit(name, "player") then return end
 
 	for _, word in pairs(addonBlockList) do
 		if strfind(msg, word) then
 			if event == "CHAT_MSG_SAY" or event == "CHAT_MSG_YELL" then
-				Chat:ToggleChatBubble()
+				CHAT:ToggleChatBubble()
 			elseif event == "CHAT_MSG_PARTY" or event == "CHAT_MSG_PARTY_LEADER" then
-				Chat:ToggleChatBubble(true)
+				CHAT:ToggleChatBubble(true)
 			elseif event == "CHAT_MSG_WHISPER" then
-				Chat.MuteThisTime = true
+				CHAT.MuteThisTime = true
 			end
 
 			return true
@@ -177,7 +177,7 @@ end
 
 -- Block trash clubs
 local trashClubs = {"站桩", "致敬我们", "我们一起玩游戏", "部落大杂烩", "小号提升"}
-function Chat:BlockTrashClub()
+function CHAT:BlockTrashClub()
 	if self.toastType == BN_TOAST_TYPE_CLUB_INVITATION then
 		local text = self.DoubleLine:GetText() or ""
 		for _, name in pairs(trashClubs) do
@@ -265,14 +265,14 @@ local function convertItemLevel(link)
 	return link
 end
 
-function Chat:UpdateChatItemLevel(_, msg, ...)
+function CHAT:UpdateChatItemLevel(_, msg, ...)
 	msg = gsub(msg, "(|Hitem:%d+:.-|h.-|h)", convertItemLevel)
 
 	return false, msg, ...
 end
 
 local chatEvents = DB.ChatEvents
-function Chat:ChatFilter()
+function CHAT:ChatFilter()
 	hooksecurefunc(BNToastFrame, "ShowToast", self.BlockTrashClub)
 
 	for _, event in pairs(chatEvents) do

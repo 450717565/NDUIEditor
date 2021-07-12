@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Misc = B:GetModule("Misc")
+local MISC = B:GetModule("Misc")
 
 local _G = getfenv(0)
 local pairs, tremove = pairs, table.remove
@@ -11,7 +11,7 @@ local GroupLootContainer = _G.GroupLootContainer
 local POSITION, ANCHOR_POINT, YOFFSET = "TOP", "BOTTOM", -10
 local parentFrame, talkFrame
 
-function Misc:AlertFrame_UpdateAnchor()
+function MISC:AlertFrame_UpdateAnchor()
 	if not parentFrame then return end
 
 	local y = select(2, parentFrame:GetCenter())
@@ -30,7 +30,7 @@ function Misc:AlertFrame_UpdateAnchor()
 	B.UpdatePoint(GroupLootContainer, POSITION, parentFrame, POSITION)
 end
 
-function Misc:UpdatGroupLootContainer()
+function MISC:UpdatGroupLootContainer()
 	local lastIdx = nil
 
 	for i = 1, self.maxIndex do
@@ -50,44 +50,44 @@ function Misc:UpdatGroupLootContainer()
 	end
 end
 
-function Misc:AlertFrame_SetPoint(relativeAlert)
+function MISC:AlertFrame_SetPoint(relativeAlert)
 	B.UpdatePoint(self, POSITION, relativeAlert, ANCHOR_POINT, 0, YOFFSET)
 end
 
-function Misc:AlertFrame_AdjustQueuedAnchors(relativeAlert)
+function MISC:AlertFrame_AdjustQueuedAnchors(relativeAlert)
 	for alertFrame in self.alertFramePool:EnumerateActive() do
-		Misc.AlertFrame_SetPoint(alertFrame, relativeAlert)
+		MISC.AlertFrame_SetPoint(alertFrame, relativeAlert)
 		relativeAlert = alertFrame
 	end
 
 	return relativeAlert
 end
 
-function Misc:AlertFrame_AdjustAnchors(relativeAlert)
+function MISC:AlertFrame_AdjustAnchors(relativeAlert)
 	if self.alertFrame:IsShown() then
-		Misc.AlertFrame_SetPoint(self.alertFrame, relativeAlert)
+		MISC.AlertFrame_SetPoint(self.alertFrame, relativeAlert)
 		return self.alertFrame
 	end
 
 	return relativeAlert
 end
 
-function Misc:AlertFrame_AdjustAnchorsNonAlert(relativeAlert)
+function MISC:AlertFrame_AdjustAnchorsNonAlert(relativeAlert)
 	if self.anchorFrame:IsShown() then
-		Misc.AlertFrame_SetPoint(self.anchorFrame, relativeAlert)
+		MISC.AlertFrame_SetPoint(self.anchorFrame, relativeAlert)
 		return self.anchorFrame
 	end
 
 	return relativeAlert
 end
 
-function Misc:AlertFrame_AdjustPosition()
+function MISC:AlertFrame_AdjustPosition()
 	if self.alertFramePool then
-		self.AdjustAnchors = Misc.AlertFrame_AdjustQueuedAnchors
+		self.AdjustAnchors = MISC.AlertFrame_AdjustQueuedAnchors
 	elseif not self.anchorFrame then
-		self.AdjustAnchors = Misc.AlertFrame_AdjustAnchors
+		self.AdjustAnchors = MISC.AlertFrame_AdjustAnchors
 	elseif self.anchorFrame then
-		self.AdjustAnchors = Misc.AlertFrame_AdjustAnchorsNonAlert
+		self.AdjustAnchors = MISC.AlertFrame_AdjustAnchorsNonAlert
 	end
 end
 
@@ -122,7 +122,7 @@ local function TalkingHeadOnLoad(event, addon)
 	end
 end
 
-function Misc:AlertFrame_Setup()
+function MISC:AlertFrame_Setup()
 	if not IsAddOnLoaded("ls_Toasts") then
 		if parentFrame then return end
 
@@ -144,15 +144,15 @@ function Misc:AlertFrame_Setup()
 	GroupLootContainer:SetAttribute("ignoreFramePositionManager", true)
 
 	for _, alertFrameSubSystem in pairs(AlertFrame.alertFrameSubSystems) do
-		Misc.AlertFrame_AdjustPosition(alertFrameSubSystem)
+		MISC.AlertFrame_AdjustPosition(alertFrameSubSystem)
 	end
 
 	hooksecurefunc(AlertFrame, "AddAlertFrameSubSystem", function(_, alertFrameSubSystem)
-		Misc.AlertFrame_AdjustPosition(alertFrameSubSystem)
+		MISC.AlertFrame_AdjustPosition(alertFrameSubSystem)
 	end)
 
-	hooksecurefunc(AlertFrame, "UpdateAnchors", Misc.AlertFrame_UpdateAnchor)
-	hooksecurefunc("GroupLootContainer_Update", Misc.UpdatGroupLootContainer)
+	hooksecurefunc(AlertFrame, "UpdateAnchors", MISC.AlertFrame_UpdateAnchor)
+	hooksecurefunc("GroupLootContainer_Update", MISC.UpdatGroupLootContainer)
 
 	if IsAddOnLoaded("Blizzard_TalkingHeadUI") then
 		MoveTalkingHead()
@@ -161,4 +161,4 @@ function Misc:AlertFrame_Setup()
 		B:RegisterEvent("ADDON_LOADED", TalkingHeadOnLoad)
 	end
 end
-Misc:RegisterMisc("AlertFrame", Misc.AlertFrame_Setup)
+MISC:RegisterMisc("AlertFrame", MISC.AlertFrame_Setup)

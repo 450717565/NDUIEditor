@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Misc = B:GetModule("Misc")
+local MISC = B:GetModule("Misc")
 
 local strmatch, strfind, gsub, format, floor = strmatch, strfind, gsub, format, floor
 local wipe, mod, tonumber, pairs, print = wipe, mod, tonumber, pairs, print
@@ -71,7 +71,7 @@ local questMatches = {
 	["QuestFailed"] = getPattern(ERR_QUEST_FAILED_S),
 }
 
-function Misc:FindQuestProgress(_, msg)
+function MISC:FindQuestProgress(_, msg)
 	if not C.db["Misc"]["QuestProgress"] then return end
 	if C.db["Misc"]["OnlyCompleteRing"] then return end
 
@@ -92,7 +92,7 @@ function Misc:FindQuestProgress(_, msg)
 end
 
 local WQcache = {}
-function Misc:FindQuestAccept(questID)
+function MISC:FindQuestAccept(questID)
 	if not questID then return end
 	if C_QuestLog_IsWorldQuest(questID) and WQcache[questID] then return end
 	WQcache[questID] = true
@@ -109,7 +109,7 @@ function Misc:FindQuestAccept(questID)
 	end
 end
 
-function Misc:FindQuestComplete()
+function MISC:FindQuestComplete()
 	for i = 1, C_QuestLog_GetNumQuestLogEntries() do
 		local questID = C_QuestLog_GetQuestIDForLogIndex(i)
 		local isComplete = questID and C_QuestLog_IsComplete(questID)
@@ -123,7 +123,7 @@ function Misc:FindQuestComplete()
 	initComplete = true
 end
 
-function Misc:FindWorldQuestComplete(questID)
+function MISC:FindWorldQuestComplete(questID)
 	if C_QuestLog_IsWorldQuest(questID) then
 		if questID and not completedQuest[questID] then
 			sendQuestMsg(completeText(questID))
@@ -132,18 +132,18 @@ function Misc:FindWorldQuestComplete(questID)
 	end
 end
 
-function Misc:QuestNotification()
+function MISC:QuestNotification()
 	if C.db["Misc"]["QuestNotification"] then
-		B:RegisterEvent("QUEST_ACCEPTED", Misc.FindQuestAccept)
-		B:RegisterEvent("QUEST_LOG_UPDATE", Misc.FindQuestComplete)
-		B:RegisterEvent("QUEST_TURNED_IN", Misc.FindWorldQuestComplete)
-		B:RegisterEvent("UI_INFO_MESSAGE", Misc.FindQuestProgress)
+		B:RegisterEvent("QUEST_ACCEPTED", MISC.FindQuestAccept)
+		B:RegisterEvent("QUEST_LOG_UPDATE", MISC.FindQuestComplete)
+		B:RegisterEvent("QUEST_TURNED_IN", MISC.FindWorldQuestComplete)
+		B:RegisterEvent("UI_INFO_MESSAGE", MISC.FindQuestProgress)
 	else
 		wipe(completedQuest)
-		B:UnregisterEvent("QUEST_ACCEPTED", Misc.FindQuestAccept)
-		B:UnregisterEvent("QUEST_LOG_UPDATE", Misc.FindQuestComplete)
-		B:UnregisterEvent("QUEST_TURNED_IN", Misc.FindWorldQuestComplete)
-		B:UnregisterEvent("UI_INFO_MESSAGE", Misc.FindQuestProgress)
+		B:UnregisterEvent("QUEST_ACCEPTED", MISC.FindQuestAccept)
+		B:UnregisterEvent("QUEST_LOG_UPDATE", MISC.FindQuestComplete)
+		B:UnregisterEvent("QUEST_TURNED_IN", MISC.FindWorldQuestComplete)
+		B:UnregisterEvent("UI_INFO_MESSAGE", MISC.FindQuestProgress)
 	end
 end
-Misc:RegisterMisc("QuestNotification", Misc.QuestNotification)
+MISC:RegisterMisc("QuestNotification", MISC.QuestNotification)

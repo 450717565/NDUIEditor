@@ -1,6 +1,6 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Chat = B:GetModule("Chat")
+local CHAT = B:GetModule("Chat")
 
 local gsub, strfind, strmatch = string.gsub, string.find, string.match
 local BetterDate, time = BetterDate, time
@@ -12,7 +12,7 @@ local timestampFormat = {
 	[4] = "[%H:%M] ",
 	[5] = "[%H:%M:%S] ",
 }
-function Chat:UpdateChannelNames(text, ...)
+function CHAT:UpdateChannelNames(text, ...)
 	if strfind(text, INTERFACE_ACTION_BLOCKED) and not DB.isDeveloper then return end
 
 	local r, g, b = ...
@@ -46,12 +46,12 @@ function Chat:UpdateChannelNames(text, ...)
 	end
 end
 
-function Chat:ChannelRename()
+function CHAT:ChannelRename()
 	for i = 1, NUM_CHAT_WINDOWS do
 		if i ~= 2 then
 			local chatFrame = _G["ChatFrame"..i]
 			chatFrame.oldAddMsg = chatFrame.AddMessage
-			chatFrame.AddMessage = Chat.UpdateChannelNames
+			chatFrame.AddMessage = CHAT.UpdateChannelNames
 		end
 	end
 

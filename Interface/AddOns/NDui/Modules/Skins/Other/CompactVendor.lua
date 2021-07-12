@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local function Update_FrameAnchor(self)
 	self:ClearAllPoints()
@@ -52,7 +52,7 @@ local function Reskin_RefreshListDisplay(self)
 	end
 end
 
-function Skins:CompactVendor()
+function SKIN:CompactVendor()
 	if not IsAddOnLoaded("CompactVendor") then return end
 
 	local frame = VladsVendorFrame
@@ -80,4 +80,4 @@ function Skins:CompactVendor()
 	hooksecurefunc(List, "RefreshListDisplay", Reskin_RefreshListDisplay)
 end
 
-C.OnLoginThemes["CompactVendor"] = Skins.CompactVendor
+C.OnLoginThemes["CompactVendor"] = SKIN.CompactVendor

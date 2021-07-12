@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 ----------------------------
 -- Credit: AddOnSkins_MeetingStone by hokohuang
@@ -66,7 +66,7 @@ local function ReskinMS_ALFrame()
 	end
 end
 
-function Skins:MeetingStone()
+function SKIN:MeetingStone()
 	if not IsAddOnLoaded("MeetingStone") and not IsAddOnLoaded("MeetingStonePlus") then return end
 
 	local MS = LibStub("AceAddon-3.0"):GetAddon("MeetingStone")
@@ -572,4 +572,4 @@ function Skins:MeetingStone()
 	end
 end
 
-C.OnLoginThemes["MeetingStone"] = Skins.MeetingStone
+C.OnLoginThemes["MeetingStone"] = SKIN.MeetingStone

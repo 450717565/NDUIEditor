@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("ActionBar")
+local AB = B:GetModule("ActionBar")
 
 local _G = _G
 local next, tonumber = next, tonumber
@@ -72,7 +72,7 @@ local function updateTokenVisibility()
 	BackpackTokenFrame_Update()
 end
 
-function Bar:HideBlizz()
+function AB:HideBlizz()
 	MainMenuBar:SetMovable(true)
 	MainMenuBar:SetUserPlaced(true)
 	MainMenuBar.ignoreFramePositionManager = true

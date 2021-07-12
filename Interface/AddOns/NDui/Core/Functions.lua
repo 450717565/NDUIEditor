@@ -1130,9 +1130,6 @@ do
 			end
 		end
 		hooksecurefunc(self, "Hide", resetBorderColor)
-
-		if parent.IconOverlay then parent.IconOverlay:SetInside(icbg) end
-		if parent.IconOverlay2 then parent.IconOverlay2:SetInside(icbg) end
 	end
 
 	function B:ReskinBGBorder(relativeTo, classColor)
@@ -1405,13 +1402,19 @@ do
 		"CircleMask",
 	}
 	function B:ReskinIcon(alpha)
+		self:SetTexCoord(tL, tR, tT, tB)
+
 		if self.SetDrawLayer then
 			if self:GetDrawLayer() == "BACKGROUND" or self:GetDrawLayer() == "BORDER" then
 				self:SetDrawLayer("ARTWORK")
 			end
 		end
 
+		local icbg = B.CreateBDFrame(self, alpha, -C.mult)
 		local parent = self:GetParent()
+
+		if parent.IconOverlay then parent.IconOverlay:SetInside(icbg) end
+		if parent.IconOverlay2 then parent.IconOverlay2:SetInside(icbg) end
 		for _, name in pairs(maskList) do
 			local mask = B.GetObject(parent, name)
 			if mask then
@@ -1420,9 +1423,6 @@ do
 				mask:Hide()
 			end
 		end
-
-		self:SetTexCoord(tL, tR, tT, tB)
-		local icbg = B.CreateBDFrame(self, alpha, -C.mult)
 
 		return icbg
 	end

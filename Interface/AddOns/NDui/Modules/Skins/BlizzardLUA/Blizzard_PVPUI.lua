@@ -137,7 +137,7 @@ C.OnLoadThemes["Blizzard_PVPUI"] = function()
 		B.CleanTextures(button)
 
 		local icbg = B.ReskinIcon(button.Icon)
-		local bubg = B.CreateBGFrame(button, 2, 0, -2, 0, icbg)
+		local bubg = B.CreateBGFrame(button, C.margin, 0, -2, 0, icbg)
 		B.ReskinHLTex(button.HighlightTexture, bubg, true)
 		B.ReskinHLTex(button.SelectedTexture, bubg, true)
 

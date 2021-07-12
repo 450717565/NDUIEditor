@@ -13,7 +13,7 @@ local function Reskin_DisplayedItem(self)
 		icbg:SetBackdropBorderColor(r, g, b)
 		icbg:SetFrameLevel(self:GetFrameLevel())
 
-		local bubg = B.CreateBGFrame(self, 2, 0, 0, 0, icbg)
+		local bubg = B.CreateBGFrame(self, C.margin, 0, 0, 0, icbg)
 		bubg:SetBackdropBorderColor(r, g, b)
 
 		self.styled = true

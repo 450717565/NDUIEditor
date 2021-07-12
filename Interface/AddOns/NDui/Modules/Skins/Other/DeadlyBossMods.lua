@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local iconSize = 20
 
@@ -108,7 +108,7 @@ local function Reskin_RangeCheck()
 	end
 end
 
-function Skins:DeadlyBossMods()
+function SKIN:DeadlyBossMods()
 	-- Default notice message
 	local RaidNotice_AddMessage_ = RaidNotice_AddMessage
 	RaidNotice_AddMessage = function(noticeFrame, textString, colorInfo)

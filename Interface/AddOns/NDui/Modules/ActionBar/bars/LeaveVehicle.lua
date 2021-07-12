@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("ActionBar")
+local AB = B:GetModule("ActionBar")
 
 local _G = _G
 local tinsert = tinsert
@@ -26,7 +26,7 @@ local function SetFrameSize(frame, size, num)
 	end
 end
 
-function Bar:CreateLeaveVehicle()
+function AB:CreateLeaveVehicle()
 	local num = 1
 	local buttonList = {}
 	local layout = C.db["ActionBar"]["BarStyle"]
@@ -66,6 +66,6 @@ function Bar:CreateLeaveVehicle()
 	if not CanExitVehicle() then frame:Hide() end
 
 	if cfg.fader then
-		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
+		AB.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 end

@@ -1,6 +1,6 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Auras = B:GetModule("Auras")
+local AURA = B:GetModule("Auras")
 
 local maxFrames = 12 -- Max Tracked Auras
 local updater = CreateFrame("Frame")
@@ -153,7 +153,7 @@ local PetBattleFrameHider = CreateFrame("Frame", nil, UIParent, "SecureHandlerSt
 PetBattleFrameHider:SetAllPoints()
 PetBattleFrameHider:SetFrameStrata("LOW")
 RegisterStateDriver(PetBattleFrameHider, "visibility", "[petbattle] hide; show")
-Auras.PetBattleFrameHider = PetBattleFrameHider
+AURA.PetBattleFrameHider = PetBattleFrameHider
 
 local function tooltipOnEnter(self)
 	GameTooltip:ClearLines()
@@ -172,7 +172,7 @@ local function tooltipOnEnter(self)
 	GameTooltip:Show()
 end
 
-function Auras:RemoveSpellFromAuraList()
+function AURA:RemoveSpellFromAuraList()
 	if IsAltKeyDown() and IsControlKeyDown() and self.type == 4 and self.spellID then
 		C.db["AuraWatchList"]["IgnoreSpells"][self.spellID] = true
 		print(format(L["AddToIgnoreList"], DB.NDuiString, self.spellID))
@@ -186,7 +186,7 @@ local function enableTooltip(self)
 	self.HL:SetInside(self.bubg)
 	self:SetScript("OnEnter", tooltipOnEnter)
 	self:SetScript("OnLeave", B.HideTooltip)
-	self:SetScript("OnMouseDown", Auras.RemoveSpellFromAuraList)
+	self:SetScript("OnMouseDown", AURA.RemoveSpellFromAuraList)
 end
 
 -- Icon mode
@@ -306,7 +306,7 @@ local function InitSetup()
 end
 
 -- Update timer
-function Auras:AuraWatch_UpdateTimer()
+function AURA:AuraWatch_UpdateTimer()
 	self.Statusbar:SetMinMaxValues(0, self.duration or 1)
 
 	if self.expires then
@@ -331,7 +331,7 @@ function Auras:AuraWatch_UpdateTimer()
 end
 
 -- Update cooldown
-function Auras:AuraWatch_SetupCD(index, name, icon, start, duration, _, type, id, charges)
+function AURA:AuraWatch_SetupCD(index, name, icon, start, duration, _, type, id, charges)
 	local frames = FrameList[index]
 	local frame = frames[frames.Index]
 	if frame then frame:Show() end
@@ -347,7 +347,7 @@ function Auras:AuraWatch_SetupCD(index, name, icon, start, duration, _, type, id
 		frame.duration = duration
 		frame.start = start
 		frame.elapsed = 0
-		frame:SetScript("OnUpdate", Auras.AuraWatch_UpdateTimer)
+		frame:SetScript("OnUpdate", AURA.AuraWatch_UpdateTimer)
 	end
 	frame.type = type
 	frame.spellID = id
@@ -355,7 +355,7 @@ function Auras:AuraWatch_SetupCD(index, name, icon, start, duration, _, type, id
 	frames.Index = (frames.Index + 1 > maxFrames) and maxFrames or frames.Index + 1
 end
 
-function Auras:AuraWatch_UpdateCD()
+function AURA:AuraWatch_UpdateCD()
 	for KEY, VALUE in pairs(cooldownTable) do
 		for spellID in pairs(VALUE) do
 			local group = AuraList[KEY]
@@ -367,16 +367,16 @@ function Auras:AuraWatch_UpdateCD()
 					local charges, maxCharges, chargeStart, chargeDuration = GetSpellCharges(value.SpellID)
 					if group.Mode:lower() == "icon" then name = nil end
 					if charges and maxCharges and maxCharges > 1 and charges < maxCharges then
-						Auras:AuraWatch_SetupCD(KEY, name, icon, chargeStart, chargeDuration, true, 1, value.SpellID, charges)
+						AURA:AuraWatch_SetupCD(KEY, name, icon, chargeStart, chargeDuration, true, 1, value.SpellID, charges)
 					elseif start and duration > 3 then
-						Auras:AuraWatch_SetupCD(KEY, name, icon, start, duration, true, 1, value.SpellID)
+						AURA:AuraWatch_SetupCD(KEY, name, icon, start, duration, true, 1, value.SpellID)
 					end
 				elseif value.ItemID then
 					local start, duration = GetItemCooldown(value.ItemID)
 					if start and duration > 3 then
 						local name, _, _, _, _, _, _, _, _, icon = GetItemInfo(value.ItemID)
 						if group.Mode:lower() == "icon" then name = nil end
-						Auras:AuraWatch_SetupCD(KEY, name, icon, start, duration, false, 2, value.ItemID)
+						AURA:AuraWatch_SetupCD(KEY, name, icon, start, duration, false, 2, value.ItemID)
 					end
 				elseif value.SlotID then
 					local link = GetInventoryItemLink("player", value.SlotID)
@@ -385,14 +385,14 @@ function Auras:AuraWatch_UpdateCD()
 						local start, duration = GetInventoryItemCooldown("player", value.SlotID)
 						if duration > 1.5 then
 							if group.Mode:lower() == "icon" then name = nil end
-							Auras:AuraWatch_SetupCD(KEY, name, icon, start, duration, false, 3, value.SlotID)
+							AURA:AuraWatch_SetupCD(KEY, name, icon, start, duration, false, 3, value.SlotID)
 						end
 					end
 				elseif value.TotemID then
 					local haveTotem, name, start, duration, icon = GetTotemInfo(value.TotemID)
 					if haveTotem then
 						if group.Mode:lower() == "icon" then name = nil end
-						Auras:AuraWatch_SetupCD(KEY, name, icon, start, duration, false, 5, value.TotemID)
+						AURA:AuraWatch_SetupCD(KEY, name, icon, start, duration, false, 5, value.TotemID)
 					end
 				end
 			end
@@ -401,7 +401,7 @@ function Auras:AuraWatch_UpdateCD()
 end
 
 -- UpdateAura
-function Auras:AuraWatch_SetupAura(index, UnitID, name, icon, count, duration, expires, id, filter, flash, spellID)
+function AURA:AuraWatch_SetupAura(index, UnitID, name, icon, count, duration, expires, id, filter, flash, spellID)
 	if not index then return end
 
 	local frames = FrameList[index]
@@ -418,7 +418,7 @@ function Auras:AuraWatch_SetupAura(index, UnitID, name, icon, count, duration, e
 		frame.duration = duration
 		frame.expires = expires
 		frame.elapsed = 0
-		frame:SetScript("OnUpdate", Auras.AuraWatch_UpdateTimer)
+		frame:SetScript("OnUpdate", AURA.AuraWatch_UpdateTimer)
 	end
 	if frame.glowFrame then
 		if flash then
@@ -436,7 +436,7 @@ function Auras:AuraWatch_SetupAura(index, UnitID, name, icon, count, duration, e
 	frames.Index = (frames.Index + 1 > maxFrames) and maxFrames or frames.Index + 1
 end
 
-function Auras:AuraWatch_UpdateAura(spellID, UnitID, index, bool)
+function AURA:AuraWatch_UpdateAura(spellID, UnitID, index, bool)
 	if C.db["AuraWatchList"]["IgnoreSpells"][spellID] then return end -- ignore spells
 
 	for KEY, VALUE in pairs(AuraList) do
@@ -467,12 +467,12 @@ function Auras:AuraWatch_UpdateAura(spellID, UnitID, index, bool)
 	return false
 end
 
-function Auras:UpdateAuraWatch(UnitID)
+function AURA:UpdateAuraWatch(UnitID)
 	local buffIndex = 1
 	while true do
 		local name, _, _, _, _, _, _, _, _, spellID = UnitBuff(UnitID, buffIndex)
 		if not name then break end
-		Auras:AuraWatch_SetupAura(Auras:AuraWatch_UpdateAura(spellID, UnitID, buffIndex, true))
+		AURA:AuraWatch_SetupAura(AURA:AuraWatch_UpdateAura(spellID, UnitID, buffIndex, true))
 
 		buffIndex = buffIndex + 1
 	end
@@ -481,14 +481,14 @@ function Auras:UpdateAuraWatch(UnitID)
 	while true do
 		local name, _, _, _, _, _, _, _, _, spellID = UnitDebuff(UnitID, debuffIndex)
 		if not name then break end
-		Auras:AuraWatch_SetupAura(Auras:AuraWatch_UpdateAura(spellID, UnitID, debuffIndex, false))
+		AURA:AuraWatch_SetupAura(AURA:AuraWatch_UpdateAura(spellID, UnitID, debuffIndex, false))
 
 		debuffIndex = debuffIndex + 1
 	end
 end
 
 -- Update InternalCD
-function Auras:AuraWatch_SortBars()
+function AURA:AuraWatch_SortBars()
 	if not IntCD.MoveHandle then
 		IntCD.MoveHandle = MakeMoveHandle(IntTable[1], L[IntCD.Name], "InternalCD", IntCD.Pos)
 	end
@@ -510,7 +510,7 @@ function Auras:AuraWatch_SortBars()
 	end
 end
 
-function Auras:AuraWatch_IntTimer(elapsed)
+function AURA:AuraWatch_IntTimer(elapsed)
 	self.elapsed = self.elapsed + elapsed
 
 	local timer = self.duration - self.elapsed
@@ -518,7 +518,7 @@ function Auras:AuraWatch_IntTimer(elapsed)
 		self:SetScript("OnUpdate", nil)
 		self:Hide()
 		tremove(IntTable, self.ID)
-		Auras:AuraWatch_SortBars()
+		AURA:AuraWatch_SortBars()
 	elseif timer < 60 then
 		if self.Time then self.Time:SetFormattedText("%.1f", timer) end
 		self.Statusbar:SetValue(timer)
@@ -530,14 +530,14 @@ function Auras:AuraWatch_IntTimer(elapsed)
 	end
 end
 
-function Auras:AuraWatch_SetupInt(intID, itemID, duration, unitID, guid, sourceName)
+function AURA:AuraWatch_SetupInt(intID, itemID, duration, unitID, guid, sourceName)
 	if not PetBattleFrameHider:IsShown() then return end
 
 	local frame = BuildBAR(IntCD.BarWidth, IntCD.IconSize)
 	if frame then
 		frame:Show()
 		tinsert(IntTable, frame)
-		Auras:AuraWatch_SortBars()
+		AURA:AuraWatch_SortBars()
 	end
 	local name, icon, _, class
 	if itemID then
@@ -567,7 +567,7 @@ function Auras:AuraWatch_SetupInt(intID, itemID, duration, unitID, guid, sourceN
 		frame.Statusbar:SetMinMaxValues(0, duration)
 		frame.elapsed = 0
 		frame.duration = duration
-		frame:SetScript("OnUpdate", Auras.AuraWatch_IntTimer)
+		frame:SetScript("OnUpdate", AURA.AuraWatch_IntTimer)
 	end
 end
 
@@ -582,7 +582,7 @@ local function checkPetFlags(sourceFlags, all)
 	end
 end
 
-function Auras:IsUnitWeNeed(value, guid, name, flags)
+function AURA:IsUnitWeNeed(value, guid, name, flags)
 	if not value.UnitID then value.UnitID = "Player" end
 	if value.UnitID:lower() == "all" then
 		if name and (UnitInRaid(name) or UnitInParty(name) or checkPetFlags(flags, true) or not GetPlayerInfoByGUID(guid)) then
@@ -595,17 +595,17 @@ function Auras:IsUnitWeNeed(value, guid, name, flags)
 	end
 end
 
-function Auras:IsAuraTracking(value, eventType, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags)
-	if value.OnSuccess and eventType == "SPELL_CAST_SUCCESS" and Auras:IsUnitWeNeed(value, sourceGUID, sourceName, sourceFlags) then
+function AURA:IsAuraTracking(value, eventType, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags)
+	if value.OnSuccess and eventType == "SPELL_CAST_SUCCESS" and AURA:IsUnitWeNeed(value, sourceGUID, sourceName, sourceFlags) then
 		return true
-	elseif not value.OnSuccess and eventList[eventType] and Auras:IsUnitWeNeed(value, destGUID, destName, destFlags) then
+	elseif not value.OnSuccess and eventList[eventType] and AURA:IsUnitWeNeed(value, destGUID, destName, destFlags) then
 		return true
 	end
 end
 
 local cache = {}
 local soundKitID = SOUNDKIT.ALARM_CLOCK_WARNING_3
-function Auras:AuraWatch_UpdateInt(event, ...)
+function AURA:AuraWatch_UpdateInt(event, ...)
 	if not IntCD.List then return end
 
 	if event == "UNIT_SPELLCAST_SUCCEEDED" then
@@ -621,17 +621,17 @@ function Auras:AuraWatch_UpdateInt(event, ...)
 				isPassed = true
 			end
 			if isPassed then
-				Auras:AuraWatch_SetupInt(value.IntID, value.ItemID, value.Duration, value.UnitID, guid, UnitName(unit))
+				AURA:AuraWatch_SetupInt(value.IntID, value.ItemID, value.Duration, value.UnitID, guid, UnitName(unit))
 			end
 		end
 	else
 		local timestamp, eventType, _, sourceGUID, sourceName, sourceFlags, _, destGUID, destName, destFlags, _, spellID = ...
 		local value = IntCD.List[spellID]
-		if value and cache[timestamp] ~= spellID and Auras:IsAuraTracking(value, eventType, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags) then
+		if value and cache[timestamp] ~= spellID and AURA:IsAuraTracking(value, eventType, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags) then
 			local guid, name = destGUID, destName
 			if value.OnSuccess then guid, name = sourceGUID, sourceName end
 
-			Auras:AuraWatch_SetupInt(value.IntID, value.ItemID, value.Duration, value.UnitID, guid, name)
+			AURA:AuraWatch_SetupInt(value.IntID, value.ItemID, value.Duration, value.UnitID, guid, name)
 			if C.db["AuraWatch"]["QuakeRing"] and spellID == 240447 then PlaySound(soundKitID, "Master") end -- 'Ding' on quake
 
 			cache[timestamp] = spellID
@@ -642,7 +642,7 @@ function Auras:AuraWatch_UpdateInt(event, ...)
 end
 
 -- CleanUp
-function Auras:AuraWatch_Cleanup()	-- FIXME: there should be a better way to do this
+function AURA:AuraWatch_Cleanup()	-- FIXME: there should be a better way to do this
 	for _, value in pairs(FrameList) do
 		for i = 1, maxFrames do
 			local frame = value[i]
@@ -660,40 +660,40 @@ function Auras:AuraWatch_Cleanup()	-- FIXME: there should be a better way to do 
 end
 
 -- Event
-function Auras.AuraWatch_OnEvent(event, ...)
+function AURA.AuraWatch_OnEvent(event, ...)
 	if not C.db["AuraWatch"]["Enable"] then
-		B:UnregisterEvent("PLAYER_ENTERING_WORLD", Auras.AuraWatch_OnEvent)
-		B:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED", Auras.AuraWatch_OnEvent)
-		B:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED", Auras.AuraWatch_OnEvent)
+		B:UnregisterEvent("PLAYER_ENTERING_WORLD", AURA.AuraWatch_OnEvent)
+		B:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED", AURA.AuraWatch_OnEvent)
+		B:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED", AURA.AuraWatch_OnEvent)
 		return
 	end
 
 	if event == "PLAYER_ENTERING_WORLD" then
 		InitSetup()
-		if not IntCD.MoveHandle then Auras:AuraWatch_SetupInt(2825, nil, 0, "player") end
-		B:UnregisterEvent(event, Auras.AuraWatch_OnEvent)
+		if not IntCD.MoveHandle then AURA:AuraWatch_SetupInt(2825, nil, 0, "player") end
+		B:UnregisterEvent(event, AURA.AuraWatch_OnEvent)
 	else
-		Auras:AuraWatch_UpdateInt(event, ...)
+		AURA:AuraWatch_UpdateInt(event, ...)
 	end
 end
-B:RegisterEvent("PLAYER_ENTERING_WORLD", Auras.AuraWatch_OnEvent)
-B:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", Auras.AuraWatch_OnEvent)
-B:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED", Auras.AuraWatch_OnEvent)
+B:RegisterEvent("PLAYER_ENTERING_WORLD", AURA.AuraWatch_OnEvent)
+B:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", AURA.AuraWatch_OnEvent)
+B:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED", AURA.AuraWatch_OnEvent)
 
-function Auras:AuraWatch_OnUpdate(elapsed)
+function AURA:AuraWatch_OnUpdate(elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed > .1 then
 		self.elapsed = 0
 
-		Auras:AuraWatch_Cleanup()
-		Auras:AuraWatch_UpdateCD()
+		AURA:AuraWatch_Cleanup()
+		AURA:AuraWatch_UpdateCD()
 
 		for _, value in pairs(UnitIDTable) do
-			Auras:UpdateAuraWatch(value)
+			AURA:UpdateAuraWatch(value)
 		end
 	end
 end
-updater:SetScript("OnUpdate", Auras.AuraWatch_OnUpdate)
+updater:SetScript("OnUpdate", AURA.AuraWatch_OnUpdate)
 
 -- Mover
 SlashCmdList.AuraWatch = function(msg)
@@ -722,12 +722,12 @@ SlashCmdList.AuraWatch = function(msg)
 			end
 			wipe(IntTable)
 
-			Auras:AuraWatch_SetupInt(2825, nil, 0, "player")
-			Auras:AuraWatch_SetupInt(2825, nil, 0, "player")
-			Auras:AuraWatch_SetupInt(2825, nil, 0, "player")
-			Auras:AuraWatch_SetupInt(2825, nil, 0, "player")
-			Auras:AuraWatch_SetupInt(2825, nil, 0, "player")
-			Auras:AuraWatch_SetupInt(2825, nil, 0, "player")
+			AURA:AuraWatch_SetupInt(2825, nil, 0, "player")
+			AURA:AuraWatch_SetupInt(2825, nil, 0, "player")
+			AURA:AuraWatch_SetupInt(2825, nil, 0, "player")
+			AURA:AuraWatch_SetupInt(2825, nil, 0, "player")
+			AURA:AuraWatch_SetupInt(2825, nil, 0, "player")
+			AURA:AuraWatch_SetupInt(2825, nil, 0, "player")
 
 			for i = 1, #IntTable do
 				IntTable[i]:SetScript("OnUpdate", nil)
@@ -740,11 +740,11 @@ SlashCmdList.AuraWatch = function(msg)
 			end
 		end
 	elseif msg:lower() == "lock" then
-		Auras:AuraWatch_Cleanup()
+		AURA:AuraWatch_Cleanup()
 		for _, value in pairs(FrameList) do
 			value[1].MoveHandle:Hide()
 		end
-		updater:SetScript("OnUpdate", Auras.AuraWatch_OnUpdate)
+		updater:SetScript("OnUpdate", AURA.AuraWatch_OnUpdate)
 
 		if IntCD.MoveHandle then
 			IntCD.MoveHandle:Hide()
@@ -758,7 +758,7 @@ end
 
 -- Gift of the Titans
 local hasTitan
-function Auras:AuraWatch_OnUnitAura()
+function AURA:AuraWatch_OnUnitAura()
 	if not IntCD.MoveHandle then return end
 
 	for i = 1, 40 do
@@ -766,7 +766,7 @@ function Auras:AuraWatch_OnUnitAura()
 		if not name then break end
 		if spellID == 313698 then
 			if not hasTitan then
-				Auras:AuraWatch_SetupInt(313698, nil, expires-GetTime()+60, "player")
+				AURA:AuraWatch_SetupInt(313698, nil, expires-GetTime()+60, "player")
 			end
 			hasTitan = true
 			return
@@ -775,12 +775,12 @@ function Auras:AuraWatch_OnUnitAura()
 	hasTitan = false
 end
 
-function Auras:AuraWatch_CheckInstance()
+function AURA:AuraWatch_CheckInstance()
 	local diffID = select(3, GetInstanceInfo())
 	if diffID == 152 then
-		B:RegisterEvent("UNIT_AURA", Auras.AuraWatch_OnUnitAura, "player")
+		B:RegisterEvent("UNIT_AURA", AURA.AuraWatch_OnUnitAura, "player")
 	else
-		B:UnregisterEvent("UNIT_AURA", Auras.AuraWatch_OnUnitAura)
+		B:UnregisterEvent("UNIT_AURA", AURA.AuraWatch_OnUnitAura)
 	end
 end
-B:RegisterEvent("UPDATE_INSTANCE_INFO", Auras.AuraWatch_CheckInstance)
+B:RegisterEvent("UPDATE_INSTANCE_INFO", AURA.AuraWatch_CheckInstance)

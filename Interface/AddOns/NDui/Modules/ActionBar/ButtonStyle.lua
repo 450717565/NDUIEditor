@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 ---------------------------
 -- rButtonTemplate, zork
 ---------------------------
-local Bar = B:GetModule("ActionBar")
+local AB = B:GetModule("ActionBar")
 local _G = getfenv(0)
 local pairs, gsub, unpack = pairs, gsub, unpack
 local IsEquippedAction = IsEquippedAction
@@ -152,7 +152,7 @@ local replaces = {
 	{"SPACE", "Sp"},
 }
 
-function Bar:UpdateHotKey()
+function AB:UpdateHotKey()
 	local hotkey = B.GetObject(self, "HotKey")
 	if hotkey and hotkey:IsShown() and not C.db["ActionBar"]["Hotkeys"] then
 		hotkey:Hide()
@@ -173,14 +173,14 @@ function Bar:UpdateHotKey()
 	end
 end
 
-function Bar:HookHotKey(button)
-	Bar.UpdateHotKey(button)
+function AB:HookHotKey(button)
+	AB.UpdateHotKey(button)
 	if button.UpdateHotkeys then
-		hooksecurefunc(button, "UpdateHotkeys", Bar.UpdateHotKey)
+		hooksecurefunc(button, "UpdateHotkeys", AB.UpdateHotKey)
 	end
 end
 
-function Bar:UpdateEquipItemColor()
+function AB:UpdateEquipItemColor()
 	if not self.icbg then return end
 
 	if IsEquippedAction(self.action) then
@@ -190,12 +190,12 @@ function Bar:UpdateEquipItemColor()
 	end
 end
 
-function Bar:EquipItemColor(button)
+function AB:EquipItemColor(button)
 	if not button.Update then return end
-	hooksecurefunc(button, "Update", Bar.UpdateEquipItemColor)
+	hooksecurefunc(button, "Update", AB.UpdateEquipItemColor)
 end
 
-function Bar:StyleActionButton(button, cfg)
+function AB:StyleActionButton(button, cfg)
 	if not button then return end
 	if button.__styled then return end
 
@@ -228,7 +228,7 @@ function Bar:StyleActionButton(button, cfg)
 	--backdrop
 	SetupBackdrop(icon)
 	B.ReskinBorder(border, button.icbg)
-	--Bar:EquipItemColor(button)
+	--AB:EquipItemColor(button)
 
 	--textures
 	SetupTexture(icon, cfg.icon, "SetTexture", icon)
@@ -266,7 +266,7 @@ function Bar:StyleActionButton(button, cfg)
 	end
 	if hotkey then
 		hotkey:SetParent(overlay)
-		Bar:HookHotKey(button)
+		AB:HookHotKey(button)
 		SetupFontString(hotkey, cfg.hotkey)
 	end
 	if name then
@@ -283,12 +283,12 @@ function Bar:StyleActionButton(button, cfg)
 		autoCastable:SetInside()
 	end
 
-	Bar:RegisterButtonRange(button)
+	AB:RegisterButtonRange(button)
 
 	button.__styled = true
 end
 
-function Bar:StyleExtraActionButton(cfg)
+function AB:StyleExtraActionButton(cfg)
 	local button = ExtraActionButton1
 	if button.__styled then return end
 
@@ -337,7 +337,7 @@ function Bar:StyleExtraActionButton(cfg)
 	--hotkey, count
 	local overlay = B.CreateParentFrame(button)
 	hotkey:SetParent(overlay)
-	Bar:HookHotKey(button)
+	AB:HookHotKey(button)
 	cfg.hotkey.font = {DB.Font[1], 13, DB.Font[3]}
 	SetupFontString(hotkey, cfg.hotkey)
 
@@ -349,46 +349,46 @@ function Bar:StyleExtraActionButton(cfg)
 		count:Hide()
 	end
 
-	Bar:RegisterButtonRange(button)
+	AB:RegisterButtonRange(button)
 
 	button.__styled = true
 end
 
-function Bar:UpdateStanceHotKey()
+function AB:UpdateStanceHotKey()
 	for i = 1, NUM_STANCE_SLOTS do
 		_G["StanceButton"..i.."HotKey"]:SetText(GetBindingKey("SHAPESHIFTBUTTON"..i))
-		Bar:HookHotKey(_G["StanceButton"..i])
+		AB:HookHotKey(_G["StanceButton"..i])
 	end
 end
 
-function Bar:StyleAllActionButtons(cfg)
+function AB:StyleAllActionButtons(cfg)
 	for i = 1, NUM_ACTIONBAR_BUTTONS do
-		Bar:StyleActionButton(_G["ActionButton"..i], cfg)
-		Bar:StyleActionButton(_G["MultiBarBottomLeftButton"..i], cfg)
-		Bar:StyleActionButton(_G["MultiBarBottomRightButton"..i], cfg)
-		Bar:StyleActionButton(_G["MultiBarRightButton"..i], cfg)
-		Bar:StyleActionButton(_G["MultiBarLeftButton"..i], cfg)
-		Bar:StyleActionButton(_G["NDui_CustomBarButton"..i], cfg)
+		AB:StyleActionButton(_G["ActionButton"..i], cfg)
+		AB:StyleActionButton(_G["MultiBarBottomLeftButton"..i], cfg)
+		AB:StyleActionButton(_G["MultiBarBottomRightButton"..i], cfg)
+		AB:StyleActionButton(_G["MultiBarRightButton"..i], cfg)
+		AB:StyleActionButton(_G["MultiBarLeftButton"..i], cfg)
+		AB:StyleActionButton(_G["NDui_CustomBarButton"..i], cfg)
 	end
 	for i = 1, 6 do
-		Bar:StyleActionButton(_G["OverrideActionBarButton"..i], cfg)
+		AB:StyleActionButton(_G["OverrideActionBarButton"..i], cfg)
 	end
 	--petbar buttons
 	for i = 1, NUM_PET_ACTION_SLOTS do
-		Bar:StyleActionButton(_G["PetActionButton"..i], cfg)
+		AB:StyleActionButton(_G["PetActionButton"..i], cfg)
 	end
 	--stancebar buttons
 	for i = 1, NUM_STANCE_SLOTS do
-		Bar:StyleActionButton(_G["StanceButton"..i], cfg)
+		AB:StyleActionButton(_G["StanceButton"..i], cfg)
 	end
 	--possess buttons
 	for i = 1, NUM_POSSESS_SLOTS do
-		Bar:StyleActionButton(_G["PossessButton"..i], cfg)
+		AB:StyleActionButton(_G["PossessButton"..i], cfg)
 	end
 	--leave vehicle
-	Bar:StyleActionButton(_G["NDui_LeaveVehicleButton"], cfg)
+	AB:StyleActionButton(_G["NDui_LeaveVehicleButton"], cfg)
 	--extra action button
-	Bar:StyleExtraActionButton(cfg)
+	AB:StyleExtraActionButton(cfg)
 	--spell flyout
 	SpellFlyoutBackgroundEnd:SetTexture("")
 	SpellFlyoutHorizontalBackground:SetTexture("")
@@ -397,7 +397,7 @@ function Bar:StyleAllActionButtons(cfg)
 		local i = 1
 		local button = _G["SpellFlyoutButton"..i]
 		while button and button:IsShown() do
-			Bar:StyleActionButton(button, cfg)
+			AB:StyleActionButton(button, cfg)
 			i = i + 1
 			button = _G["SpellFlyoutButton"..i]
 		end
@@ -405,7 +405,7 @@ function Bar:StyleAllActionButtons(cfg)
 	SpellFlyout:HookScript("OnShow", checkForFlyoutButtons)
 end
 
-function Bar:ReskinBars()
+function AB:ReskinBars()
 	local cfg = {
 		flash = {file = ""},
 		border = {file = ""},
@@ -475,10 +475,10 @@ function Bar:ReskinBars()
 		},
 	}
 
-	Bar:StyleAllActionButtons(cfg)
+	AB:StyleAllActionButtons(cfg)
 
 	-- Update hotkeys
-	hooksecurefunc("PetActionButton_SetHotkeys", Bar.UpdateHotKey)
-	Bar:UpdateStanceHotKey()
-	B:RegisterEvent("UPDATE_BINDINGS", Bar.UpdateStanceHotKey)
+	hooksecurefunc("PetActionButton_SetHotkeys", AB.UpdateHotKey)
+	AB:UpdateStanceHotKey()
+	B:RegisterEvent("UPDATE_BINDINGS", AB.UpdateStanceHotKey)
 end

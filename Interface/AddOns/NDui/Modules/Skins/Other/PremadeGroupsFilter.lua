@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local function Update_FrameAnchor(self, _, parent)
 	if parent ~= LFGListFrame then
@@ -26,7 +26,7 @@ local function Reskin_PopupMenu(self)
 	end
 end
 
-function Skins:PremadeGroupsFilter()
+function SKIN:PremadeGroupsFilter()
 	if not IsAddOnLoaded("PremadeGroupsFilter") then return end
 
 	local dialog = PremadeGroupsFilterDialog
@@ -89,4 +89,4 @@ function Skins:PremadeGroupsFilter()
 	hooksecurefunc(PremadeGroupsFilter.Debug, "PopupMenu_Initialize", Reskin_PopupMenu)
 end
 
-C.OnLoginThemes["PremadeGroupsFilter"] = Skins.PremadeGroupsFilter
+C.OnLoginThemes["PremadeGroupsFilter"] = SKIN.PremadeGroupsFilter

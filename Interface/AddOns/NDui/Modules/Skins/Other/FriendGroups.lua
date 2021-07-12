@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local function replaceButtonStatus(self, texture)
 	self:SetPoint("TOPLEFT", 4, 1)
@@ -27,7 +27,7 @@ local function Update_FriendButton(button)
 	end
 end
 
-function Skins:FriendGroups()
+function SKIN:FriendGroups()
 	if not IsAddOnLoaded("FriendGroups") then return end
 
 	if FriendGroups_UpdateFriendButton then
@@ -35,4 +35,4 @@ function Skins:FriendGroups()
 	end
 end
 
-C.OnLoginThemes["FriendGroups"] = Skins.FriendGroups
+C.OnLoginThemes["FriendGroups"] = SKIN.FriendGroups

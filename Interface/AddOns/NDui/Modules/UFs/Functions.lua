@@ -3,7 +3,7 @@ local oUF = ns.oUF
 local B, C, L, DB = unpack(ns)
 
 local UF = B:RegisterModule("UnitFrames")
-local Auras = B:GetModule("Auras")
+local AURA = B:GetModule("Auras")
 
 local format, floor = string.format, math.floor
 local pairs, next = pairs, next
@@ -661,7 +661,7 @@ function UF.PostCreateIcon(element, button)
 	button.overlay:SetTexture("")
 	button.stealable:SetTexture("")
 
-	button:HookScript("OnMouseDown", Auras.RemoveSpellFromIgnoreList)
+	button:HookScript("OnMouseDown", AURA.RemoveSpellFromIgnoreList)
 end
 
 local filteredStyle = {

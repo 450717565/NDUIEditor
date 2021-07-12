@@ -1,8 +1,23 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Chat = B:GetModule("Chat")
+local CHAT = B:GetModule("Chat")
 
-function Chat:Chatbar()
+local chatSwitchInfo = {
+	text = L["ChatSwitchHelp"],
+	buttonStyle = HelpTip.ButtonStyle.GotIt,
+	targetPoint = HelpTip.Point.TopEdgeCenter,
+	offsetY = 5,
+	onAcknowledgeCallback = B.HelpInfoAcknowledge,
+	callbackArg = "ChatSwitch",
+}
+
+local function chatSwitchTip()
+	if not NDuiADB["Help"]["ChatSwitch"] then
+		HelpTip:Show(ChatFrame1.editBox, chatSwitchInfo)
+	end
+end
+
+function CHAT:Chatbar()
 	if not C.db["Chat"]["Chatbar"] then return end
 
 	local chatFrame = SELECTED_DOCK_FRAME
@@ -21,8 +36,11 @@ function Chat:Chatbar()
 		bu:SetHitRectInsets(0, 0, -8, -8)
 		bu:RegisterForClicks("AnyUp")
 		if text then B.AddTooltip(bu, "ANCHOR_TOP", B.HexRGB(r, g, b, text)) end
-		if funcC then bu:SetScript("OnClick", funcC) end
 		if funcM then bu:SetScript("OnMouseUp", funcM) end
+		if funcC then
+			bu:SetScript("OnClick", funcC)
+			bu:HookScript("OnClick", chatSwitchTip)
+		end
 
 		tinsert(buttonList, bu)
 		return bu
@@ -124,47 +142,43 @@ function Chat:Chatbar()
 
 	-- WORLD CHANNEL
 	if GetCVar("portal") == "CN" then
-		local channelName, channelID = "大脚世界频道"
-		local wc = AddButton(1, .75, .75, L["World Channel"])
+		local channelName = "大脚世界频道"
+		local wcButton = AddButton(1, .8, .8, L["World Channel"])
 
 		local function updateChannelInfo()
 			local id = GetChannelName(channelName)
 			if not id or id == 0 then
-				wc.inChannel = false
-				channelID = nil
-				wc.Icon:SetVertexColor(1, .1, .1)
+				CHAT.InWorldChannel = false
+				CHAT.WorldChannelID = nil
+				wcButton.Icon:SetVertexColor(1, .1, .1)
 			else
-				wc.inChannel = true
-				channelID = id
-				wc.Icon:SetVertexColor(1, .75, .75)
+				CHAT.InWorldChannel = true
+				CHAT.WorldChannelID = id
+				wcButton.Icon:SetVertexColor(1, .8, .8)
 			end
 		end
 
-		local function isInChannel(event)
+		local function checkChannelStatus()
 			C_Timer.After(.2, updateChannelInfo)
-
-			if event == "PLAYER_ENTERING_WORLD" then
-				B:UnregisterEvent(event, isInChannel)
-			end
 		end
-		B:RegisterEvent("PLAYER_ENTERING_WORLD", isInChannel)
-		B:RegisterEvent("CHANNEL_UI_UPDATE", isInChannel)
-		hooksecurefunc("ChatConfigChannelSettings_UpdateCheckboxes", isInChannel) -- toggle in chatconfig
+		checkChannelStatus()
+		B:RegisterEvent("CHANNEL_UI_UPDATE", checkChannelStatus)
+		hooksecurefunc("ChatConfigChannelSettings_UpdateCheckboxes", checkChannelStatus) -- toggle in chatconfig
 
-		wc:SetScript("OnClick", function(_, btn)
-			if wc.inChannel then
+		wcButton:SetScript("OnClick", function(_, btn)
+			if CHAT.InWorldChannel then
 				if btn == "RightButton" then
 					LeaveChannelByName(channelName)
-					print("|cffFF7F50"..QUIT.."|r "..DB.InfoColor..L["World Channel"])
-					wc.inChannel = false
-				elseif channelID then
-					ChatFrame_OpenChat("/"..channelID, chatFrame)
+					print("|cffFF0000"..QUIT.."|r "..DB.InfoColor..L["World Channel"])
+					CHAT.InWorldChannel = false
+				elseif CHAT.WorldChannelID then
+					ChatFrame_OpenChat("/"..CHAT.WorldChannelID, chatFrame)
 				end
 			else
 				JoinPermanentChannel(channelName, nil, 1)
 				ChatFrame_AddChannel(ChatFrame1, channelName)
-				print("|cff00C957"..JOIN.."|r "..DB.InfoColor..L["World Channel"])
-				wc.inChannel = true
+				print("|cff00FF00"..JOIN.."|r "..DB.InfoColor..L["World Channel"])
+				CHAT.InWorldChannel = true
 			end
 		end)
 	end
@@ -183,10 +197,10 @@ function Chat:Chatbar()
 	local mover = B.Mover(Chatbar, L["Chatbar"], "Chatbar", {"BOTTOMLEFT", UIParent, "BOTTOMLEFT", 5, 3}, moverWidth, moverHeight)
 	B.UpdatePoint(Chatbar, "LEFT", mover, "LEFT")
 
-	Chat:ChatBarBackground()
+	CHAT:ChatBarBackground()
 end
 
-function Chat:ChatBarBackground()
+function CHAT:ChatBarBackground()
 	if not C.db["Skins"]["ChatLine"] then return end
 
 	local cr, cg, cb = DB.cr, DB.cg, DB.cb

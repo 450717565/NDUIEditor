@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:MogPartialSets()
+function SKIN:MogPartialSets()
 	if not IsAddOnLoaded("MogPartialSets") then return end
 
 	B.ReskinFilter(MogPartialSetsFilterButton)
@@ -53,4 +53,4 @@ function Skins:MogPartialSets()
 	MogPartialSetsFilterRefreshButton:SetText(REFRESH)
 end
 
-C.OnLoginThemes["MogPartialSets"] = Skins.MogPartialSets
+C.OnLoginThemes["MogPartialSets"] = SKIN.MogPartialSets

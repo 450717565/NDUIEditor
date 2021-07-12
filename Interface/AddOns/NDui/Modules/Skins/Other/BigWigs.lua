@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local function Update_StartCountdown(self, _, module, key, text, time)
 	TimerTracker_OnEvent(TimerTracker, "START_TIMER", 3, time, time)
@@ -125,7 +125,7 @@ local function Register_Style()
 	end)
 end
 
-function Skins:BigWigs()
+function SKIN:BigWigs()
 	if not C.db["Skins"]["Bigwigs"] or not IsAddOnLoaded("BigWigs") then return end
 	if not BigWigs3DB then return end
 

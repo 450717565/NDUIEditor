@@ -167,28 +167,6 @@ local function Reskin_SpellButton(spellButton)
 	end
 end
 
-local function Get_MawBuffsAnchor(self)
-	local center = self:GetCenter()
-	if center and center < GetScreenWidth()/2 then
-		return "LEFT"
-	else
-		return "RIGHT"
-	end
-end
-
-local function Update_FrameAnchor(container)
-	local direc = Get_MawBuffsAnchor(container)
-	if not container.lastDirec or container.lastDirec ~= direc then
-		container.List:ClearAllPoints()
-		if direc == "LEFT" then
-			container.List:SetPoint("TOPLEFT", container, "TOPRIGHT", 15, 1)
-		else
-			container.List:SetPoint("TOPRIGHT", container, "TOPLEFT", 15, 1)
-		end
-		container.lastDirec = direc
-	end
-end
-
 local function Update_MinimizeButton(button, collapsed)
 	button.expTex:DoCollapse(collapsed)
 end
@@ -265,27 +243,6 @@ C.OnLoginThemes["ObjectiveTrackerFrame"] = function()
 	hooksecurefunc("ScenarioStage_CustomizeBlock", Reskin_CustomizeBlock)
 	hooksecurefunc("ScenarioSpellButton_UpdateCooldown", Reskin_SpellButton)
 	hooksecurefunc(SCENARIO_CONTENT_TRACKER_MODULE, "Update", Reskin_ContentTracker)
-
-	-- MawBuffsBlock
-	local mawBuffsBlock = ScenarioBlocksFrame.MawBuffsBlock
-	B.StripTextures(mawBuffsBlock)
-	local bg = B.CreateBG(mawBuffsBlock, 20, -10, -20, 10)
-
-	local blockContainer = mawBuffsBlock.Container
-	blockContainer:HookScript("OnClick", Update_FrameAnchor)
-	B.StripTextures(blockContainer, 0)
-
-	local blockList = blockContainer.List
-	B.StripTextures(blockList)
-	B.CreateBG(blockList, 7, -12, -7, 12)
-	blockList.__bg = bg
-
-	blockList:HookScript("OnShow", function(self)
-		self.__bg:SetBackdropBorderColor(cr, cg, cb)
-	end)
-	blockList:HookScript("OnHide", function(self)
-		self.__bg:SetBackdropBorderColor(0, 0, 0)
-	end)
 
 	-- Dummy
 	BonusObjectiveTrackerProgressBar_PlayFlareAnim = B.Dummy

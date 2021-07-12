@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:WorldQuestsList()
+function SKIN:WorldQuestsList()
 	if not IsAddOnLoaded("WorldQuestsList") then return end
 
 	local frame = WorldQuestsListFrame
@@ -40,4 +40,4 @@ function Skins:WorldQuestsList()
 	check:SetPoint("BOTTOMRIGHT", WorldMapFrame, "TOPRIGHT", 4, -4)
 end
 
-C.OnLoginThemes["WorldQuestsList"] = Skins.WorldQuestsList
+C.OnLoginThemes["WorldQuestsList"] = SKIN.WorldQuestsList

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("ActionBar")
+local AB = B:GetModule("ActionBar")
 
 local _G = _G
 local tinsert = tinsert
@@ -26,7 +26,7 @@ local function SetFrameSize(frame, size, num)
 	end
 end
 
-function Bar:CreateStanceBar()
+function AB:CreateStanceBar()
 	local num = NUM_STANCE_SLOTS
 	local NUM_POSSESS_SLOTS = NUM_POSSESS_SLOTS
 	local buttonList = {}
@@ -46,7 +46,7 @@ function Bar:CreateStanceBar()
 		for i = 1, num do
 			local button = _G["StanceButton"..i]
 			tinsert(buttonList, button)
-			tinsert(Bar.buttons, button)
+			tinsert(AB.buttons, button)
 
 			if i == 1 then
 				B.UpdatePoint(button, "BOTTOMLEFT", frame, "BOTTOMLEFT", padding, padding)
@@ -80,6 +80,6 @@ function Bar:CreateStanceBar()
 	RegisterStateDriver(frame, "visibility", frame.frameVisibility)
 
 	if cfg.fader then
-		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
+		AB.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 end

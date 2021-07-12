@@ -1,6 +1,6 @@
 ﻿local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Chat = B:GetModule("Chat")
+local CHAT = B:GetModule("Chat")
 
 local strfind, strmatch, strsub, gsub = string.find, string.match, string.sub, string.gsub
 local strsplit, strlen = string.split, string.len
@@ -22,7 +22,7 @@ local function highlightURL(_, url)
 	return " "..convertLink("["..url.."]", url).." "
 end
 
-function Chat:SearchForURL(text, ...)
+function CHAT:SearchForURL(text, ...)
 	foundurl = false
 
 	if strfind(text, "%pTInterface%p+") or strfind(text, "%pTINTERFACE%p+") then
@@ -57,7 +57,7 @@ function Chat:SearchForURL(text, ...)
 	self.am(self, text, ...)
 end
 
-function Chat:HyperlinkShowHook(link, _, button)
+function CHAT:HyperlinkShowHook(link, _, button)
 	local type, value = strmatch(link, "(%a+):(.+)")
 	local hide
 	if button == "LeftButton" and IsModifierKeyDown() then
@@ -102,7 +102,7 @@ function Chat:HyperlinkShowHook(link, _, button)
 	if hide then ChatEdit_ClearChat(ChatFrame1.editBox) end
 end
 
-function Chat.SetItemRefHook(link, _, button)
+function CHAT.SetItemRefHook(link, _, button)
 	if strsub(link, 1, 6) == "player" and button == "LeftButton" and IsModifiedClick("CHATLINK") then
 		if not StaticPopup_Visible("ADD_IGNORE") and not StaticPopup_Visible("ADD_FRIEND") and not StaticPopup_Visible("ADD_GUILDMEMBER") and not StaticPopup_Visible("ADD_RAIDMEMBER") and not StaticPopup_Visible("CHANNEL_INVITE") and not ChatEdit_GetActiveWindow() then
 			local namelink, fullname
@@ -135,7 +135,7 @@ function Chat.SetItemRefHook(link, _, button)
 	end
 end
 
-function Chat:UrlCopy()
+function CHAT:UrlCopy()
 	for i = 1, NUM_CHAT_WINDOWS do
 		if i ~= 2 then
 			local chatFrame = _G["ChatFrame"..i]

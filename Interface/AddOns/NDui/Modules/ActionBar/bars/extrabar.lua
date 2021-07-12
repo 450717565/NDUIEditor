@@ -1,13 +1,13 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("ActionBar")
+local AB = B:GetModule("ActionBar")
 
 local _G = _G
 local tinsert = tinsert
 local cfg = C.Bars.extrabar
 local margin, padding = C.Bars.margin, C.Bars.padding
 
-function Bar:CreateExtrabar()
+function AB:CreateExtrabar()
 	local buttonList = {}
 	local size = cfg.size
 	local layout = C.db["ActionBar"]["BarStyle"]
@@ -31,14 +31,14 @@ function Bar:CreateExtrabar()
 
 	local button = ExtraActionButton1
 	tinsert(buttonList, button)
-	tinsert(Bar.buttons, button)
+	tinsert(AB.buttons, button)
 	button:SetSize(size, size)
 
 	frame.frameVisibility = "[extrabar] show; hide"
 	RegisterStateDriver(frame, "visibility", frame.frameVisibility)
 
 	if cfg.fader then
-		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
+		AB.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 
 	-- ZoneAbility

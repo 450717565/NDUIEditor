@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local function Setup_Instance(self)
 	if self.styled then return end
@@ -44,7 +44,7 @@ local function Embed_Window(self, x, y, width, height)
 	self:LockInstance(true)
 end
 
-function Skins:Details()
+function SKIN:Details()
 	if not C.db["Skins"]["Details"] or not IsAddOnLoaded("Details") then return end
 
 	local Details = _G.Details

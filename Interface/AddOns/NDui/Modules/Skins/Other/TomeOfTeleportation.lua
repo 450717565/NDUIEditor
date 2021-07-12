@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local function Reskin_TeleporterOpenFrame()
 	local frame = TeleporterFrame
@@ -37,10 +37,10 @@ local function Reskin_TeleporterOpenFrame()
 	end
 end
 
-function Skins:TomeOfTeleportation()
+function SKIN:TomeOfTeleportation()
 	if not IsAddOnLoaded("TomeOfTeleportation") then return end
 
 	hooksecurefunc("TeleporterOpenFrame", Reskin_TeleporterOpenFrame)
 end
 
-C.OnLoginThemes["TomeOfTeleportation"] = Skins.TomeOfTeleportation
+C.OnLoginThemes["TomeOfTeleportation"] = SKIN.TomeOfTeleportation

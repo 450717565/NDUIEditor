@@ -72,7 +72,7 @@ local function Reskin_TalentsList(self)
 			local icbg = B.ReskinIcon(frame.Icon)
 			B.ReskinBorder(frame.IconBorder, icbg)
 
-			local bubg = B.CreateBGFrame(frame, 2, 0, -5, 0, icbg)
+			local bubg = B.CreateBGFrame(frame, C.margin, 0, -5, 0, icbg)
 			B.ReskinHLTex(frame.Highlight, bubg, true)
 			frame.bubg = bubg
 

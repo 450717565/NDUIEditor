@@ -18,7 +18,7 @@ end
 
 local function Update_ProgressItemQuality(self)
 	local button = self.__owner
-	local index = button.__id
+	local index = button:GetID()
 	local buttonType = button.type
 	local objectType = button.objectType
 
@@ -96,9 +96,8 @@ C.OnLoginThemes["QuestFrame"] = function()
 		B.StripTextures(button)
 
 		local icbg = B.ReskinIcon(button.Icon)
-		local bubg = B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
+		local bubg = B.CreateBGFrame(button, C.margin, 0, -5, 0, icbg)
 
-		button.__id = i
 		button.icbg = icbg
 		button.bubg = bubg
 		button.Icon.__owner = button

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("ActionBar")
+local AB = B:GetModule("ActionBar")
 
 local _G = _G
 local tinsert = tinsert
@@ -26,7 +26,7 @@ local function SetFrameSize(frame, size, num)
 	end
 end
 
-function Bar:CreateBar2()
+function AB:CreateBar2()
 	local num = NUM_ACTIONBAR_BUTTONS
 	local buttonList = {}
 
@@ -40,7 +40,7 @@ function Bar:CreateBar2()
 	for i = 1, num do
 		local button = _G["MultiBarBottomLeftButton"..i]
 		tinsert(buttonList, button)
-		tinsert(Bar.buttons, button)
+		tinsert(AB.buttons, button)
 
 		if i == 1 then
 			B.UpdatePoint(button, "BOTTOMLEFT", frame, "BOTTOMLEFT", padding, padding)
@@ -56,6 +56,6 @@ function Bar:CreateBar2()
 	RegisterStateDriver(frame, "visibility", frame.frameVisibility)
 
 	if cfg.fader then
-		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
+		AB.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 end

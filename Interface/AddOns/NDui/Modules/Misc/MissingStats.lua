@@ -1,13 +1,13 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Misc = B:GetModule("Misc")
+local MISC = B:GetModule("Misc")
 
 local format, max = string.format, math.max
 local BreakUpLargeNumbers, GetMeleeHaste, UnitAttackSpeed = BreakUpLargeNumbers, GetMeleeHaste, UnitAttackSpeed
 local GetAverageItemLevel, C_PaperDollInfo_GetMinItemLevel = GetAverageItemLevel, C_PaperDollInfo.GetMinItemLevel
 local PaperDollFrame_SetLabelAndText = PaperDollFrame_SetLabelAndText
 
-function Misc:MissingStats()
+function MISC:MissingStats()
 	if not C.db["Misc"]["MissingStats"] then return end
 	if IsAddOnLoaded("DejaCharacterStats") then return end
 
@@ -129,4 +129,4 @@ function Misc:MissingStats()
 		PaperDollFrame_SetFocusRegen(statFrame, unit)
 	end
 end
-Misc:RegisterMisc("MissingStats", Misc.MissingStats)
+MISC:RegisterMisc("MissingStats", MISC.MissingStats)

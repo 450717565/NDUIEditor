@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:ls_Toasts()
+function SKIN:ls_Toasts()
 	if not IsAddOnLoaded("ls_Toasts") then return end
 
 	local LE, LC = unpack(ls_Toasts)
@@ -85,4 +85,4 @@ function Skins:ls_Toasts()
 	}
 end
 
-C.OnLoginThemes["ls_Toasts"] = Skins.ls_Toasts
+C.OnLoginThemes["ls_Toasts"] = SKIN.ls_Toasts

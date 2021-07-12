@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("ActionBar")
+local AB = B:GetModule("ActionBar")
 
 local next, pairs, unpack = next, pairs, unpack
 local HasAction, IsUsableAction, IsActionInRange = HasAction, IsUsableAction, IsActionInRange
@@ -16,19 +16,19 @@ local colors = {
 	["unusable"] = {.3, .3, .3}
 }
 
-function Bar:OnUpdateRange(elapsed)
+function AB:OnUpdateRange(elapsed)
 	self.elapsed = (self.elapsed or UPDATE_DELAY) - elapsed
 	if self.elapsed <= 0 then
 		self.elapsed = UPDATE_DELAY
 
-		if not Bar:UpdateButtons() then
+		if not AB:UpdateButtons() then
 			self:Hide()
 		end
 	end
 end
-updater:SetScript("OnUpdate", Bar.OnUpdateRange)
+updater:SetScript("OnUpdate", AB.OnUpdateRange)
 
-function Bar:UpdateButtons()
+function AB:UpdateButtons()
 	if next(buttonsToUpdate) then
 		for button in pairs(buttonsToUpdate) do
 			self.UpdateButtonUsable(button)
@@ -39,7 +39,7 @@ function Bar:UpdateButtons()
 	return false
 end
 
-function Bar:UpdateButtonStatus()
+function AB:UpdateButtonStatus()
 	local action = self.action
 
 	if action and self:IsVisible() and HasAction(action) then
@@ -53,7 +53,7 @@ function Bar:UpdateButtonStatus()
 	end
 end
 
-function Bar:UpdateButtonUsable(force)
+function AB:UpdateButtonUsable(force)
 	if force then
 		buttonColors[self] = nil
 	end
@@ -64,18 +64,18 @@ function Bar:UpdateButtonUsable(force)
 	if isUsable then
 		local inRange = IsActionInRange(action)
 		if inRange == false then
-			Bar.SetButtonColor(self, "oor")
+			AB.SetButtonColor(self, "oor")
 		else
-			Bar.SetButtonColor(self, "normal")
+			AB.SetButtonColor(self, "normal")
 		end
 	elseif notEnoughMana then
-		Bar.SetButtonColor(self, "oom")
+		AB.SetButtonColor(self, "oom")
 	else
-		Bar.SetButtonColor(self, "unusable")
+		AB.SetButtonColor(self, "unusable")
 	end
 end
 
-function Bar:SetButtonColor(colorIndex)
+function AB:SetButtonColor(colorIndex)
 	if buttonColors[self] == colorIndex then return end
 	buttonColors[self] = colorIndex
 
@@ -83,21 +83,21 @@ function Bar:SetButtonColor(colorIndex)
 	self.icon:SetVertexColor(r, g, b)
 end
 
-function Bar:Register()
-	self:HookScript("OnShow", Bar.UpdateButtonStatus)
-	self:HookScript("OnHide", Bar.UpdateButtonStatus)
+function AB:Register()
+	self:HookScript("OnShow", AB.UpdateButtonStatus)
+	self:HookScript("OnHide", AB.UpdateButtonStatus)
 	self:SetScript("OnUpdate", nil)
-	Bar.UpdateButtonStatus(self)
+	AB.UpdateButtonStatus(self)
 end
 
 local function button_UpdateUsable(button)
-	Bar.UpdateButtonUsable(button, true)
+	AB.UpdateButtonUsable(button, true)
 end
 
-function Bar:RegisterButtonRange(button)
+function AB:RegisterButtonRange(button)
 	if button.Update then
-		Bar.Register(button)
-		hooksecurefunc(button, "Update", Bar.UpdateButtonStatus)
+		AB.Register(button)
+		hooksecurefunc(button, "Update", AB.UpdateButtonStatus)
 		hooksecurefunc(button, "UpdateUsable", button_UpdateUsable)
 	end
 end

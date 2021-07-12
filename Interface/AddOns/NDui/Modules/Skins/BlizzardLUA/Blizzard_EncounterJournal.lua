@@ -138,7 +138,7 @@ local function Reskin_PowersFrame(self)
 			B.StripTextures(button, 1)
 
 			local icbg = B.ReskinIcon(button.Icon)
-			local bubg = B.CreateBGFrame(button, 2, 0, -5, 0, icbg)
+			local bubg = B.CreateBGFrame(button, C.margin, 0, -5, 0, icbg)
 			icbg:SetBackdropBorderColor(r, g, b)
 			bubg:SetBackdropBorderColor(r, g, b)
 
@@ -306,7 +306,7 @@ C.OnLoadThemes["Blizzard_EncounterJournal"] = function()
 		local border = item.IconBorder
 		B.ReskinBorder(border, icbg)
 
-		local bubg = B.CreateBGFrame(item, 2, 0, 0, 0, icbg)
+		local bubg = B.CreateBGFrame(item, C.margin, 0, 0, 0, icbg)
 		B.ReskinHLTex(item, bubg, true)
 		item.bubg = bubg
 

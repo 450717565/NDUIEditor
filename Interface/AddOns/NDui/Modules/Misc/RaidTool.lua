@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Misc = B:GetModule("Misc")
+local MISC = B:GetModule("Misc")
 
 local next, pairs, mod, select = next, pairs, mod, select
 local tinsert, strsplit, format = table.insert, string.split, string.format
@@ -21,7 +21,7 @@ local ConvertToParty = C_PartyInfo.ConvertToParty
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local WorldMarker = gsub(WORLD_MARKER, "%%d", "")
 
-function Misc:RaidTool_Visibility(frame)
+function MISC:RaidTool_Visibility(frame)
 	if IsInGroup() then
 		frame:Show()
 	else
@@ -29,16 +29,16 @@ function Misc:RaidTool_Visibility(frame)
 	end
 end
 
-function Misc:RaidTool_Header()
+function MISC:RaidTool_Header()
 	local frame = CreateFrame("Button", nil, UIParent)
 	frame:SetSize(120, 28)
 	frame:SetFrameLevel(2)
 	B.ReskinButton(frame, true)
 	B.Mover(frame, L["Raid Tool"], "RaidManager", C.Skins.RaidToolPos)
 
-	Misc:RaidTool_Visibility(frame)
+	MISC:RaidTool_Visibility(frame)
 	B:RegisterEvent("GROUP_ROSTER_UPDATE", function()
-		Misc:RaidTool_Visibility(frame)
+		MISC:RaidTool_Visibility(frame)
 	end)
 
 	frame:RegisterForClicks("AnyUp")
@@ -48,7 +48,7 @@ function Misc:RaidTool_Header()
 			B.TogglePanel(menu)
 
 			if menu:IsShown() then
-				if Misc:IsFrameOnTop(self) then
+				if MISC:IsFrameOnTop(self) then
 					B.UpdatePoint(menu, "TOP", self, "BOTTOM", 0, -3)
 				else
 					B.UpdatePoint(menu, "BOTTOM", self, "TOP", 0, 3)
@@ -75,13 +75,13 @@ function Misc:RaidTool_Header()
 	return frame
 end
 
-function Misc:IsFrameOnTop(frame)
+function MISC:IsFrameOnTop(frame)
 	local y = select(2, frame:GetCenter())
 	local screenHeight = UIParent:GetTop()
 	return y > screenHeight/2
 end
 
-function Misc:GetRaidMaxGroup()
+function MISC:GetRaidMaxGroup()
 	local _, instType, difficulty = GetInstanceInfo()
 	if (instType == "party" or instType == "scenario") and not IsInRaid() then
 		return 1
@@ -102,7 +102,7 @@ function Misc:GetRaidMaxGroup()
 	end
 end
 
-function Misc:RaidTool_RoleCount(parent)
+function MISC:RaidTool_RoleCount(parent)
 	local roleTexCoord = {
 		{.5, .75, 0, 1},
 		{.75, 1, 0, 1},
@@ -133,7 +133,7 @@ function Misc:RaidTool_RoleCount(parent)
 			raidCounts[k] = 0
 		end
 
-		local maxgroup = Misc:GetRaidMaxGroup()
+		local maxgroup = MISC:GetRaidMaxGroup()
 		for i = 1, GetNumGroupMembers() do
 			local name, _, subgroup, _, _, _, _, online, isDead, _, _, assignedRole = GetRaidRosterInfo(i)
 			if name and online and subgroup <= maxgroup and not isDead and assignedRole ~= "NONE" then
@@ -160,7 +160,7 @@ function Misc:RaidTool_RoleCount(parent)
 	parent.roleFrame = frame
 end
 
-function Misc:RaidTool_UpdateRes(elapsed)
+function MISC:RaidTool_UpdateRes(elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed > .1 then
 		local charges, _, started, duration = GetSpellCharges(20484)
@@ -188,7 +188,7 @@ function Misc:RaidTool_UpdateRes(elapsed)
 	end
 end
 
-function Misc:RaidTool_CombatRes(parent)
+function MISC:RaidTool_CombatRes(parent)
 	local frame = B.CreateParentFrame(parent)
 	frame:SetAlpha(0)
 	local res = CreateFrame("Frame", nil, frame)
@@ -201,12 +201,12 @@ function Misc:RaidTool_CombatRes(parent)
 	B.UpdatePoint(res.Count, "LEFT", res, "RIGHT", 10, 0)
 
 	res.Timer = B.CreateFS(frame, 16, "00:00", false, "RIGHT", -5, 0)
-	res:SetScript("OnUpdate", Misc.RaidTool_UpdateRes)
+	res:SetScript("OnUpdate", MISC.RaidTool_UpdateRes)
 
 	parent.resFrame = frame
 end
 
-function Misc:RaidTool_ReadyCheck(parent)
+function MISC:RaidTool_ReadyCheck(parent)
 	local frame = CreateFrame("Frame", nil, parent)
 	frame:SetScript("OnMouseUp", function(self) self:Hide() end)
 	frame:SetPoint("TOP", parent, "BOTTOM", 0, -3)
@@ -234,14 +234,14 @@ function Misc:RaidTool_ReadyCheck(parent)
 			C_Timer_After(5, hideRCFrame)
 		else
 			count, total = 0, 0
-			if Misc:IsFrameOnTop(parent) then
+			if MISC:IsFrameOnTop(parent) then
 				B.UpdatePoint(frame, "TOP", parent, "BOTTOM", 0, -3)
 			else
 				B.UpdatePoint(frame, "BOTTOM", parent, "TOP", 0, 3)
 			end
 			frame:Show()
 
-			local maxgroup = Misc:GetRaidMaxGroup()
+			local maxgroup = MISC:GetRaidMaxGroup()
 			for i = 1, GetNumGroupMembers() do
 				local name, _, subgroup, _, _, _, _, online = GetRaidRosterInfo(i)
 				if name and online and subgroup <= maxgroup then
@@ -265,7 +265,7 @@ function Misc:RaidTool_ReadyCheck(parent)
 	B:RegisterEvent("READY_CHECK_FINISHED", updateReadyCheck)
 end
 
-function Misc:RaidTool_Marker(parent)
+function MISC:RaidTool_Marker(parent)
 	local markerButton = CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton
 	if not markerButton then
 		for _, addon in pairs({"Blizzard_CUFProfiles", "Blizzard_CompactRaidFrames"}) do
@@ -307,7 +307,7 @@ function Misc:RaidTool_Marker(parent)
 	end
 end
 
-function Misc:RaidTool_BuffChecker(parent)
+function MISC:RaidTool_BuffChecker(parent)
 	local frame = CreateFrame("Button", nil, parent)
 	frame:SetPoint("LEFT", parent, "RIGHT", 3, 0)
 	frame:SetSize(28, 28)
@@ -352,7 +352,7 @@ function Misc:RaidTool_BuffChecker(parent)
 		for i = 1, numGroups do wipe(NoBuff[i]) end
 		numPlayer = 0
 
-		local maxgroup = Misc:GetRaidMaxGroup()
+		local maxgroup = MISC:GetRaidMaxGroup()
 		for i = 1, GetNumGroupMembers() do
 			local name, _, subgroup, _, _, _, _, online, isDead = GetRaidRosterInfo(i)
 			if name and online and subgroup <= maxgroup and not isDead then
@@ -415,7 +415,7 @@ function Misc:RaidTool_BuffChecker(parent)
 	B:RegisterEvent("PLAYER_REGEN_ENABLED", function() reset = true end)
 
 	frame:HookScript("OnMouseDown", function(_, btn)
-		if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
+		--if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end -- fix by LibShowUIPanel
 		if btn == "RightButton" then
 			if IsAltKeyDown() and potionCheck then
 				SlashCmdList["exrtSlash"]("potionchat")
@@ -451,7 +451,7 @@ function Misc:RaidTool_BuffChecker(parent)
 	B:RegisterEvent("PLAYER_ENTERING_WORLD", update_Visibility)
 end
 
-function Misc:RaidTool_CreateMenu(parent)
+function MISC:RaidTool_CreateMenu(parent)
 	local frame = CreateFrame("Frame", nil, parent)
 	frame:SetPoint("TOP", parent, "BOTTOM", 0, -3)
 	frame:SetSize(182, 70)
@@ -479,7 +479,7 @@ function Misc:RaidTool_CreateMenu(parent)
 		button1 = YES,
 		button2 = NO,
 		OnAccept = function()
-			if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end
+			--if InCombatLockdown() then UIErrorsFrame:AddMessage(DB.InfoColor..ERR_NOT_IN_COMBAT) return end -- fix by LibShowUIPanel
 			if IsInRaid() then
 				SendChatMessage(L["Disband Process"], "RAID")
 				for i = 1, GetNumGroupMembers() do
@@ -539,7 +539,7 @@ function Misc:RaidTool_CreateMenu(parent)
 	parent.buttons = bu
 end
 
-function Misc:RaidTool_EasyMarker()
+function MISC:RaidTool_EasyMarker()
 	local menuList = {
 		{text = RAID_TARGET_NONE, func = function() SetRaidTarget("target", 0) end},
 		{text = B.HexRGB(1, .92, 0, RAID_TARGET_1).." "..ICON_LIST[1].."12|t", func = function() SetRaidTarget("target", 1) end},
@@ -582,7 +582,7 @@ function Misc:RaidTool_EasyMarker()
 	end)
 end
 
-function Misc:RaidTool_WorldMarker()
+function MISC:RaidTool_WorldMarker()
 	local iconTexture = {
 		"Interface\\TargetingFrame\\UI-RaidTargetingIcon_6",
 		"Interface\\TargetingFrame\\UI-RaidTargetingIcon_4",
@@ -631,7 +631,7 @@ function Misc:RaidTool_WorldMarker()
 	B:RegisterEvent("GROUP_ROSTER_UPDATE", update_Visibility)
 	B:RegisterEvent("PLAYER_ENTERING_WORLD", update_Visibility)
 
-	Misc:RaidTool_UpdateGrid()
+	MISC:RaidTool_UpdateGrid()
 end
 
 local markerTypeToRow = {
@@ -640,7 +640,7 @@ local markerTypeToRow = {
 	[3] = 1,
 	[4] = 3,
 }
-function Misc:RaidTool_UpdateGrid()
+function MISC:RaidTool_UpdateGrid()
 	local frame = _G["NDui_WorldMarkers"]
 	if not frame then return end
 
@@ -666,7 +666,7 @@ function Misc:RaidTool_UpdateGrid()
 	frame:SetShown(showType ~= 4)
 end
 
-function Misc:RaidTool_Misc()
+function MISC:RaidTool_Misc()
 	-- UIWidget reanchor
 	if not UIWidgetTopCenterContainerFrame:IsMovable() then
 		B.UpdatePoint(UIWidgetTopCenterContainerFrame, "TOP", UIParent, "TOP", 0, -40)
@@ -676,19 +676,19 @@ function Misc:RaidTool_Misc()
 	end
 end
 
-function Misc:RaidTool_Init()
+function MISC:RaidTool_Init()
 	if not C.db["Misc"]["RaidTool"] then return end
 
-	local frame = Misc:RaidTool_Header()
-	Misc:RaidTool_RoleCount(frame)
-	Misc:RaidTool_CombatRes(frame)
-	Misc:RaidTool_ReadyCheck(frame)
-	Misc:RaidTool_Marker(frame)
-	Misc:RaidTool_BuffChecker(frame)
-	Misc:RaidTool_CreateMenu(frame)
+	local frame = MISC:RaidTool_Header()
+	MISC:RaidTool_RoleCount(frame)
+	MISC:RaidTool_CombatRes(frame)
+	MISC:RaidTool_ReadyCheck(frame)
+	MISC:RaidTool_Marker(frame)
+	MISC:RaidTool_BuffChecker(frame)
+	MISC:RaidTool_CreateMenu(frame)
 
-	Misc:RaidTool_EasyMarker()
-	Misc:RaidTool_WorldMarker()
-	Misc:RaidTool_Misc()
+	MISC:RaidTool_EasyMarker()
+	MISC:RaidTool_WorldMarker()
+	MISC:RaidTool_Misc()
 end
-Misc:RegisterMisc("RaidTool", Misc.RaidTool_Init)
+MISC:RegisterMisc("RaidTool", MISC.RaidTool_Init)

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
@@ -31,11 +31,23 @@ local function Update_RewardBorder(self)
 
 		local itemLink = GetQuestItemLink(self.type, self:GetID())
 		if itemLink then
-			local level = B.GetItemLevel(itemLink)
-			self.iLvl:SetText(level or "")
+			local itemID = GetItemInfoInstant(itemLink)
 
-			local slot = B.GetItemSlot(itemLink)
-			self.iSlot:SetText(slot or "")
+			if B.GetItemMultiplier(itemID) then
+				local mult = B.GetItemMultiplier(itemID)
+				local total = self.count * mult
+				self.iSlot:SetText(total)
+			else
+				local level = B.GetItemLevel(itemLink)
+				self.iLvl:SetText(level or "")
+
+				local slot = B.GetItemSlot(itemLink)
+				self.iSlot:SetText(slot or "")
+			end
+
+			if C_Item.IsAnimaItemByID(itemID) then
+				self.Icon:SetTexture(3528288)
+			end
 		end
 	elseif self.objectType == "currency" then
 		quality = select(4, GetQuestCurrencyInfo(self.type, self:GetID()))
@@ -54,7 +66,7 @@ local function Reskin_RewardButton(self)
 		B.StripTextures(self, 1)
 
 		self.icbg = B.ReskinIcon(self.Icon)
-		self.bubg = B.CreateBGFrame(self, 2, 0, -6, 0, self.icbg)
+		self.bubg = B.CreateBGFrame(self, C.margin, 0, -6, 0, self.icbg)
 
 		self.iLvl = B.CreateFS(self, 20)
 		self.iLvl:SetJustifyH("RIGHT")
@@ -62,7 +74,7 @@ local function Reskin_RewardButton(self)
 
 		self.iSlot = B.CreateFS(self, 20)
 		self.iSlot:SetJustifyH("LEFT")
-		B.UpdatePoint(self.iSlot, "TOPLEFT", self.icbg, "TOPLEFT", 1, -2)
+		B.UpdatePoint(self.iSlot, "TOPLEFT", self.icbg, "TOPLEFT", 1, -3)
 
 		if self.Count then
 			self.Count:SetJustifyH("RIGHT")
@@ -165,7 +177,7 @@ local function Reskin_ShowItems(self)
 	end
 end
 
-function Skins:Immersion()
+function SKIN:Immersion()
 	if not IsAddOnLoaded("Immersion") then return end
 
 	local TalkBox = ImmersionFrame.TalkBox
@@ -209,4 +221,4 @@ function Skins:Immersion()
 	hooksecurefunc(ImmersionFrame.TitleButtons, "GetButton", Reskin_TitleButton)
 end
 
-C.OnLoginThemes["Immersion"] = Skins.Immersion
+C.OnLoginThemes["Immersion"] = SKIN.Immersion

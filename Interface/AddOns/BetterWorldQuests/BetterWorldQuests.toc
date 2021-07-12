@@ -11,4 +11,3 @@
 BetterWorldQuests.xml
 PinProvider.lua
 Argus\Argus.xml
-Helpers\Helpers.xml

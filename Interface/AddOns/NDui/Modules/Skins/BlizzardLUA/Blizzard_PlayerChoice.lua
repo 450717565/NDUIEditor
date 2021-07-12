@@ -32,7 +32,7 @@ local function Reskin_PlayerChoiceFrame(self)
 		self.bg = B.ReskinFrame(self)
 	end
 
-	self.bg:SetShown(self.CloseButton:IsShown())
+	self.bg:SetShown(self.uiTextureKit ~= "jailerstower")
 	B.UpdatePoint(self.CloseButton, "TOPRIGHT", self.bg, "TOPRIGHT", -6, -6)
 
 	for optionFrame in self.optionPools:EnumerateActiveByTemplate(self.optionFrameTemplate) do

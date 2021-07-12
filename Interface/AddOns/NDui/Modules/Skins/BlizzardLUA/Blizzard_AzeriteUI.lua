@@ -11,7 +11,7 @@ local function Reskin_EssenceList(self)
 		if button and not button.styled then
 			local icbg = B.ReskinIcon(button.Icon)
 
-			local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
+			local bubg = B.CreateBGFrame(button, C.margin, 0, 0, 0, icbg)
 			B.ReskinHLTex(button, bubg, true)
 			B.ReskinHLTex(button.PendingGlow, bubg, true)
 

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Misc = B:GetModule("Misc")
+local MISC = B:GetModule("Misc")
 
 -- 职业大厅图标，取代自带的信息条
 
@@ -14,7 +14,7 @@ local LE_GARRISON_TYPE_7_0 = Enum.GarrisonType.Type_7_0
 local LE_FOLLOWER_TYPE_GARRISON_7_0 = Enum.GarrisonFollowerType.FollowerType_7_0
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
-function Misc:OrderHall_CreateIcon()
+function MISC:OrderHall_CreateIcon()
 	local hall = CreateFrame("Frame", "NDuiOrderHallIcon", UIParent)
 	hall:SetSize(50, 50)
 	hall:SetPoint("TOP", 0, -40)
@@ -26,7 +26,7 @@ function Misc:OrderHall_CreateIcon()
 	B.RestoreMF(hall)
 
 	hall.Category = {}
-	Misc.OrderHallIcon = hall
+	MISC.OrderHallIcon = hall
 
 	local Icon = hall:CreateTexture(nil, "ARTWORK")
 	Icon:SetInside()
@@ -34,8 +34,8 @@ function Misc:OrderHall_CreateIcon()
 	Icon:SetTexCoord(B.GetClassTexCoord(DB.MyClass))
 	hall.Icon = Icon
 
-	hall:SetScript("OnEnter", Misc.OrderHall_OnEnter)
-	hall:SetScript("OnLeave", Misc.OrderHall_OnLeave)
+	hall:SetScript("OnEnter", MISC.OrderHall_OnEnter)
+	hall:SetScript("OnLeave", MISC.OrderHall_OnLeave)
 	hooksecurefunc(OrderHallCommandBar, "SetShown", function(_, state)
 		hall:SetShown(state)
 	end)
@@ -45,7 +45,7 @@ function Misc:OrderHall_CreateIcon()
 	B.HideObject(OrderHallCommandBar.CurrencyHitTest)
 end
 
-function Misc:OrderHall_Refresh()
+function MISC:OrderHall_Refresh()
 	C_Garrison_RequestClassSpecCategoryInfo(LE_FOLLOWER_TYPE_GARRISON_7_0)
 
 	local currency = C_Garrison_GetCurrencyTypes(LE_GARRISON_TYPE_7_0)
@@ -68,9 +68,9 @@ function Misc:OrderHall_Refresh()
 	self.numCategory = #categoryInfo
 end
 
-function Misc:OrderHall_OnShiftDown(btn)
+function MISC:OrderHall_OnShiftDown(btn)
 	if btn == "LSHIFT" then
-		Misc.OrderHall_OnEnter(Misc.OrderHallIcon)
+		MISC.OrderHall_OnEnter(MISC.OrderHallIcon)
 	end
 end
 
@@ -78,8 +78,8 @@ local function getIconString(texture)
 	return format("|T%s:12:12:0:0::50:50:4:46:4:46|t ", texture)
 end
 
-function Misc:OrderHall_OnEnter()
-	Misc.OrderHall_Refresh(self)
+function MISC:OrderHall_OnEnter()
+	MISC.OrderHall_Refresh(self)
 
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT", 5, -5)
 	GameTooltip:ClearLines()
@@ -106,26 +106,26 @@ function Misc:OrderHall_OnEnter()
 	GameTooltip:AddDoubleLine(" ", L["Details by Shift"], 1,1,1, .6,.8,1)
 	GameTooltip:Show()
 
-	B:RegisterEvent("MODIFIER_STATE_CHANGED", Misc.OrderHall_OnShiftDown)
+	B:RegisterEvent("MODIFIER_STATE_CHANGED", MISC.OrderHall_OnShiftDown)
 end
 
-function Misc:OrderHall_OnLeave()
+function MISC:OrderHall_OnLeave()
 	GameTooltip:Hide()
-	B:UnregisterEvent("MODIFIER_STATE_CHANGED", Misc.OrderHall_OnShiftDown)
+	B:UnregisterEvent("MODIFIER_STATE_CHANGED", MISC.OrderHall_OnShiftDown)
 end
 
-function Misc:OrderHall_OnLoad(addon)
+function MISC:OrderHall_OnLoad(addon)
 	if addon == "Blizzard_OrderHallUI" then
-		Misc:OrderHall_CreateIcon()
-		B:UnregisterEvent(self, Misc.OrderHall_OnLoad)
+		MISC:OrderHall_CreateIcon()
+		B:UnregisterEvent(self, MISC.OrderHall_OnLoad)
 	end
 end
 
-function Misc:OrderHall_OnInit()
+function MISC:OrderHall_OnInit()
 	if IsAddOnLoaded("Blizzard_OrderHallUI") then
-		Misc:OrderHall_CreateIcon()
+		MISC:OrderHall_CreateIcon()
 	else
-		B:RegisterEvent("ADDON_LOADED", Misc.OrderHall_OnLoad)
+		B:RegisterEvent("ADDON_LOADED", MISC.OrderHall_OnLoad)
 	end
 end
-Misc:RegisterMisc("OrderHallIcon", Misc.OrderHall_OnInit)
+MISC:RegisterMisc("OrderHallIcon", MISC.OrderHall_OnInit)

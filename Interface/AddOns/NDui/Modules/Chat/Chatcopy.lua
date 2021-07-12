@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Chat = B:GetModule("Chat")
+local CHAT = B:GetModule("Chat")
 
 local _G = getfenv(0)
 local gsub, format, tconcat, tostring = string.gsub, string.format, table.concat, tostring
@@ -26,7 +26,7 @@ local function colorReplace(msg, r, g, b)
 	return msg
 end
 
-function Chat:GetChatLines()
+function CHAT:GetChatLines()
 	local index = 1
 	for i = 1, self:GetNumMessages() do
 		local msg, r, g, b = self:GetMessageInfo(i)
@@ -41,7 +41,7 @@ function Chat:GetChatLines()
 	return index - 1
 end
 
-function Chat:ChatCopy_OnClick(btn)
+function CHAT:ChatCopy_OnClick(btn)
 	if btn == "LeftButton" then
 		if not frame:IsShown() then
 			local chatframe = _G.SELECTED_DOCK_FRAME
@@ -49,7 +49,7 @@ function Chat:ChatCopy_OnClick(btn)
 			FCF_SetChatWindowFontSize(chatframe, chatframe, .01)
 			frame:Show()
 
-			local lineCt = Chat.GetChatLines(chatframe)
+			local lineCt = CHAT.GetChatLines(chatframe)
 			local text = tconcat(lines, " \n", 1, lineCt)
 			FCF_SetChatWindowFontSize(chatframe, chatframe, fontSize)
 			editBox:SetText(text)
@@ -66,7 +66,7 @@ local function ResetChatAlertJustify(frame)
 	frame:SetJustification("LEFT")
 end
 
-function Chat:ChatCopy_CreateMenu()
+function CHAT:ChatCopy_CreateMenu()
 	menu = CreateFrame("Frame", nil, UIParent)
 	menu:SetSize(25, 100)
 	menu:SetPoint("TOPLEFT", _G.ChatFrame1, "TOPRIGHT")
@@ -86,7 +86,7 @@ function Chat:ChatCopy_CreateMenu()
 	hooksecurefunc(_G.ChatAlertFrame, "SetChatButtonSide", ResetChatAlertJustify)
 end
 
-function Chat:ChatCopy_Create()
+function CHAT:ChatCopy_Create()
 	frame = CreateFrame("Frame", "NDuiChatCopy", UIParent)
 	frame:SetPoint("CENTER")
 	frame:SetSize(700, 400)
@@ -141,7 +141,7 @@ function Chat:ChatCopy_Create()
 	B.ReskinScroll(ChatCopyScrollFrameScrollBar)
 end
 
-function Chat:ChatCopy()
+function CHAT:ChatCopy()
 	self:ChatCopy_CreateMenu()
 	self:ChatCopy_Create()
 end

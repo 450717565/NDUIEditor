@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 
@@ -53,7 +53,7 @@ local function Reskin_RewardFrame(self, rew)
 	end
 end
 
-function Skins:VenturePlan()
+function SKIN:VenturePlan()
 	if not IsAddOnLoaded("VenturePlan") then return end
 
 	function VPEX_OnUIObjectCreated(otype, widget, peek)
@@ -135,4 +135,4 @@ function Skins:VenturePlan()
 	end
 end
 
-C.OnLoginThemes["VenturePlan"] = Skins.VenturePlan
+C.OnLoginThemes["VenturePlan"] = SKIN.VenturePlan

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Auras = B:GetModule("Auras")
+local AURA = B:GetModule("Auras")
 
 local pairs, tinsert, next = pairs, table.insert, next
 local GetSpecialization, GetZonePVPInfo, GetItemCooldown = GetSpecialization, GetZonePVPInfo, GetItemCooldown
@@ -20,7 +20,7 @@ local auraEvents = {
 	"PLAYER_EQUIPMENT_CHANGED",
 }
 
-function Auras:Reminder_Update(cfg)
+function AURA:Reminder_Update(cfg)
 	local frame = cfg.frame
 	local combat = cfg.combat
 	local depend = cfg.depend
@@ -77,7 +77,7 @@ function Auras:Reminder_Update(cfg)
 	end
 end
 
-function Auras:Reminder_Create(cfg)
+function AURA:Reminder_Create(cfg)
 	local frame = CreateFrame("Frame", nil, parentFrame)
 	frame:SetSize(iconSize, iconSize)
 	B.PixelIcon(frame)
@@ -100,7 +100,7 @@ function Auras:Reminder_Create(cfg)
 	tinsert(frames, frame)
 end
 
-function Auras:Reminder_UpdateAnchor()
+function AURA:Reminder_UpdateAnchor()
 	local index = 0
 	local offset = iconSize + 5
 	for _, frame in pairs(frames) do
@@ -112,15 +112,15 @@ function Auras:Reminder_UpdateAnchor()
 	parentFrame:SetWidth(offset * index)
 end
 
-function Auras:Reminder_OnEvent()
+function AURA:Reminder_OnEvent()
 	for _, cfg in pairs(groups) do
-		if not cfg.frame then Auras:Reminder_Create(cfg) end
-		Auras:Reminder_Update(cfg)
+		if not cfg.frame then AURA:Reminder_Create(cfg) end
+		AURA:Reminder_Update(cfg)
 	end
-	Auras:Reminder_UpdateAnchor()
+	AURA:Reminder_UpdateAnchor()
 end
 
-function Auras:Reminder_AddItemGroup()
+function AURA:Reminder_AddItemGroup()
 	for _, value in pairs(DB.ReminderBuffs["ITEMS"]) do
 		if not value.disable and GetItemCount(value.itemID) > 0 then
 			if not value.texture then
@@ -132,8 +132,8 @@ function Auras:Reminder_AddItemGroup()
 	end
 end
 
-function Auras:InitReminder()
-	Auras:Reminder_AddItemGroup()
+function AURA:InitReminder()
+	AURA:Reminder_AddItemGroup()
 
 	if not groups or not next(groups) then return end
 
@@ -145,18 +145,18 @@ function Auras:InitReminder()
 		end
 
 		parentFrame:Show()
-		B:RegisterEvent("UNIT_AURA", Auras.Reminder_OnEvent, "player")
+		B:RegisterEvent("UNIT_AURA", AURA.Reminder_OnEvent, "player")
 
 		for _, event in pairs(auraEvents) do
-			B:RegisterEvent(event, Auras.Reminder_OnEvent)
+			B:RegisterEvent(event, AURA.Reminder_OnEvent)
 		end
 	else
 		if parentFrame then
 			parentFrame:Hide()
-			B:UnregisterEvent("UNIT_AURA", Auras.Reminder_OnEvent)
+			B:UnregisterEvent("UNIT_AURA", AURA.Reminder_OnEvent)
 
 			for _, event in pairs(auraEvents) do
-				B:UnregisterEvent(event, Auras.Reminder_OnEvent)
+				B:UnregisterEvent(event, AURA.Reminder_OnEvent)
 			end
 		end
 	end

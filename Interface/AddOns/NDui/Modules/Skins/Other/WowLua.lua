@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:WoWLua()
+function SKIN:WoWLua()
 	if not IsAddOnLoaded("WowLua") then return end
 
 	B.ReskinFrame(WowLuaFrame)
@@ -60,4 +60,4 @@ function Skins:WoWLua()
 	end
 end
 
-C.OnLoginThemes["WoWLua"] = Skins.WoWLua
+C.OnLoginThemes["WoWLua"] = SKIN.WoWLua

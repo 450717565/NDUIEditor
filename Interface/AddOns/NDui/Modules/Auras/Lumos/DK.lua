@@ -1,35 +1,35 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Auras = B:GetModule("Auras")
+local AURA = B:GetModule("Auras")
 
 if DB.MyClass ~= "DEATHKNIGHT" then return end
 local floor = math.floor
 
-function Auras:PostCreateLumos(self)
+function AURA:PostCreateLumos(self)
 	local shield = B.CreateFS(self.Health, 18, "", "system")
 	B.UpdatePoint(shield, "RIGHT", self.Health, "LEFT", -5, 0)
 
 	self.shield = shield
 end
 
-function Auras:PostUpdateVisibility(self)
+function AURA:PostUpdateVisibility(self)
 	if self.shield then self.shield:SetText("") end
 end
 
 local function GetUnitAura(unit, spell, filter)
-	return Auras:GetUnitAura(unit, spell, filter)
+	return AURA:GetUnitAura(unit, spell, filter)
 end
 
 local function UpdateCooldown(button, spellID, texture)
-	return Auras:UpdateCooldown(button, spellID, texture)
+	return AURA:UpdateCooldown(button, spellID, texture)
 end
 
 local function UpdateBuff(button, spellID, auraID, cooldown, isPet, glow)
-	return Auras:UpdateAura(button, isPet and "pet" or "player", auraID, "HELPFUL", spellID, cooldown, glow)
+	return AURA:UpdateAura(button, isPet and "pet" or "player", auraID, "HELPFUL", spellID, cooldown, glow)
 end
 
 local function UpdateDebuff(button, spellID, auraID, cooldown)
-	return Auras:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown)
+	return AURA:UpdateAura(button, "target", auraID, "HARMFUL", spellID, cooldown)
 end
 
 local function UpdateBuffValue(button, spellID)
@@ -47,7 +47,7 @@ local function UpdateBuffValue(button, spellID)
 	button.Count:SetTextColor(1, 1, 1)
 end
 
-function Auras:ChantLumos(self)
+function AURA:ChantLumos(self)
 	local spec = GetSpecialization()
 	if spec == 1 then
 		do

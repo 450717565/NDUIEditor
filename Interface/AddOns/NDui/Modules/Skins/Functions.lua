@@ -2,6 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local tL, tR, tT, tB = unpack(DB.TexCoord)
+local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
 -- Reskin Function
 do
@@ -163,7 +164,7 @@ do
 				local icbg = B.ReskinIcon(button.icon)
 				button.icon.SetTexCoord = B.Dummy
 
-				local bubg = B.CreateBGFrame(button, 2, 2, -2, -2, icbg)
+				local bubg = B.CreateBGFrame(button, C.margin, 2, -2, -2, icbg)
 				B.ReskinHLTex(button, bubg, true)
 				B.UpdatePoint(button.name, "TOPLEFT", bubg, "TOPLEFT", 4, -6)
 				B.UpdatePoint(button.path, "BOTTOMLEFT", bubg, "BOTTOMLEFT", 4, 4)
@@ -229,6 +230,54 @@ do
 		local fontSize = size*C.db["Skins"]["FontScale"]
 		self:SetFont(DB.Font[1], fontSize, DB.Font[3])
 		self:SetShadowColor(0, 0, 0, 0)
+	end
+
+	local function Get_MawBuffsAnchor(self)
+		local center = self:GetCenter()
+		if center and center < GetScreenWidth()/2 then
+			return "LEFT"
+		else
+			return "RIGHT"
+		end
+	end
+
+	local function Set_MawBuffsAnchor(self)
+		local direc = Get_MawBuffsAnchor(self)
+		if not self.lastDirec or self.lastDirec ~= direc then
+			if direc == "LEFT" then
+				B.UpdatePoint(self.List, "TOPLEFT", self, "TOPRIGHT", 15, 0)
+			else
+				B.UpdatePoint(self.List, "TOPRIGHT", self, "TOPLEFT", 15, 0)
+			end
+
+			self.lastDirec = direc
+		end
+	end
+
+	local function Update_ListOnShow(self)
+		self.bg:SetBackdropBorderColor(cr, cg, cb)
+	end
+
+	local function Update_ListOnHide(self)
+		self.bg:SetBackdropBorderColor(0, 0, 0)
+	end
+
+	function B:ReskinMawBuffs()
+		B.StripTextures(self)
+
+		local Container = self.Container
+		Container:HookScript("OnClick", Set_MawBuffsAnchor)
+		B.StripTextures(Container, 0)
+
+		local List = Container.List
+		B.StripTextures(List)
+		B.CreateBG(List, 8, -12, -8, 12)
+
+		local bg = B.CreateBG(self, 20, -10, -20, 10)
+		List.bg = bg
+
+		List:HookScript("OnShow", Update_ListOnShow)
+		List:HookScript("OnHide", Update_ListOnHide)
 	end
 end
 

@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Misc = B:GetModule("Misc")
+local MISC = B:GetModule("Misc")
 
 --[[
 	QuickJoin 优化系统自带的预创建功能
@@ -17,7 +17,7 @@ local C_LFGList_GetSearchResultMemberInfo = C_LFGList.GetSearchResultMemberInfo
 local ApplicationViewerFrame = _G.LFGListFrame.ApplicationViewer
 local LFG_LIST_GROUP_DATA_ATLASES = _G.LFG_LIST_GROUP_DATA_ATLASES
 
-function Misc:HookApplicationClick()
+function MISC:HookApplicationClick()
 	if LFGListFrame.SearchPanel.SignUpButton:IsEnabled() then
 		LFGListFrame.SearchPanel.SignUpButton:Click()
 	end
@@ -27,7 +27,7 @@ function Misc:HookApplicationClick()
 end
 
 local pendingFrame
-function Misc:DialogHideInSecond()
+function MISC:DialogHideInSecond()
 	if not pendingFrame then return end
 
 	if pendingFrame.informational then
@@ -38,12 +38,12 @@ function Misc:DialogHideInSecond()
 	pendingFrame = nil
 end
 
-function Misc:HookDialogOnShow()
+function MISC:HookDialogOnShow()
 	pendingFrame = self
-	C_Timer_After(1, Misc.DialogHideInSecond)
+	C_Timer_After(1, MISC.DialogHideInSecond)
 end
 
-function Misc:HookInviteDialog()
+function MISC:HookInviteDialog()
 	if PVEFrame:IsShown() then HideUIPanel(PVEFrame) end
 end
 
@@ -99,7 +99,7 @@ local function UpdateGroupRoles(self)
 	sort(roleCache, SortRoleOrder)
 end
 
-function Misc:ReplaceGroupRoles(numPlayers, _, disabled)
+function MISC:ReplaceGroupRoles(numPlayers, _, disabled)
 	if not self then return end
 
 	UpdateGroupRoles(self)
@@ -154,17 +154,17 @@ function Misc:ReplaceGroupRoles(numPlayers, _, disabled)
 	end
 end
 
-function Misc:QuickJoin()
+function MISC:QuickJoin()
 	for i = 1, 10 do
 		local button = _G["LFGListSearchPanelScrollFrameButton"..i]
 		if button then
-			button:HookScript("OnDoubleClick", Misc.HookApplicationClick)
+			button:HookScript("OnDoubleClick", MISC.HookApplicationClick)
 		end
 	end
 
-	hooksecurefunc("StaticPopup_Show", Misc.HookDialogOnShow)
-	hooksecurefunc("LFGListInviteDialog_Show", Misc.HookDialogOnShow)
-	hooksecurefunc("LFGListInviteDialog_Accept", Misc.HookInviteDialog)
-	hooksecurefunc("LFGListGroupDataDisplayEnumerate_Update", Misc.ReplaceGroupRoles)
+	hooksecurefunc("StaticPopup_Show", MISC.HookDialogOnShow)
+	hooksecurefunc("LFGListInviteDialog_Show", MISC.HookDialogOnShow)
+	hooksecurefunc("LFGListInviteDialog_Accept", MISC.HookInviteDialog)
+	hooksecurefunc("LFGListGroupDataDisplayEnumerate_Update", MISC.ReplaceGroupRoles)
 end
-Misc:RegisterMisc("QuickJoin", Misc.QuickJoin)
+MISC:RegisterMisc("QuickJoin", MISC.QuickJoin)

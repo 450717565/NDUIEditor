@@ -23,16 +23,16 @@ local L = PGF.L
 local C = PGF.C
 
 function PGF.GameTooltip_AddWhite(left)
-	GameTooltip:AddLine(left, 255, 255, 255)
+    GameTooltip:AddLine(left, 255, 255, 255)
 end
 
 function PGF.GameTooltip_AddDoubleWhite(left, right)
-	GameTooltip:AddDoubleLine(left, right, 255, 255, 255, 255, 255, 255)
+    GameTooltip:AddDoubleLine(left, right, 255, 255, 255, 255, 255, 255)
 end
 
 function PGF.Dialog_InfoButton_OnEnter(self, motion)
-	local AddDoubleWhiteUsingKey = function (key)
-		PGF.GameTooltip_AddDoubleWhite(key, L["dialog.tooltip." .. key]) end
+    local AddDoubleWhiteUsingKey = function (key)
+	PGF.GameTooltip_AddDoubleWhite(key, L["dialog.tooltip." .. key]) end
 
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	GameTooltip:SetText(L["dialog.tooltip.title"])
@@ -76,5 +76,5 @@ function PGF.Dialog_InfoButton_OnEnter(self, motion)
 end
 
 function PGF.Dialog_InfoButton_OnLeave(self, motion)
-	GameTooltip:Hide()
+    GameTooltip:Hide()
 end

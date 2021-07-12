@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:Myslot()
+function SKIN:Myslot()
 	if not IsAddOnLoaded("Myslot") then return end
 
 	local Myslot = LibStub("Myslot-5.0", true)
@@ -37,4 +37,4 @@ function Skins:Myslot()
 	end
 end
 
-C.OnLoginThemes["Myslot"] = Skins.Myslot
+C.OnLoginThemes["Myslot"] = SKIN.Myslot

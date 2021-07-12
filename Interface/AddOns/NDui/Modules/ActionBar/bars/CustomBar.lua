@@ -1,13 +1,13 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Bar = B:GetModule("ActionBar")
+local AB = B:GetModule("ActionBar")
 
 local tinsert = tinsert
 local mod, min, ceil = mod, min, ceil
 local cfg = C.Bars.bar4
 local margin, padding = C.Bars.margin, C.Bars.padding
 
-function Bar:CreateCustomBar(anchor)
+function AB:CreateCustomBar(anchor)
 	local size = C.db["ActionBar"]["CustomBarButtonSize"]
 	local num = 12
 	local name = "NDui_CustomBar"
@@ -33,17 +33,17 @@ function Bar:CreateCustomBar(anchor)
 		button:SetAttribute("action", button.id)
 		frame.buttons[i] = button
 		tinsert(buttonList, button)
-		tinsert(Bar.buttons, button)
+		tinsert(AB.buttons, button)
 	end
 
 	if C.db["ActionBar"]["CustomBarFader"] and cfg.fader then
-		Bar.CreateButtonFrameFader(frame, buttonList, cfg.fader)
+		AB.CreateButtonFrameFader(frame, buttonList, cfg.fader)
 	end
 
-	Bar:UpdateCustomBar()
+	AB:UpdateCustomBar()
 end
 
-function Bar:UpdateCustomBar()
+function AB:UpdateCustomBar()
 	local frame = _G.NDui_CustomBar
 	if not frame then return end
 
@@ -84,8 +84,8 @@ function Bar:UpdateCustomBar()
 	frame.mover:SetSize(frame:GetSize())
 end
 
-function Bar:CustomBar()
+function AB:CustomBar()
 	if C.db["ActionBar"]["CustomBar"] then
-		Bar:CreateCustomBar({"BOTTOM", UIParent, "BOTTOM", 0, 140})
+		AB:CreateCustomBar({"BOTTOM", UIParent, "BOTTOM", 0, 140})
 	end
 end

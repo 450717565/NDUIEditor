@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB, P = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:HandyNotes()
+function SKIN:HandyNotes()
 	if not IsAddOnLoaded("HandyNotes") then return end
 
 	B.ReskinFrame(HNEditFrame)
@@ -23,4 +23,4 @@ function Skins:HandyNotes()
 	end
 end
 
-C.OnLoginThemes["HandyNotes"] = Skins.HandyNotes
+C.OnLoginThemes["HandyNotes"] = SKIN.HandyNotes

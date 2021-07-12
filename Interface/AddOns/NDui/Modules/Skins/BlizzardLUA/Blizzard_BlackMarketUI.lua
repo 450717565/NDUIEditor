@@ -15,7 +15,7 @@ local function Reskin_BlackMarketScrollFrame()
 			local icbg = B.ReskinIcon(item.IconTexture)
 			B.ReskinHLTex(item, icbg)
 
-			local bubg = B.CreateBGFrame(button, 2, 0, 0, 0, icbg)
+			local bubg = B.CreateBGFrame(button, C.margin, 0, 0, 0, icbg)
 			B.ReskinHLTex(button, bubg, true)
 			B.ReskinHLTex(button.Selection, bubg, true)
 

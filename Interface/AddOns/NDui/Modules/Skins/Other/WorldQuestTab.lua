@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local cr, cg, cb = DB.cr, DB.cg, DB.cb
 
@@ -87,7 +87,7 @@ local function Reskin_Category(category)
 	end
 end
 
-function Skins:WorldQuestTab()
+function SKIN:WorldQuestTab()
 	if not IsAddOnLoaded("WorldQuestTab") then return end
 
 	B.StripTextures(WQT_OverlayFrame)
@@ -180,4 +180,4 @@ function Skins:WorldQuestTab()
 	B:RegisterEvent("PLAYER_ENTERING_WORLD", Reskin_Settings)
 end
 
-C.OnLoginThemes["WorldQuestTab"] = Skins.WorldQuestTab
+C.OnLoginThemes["WorldQuestTab"] = SKIN.WorldQuestTab

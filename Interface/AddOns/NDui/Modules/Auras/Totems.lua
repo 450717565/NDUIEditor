@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Auras = B:GetModule("Auras")
+local AURA = B:GetModule("Auras")
 
 local _G = _G
 local GetTotemInfo = GetTotemInfo
@@ -8,7 +8,7 @@ local GetTotemInfo = GetTotemInfo
 -- Style
 local totems = {}
 
-function Auras:TotemBar_Init()
+function AURA:TotemBar_Init()
 	local margin = C.margin
 	local vertical = C.db["Auras"]["VerticalTotems"]
 	local iconSize = C.db["Auras"]["TotemSize"]
@@ -17,7 +17,7 @@ function Auras:TotemBar_Init()
 
 	local totemBar = _G["NDui_TotemBar"]
 	if not totemBar then
-		totemBar = CreateFrame("Frame", "NDui_TotemBar", Auras.PetBattleFrameHider)
+		totemBar = CreateFrame("Frame", "NDui_TotemBar", AURA.PetBattleFrameHider)
 	end
 	totemBar:SetSize(width, height)
 
@@ -53,7 +53,7 @@ function Auras:TotemBar_Init()
 	end
 end
 
-function Auras:TotemBar_Update()
+function AURA:TotemBar_Update()
 	for i = 1, 4 do
 		local totem = totems[i]
 		local defaultTotem = totem.__owner
@@ -73,10 +73,10 @@ function Auras:TotemBar_Update()
 	end
 end
 
-function Auras:Totems()
+function AURA:Totems()
 	if not C.db["Auras"]["Totems"] then return end
 
-	Auras:TotemBar_Init()
-	B:RegisterEvent("PLAYER_ENTERING_WORLD", Auras.TotemBar_Update)
-	B:RegisterEvent("PLAYER_TOTEM_UPDATE", Auras.TotemBar_Update)
+	AURA:TotemBar_Init()
+	B:RegisterEvent("PLAYER_ENTERING_WORLD", AURA.TotemBar_Update)
+	B:RegisterEvent("PLAYER_TOTEM_UPDATE", AURA.TotemBar_Update)
 end

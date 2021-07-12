@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local pairs, unpack = pairs, unpack
 
@@ -197,7 +197,7 @@ local function Reskin_WAOptions()
 	frame.styled = true
 end
 
-function Skins:WeakAuras()
+function SKIN:WeakAuras()
 	if not C.db["Skins"]["WeakAuras"] or not IsAddOnLoaded("WeakAuras") then return end
 
 	local regionTypes = WeakAuras.regionTypes

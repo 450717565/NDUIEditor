@@ -1,8 +1,8 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
-function Skins:ExtVendor()
+function SKIN:ExtVendor()
 	if not IsAddOnLoaded("ExtVendor") then return end
 	B.ReskinInput(MerchantFrameSearchBox, 22)
 	B.ReskinButton(MerchantFrameFilterButton)
@@ -90,4 +90,4 @@ function Skins:ExtVendor()
 	B.ReskinButton(_G[SellJunkProgressPopup.."CancelButton"])
 end
 
-C.OnLoginThemes["ExtVendor"] = Skins.ExtVendor
+C.OnLoginThemes["ExtVendor"] = SKIN.ExtVendor

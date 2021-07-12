@@ -1,13 +1,13 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 local function Update_FrameAnchor(self)
 	self:ClearAllPoints()
 	self:SetPoint("RIGHT", PVEFrameCloseButton, "LEFT", -3, 0)
 end
 
-function Skins:DungeonWatchDog()
+function SKIN:DungeonWatchDog()
 	if not IsAddOnLoaded("DungeonWatchDog") then return end
 
 	local button = select(11, LFGListFrame.SearchPanel:GetChildren())
@@ -17,4 +17,4 @@ function Skins:DungeonWatchDog()
 	button:HookScript("OnShow", Update_FrameAnchor)
 end
 
-C.OnLoginThemes["DungeonWatchDog"] = Skins.DungeonWatchDog
+C.OnLoginThemes["DungeonWatchDog"] = SKIN.DungeonWatchDog

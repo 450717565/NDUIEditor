@@ -1,6 +1,6 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
-local Skins = B:GetModule("Skins")
+local SKIN = B:GetModule("Skins")
 
 ----------------------------
 -- Credit: ElvUI
@@ -13,7 +13,7 @@ local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local tL, tR, tT, tB = unpack(DB.TexCoord)
 local EarlyAceWidgets = {}
 
-function Skins:Ace3()
+function SKIN:Ace3()
 	local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 	if not AceGUI then return end
 
@@ -26,14 +26,14 @@ function Skins:Ace3()
 
 	for _, n in pairs(EarlyAceWidgets) do
 		if n.SetLayout then
-			Skins:Ace3_RegisterAsContainer(n)
+			SKIN:Ace3_RegisterAsContainer(n)
 		else
-			Skins:Ace3_RegisterAsWidget(n)
+			SKIN:Ace3_RegisterAsWidget(n)
 		end
 	end
 end
 
-function Skins:Ace3_SkinDropdown()
+function SKIN:Ace3_SkinDropdown()
 	if self and self.obj then
 		if self.obj.pullout and self.obj.pullout.frame then
 			B.ReskinTooltip(self.obj.pullout.frame)
@@ -48,7 +48,7 @@ function Skins:Ace3_SkinDropdown()
 	end
 end
 
-function Skins:Ace3_SkinTab(tab)
+function SKIN:Ace3_SkinTab(tab)
 	B.StripTextures(tab)
 	tab.bg = B.CreateBGFrame(tab, 8, -2, -8, 2)
 
@@ -68,7 +68,7 @@ local WeakAuras_RegionType = {
 	["dynamicgroup"] = true,
 }
 
-function Skins:WeakAuras_SkinIcon(icon)
+function SKIN:WeakAuras_SkinIcon(icon)
 	if type(icon) ~= "table" or not icon.icon then return end
 
 	if WeakAuras_RegionType[self.data.regionType] then
@@ -76,7 +76,7 @@ function Skins:WeakAuras_SkinIcon(icon)
 	end
 end
 
-function Skins:WeakAuras_UpdateIcon()
+function SKIN:WeakAuras_UpdateIcon()
 	if not self.thumbnail or not self.thumbnail.icon then return end
 
 	if WeakAuras_RegionType[self.data.regionType] then
@@ -84,7 +84,7 @@ function Skins:WeakAuras_UpdateIcon()
 	end
 end
 
-function Skins:Ace3_RegisterAsWidget(widget)
+function SKIN:Ace3_RegisterAsWidget(widget)
 	local TYPE = widget.type
 	if TYPE == "MultiLineEditBox" then
 		B.StripTextures(widget.scrollBG)
@@ -135,13 +135,13 @@ function Skins:Ace3_RegisterAsWidget(widget)
 		end)
 	elseif TYPE == "Dropdown" or TYPE == "LQDropdown" then
 		local button_cover = widget.button_cover
-		button_cover:HookScript("OnClick", Skins.Ace3_SkinDropdown)
+		button_cover:HookScript("OnClick", SKIN.Ace3_SkinDropdown)
 
 		local button = widget.button
 		B.ReskinArrow(button, "down", 20)
 		button:ClearAllPoints()
 		button:SetPoint("RIGHT", -18, 2)
-		button:HookScript("OnClick", Skins.Ace3_SkinDropdown)
+		button:HookScript("OnClick", SKIN.Ace3_SkinDropdown)
 
 		local dropdown = widget.dropdown
 		B.StripTextures(dropdown)
@@ -175,7 +175,7 @@ function Skins:Ace3_RegisterAsWidget(widget)
 		B.ReskinArrow(button, "down", 20)
 		button:ClearAllPoints()
 		button:SetPoint("RIGHT", -18, 2)
-		button:HookScript("OnClick", Skins.Ace3_SkinDropdown)
+		button:HookScript("OnClick", SKIN.Ace3_SkinDropdown)
 		button:SetParent(bg)
 
 		local text = frame.text
@@ -247,8 +247,8 @@ function Skins:Ace3_RegisterAsWidget(widget)
 		local icbg = B.ReskinIcon(icon)
 		B.ReskinHLTex(button.highlight, icbg)
 
-		hooksecurefunc(widget, "SetIcon", Skins.WeakAuras_SkinIcon)
-		hooksecurefunc(widget, "UpdateThumbnail", Skins.WeakAuras_UpdateIcon)
+		hooksecurefunc(widget, "SetIcon", SKIN.WeakAuras_SkinIcon)
+		hooksecurefunc(widget, "UpdateThumbnail", SKIN.WeakAuras_UpdateIcon)
 	elseif TYPE == "WeakAurasNewButton" then
 		local icon = widget.icon
 		icon:SetPoint("LEFT", widget.frame, "LEFT", 1, 0)
@@ -291,7 +291,7 @@ function Skins:Ace3_RegisterAsWidget(widget)
 	end
 end
 
-function Skins:Ace3_RegisterAsContainer(widget)
+function SKIN:Ace3_RegisterAsContainer(widget)
 	local TYPE = widget.type
 	if TYPE == "ScrollFrame" then
 		B.ReskinScroll(widget.scrollbar)
@@ -345,7 +345,7 @@ function Skins:Ace3_RegisterAsContainer(widget)
 			local oldCreateTab = widget.CreateTab
 			widget.CreateTab = function(self, id)
 				local tab = oldCreateTab(self, id)
-				Skins:Ace3_SkinTab(tab)
+				SKIN:Ace3_SkinTab(tab)
 
 				return tab
 			end
@@ -364,20 +364,20 @@ function Skins:Ace3_RegisterAsContainer(widget)
 	end
 end
 
-function Skins:Ace3_MetaTable(lib)
+function SKIN:Ace3_MetaTable(lib)
 	local t = getmetatable(lib)
 	if t then
-		t.__newindex = Skins.Ace3_MetaIndex
+		t.__newindex = SKIN.Ace3_MetaIndex
 	else
-		setmetatable(lib, {__newindex = Skins.Ace3_MetaIndex})
+		setmetatable(lib, {__newindex = SKIN.Ace3_MetaIndex})
 	end
 end
 
-function Skins:Ace3_MetaIndex(k, v)
+function SKIN:Ace3_MetaIndex(k, v)
 	if k == "RegisterAsContainer" then
 		rawset(self, k, function(s, w, ...)
 			if C.db["Skins"]["BlizzardSkins"] then
-				Skins.Ace3_RegisterAsContainer(s, w, ...)
+				SKIN.Ace3_RegisterAsContainer(s, w, ...)
 			end
 
 			return v(s, w, ...)
@@ -385,7 +385,7 @@ function Skins:Ace3_MetaIndex(k, v)
 	elseif k == "RegisterAsWidget" then
 		rawset(self, k, function(...)
 			if C.db["Skins"]["BlizzardSkins"] then
-				Skins.Ace3_RegisterAsWidget(...)
+				SKIN.Ace3_RegisterAsWidget(...)
 			end
 
 			return v(...)
@@ -398,7 +398,7 @@ end
 -- versions of AceGUI and AceConfigDialog.
 local minorGUI, minorConfigDialog = 36, 76
 local lastMinor = 0
-function Skins:HookAce3(lib, minor, earlyLoad) -- lib: AceGUI
+function SKIN:HookAce3(lib, minor, earlyLoad) -- lib: AceGUI
 	if not lib or (not minor or minor < minorGUI) then return end
 
 	local earlyContainer, earlyWidget
@@ -416,7 +416,7 @@ function Skins:HookAce3(lib, minor, earlyLoad) -- lib: AceGUI
 	end
 
 	if not lib.RegisterAsWidget then
-		Skins:Ace3_MetaTable(lib)
+		SKIN:Ace3_MetaTable(lib)
 	end
 
 	if earlyContainer then lib.RegisterAsContainer = earlyContainer end
@@ -433,14 +433,14 @@ do -- Early Skin Loading
 	if not LibStub then return end
 
 	local numEnding = "%-[%d%.]+$"
-	function Skins:LibStub_NewLib(major, minor)
+	function SKIN:LibStub_NewLib(major, minor)
 		local earlyLoad = major == "ElvUI"
 		if earlyLoad then major = minor end
 
 		local n = gsub(major, numEnding, "")
 		if Libraries[n] then
 			if n == "AceGUI" then
-				Skins:HookAce3(LibStub.libs[major], LibStub.minors[major], earlyLoad)
+				SKIN:HookAce3(LibStub.libs[major], LibStub.minors[major], earlyLoad)
 			end
 		end
 	end
@@ -467,9 +467,9 @@ do -- Early Skin Loading
 			end
 		end
 		if Libraries[gsub(n, numEnding, "")] then
-			Skins:LibStub_NewLib("ElvUI", n)
+			SKIN:LibStub_NewLib("ElvUI", n)
 		end
 	end
 
-	hooksecurefunc(LibStub, "NewLibrary", Skins.LibStub_NewLib)
+	hooksecurefunc(LibStub, "NewLibrary", SKIN.LibStub_NewLib)
 end
