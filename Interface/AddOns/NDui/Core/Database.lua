@@ -108,7 +108,26 @@ DB.DNDTex = "|T"..FRIENDS_TEXTURE_DND..":14:14:0:0:16:16:1:15:1:15|t"
 DB.TexCoord = {.08, .92, .08, .92}
 DB.MythicLoot = {0, 213, 216, 220, 220, 223, 226, 226, 226, 229, 229, 233, 233, 233, 236}
 DB.WeeklyLoot = {0, 226, 229, 233, 236, 236, 239, 242, 242, 246, 246, 249, 249, 252, 252}
-DB.Slots = {"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand", "SecondaryHand", "Tabard"}
+DB.Slots = {
+	"Head",
+	"Neck",
+	"Shoulder",
+	"Shirt",
+	"Chest",
+	"Waist",
+	"Legs",
+	"Feet",
+	"Wrist",
+	"Hands",
+	"Finger0",
+	"Finger1",
+	"Trinket0",
+	"Trinket1",
+	"Back",
+	"MainHand",
+	"SecondaryHand",
+	"Tabard",
+}
 DB.ChatEvents = {
 	"CHAT_MSG_BATTLEGROUND",
 	"CHAT_MSG_BATTLEGROUND_LEADER",
@@ -129,6 +148,16 @@ DB.ChatEvents = {
 	"CHAT_MSG_WHISPER",
 	"CHAT_MSG_WHISPER_INFORM",
 	"CHAT_MSG_YELL",
+}
+DB.ItemTooltips = {
+	EmbeddedItemTooltip,
+	GameTooltip,
+	GameTooltipTooltip,
+	ItemRefShoppingTooltip1,
+	ItemRefShoppingTooltip2,
+	ItemRefTooltip,
+	ShoppingTooltip1,
+	ShoppingTooltip2,
 }
 
 -- Flags

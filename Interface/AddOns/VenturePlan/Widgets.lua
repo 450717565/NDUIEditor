@@ -119,7 +119,7 @@ local function CommonTooltip_OnEnter(self)
 		if self.currencyID == 1889 then
 			local ci = C_CurrencyInfo.GetCurrencyInfo(self.currencyID)
 			local q = ci and U.GetShiftedCurrencyValue(self.currencyID, ci.quantity) or "??"
-			GameTooltip:AddLine("|n" .. (L"Current Progress: %s"):format("|cffffffff" .. q .. "|r"))
+			GameTooltip:AddLine("" .. (L"Current Progress: %s"):format("|cffffffff" .. q .. "|r"))
 			GameTooltip:Show()
 		end
 	elseif self.achievementID then
@@ -317,7 +317,7 @@ local function TooltipProgressBar_Activate(self, tip, cur, max, label, q1)
 	self.Fill2:SetTexCoord(tl, tl+self.v2, 0, 1)
 	self.Fill2:SetShown((q1 or 0) > 0)
 	self:SetParent(tip)
-	tip:AddLine(("|TInterface/Minimap/PartyRaidBlipsV2:5:65:0:0:64:32:62:63:0:2|t "):rep(3))
+	tip:AddLine(("|TInterface/Minimap/PartyRaidBlipsV2:5:47:0:0:64:32:62:63:0:2|t "):rep(3))
 	local lastLine = _G[tip:GetName() .. "TextLeft" .. (tip:NumLines()-1)]
 	self:SetPoint("TOPLEFT", lastLine, "BOTTOMLEFT", 0, -2)
 	self:Show()
@@ -524,7 +524,7 @@ local function FollowerButton_OnEnter(self)
 	end
 	if not (info.isAutoTroop or info.missionTimeEnd) then
 		local act = U.FollowerIsFavorite(info.garrFollowerID) and BATTLE_PET_UNFAVORITE or BATTLE_PET_FAVORITE
-		local short = GetAltModifierKeyText("CHATLINK") .. "+|TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:0:0:0:-1:512:512:2:78:240:316|t: "
+		local short = "Alt" .. "+|TInterface\\TUTORIALFRAME\\UI-TUTORIAL-FRAME:0:0:0:-1:512:512:2:78:240:316|t: "
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(short .. act, 0.5, 0.8, 1)
 		GameTooltip:Show()
@@ -669,7 +669,7 @@ local function FollowerList_GetTroopHint(ft)
 		end
 		local mlc = ("%s%.3g|r"):format(NORMAL_FONT_COLOR_CODE, ml)
 		o = (L"Your troop level is the median level of your companions (%s), rounded down. It does not decrease when you recruit additional companions."):format(mlc)
-		    .. (ml < 60 and "\n\n" .. NORMAL_FONT_COLOR_CODE .. L"These companions currently affect your troop level:" .. "|r\n" .. o or "")
+			.. (ml < 60 and "\n\n" .. NORMAL_FONT_COLOR_CODE .. L"These companions currently affect your troop level:" .. "|r\n" .. o or "")
 	end
 	return COVENANT_MISSIONS_TUTORIAL_TROOPS .. (o and ("\n\n" .. o) or "")
 end
@@ -1088,7 +1088,8 @@ local function AwayFollowers_OnEnter(self)
 	if #ft == 0 and nt == 0 then
 		GameTooltip:AddLine(L'All companions are ready for adventures.', 1,1,1);
 	elseif #ct ~= #ft or nt > 0 then
-		GameTooltip:AddLine((L'%d |4companion is:companions are; ready for adventures.'):format(#ct-#ft), 1,1,1, 1)
+		GameTooltip:AddLine((L'%d |4zz'):format(#ct-#ft), 0.4,0.6,0.93, 1)
+		GameTooltip:AddLine((L'%d |4companion is:companions are; ready for adventures.'):format(#ct-#ft-nt), 1,1,1, 1)
 	end
 	if nt > 0 then
 		GameTooltip:AddLine((L'%d |4companion is:companions are; in a tentative party.'):format(nt), 1,1,1, 1)
@@ -1204,24 +1205,24 @@ function Factory.RaisedBorder(parent)
 		t:SetSize(42, 42)
 		t:SetPoint("TOPLEFT")
 		t:SetTexture("Interface/Garrison/AdventureMissionsFrame")
-		t:SetTexCoord(650/1024, 688/1024, 1119/2048, 1158/2048)
+		t:SetTexCoord(815/1024, 854/1024, 1119/2048, 1158/2048)
 		t = border:CreateTexture(nil, "BACKGROUND", nil, 1)
 		t:SetSize(42, 42)
 		t:SetPoint("TOPRIGHT")
 		t:SetTexture("Interface/Garrison/AdventureMissionsFrame")
-		t:SetTexCoord(650/1024, 688/1024, 1119/2048, 1158/2048)
+		t:SetTexCoord(815/1024, 854/1024, 1119/2048, 1158/2048)
 		Mirror(t, true, false)
 		t = border:CreateTexture(nil, "BACKGROUND", nil, 1)
 		t:SetSize(42, 42)
 		t:SetPoint("BOTTOMLEFT")
 		t:SetTexture("Interface/Garrison/AdventureMissionsFrame")
-		t:SetTexCoord(650/1024, 688/1024, 1119/2048, 1158/2048)
+		t:SetTexCoord(815/1024, 854/1024, 1119/2048, 1158/2048)
 		Mirror(t, false, true)
 		t = border:CreateTexture(nil, "BACKGROUND", nil, 1)
 		t:SetSize(42, 42)
 		t:SetPoint("BOTTOMRIGHT")
 		t:SetTexture("Interface/Garrison/AdventureMissionsFrame")
-		t:SetTexCoord(650/1024, 688/1024, 1119/2048, 1158/2048)
+		t:SetTexCoord(815/1024, 854/1024, 1119/2048, 1158/2048)
 		Mirror(t, true, true)
 		t = parent:CreateTexture(nil, "BACKGROUND", nil, -2)
 		t:SetTexture("Interface/FrameGeneral/UIFrame"..CovenKit.."Background", true, true)
@@ -1314,7 +1315,7 @@ function Factory.CopyBoxUI(parent)
 	end)
 	t, f.CloseButton2 = f:CreateFontString(nil, "OVERLAY", "GameFontBlackSmall"), t
 	t:SetPoint("BOTTOMRIGHT", -16, 14)
-	t:SetText(GetAddOnMetadata(AN, "Title") .. " v" .. GetAddOnMetadata(AN, "Version"))
+	t:SetText(GetAddOnMetadata(AN, "Version"))
 	f.VersionText = t
 
 	f:SetScript("OnHide", function(self)
@@ -1398,7 +1399,7 @@ function Factory.MissionPage(parent)
 		vButton:SetPushedTextOffset(0,0)
 		vButton:SetNormalFontObject(GameFontNormalSmall)
 		vButton:SetDisabledFontObject(GameFontNormalSmall)
-		vButton:SetText("|cff787878" .. an .. " |r|cffb0b0b0" .. av)
+		vButton:SetText(av)
 		local fs = vButton:GetFontString()
 		fs:ClearAllPoints()
 		fs:SetPoint("RIGHT")
@@ -1532,14 +1533,17 @@ function Factory.MissionButton(parent)
 	t:SetText("Expired")
 	t:GetFontString():SetJustifyH("LEFT")
 	t:SetMouseClickEnabled(false)
-	s.ExpireTime = t
+	t, s.ExpireTime = cf:CreateTexture(nil, "OVERLAY"), t
 	CreateObject("CountdownText", cf, s.ExpireTime)
+	t:SetPoint("TOPLEFT", 5, -27)
+	t:SetSize(90, 90)
+	t:SetTexture("Interface\\AddOns\\VenturePlan\\Libs\\Marker.blp");
+	s.TentativeMarker = t
 	s.Rewards = CreateObject("RewardBlock", cf, 48, 4)
 	s.Rewards.Container:SetPoint("TOP", 0, -4)
 	t = CreateObject("AchievementRewardIcon", cf)
 	t:SetPoint("RIGHT", cf, "TOPRIGHT", -25, -40)
 	s.AchievementReward = t
-
 	t = CreateFrame("Frame", nil, cf)
 	t:SetPoint("TOP", s.Name, "BOTTOM", 0, -6)
 	t:SetSize(224, 20)
@@ -1602,8 +1606,7 @@ function Factory.MissionButton(parent)
 	t:SetPushedTextOffset(-1, -1)
 	s.TentativeClear = t
 	t = cf:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
-	t:SetTextColor(0.97, 0.94, 0.70)
-	t:SetPoint("TOPLEFT", 16, -38)
+	t:SetPoint("TOPRIGHT", 0, -30)
 	t, s.TagText = CreateObject("BoardGroup", cf), t
 	t:SetWidth(272)
 	t:SetPoint("TOP", s.Name, "BOTTOM", 0, -24)
@@ -2154,7 +2157,7 @@ function Factory.MissionToast(parent)
 	t = f:CreateTexture(nil, "ARTWORK")
 	t:SetAtlas("loottoast-sheen")
 	t:SetBlendMode("ADD")
-	t:SetSize(90, 38) -- 171,75
+	t:SetSize(90, 38)
 	t:SetPoint("LEFT", 20, -1)
 	t, f.Sheen = f:CreateTexture(nil, "OVERLAY", nil, -2), t
 	t:SetTexture("Interface/AchievementFrame/UI-Achievement-Alert-Glow")

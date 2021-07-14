@@ -125,7 +125,7 @@ local function findReportSlot(logs, st, novel)
 			end
 		end
 	end
-	if nc + oc < 99 then
+	if nc + oc < 10 then
 		return #logs+1
 	elseif novel then
 		return oc > 49 and oi or ni
@@ -174,10 +174,11 @@ function EV:GARRISON_MISSION_COMPLETE_RESPONSE(mid, _canCom, _suc, _bonusOK, _fo
 	cr.missionName = mi.name
 	local ok, checkpoints = generateCheckpoints(cr)
 	if ok then
-		local st, novel, nok, om = serialize(cr), isNovelLog(cr, checkpoints)
-		cr.predictionCorrect = om
+		local novel, nok, om = isNovelLog(cr, checkpoints)
+		cr.predictionCorrect = not novel
+		cr.differentOutcome = not om
 		cr.addonVersion = GetAddOnMetadata("VenturePlan", "Version")
-		st = serialize(cr)
+		local st = serialize(cr)
 		VP_MissionReports = VP_MissionReports or {}
 		VP_MissionReports[findReportSlot(VP_MissionReports, st, novel)] = {st, ts=cr.meta.ts, novel=novel}
 		LR_MissionID, LR_Novelty = mid, nok and (novel and (om and 2 or 3) or 1) or 0

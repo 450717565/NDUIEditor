@@ -32,6 +32,8 @@ do
 		"PuckBorder",
 		"TroopStackBorder1",
 		"TroopStackBorder2",
+		"EliteOverlay",
+		"PuckShadow",
 	}
 
 	function B:ReskinFollowerPortrait()

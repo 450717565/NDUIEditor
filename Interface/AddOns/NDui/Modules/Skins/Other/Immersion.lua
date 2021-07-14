@@ -37,16 +37,18 @@ local function Update_RewardBorder(self)
 				local mult = B.GetItemMultiplier(itemID)
 				local total = self.count * mult
 				self.iSlot:SetText(total)
+
+				if C_Item.IsAnimaItemByID(itemID) then
+					self.Icon:SetTexture(3528288)
+				else
+					self.Icon:SetTexture(1506458)
+				end
 			else
 				local level = B.GetItemLevel(itemLink)
 				self.iLvl:SetText(level or "")
 
 				local slot = B.GetItemSlot(itemLink)
 				self.iSlot:SetText(slot or "")
-			end
-
-			if C_Item.IsAnimaItemByID(itemID) then
-				self.Icon:SetTexture(3528288)
 			end
 		end
 	elseif self.objectType == "currency" then

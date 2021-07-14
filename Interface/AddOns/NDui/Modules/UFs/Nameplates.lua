@@ -411,27 +411,29 @@ function UF:UpdateQuestUnit(_, unit)
 				if isInGroup and text == DB.MyName or not isInGroup then
 					isLootQuest = true
 
-					local questLine = _G["NDui_ScanTooltipTextLeft"..(i+1)]
-					local questText = questLine:GetText()
-					if questLine and questText then
-						local current, goal = strmatch(questText, "(%d+)/(%d+)")
-						local progress = strmatch(questText, "(%d+)%%")
-						if current and goal then
-							current = tonumber(current)
-							goal = tonumber(goal)
-							if current == goal then
-								isLootQuest = nil
-							elseif current < goal then
-								questProgress = goal - current
-								break
-							end
-						elseif progress then
-							progress = tonumber(progress)
-							if progress == 100 then
-								isLootQuest = nil
-							elseif progress < 100 then
-								questProgress = progress.."%"
-								--break -- lower priority on progress
+					for j = 1, B.ScanTip:NumLines() do
+						local questLine = _G["NDui_ScanTooltipTextLeft"..(i+j)]
+						local questText = questLine:GetText()
+						if questLine and questText then
+							local current, goal = strmatch(questText, "(%d+)/(%d+)")
+							local progress = strmatch(questText, "(%d+)%%")
+							if current and goal then
+								current = tonumber(current)
+								goal = tonumber(goal)
+								if current == goal then
+									isLootQuest = nil
+								elseif current < goal then
+									questProgress = goal - current
+									break
+								end
+							elseif progress then
+								progress = tonumber(progress)
+								if progress == 100 then
+									isLootQuest = nil
+								elseif progress < 100 then
+									questProgress = progress.."%"
+									--break -- lower priority on progress
+								end
 							end
 						end
 					end

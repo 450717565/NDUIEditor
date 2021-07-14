@@ -330,6 +330,7 @@ GUI.DefaultSettings = {
 		ConduitInfo = true,
 		HideAllID = false,
 		MDScore = true,
+		DomiRank = true,
 	},
 	Misc = {
 		Mail = true,
@@ -1138,9 +1139,11 @@ GUI.OptionList = { -- type, key, value, name, horizon, doubleline
 		{1, "Tooltip", "MDScore", L["MDScore"].."*", nil, nil, nil, L["MDScoreTip"]},
 		{1, "Tooltip", "HideAllID", DB.MyColor..L["HideAllID"], true},
 		{},--blank
+		{1, "Tooltip", "DomiRank", L["DomiRank"], nil, nil, nil, L["DomiRankTip"]},
+		{1, "Tooltip", "ConduitInfo", L["Show ConduitInfo"], true},
+		{},--blank
 		{1, "Tooltip", "AzeriteArmor", DB.MyColor..L["Show AzeriteArmor"]},
 		{1, "Tooltip", "OnlyArmorIcons", L["Armor icons only"].."*", true},
-		{1, "Tooltip", "ConduitInfo", DB.MyColor..L["Show ConduitInfo"]},
 	},
 	[13] = {
 		{1, "Misc", "ItemLevel", DB.MyColor..L["Show ItemLevel"], nil, nil, nil, L["ItemLevelTip"]},

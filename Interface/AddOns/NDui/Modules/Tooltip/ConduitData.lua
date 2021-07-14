@@ -46,9 +46,8 @@ function TT:ConduitCollectionData()
 
 	if not C.db["Tooltip"]["ConduitInfo"] then return end
 
-	GameTooltip:HookScript("OnTooltipSetItem", TT.Conduit_CheckStatus)
-	ItemRefTooltip:HookScript("OnTooltipSetItem", TT.Conduit_CheckStatus)
-	ShoppingTooltip1:HookScript("OnTooltipSetItem", TT.Conduit_CheckStatus)
-	GameTooltipTooltip:HookScript("OnTooltipSetItem", TT.Conduit_CheckStatus)
-	EmbeddedItemTooltip:HookScript("OnTooltipSetItem", TT.Conduit_CheckStatus)
+	local itemTooltips = DB.ItemTooltips
+	for _, tip in pairs(itemTooltips) do
+		tip:HookScript("OnTooltipSetItem", TT.Conduit_CheckStatus)
+	end
 end

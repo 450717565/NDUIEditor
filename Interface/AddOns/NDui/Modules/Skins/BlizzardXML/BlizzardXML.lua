@@ -158,8 +158,7 @@ C.OnLoginThemes["PVEFrame"] = function()
 		B.ReskinHLTex(button.bg, button.bgTex, true)
 
 		local icon = button.icon
-		icon:ClearAllPoints()
-		icon:SetPoint("LEFT", button, "LEFT")
+		B.UpdatePoint(icon, "LEFT", button, "LEFT")
 
 		local icbg = B.ReskinIcon(icon)
 		icbg:SetFrameLevel(button:GetFrameLevel())

@@ -3,6 +3,7 @@
 
 	<Script file="AzeriteArmor.lua"/>
 	<Script file="ConduitData.lua"/>
+	<Script file="DominationRank.lua"/>
 	<Script file="HoverTips.lua"/>
 	<Script file="PetInfo.lua"/>
 	<Script file="SpecLevel.lua"/>

@@ -203,6 +203,7 @@ local list = {
 		{AuraID = 202052, UnitID = "player", Value = true}, -- 坦克
 	},
 	["Raid Buff"] = { -- 团队增益组
+		{AuraID = 354757, UnitID = "player", Flash = true}, -- 强化(爬塔)
 		-- 嗜血相关
 		{AuraID =   2825, UnitID = "player", Flash = true}, -- 嗜血
 		{AuraID =  32182, UnitID = "player", Flash = true}, -- 英勇
@@ -258,6 +259,7 @@ local list = {
 		{AuraID = 306583, UnitID = "player"}, -- 灌铅脚步
 		{AuraID = 313698, UnitID = "player", Flash = true}, -- 泰坦之赐
 		-- 常驻词缀
+		{AuraID = 358777, UnitID = "player"},	-- 痛苦之链
 		{AuraID = 355732, UnitID = "player"}, -- 融化灵魂
 		{AuraID = 356667, UnitID = "player"}, -- 刺骨之寒
 		{AuraID = 356925, UnitID = "player"}, -- 屠戮
@@ -436,7 +438,6 @@ local list = {
 		{IntID = 240447, Duration = 20}, -- 大米，践踏
 		{IntID = 114018, Duration = 15, OnSuccess = true, UnitID = "all"}, -- 帷幕
 		{IntID = 316958, Duration = 30, OnSuccess = true, UnitID = "all"}, -- 红土
-		{IntID = 354757, Duration = 30, OnSuccess = true, UnitID = "all"}, -- 强化
 	},
 }
 

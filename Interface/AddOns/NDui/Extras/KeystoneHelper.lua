@@ -44,10 +44,8 @@ function EX:KH_OnTooltipSetItem()
 end
 
 function EX:KeystoneHelper()
-	GameTooltip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
-	ItemRefTooltip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
-	ShoppingTooltip1:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
-	ShoppingTooltip2:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
-	GameTooltipTooltip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
-	EmbeddedItemTooltip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
+	local itemTooltips = DB.ItemTooltips
+	for _, tip in pairs(itemTooltips) do
+		tip:HookScript("OnTooltipSetItem", self.KH_OnTooltipSetItem)
+	end
 end

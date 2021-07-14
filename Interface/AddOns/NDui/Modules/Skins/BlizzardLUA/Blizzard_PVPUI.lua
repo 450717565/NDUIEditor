@@ -6,11 +6,7 @@ local cr, cg, cb = DB.cr, DB.cg, DB.cb
 local function Reskin_SelectButton(index)
 	for i = 1, 3 do
 		local button = PVPQueueFrame["CategoryButton"..i]
-		if i == index then
-			button.bgTex:SetBackdropColor(cr, cg, cb, .5)
-		else
-			button.bgTex:SetBackdropColor(0, 0, 0, 0)
-		end
+		button.Background:SetShown(i == index)
 	end
 end
 
@@ -26,7 +22,8 @@ local function Reskin_Reward(self)
 		local Bonus = Reward.EnlistmentBonus
 		if Bonus then
 			Bonus:DisableDrawLayer("ARTWORK")
-			Bonus.Icon:SetTexture(GetSpellTexture(241260))
+			Bonus.Icon:SetTexture(413584)
+			Bonus.Icon:SetDrawLayer("OVERLAY")
 			Bonus.icbg = B.ReskinIcon(Bonus.Icon)
 			Bonus.icbg:SetFrameLevel(Bonus:GetFrameLevel())
 		end
@@ -110,7 +107,8 @@ C.OnLoadThemes["Blizzard_PVPUI"] = function()
 	}
 	for _, frame in pairs(frames) do
 		B.CleanTextures(frame)
-		B.ReskinIcon(frame.Icon)
+		local icbg = B.ReskinIcon(frame.Icon)
+		icbg:SetFrameLevel(frame:GetFrameLevel())
 	end
 
 	-- HonorFrame

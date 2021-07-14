@@ -136,7 +136,7 @@ end
 function TT:InsertFactionFrame(faction)
 	if not self.logo then
 		local logo = self:CreateTexture(nil, "OVERLAY")
-		B.UpdatePoint(logo, "BOTTOMRIGHT", self, "BOTTOMRIGHT", 10, 0)
+		B.UpdatePoint(logo, "RIGHT", self, "RIGHT", 0, 0)
 		logo:SetBlendMode("ADD")
 		logo:SetScale(.25)
 		self.logo = logo
@@ -485,59 +485,55 @@ function TT:OnLogin()
 	TT:TargetedInfo()
 	TT:AzeriteArmor()
 	TT:ConduitCollectionData()
+	TT:DominationRank()
 end
 
 -- Tooltip Skin Registration
-local tipTable = {}
-function TT:RegisterTooltips(addon, func)
-	tipTable[addon] = func
-end
-local function addonStyled(_, addon)
-	if tipTable[addon] then
-		tipTable[addon]()
-		tipTable[addon] = nil
-	end
-end
-B:RegisterEvent("ADDON_LOADED", addonStyled)
+local tooltips = {
+	AutoCompleteBox,
+	ChatMenu,
+	EmbeddedItemTooltip,
+	EmoteMenu,
+	FriendsTooltip,
+	GameSmallHeaderTooltip,
+	GameTooltip,
+	GeneralDockManagerOverflowButtonList,
+	IMECandidatesFrame,
+	ItemRefShoppingTooltip1,
+	ItemRefShoppingTooltip2,
+	ItemRefTooltip,
+	LanguageMenu,
+	NamePlateTooltip,
+	PetBattlePrimaryAbilityTooltip,
+	PetBattlePrimaryUnitTooltip,
+	QuestScrollFrame.CampaignTooltip,
+	QuestScrollFrame.StoryTooltip,
+	QueueStatusFrame,
+	QuickKeybindTooltip,
+	ReputationParagonTooltip,
+	ShoppingTooltip1,
+	ShoppingTooltip2,
+	VoiceMacroMenu,
 
-TT:RegisterTooltips("NDui", function()
-	local tooltips = {
-		AutoCompleteBox,
-		BattlePetTooltip,
-		ChatMenu,
-		EmbeddedItemTooltip,
-		EmoteMenu,
-		FloatingBattlePetTooltip,
-		FloatingGarrisonFollowerAbilityTooltip,
-		FloatingGarrisonFollowerTooltip,
-		FloatingGarrisonMissionTooltip,
-		FloatingGarrisonShipyardFollowerTooltip,
-		FloatingPetBattleAbilityTooltip,
-		FriendsTooltip,
-		GameTooltip,
-		GarrisonFollowerAbilityTooltip,
-		GarrisonFollowerTooltip,
-		GarrisonShipyardFollowerTooltip,
-		GeneralDockManagerOverflowButtonList,
-		IMECandidatesFrame,
-		ItemRefShoppingTooltip1,
-		ItemRefShoppingTooltip2,
-		ItemRefTooltip,
-		LanguageMenu,
-		NamePlateTooltip,
-		PetBattlePrimaryAbilityTooltip,
-		PetBattlePrimaryUnitTooltip,
-		QuestScrollFrame.CampaignTooltip,
-		QuestScrollFrame.StoryTooltip,
-		QueueStatusFrame,
-		QuickKeybindTooltip,
-		ReputationParagonTooltip,
-		ShoppingTooltip1,
-		ShoppingTooltip2,
-		VoiceMacroMenu,
-	}
+	FloatingBattlePetTooltip,
+	BattlePetTooltip,
+	FloatingGarrisonFollowerAbilityTooltip,
+	GarrisonFollowerAbilityTooltip,
+	FloatingGarrisonFollowerTooltip,
+	GarrisonFollowerTooltip,
+	FloatingGarrisonShipyardFollowerTooltip,
+	GarrisonShipyardFollowerTooltip,
+	FloatingGarrisonMissionTooltip,
+	FloatingPetBattleAbilityTooltip,
+}
+
+B.LoadWithAddOn("NDui", function()
 	for _, tip in pairs(tooltips) do
-		tip:HookScript("OnShow", B.ReskinTooltip)
+		if tip then
+			tip:HookScript("OnShow", B.ReskinTooltip)
+		else
+			if DB.isDeveloper then print(tip.."tooltip not exists.") end
+		end
 	end
 
 	ItemRefTooltip:HookScript("OnShow", function(self)
@@ -552,15 +548,6 @@ TT:RegisterTooltips("NDui", function()
 	IMECandidatesFrame.selection:SetVertexColor(cr, cg, cb)
 
 	-- Pet Tooltip
-	PetBattlePrimaryUnitTooltip:HookScript("OnShow", function(self)
-		if not self.styled then
-			if self.glow then self.glow:Hide() end
-			B.ReskinTTReward(self)
-
-			self.styled = true
-		end
-	end)
-
 	hooksecurefunc("PetBattleUnitTooltip_UpdateForUnit", function(self)
 		local nextBuff, nextDebuff = 1, 1
 		for i = 1, C_PetBattles_GetNumAuras(self.petOwner, self.petIndex) do
@@ -638,55 +625,49 @@ TT:RegisterTooltips("NDui", function()
 	end
 end)
 
-TT:RegisterTooltips("Blizzard_DebugTools", function()
+B.LoadWithAddOn("Blizzard_DebugTools", function()
 	B.ReskinTooltip(FrameStackTooltip)
 	FrameStackTooltip:SetScale(UIParent:GetScale())
 end)
 
-TT:RegisterTooltips("Blizzard_EventTrace", function()
+B.LoadWithAddOn("Blizzard_EventTrace", function()
 	B.ReskinTooltip(EventTraceTooltip)
 end)
 
-TT:RegisterTooltips("Blizzard_Collections", function()
+B.LoadWithAddOn("Blizzard_Collections", function()
 	PetJournalPrimaryAbilityTooltip:HookScript("OnShow", B.ReskinTooltip)
 	PetJournalSecondaryAbilityTooltip:HookScript("OnShow", B.ReskinTooltip)
 	PetJournalPrimaryAbilityTooltip.Delimiter1:SetHeight(C.mult)
-	PetJournalPrimaryAbilityTooltip.Delimiter1:SetColorTexture(0, 0, 0, 1)
+	PetJournalPrimaryAbilityTooltip.Delimiter1:SetColorTexture(cr, cg, cb, 1)
 	PetJournalPrimaryAbilityTooltip.Delimiter2:SetHeight(C.mult)
-	PetJournalPrimaryAbilityTooltip.Delimiter2:SetColorTexture(0, 0, 0, 1)
+	PetJournalPrimaryAbilityTooltip.Delimiter2:SetColorTexture(cr, cg, cb, 1)
 end)
 
-TT:RegisterTooltips("Blizzard_GarrisonUI", function()
-	local garrisonTips = {
-		GarrisonBonusAreaTooltip,
-		GarrisonBuildingFrame.BuildingLevelTooltip,
-		GarrisonFollowerAbilityWithoutCountersTooltip,
-		GarrisonFollowerMissionAbilityWithoutCountersTooltip,
-		GarrisonMissionMechanicFollowerCounterTooltip,
-		GarrisonMissionMechanicTooltip,
-		GarrisonShipyardMapMissionTooltip,
-	}
-	for _, tip in pairs(garrisonTips) do
-		tip:HookScript("OnShow", B.ReskinTooltip)
-	end
+B.LoadWithAddOn("Blizzard_GarrisonUI", function()
+	GarrisonBonusAreaTooltip:HookScript("OnShow", B.ReskinTooltip)
+	GarrisonFollowerAbilityWithoutCountersTooltip:HookScript("OnShow", B.ReskinTooltip)
+	GarrisonFollowerMissionAbilityWithoutCountersTooltip:HookScript("OnShow", B.ReskinTooltip)
+	GarrisonMissionMechanicFollowerCounterTooltip:HookScript("OnShow", B.ReskinTooltip)
+	GarrisonMissionMechanicTooltip:HookScript("OnShow", B.ReskinTooltip)
+	GarrisonShipyardMapMissionTooltip:HookScript("OnShow", B.ReskinTooltip)
+	GarrisonBuildingFrame.BuildingLevelTooltip:HookScript("OnShow", B.ReskinTooltip)
 end)
 
-TT:RegisterTooltips("Blizzard_PVPUI", function()
+B.LoadWithAddOn("Blizzard_PVPUI", function()
 	ConquestTooltip:HookScript("OnShow", B.ReskinTooltip)
 end)
 
-TT:RegisterTooltips("Blizzard_Contribution", function()
+B.LoadWithAddOn("Blizzard_Contribution", function()
 	ContributionBuffTooltip:HookScript("OnShow", B.ReskinTooltip)
-	B.ReskinTTReward(ContributionBuffTooltip)
 end)
 
-TT:RegisterTooltips("Blizzard_EncounterJournal", function()
+B.LoadWithAddOn("Blizzard_EncounterJournal", function()
 	EncounterJournalTooltip:HookScript("OnShow", B.ReskinTooltip)
 	B.ReskinTTReward(EncounterJournalTooltip.Item1)
 	B.ReskinTTReward(EncounterJournalTooltip.Item2)
 end)
 
-TT:RegisterTooltips("Blizzard_Calendar", function()
+B.LoadWithAddOn("Blizzard_Calendar", function()
 	CalendarContextMenu:HookScript("OnShow", B.ReskinTooltip)
 	CalendarInviteStatusContextMenu:HookScript("OnShow", B.ReskinTooltip)
 end)

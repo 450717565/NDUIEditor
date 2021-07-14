@@ -108,10 +108,8 @@ function TT:AzeriteArmor()
 	if not C.db["Tooltip"]["AzeriteArmor"] then return end
 	if IsAddOnLoaded("AzeriteTooltip") then return end
 
-	GameTooltip:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
-	ItemRefTooltip:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
-	ShoppingTooltip1:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
-	ShoppingTooltip2:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
-	GameTooltipTooltip:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
-	EmbeddedItemTooltip:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
+	local itemTooltips = DB.ItemTooltips
+	for _, tip in pairs(itemTooltips) do
+		tip:HookScript("OnTooltipSetItem", TT.Azerite_UpdateItem)
+	end
 end

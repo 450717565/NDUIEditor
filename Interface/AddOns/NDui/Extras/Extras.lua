@@ -165,20 +165,25 @@ function EX:FriendlyNameAutoSet()
 	end
 end
 
--- 临时解决打开大地图卡顿
---[[ do
-	local temp = {}
-	local OLD_GetQuestsForPlayerByMapID = C_TaskQuest.GetQuestsForPlayerByMapID
-	C_TaskQuest.GetQuestsForPlayerByMapID = function(mapID)
-		if not temp[mapID] or temp[mapID].lasttime < GetTime() then
-			temp[mapID] = temp[mapID] or {}
-			temp[mapID].result = OLD_GetQuestsForPlayerByMapID(mapID)
-			temp[mapID].lasttime = GetTime() + 1
+-- 默认收起专业面板选项
+do
+	local function UpdateCategories(self)
+		self.tradeSkillChanged = nil
+		self.collapsedCategories = {}
+
+		for i, categoryID in ipairs({C_TradeSkillUI.GetCategories()}) do
+		   self.collapsedCategories[categoryID] = true
 		end
 
-		return temp[mapID].result
+		self:Refresh()
 	end
-end ]]
+
+	local function UpdateRecipeList()
+		hooksecurefunc(TradeSkillFrame.RecipeList, "OnDataSourceChanged", UpdateCategories)
+	end
+
+	B.LoadWithAddOn("Blizzard_TradeSkillUI", UpdateRecipeList)
+end
 
 -- 自动选择节日BOSS
 do

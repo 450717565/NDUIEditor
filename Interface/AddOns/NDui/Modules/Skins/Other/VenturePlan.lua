@@ -94,7 +94,7 @@ function SKIN:VenturePlan()
 				B.ReskinText(peek("enemyHP"), 0, 1, 0)
 				B.ReskinText(peek("enemyATK"), 0, 1, 0)
 				B.ReskinText(peek("animaCost"), 0, 1, 0)
-				B.ReskinText(peek("duration"), 1, 1, 0)
+				B.ReskinText(peek("duration"), 0, 1, 1)
 
 				local cdtFont = widget.CDTDisplay:GetFontString()
 				B.ReskinText(cdtFont, 1, 1, 0)
@@ -121,6 +121,7 @@ function SKIN:VenturePlan()
 			elseif otype == "MissionPage" then
 				B.StripTextures(widget)
 				B.ReskinButton(peek("UnButton"))
+				B.ReskinButton(peek("StartButton"))
 			elseif otype == "MissionToast" then
 				widget.Background:Hide()
 				widget.Detail:SetFontObject("Game13Font")

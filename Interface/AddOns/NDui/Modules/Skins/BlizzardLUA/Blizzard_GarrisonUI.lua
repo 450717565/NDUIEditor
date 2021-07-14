@@ -1093,19 +1093,22 @@ local function Reskin_OrderHallTalentFrame(self)
 
 	local children = {self:GetChildren()}
 	for _, button in pairs(children) do
-		if button and button.talent then
-			button.Border:SetAlpha(0)
+		if button and not button.styled then
+			if button.Border then button.Border:SetAlpha(0) end
+			if button.Background then button.Background:SetAlpha(0) end
 
-			if not button.icbg then
+			if button.talent then
 				button.icbg = B.ReskinIcon(button.Icon)
-				B.ReskinHLTex(button.Highlight, button.icbg)
+				B.ReskinHLTex(button, button.icbg)
+
+				if button.talent.selected or button.Border:GetAtlas() == "orderhalltalents-spellborder-yellow" then
+					button.icbg:SetBackdropBorderColor(cr, cg, cb)
+				else
+					button.icbg:SetBackdropBorderColor(0, 0, 0)
+				end
 			end
 
-			if button.talent.selected then
-				button.icbg:SetBackdropBorderColor(cr, cg, cb)
-			else
-				button.icbg:SetBackdropBorderColor(0, 0, 0)
-			end
+			button.styled = true
 		end
 	end
 end

@@ -830,15 +830,17 @@ function BAG:OnLogin()
 					local total = item.count * mult
 					self.iSlot:SetText(total)
 				end
+
+				if C_Item.IsAnimaItemByID(item.id) then
+					self.Icon:SetTexture(3528288)
+				else
+					self.Icon:SetTexture(1506458)
+				end
 			elseif (item.equipLoc and item.equipLoc ~= "") or IsArtifactRelicItem(item.link) then
 				if showItemLevel then self.iLvl:SetText(level) end
 				if showItemSlot then self.iSlot:SetText(slot) end
 			elseif (item.classID and (item.classID == LE_ITEM_CLASS_ARMOR or item.classID == LE_ITEM_CLASS_CONSUMABLE or item.classID == LE_ITEM_CLASS_MISCELLANEOUS)) or C_ToyBox.GetToyInfo(item.id) then
 				if showItemSlot then self.iSlot:SetText(slot) end
-			end
-
-			if C_Item.IsAnimaItemByID(item.id) then
-				self.Icon:SetTexture(3528288)
 			end
 		end
 

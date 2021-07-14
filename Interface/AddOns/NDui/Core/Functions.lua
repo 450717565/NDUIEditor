@@ -161,7 +161,7 @@ do
 		self:SetScale(C.db["Tooltip"]["TTScale"])
 
 		if not self.tipStyled then
-			B.StripTextures(self)
+			B.CleanTextures(self)
 
 			self.bg = B.CreateBG(self)
 
@@ -469,6 +469,8 @@ do
 				tip:SetInventoryItem(arg1, arg2)
 			elseif arg1 and type(arg1) == "number" then
 				tip:SetBagItem(arg1, arg2)
+			elseif type(link) == "number" then
+				tip:SetItemByID(link)
 			else
 				tip:SetHyperlink(link)
 			end
@@ -682,6 +684,7 @@ do
 		"MiddleTex",
 		"NameFrame",
 		"NineSlice",
+		"NormalTexture",
 		"Overlay",
 		"OverlayKit",
 		"portrait",
@@ -1130,6 +1133,9 @@ do
 			end
 		end
 		hooksecurefunc(self, "Hide", resetBorderColor)
+
+		if parent.IconOverlay then parent.IconOverlay:SetInside(parent.icbg) end
+		if parent.IconOverlay2 then parent.IconOverlay2:SetInside(parent.icbg) end
 	end
 
 	function B:ReskinBGBorder(relativeTo, classColor)
@@ -1410,11 +1416,7 @@ do
 			end
 		end
 
-		local icbg = B.CreateBDFrame(self, alpha, -C.mult)
 		local parent = self:GetParent()
-
-		if parent.IconOverlay then parent.IconOverlay:SetInside(icbg) end
-		if parent.IconOverlay2 then parent.IconOverlay2:SetInside(icbg) end
 		for _, name in pairs(maskList) do
 			local mask = B.GetObject(parent, name)
 			if mask then
@@ -1424,6 +1426,7 @@ do
 			end
 		end
 
+		local icbg = B.CreateBDFrame(self, alpha, -C.mult)
 		return icbg
 	end
 

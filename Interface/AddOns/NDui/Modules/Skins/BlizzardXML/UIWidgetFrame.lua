@@ -46,19 +46,18 @@ local function Reskin_CaptureBar(self)
 end
 
 local function Reskin_SpellDisplay(self)
-	local spell = self.Spell
-	spell.IconMask:Hide()
-	spell.CircleMask:Hide()
-	B.StripTextures(spell, 1)
+	self.IconMask:Hide()
+	self.CircleMask:Hide()
+	B.StripTextures(self, 1)
 
-	if not spell.icbg then
-		spell.icbg = B.ReskinIcon(spell.Icon)
+	if not self.icbg then
+		self.icbg = B.ReskinIcon(self.Icon)
 	end
 
-	if spell.DebuffBorder:IsShown() then
-		spell.icbg:SetBackdropBorderColor(1, 0, 0)
+	if self.DebuffBorder:IsShown() then
+		self.icbg:SetBackdropBorderColor(1, 0, 0)
 	else
-		spell.icbg:SetBackdropBorderColor(0, 0, 0)
+		self.icbg:SetBackdropBorderColor(0, 0, 0)
 	end
 end
 
@@ -68,7 +67,7 @@ local function Reskin_UIWidgetLayout(self)
 		if widgetType == Type_DoubleStatusBar then
 			Reskin_DoubleStatusBar(widgetFrame)
 		elseif widgetType == Type_SpellDisplay then
-			Reskin_SpellDisplay(widgetFrame)
+			Reskin_SpellDisplay(widgetFrame.Spell)
 		elseif widgetType == Type_CaptureBar then
 			Reskin_CaptureBar(widgetFrame)
 		elseif widgetType == Type_StatusBar then
@@ -82,7 +81,6 @@ local function Reskin_UIWidgetStatusBar(self)
 end
 
 C.OnLoginThemes["UIWidgetTemplate"] = function()
-	hooksecurefunc(_G.UIWidgetTemplateSpellDisplayMixin, "Setup", Reskin_SpellDisplay)
 	hooksecurefunc(_G.UIWidgetTemplateStatusBarMixin, "Setup", Reskin_UIWidgetStatusBar)
 	hooksecurefunc(_G.UIWidgetPowerBarContainerFrame, "UpdateWidgetLayout", Reskin_UIWidgetLayout)
 	hooksecurefunc(_G.UIWidgetTopCenterContainerFrame, "UpdateWidgetLayout", Reskin_UIWidgetLayout)

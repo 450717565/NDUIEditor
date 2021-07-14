@@ -246,31 +246,23 @@ Este raro no soltará botín hasta que haya consumido a 40x {npc:179758} para tr
 
 Este raro soltará objetos de investigación extra después de consumir otros 40x {npc:179758} para transformarse en su forma verde sombreada (Raro Élite).
 
-|cFFFF0000EL RARO NO HARÁ APARECER {npc:179758} PARA CONSUMIR SI ESTÁ EN COMBATE.|r
+|cFFFF0000El raro no hará aparecer {npc:179758} para consumir si está en combate.|r
 ]]
-L["darkmaul_note"] = [[
-Recoge {item:187153} de los Champifauces Invasivos y alimenta a la {npc:180063} con ellos. Se ha de completar el evento 10 veces para conseguir la montura."
-
-|cFFFF8C00¡El progreso no contará si estás en una banda!|r
-]]
+L["darkmaul_note"] = "Recoge {item:187153} de los Champifauces Invasivos y alimenta a la {npc:180063} con ellos. Se ha de completar el evento 10 veces para conseguir la montura."
 L["dislodged_nest_note"] = "Haz click en una Polilla Nociva cercana para conseguir {spell:355181}. Usa el botón de acción extra de {spell:355131} en el {npc:178547} para controlarlo y montarlo en el árbol que tiene el nido."
 L["escaped_wilderling_note"] = "Haz click en el {npc:180014} para empezar el evento de doma."
 L["flayedwing_transporter_note"] = "Haz click en el {npc:178633} para volar a o desde la Cámara de los Secretos."
 L["fleshwing_note"] = "Habla con {npc:180079} para empezar el evento de recolección."
 L["forgotten_feather_note"] = "Flotando en una isla pequeña que se accede saltando hacia abajo desde el Respiro del Guardían."
 L["konthrogz_note"] = "Aparece de un portal del evento de los devoradores. El evento puede aparecer en varios sitios a lo largo de Korthia."
-L["korthia_limited_rare"] = nil
+L["korthia_limited_rare"] = "|cFFFF8C00Este raro no está disponible algunos días.|r"
 L["krelva_note"] = "Se mueve a otra plataforma al 80%, entonces se mueve al suelo al 60%. |cFFFF8C00¡Has de darle al boss después del 60% para que te cuente!|r"
 L["kroke_note"] = "Mata a los {npc:179029} de la zona hasta que aparezca. No puede aparecer los días que no estén los {npc:179029}."
 L["maelie_wanderer"] = "{npc:179912} aparecerá en varios sitios durante el día. Una vez se haya usado {spell:355862} en ella 6 días distintos hay que volver con {npc:179930} para aprender la montura."
 L["malbog_note"] = "Habla con el {npc:179729} para conseguir {spell:355078} y seguir las huellas de pisadas hasta encontrar los restos carnosos."
 L["offering_box_note"] = "Requiere una {item:187033} que se puede encontrar en la parte superior de la pared del lado oeste de las ruinas cercanas."
 L["pop_quiz_note"] = "El evento del Cuestionario aparecerá aleatoriamente en el mapa. Haz click en el Bastón del Velo Abandonado y responde a las preguntas de {npc:180162}."
-L["razorwing_note"] = [[
-Devuelve 10 {item:187054} soltados por los devoradores de la zona."
-
-|cFFFF8C00¡El progreso no contará si estás en una banda!|r
-]]
+L["razorwing_note"] = "Devuelve 10 {item:187054} soltados por los devoradores de la zona."
 L["reliwik_note"] = "Haz click en el huevo de alafilada prístino para hacerlo bajar."
 L["spectral_bound_chest"] = "Haz click en las 3 {item:179369} cercanas para debloquear el cofre."
 L["spectral_bound_note"] = "Cofre reforzado espectral"
@@ -281,6 +273,7 @@ L["worldcracker_note"] = "Habla con {npc:180028} para empezar el evento de escol
 L["archivist_key_note"] = "Compra la %s del {npc:178257} para desbloquear."
 L["korthian_shrine_note"] = "Haz click en la roca con forma de espada para ganar {spell:352367} y poder ver el camino oculto al altar."
 L["num_research"] = "%d Investigación"
+L["plus_research"] = "+Investigación"
 L["options_icons_relic"] = "{achievement:15066}"
 L["options_icons_relic_desc"] = "Muestra donde están las 20 reliquias para {achievement:15066}."
 
@@ -292,7 +285,7 @@ Requiere una {item:186731}, la cual se le puede comprar al {npc:178257} una vez 
 |cFFFF8C00Los portales de falla no están activos todos al mismo tiempo.|r
 ]]
 L["rift_rare_only_note"] = "Este raro sólo se puede ver y ser matado dentro de la fase de |cFFFFFF00La Falla|r."
-L["rift_rare_exit_note"] = "Este raro saldrá de la fase de |cFFFFFF00La Falla|r en cuanto se interactúe con él dentro de la falla."
+L["rift_rare_exit_note"] = "¡Este raro ha de tener el buff {spell:354840} o estará bug! Saldrá de la fase de |cFFFFFF00La Falla|r en cuanto se interactúe con él dentro de la falla."
 L["options_icons_rift_portal"] = "{npc:179595}"
 L["options_icons_rift_portal_desc"] = "Muestra donde están los {npc:179595} usados para entrar en |cFFFFFF00La Falla|r."
 
@@ -313,13 +306,13 @@ L["unusual_nest"] = "Nido de materiales inusuales"
 L["unusual_nest_note"] = "Todos los sitios con nidos se pueden despojar sólo 5 veces al día."
 
 L["options_icons_invasive_mawshroom_desc"] = "Muestra donde están los Champifauces Invasivos."
-L["options_icons_invasive_mawshroom"] = "Champifauces Invasivos (Diaria)"
+L["options_icons_invasive_mawshroom"] = "Champifauces Invasivos"
 L["options_icons_korthia_dailies_desc"] = "Muestra donde están los tesoros diarios sin marcar."
-L["options_icons_korthia_dailies"] = "Tesoros Ocultos (Diaria)"
+L["options_icons_korthia_dailies"] = "Tesoros Ocultos"
 L["options_icons_mawsworn_cache_desc"] = "Muestra donde están los Alijos jurafauces."
-L["options_icons_mawsworn_cache"] = "Alijos jurafauces (Diaria)"
+L["options_icons_mawsworn_cache"] = "Alijos jurafauces"
 L["options_icons_nest_materials_desc"] = "Muestra donde están los Nidos de Materiales Inusuales."
-L["options_icons_nest_materials"] = "Nidos de Materiales Inusuales (Diaria)"
+L["options_icons_nest_materials"] = "Nidos de Materiales Inusuales"
 
 -------------------------------------------------------------------------------
 --------------------------------- MALDRAXXUS ----------------------------------
@@ -499,9 +492,18 @@ L["etherwyrm_label"] = "Jaula de Vermis de Éter Infundida"
 L["etherwyrm_note"] = "Requiere que esté activo el asalto de las Sílfides Nocturnas. Mata al {npc:179030} mientrás estés en la falla para conseguir la {item:186190}. Usa la llave en la Jaula de Vermis de Éter (fuera de la falla) en la cueva Cuenca Desolada (donde está {npc:175821} cuando el asalto está inactivo)."
 L["fallen_charger_note"] = "Después del grito a lo largo de la zona cogerá uno de los dos caminos hasta que alcance Korthia donde desaparecerá."
 L["ikras_note"] = "Vuela alrededor del Bastión de la Perdición. Este es un buen sitio para pullearlo."
-L["lilabom_note"] = "Consigue las 5 partes para completar la mascota."
+L["lilabom_note"] = [[
+Consigue las 5 partes para completar la mascota. Algunas partes pueden aparecer en varios sitios.
+
+• {item:186183}
+• {item:186184}
+• {item:186185}
+• {item:186186}
+• {item:186187}
+]]
 L["orophea_note"] = "Coge el {spell:337143} al sureste y ofréceselo a {npc:172577} para que se active."
 L["sanngror_note"] = "Si no se puede atacar a {npc:172521}, espera hasta que no esté experimentando con las almas."
+L["sly_note"] = "Habla con la {npc:179068} para conseguir el buff {spell:353322} y poder encontrar a {npc:179096} en 3 asaltos kyrianos diferentes."
 L["talaporas_note"] = "Con otros 3 jugadores, situaos en las esquinas de la plataforma y lanzad la {spell:331800} para hacer aparecer a {npc:170302}."
 L["valis_note"] = "Haz click en las tres {npc:174810} en el orden correcto para invocar a {npc:173086}. El orden cambia cada vez y hacer click en la runa incorrecta produce daño y te pone el debuff {spell:343636}."
 L["yero_note"] = "Acércate a {npc:172862} y síguelo para abajo hasta una cueva cercana donde él se vuelve hostil."
@@ -563,7 +565,7 @@ L["nexus_cave_echoing_outside"] = "Fuera de las Cavernas Resonantes"
 L["nexus_cave_forlorn"] = "Dentro de la cueva Descanso Desolado"
 L["nexus_cave_howl_outside"] = "En el suelo fuera de la cueva Aullido de la Muerte"
 L["nexus_cave_howl"] = "Dentro de la cueva Aullido de la Muerte"
-L["nexus_cave_roar"] = nil
+L["nexus_cave_roar"] = "Dentro de la cueva Rugido de la Muerte"
 L["nexus_cave_ledge"] = "En una cueva pequeña debajo de un saliente"
 L["nexus_cave_prodigum"] = "En una cueva pequeña en el Prodigum"
 L["nexus_cave_soulstained"] = "En una cueva pequeña en los Campos Manchados de Almas"
@@ -598,7 +600,7 @@ L["nexus_misc_three_chains"] = "En el suelo cerca de tres cadenas"
 L["stolen_anima_vessel"] = "Receptáculo de Ánima Robado"
 L["hidden_anima_cache"] = "Alijo de Ánima Oculto"
 L["options_icons_anima_vessel"] = "Receptáculos de Ánima Robados"
-L["options_icons_anima_vessel_desc"] = "Muestra donde están los receptáculos de ánima dentro de |cFFFFFF00La Falla|r."
+L["options_icons_anima_vessel_desc"] = "Muestra donde están los receptáculos de ánima durante los asaltos y dentro de |cFFFFFF00La Falla|r."
 
 L["rift_hidden_cache"] = "Alijo Oculto de Falla"
 L["options_icons_rift_hidden_cache"] = "Alijos Ocultos de Falla"
@@ -610,21 +612,37 @@ L["options_icons_riftstone"] = "{npc:174962}"
 L["options_icons_riftstone_desc"] = "Muestra dónde están los teletransportadores de piedras de falla caóticas."
 L["options_icons_grapples"] = "{npc:176308}"
 L["options_icons_grapples_desc"] = "Muestra dónde están los agarres de la mejora {item:184653}."
-L["options_icons_maw_lore"] = "Tradiciones de Las Fauces"
-L["options_icons_maw_lore_desc"] = "Muestra dónde están las tradiciones de Las Fauces para el logro {achievement:14761}."
 L["options_icons_stygia_nexus"] = "Nexos de Stigia"
 L["options_icons_stygia_nexus_desc"] = "Muestra dónde están los Nexos necesarios para la montura {item:184168}."
 L["options_icons_stygian_caches"] = "Alijos de Estigia"
 L["options_icons_stygian_caches_desc"] = "Muestra dónde están los alijos con Estigia extra."
 
-L["cov_assault_only"] = nil
-L["domination_chest"] = "Cofre de Dominación"
-L["domination_chest_note"] = "Requiere 4 {item:186727} para abrir todos los sellos."
-L["gold_band_note"] = "En la cima del pico de una montaña."
-L["harrower_key_ring"] = "Llave Anillo de Harrower"
-L["harrower_key_note"] = "En la pared junto a {npc:178311}."
+L["cov_assault_only"] = "Disponible sólo durante el asalto de %s."
+
 L["helgarde_supply"] = "Alijo de Suministros de Helgarde"
-L["maw_mad_note"] = "Corre aleatoriamente alrededor del Bastión de la Perdición. Siempre aparece aquí."
+L["helgarde_supply_note"] = "Aparece a lo largo de la zona de Desmotaeron. Tu {npc:180598} puede ayudarte a encontrarlos."
+L["options_icons_helgarde_cache"] = "Alijos de Suministros de Helgarde"
+L["options_icons_helgarde_cache_desc"] = "Muestra donde están los Alijos de Suministros de Helgarde en la zona de Desmotaeron."
+
+L["mawsworn_cache_ramparts_note"] = "Este alijo está sobre las murallas. Usa los puntos de agarre o un {npc:177093} para llegar a ellos."
+L["mawsworn_cache_tower_note"] = "Este alijo está sobre una torre y requiere un {npc:177093} para llegar. Usa la habilidad {spell:349853} para saltar arriba."
+L["mawsworn_cache_quest_note"] = "The {item:186573} will only drop after you have completed the {quest:63545} quest!"
+
+L["nilg_silver_ring_note"] = "Recoge 4 {item:186727} en Desmotaeron para abrir el Cofre Sellado de Dominación."
+L["nilg_silver_ring_note1"] = "Mata a {npc:177444} y abre la {item:186970}."
+L["nilg_silver_ring_note2"] = "Despoja el Llavero del Lacerante, que está en una habitación subterránea de la pared al lado de {npc:178311}."
+L["nilg_silver_ring_note3"] = "Abre Alijos de Suministros de Helgarde en la zona de Desmotaeron. Tu {npc:180598} puede ayudarte a encontrarlos."
+L["nilg_silver_ring_note4"] = "Mata {npc:177134} en la zona de Desmotaeron (drop bajo)."
+L["nilg_stone_ring_note"] = "Recoge 4 {item:186600} durante el asalto de los Necroseñores y combínalos en cualquier {npc:171492} en la Caldera de Zovaal."
+L["nilg_stone_ring_note1"] = "Está en algunos Alijos Jurafauces (icono amarillo) sobre las murallas del Bastión de la Perdición."
+L["nilg_stone_ring_note2"] = "Completa la misión {quest:63545}, y entonces despoja los Alijos Jurafauces hasta encontrar el item de misión {item:186573}. ¡Esta misión se puede compartir!"
+L["nilg_stone_ring_note3"] = "Se despoja de un {npc:179601} enmedio de la zona del Bastión de la Perdición."
+L["nilg_stone_ring_note4"] = "Está por el suelo del Bastión de la Perdición cerca del {npc:170634}. Tu {npc:180598} puede ayudarte a encontrarlo."
+L["nilg_gold_band_note"] = "Usa el punto de agarre y sigue el camino a la cima de la montaña."
 L["nilganihmaht_note"] = "Tienes que recoger los 5 anillos y llevarlos a {npc:179572} en la falla."
-L["options_icons_nilganihmaht"] = "{npc:179572}"
-L["options_icons_nilganihmaht_desc"] = "Muestra donde están las partes para la montura {spell:354354}."
+L["calcis"] = "Calcis"
+L["desmotaeron"] = "Desmotaeron"
+
+L["zovault_note"] = "Trae {npc:179883} a {npc:179904} una vez al día para una piedra de falla garantizada."
+L["options_icons_zovault"] = "{npc:179883}"
+L["options_icons_zovault_desc"] = "Muestra donde están {npc:179883}."

@@ -101,6 +101,7 @@ local function ConfigureMission(me, mi, haveSpareCompanions, availAnima)
 	ms.DoomRunButton:Hide()
 	ms.DoomRunButton:SetShown(showDoomRun)
 	ms.TentativeClear:SetShown(showTentative)
+	ms.TentativeMarker:SetShown(showTentative)
 	ms.ViewButton:SetPoint("BOTTOM", shiftView and 20 or 0, 12)
 	for i=1,#ms.Rewards do
 		ms.Rewards[i].RarityBorder:SetVertexColor(veilShade, veilShade, veilShade)
@@ -117,16 +118,26 @@ local function ConfigureMission(me, mi, haveSpareCompanions, availAnima)
 		end
 		totalHP, totalATK = totalHP + e.health, totalATK + e.attack
 	end
-	local tag = "[" .. (mi.missionScalar or 0) .. (mi.isElite and "+]" or mi.isRare and "*]" or "]")
+	local tag = "[" .. (mi.missionScalar or 0) .. (mi.isElite and " "..L"Elite".."]" or mi.isRare and " "..L"Rare".."]" or "]")
 	if hasNovelSpells then
 		tag = tag .. " |TInterface/EncounterJournal/UI-EJ-WarningTextIcon:16:16|t"
 	end
+
+	local r, g, b = 1, 1, 1
+	if mi.isElite then
+		r, g, b = 1, 1, 0
+	elseif mi.isRare then
+		r, g, b = 1, 0, 1
+	end
+
 	ms.enemyATK:SetText(BreakUpLargeNumbers(totalATK))
 	ms.enemyHP:SetText(BreakUpLargeNumbers(totalHP))
 	ms.animaCost:SetText(BreakUpLargeNumbers(cost))
 	ms.duration:SetText(mi.duration)
 	ms.statLine:SetWidth(ms.duration:GetRight() - ms.statLine:GetLeft())
 	ms.TagText:SetText(tag)
+	ms.TagText:SetJustifyH("RIGHT")
+	ms.TagText:SetTextColor(r, g, b)
 	ms:SetGroupPortraits(showTentative and U.GetTentativeGroup(mid, bufferedTentativeGroup) or U.GetInProgressGroup(mi.followers, bufferedTentativeGroup), isMissionActive, ms.Description)
 
 	me:Show()
@@ -142,6 +153,10 @@ local function cmpMissionInfo(a, b)
 	end
 	if ac ~= bc then
 		return ac < bc
+	end
+	ac, bc = a.hasPendingStart, b.hasPendingStart
+	if ac ~= bc then
+		return bc
 	end
 	ac, bc = a.hasTentativeGroup, b.hasTentativeGroup
 	if ac ~= bc then
@@ -222,12 +237,15 @@ local function UpdateMissions()
 		m.hasTentativeGroup = U.MissionHasTentativeGroup(mid)
 		m.hasPendingStart = U.IsMissionStartingSoon(mid)
 	end
+	for i=1,inProgressMissions and #inProgressMissions or 0 do
+		missions[#missions+1] = inProgressMissions[i]
+	end
 
 	local ni, anima = 1, C_CurrencyInfo.GetCurrencyInfo(1813)
 	anima = (anima and anima.quantity or 0)
-	ni = pushMissionSet(ni, cMissions, inProgressMissions, haveUnassignedRookies, anima)
-	ni = pushMissionSet(ni, inProgressMissions, nil, haveUnassignedRookies, anima)
+	ni = pushMissionSet(ni, cMissions, missions, haveUnassignedRookies, anima)
 	ni = pushMissionSet(ni, missions, nil, haveUnassignedRookies, anima)
+	ni = pushMissionSet(ni, inProgressMissions, missions, haveUnassignedRookies, anima)
 	MissionList.numMissions = ni-1
 	for i=ni, #MissionList.Missions do
 		MissionList.Missions[i]:Hide()

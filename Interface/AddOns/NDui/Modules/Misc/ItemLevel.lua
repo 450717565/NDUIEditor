@@ -220,14 +220,14 @@ function MISC:ItemLevel_SetupInfo(frame, strType, unit)
 	end
 end
 
-function MISC:ItemLevel_SetupItemInfo(button, link)
+function MISC:ItemLevel_SetupItemInfo(button, link, size)
 	local width = B.Round(button:GetWidth()*.35)
 
 	if not self.iLvl then
-		self.iLvl = B.CreateFS(button, width, "", false, "BOTTOMRIGHT", 1, 0)
+		self.iLvl = B.CreateFS(button, size or width, "", false, "BOTTOMRIGHT", 1, 0)
 	end
 	if not self.iSlot then
-		self.iSlot = B.CreateFS(button, width, "", false, "TOPLEFT", 0, -2)
+		self.iSlot = B.CreateFS(button, size or width, "", false, "TOPLEFT", 0, -2)
 	end
 
 	self.iLvl:SetText("")
@@ -253,6 +253,19 @@ function MISC:ItemLevel_SetupTarget(...)
 	if InspectFrame and InspectFrame.unit and UnitGUID(InspectFrame.unit) == guid then
 		MISC:ItemLevel_SetupInfo(InspectFrame, "Inspect", InspectFrame.unit)
 	end
+end
+
+-- iLvl on Tooltip
+function MISC:ItemLevel_SetupTooltip()
+	local _, link = self:GetItem()
+	if not link then return end
+
+	local Icon = GameTooltip.ItemTooltip.Icon
+	local size = B.Round(Icon:GetWidth()*.35)
+
+	MISC.ItemLevel_SetupItemInfo(self, self, link, size)
+	B.UpdatePoint(self.iLvl, "BOTTOMRIGHT", Icon, "BOTTOMRIGHT", 1, 0)
+	B.UpdatePoint(self.iSlot, "TOPLEFT", Icon, "TOPLEFT", 0, -2)
 end
 
 -- iLvl on FlyoutButtons
@@ -402,6 +415,10 @@ function MISC:ShowItemLevel()
 
 	-- iLvl on InspectFrame
 	B:RegisterEvent("INSPECT_READY", MISC.ItemLevel_SetupTarget)
+
+	-- iLvl on Tooltip
+	GameTooltipTooltip:HookScript("OnTooltipSetItem", MISC.ItemLevel_SetupTooltip)
+	EmbeddedItemTooltip:HookScript("OnTooltipSetItem", MISC.ItemLevel_SetupTooltip)
 
 	-- iLvl on FlyoutButtons
 	hooksecurefunc("EquipmentFlyout_DisplayButton", MISC.ItemLevel_SetupFlyout)
